@@ -33,6 +33,7 @@
  */
 
 #import "sqlite3.h"
+#import "cjk_tokenizer.h"
 
 #include <regex.h>
 
@@ -223,6 +224,7 @@ RCT_EXPORT_METHOD(open: (NSDictionary *) options success:(RCTResponseSenderBlock
           pluginResult = [SQLiteResult resultWithStatus:SQLiteStatus_ERROR messageAsString:@"Unable to open DB"];
           return;
         } else {
+          registerCjkTokenizer(db);
           sqlite3_create_function(db, "regexp", 2, SQLITE_ANY, NULL, &sqlite_regexp, NULL, NULL);
           const char *key = NULL;
           
