@@ -1,0 +1,63 @@
+{
+  "_from": "react-native-sqlite-storage",
+  "_id": "react-native-sqlite-storage@5.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-c1Joq3/tO1nmIcP8SkRZNolPSbfvY8uZg5lXse0TmjIPC0qHVbk96IMvWGyly1TmYCIpxpuDRc0/xCffDbYIvg==",
+  "_location": "/react-native-sqlite-storage",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "react-native-sqlite-storage",
+    "name": "react-native-sqlite-storage",
+    "escapedName": "react-native-sqlite-storage",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-sqlite-storage/-/react-native-sqlite-storage-5.0.0.tgz",
+  "_shasum": "fb015c928b59d3000360fb0774a99545e7a695d6",
+  "_spec": "react-native-sqlite-storage",
+  "_where": "/Users/weishijun/WizTeam/WizNoteLiteMobile",
+  "author": {
+    "name": "Andrzej Porebski"
+  },
+  "bugs": {
+    "url": "https://github.com/andpor/react-native-sqlite-storage/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "SQLite3 bindings for React Native (Android & iOS)",
+  "homepage": "https://github.com/andpor/react-native-sqlite-storage",
+  "keywords": [
+    "react-native-sqlite-storage",
+    "react-native-sqlite",
+    "react-component",
+    "reactnative",
+    "react-native",
+    "sqlite",
+    "sqlite3",
+    "ios",
+    "android",
+    "promise",
+    "cordova-sqlite-storage"
+  ],
+  "license": "MIT",
+  "main": "sqlite.js",
+  "name": "react-native-sqlite-storage",
+  "peerDependencies": {
+    "react-native": ">=0.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andpor/react-native-sqlite-storage.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified yet\" && exit 1"
+  },
+  "version": "5.0.0"
+}
