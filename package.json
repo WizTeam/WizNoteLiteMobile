@@ -1,5 +1,6 @@
 {
-  "name": "WizNoteLiteMobile",
+  "name": "wiznotelite",
+  "productName": "WizNote Lite",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,12 +11,28 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.11.0",
+    "assert": "^2.0.0",
+    "axios": "^0.19.2",
+    "events": "^3.2.0",
+    "i18next": "^19.6.3",
+    "image-type": "^4.1.0",
+    "lodash": "^4.17.19",
+    "md5": "^2.3.0",
+    "path": "^0.12.7",
     "react": "16.13.1",
-    "react-native": "0.63.2"
+    "react-native": "0.63.2",
+    "react-native-fs": "^2.16.6",
+    "react-native-path": "0.0.5",
+    "remove-markdown": "^0.3.0",
+    "sync-storage": "^0.4.2",
+    "url": "^0.11.0",
+    "uuid": "^8.3.0",
+    "xregexp": "^4.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/runtime": "^7.8.4",
+    "@babel/core": "^7.11.1",
+    "@babel/runtime": "^7.11.1",
     "@react-native-community/eslint-config": "^1.1.0",
     "babel-jest": "^25.1.0",
     "eslint": "^6.5.1",
