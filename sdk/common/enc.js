@@ -44,9 +44,9 @@ export default {
 };
 */
 
-export default {
+module.exports = {
   aes: {
-    encryptText: () => {},
-    decryptText: () => {},
+    encryptText: (text, password) => text,
+    decryptText: (text, password) => text,
   },
 };

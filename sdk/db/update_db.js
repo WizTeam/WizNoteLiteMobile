@@ -32,7 +32,7 @@ async function isCommandExecuted(db, sqlCommand) {
       return true;
     }
   } catch (err) {
-    if (err.code !== 'SQLITE_ERROR' || err.message.indexOf('no such table') === -1) {
+    if (err.message.indexOf('no such table') === -1) {
       console.error(err.message);
       throw err;
     }
@@ -65,8 +65,10 @@ async function doUpgrade(db, sqlCommands) {
 
 //
 async function updateDb(db, sqlCommands) {
+  console.log(`updating... ${db._dbPath}`)
   const ret = await doUpgrade(db, sqlCommands);
+  console.log('updating db done...')
   return ret;
 }
 //
-export default updateDb;
+module.exports = updateDb;

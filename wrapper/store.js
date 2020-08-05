@@ -1,4 +1,4 @@
-const SyncStorage = require('sync-storage');
+const SyncStorage = require('sync-storage').default;
 
 class Store {
   constructor(prefix) {

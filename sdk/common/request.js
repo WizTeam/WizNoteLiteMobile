@@ -101,7 +101,7 @@ async function downloadToData(opt) {
   return response.data;
 }
 
-export default {
+module.exports = {
   standardRequest,
   downloadToData,
 };

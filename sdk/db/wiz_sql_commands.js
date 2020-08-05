@@ -77,4 +77,4 @@ const SqlCommands = [
   },
 ];
 
-export default SqlCommands;
+module.exports = SqlCommands;

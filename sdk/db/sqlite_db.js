@@ -36,11 +36,14 @@ class SqliteDb {
         } else {
           // check file size
           try {
-            const statResult = await fs.stat(this._dbPath);
-            const fileSize = statResult.size;
-            if (fileSize > 100 * 1024 * 1024) {
-              // fileSize > 100M
-              console.warn(`warn: ${this._dbPath} is too large: ${fileSize}`);
+            const exists = await fs.exists(this._dbPath);
+            if (exists) {
+              const statResult = await fs.stat(this._dbPath);
+              const fileSize = statResult.size;
+              if (fileSize > 100 * 1024 * 1024) {
+                // fileSize > 100M
+                console.warn(`warn: ${this._dbPath} is too large: ${fileSize}`);
+              }
             }
           } catch (e) {
             console.error(e);
@@ -55,11 +58,11 @@ class SqliteDb {
   //
   _run(sql, values) {
     return new Promise((resolve, reject) => {
-      this._db.run(sql, values || [], function callback(err) {
+      this._db.run(sql, values || [],  (err, results) => {
         if (err) {
           reject(err);
         } else {
-          resolve(this.changes);
+          resolve(results);
         }
       });
     });
@@ -123,7 +126,6 @@ class SqliteDb {
       assert(!this._db, 'db has been opened');
       this._openTime = new Date().valueOf();
       const ret = await this._open();
-      // console.log('opened');
       return ret;
     } finally {
       this._unlock();
