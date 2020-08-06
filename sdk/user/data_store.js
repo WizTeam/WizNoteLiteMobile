@@ -98,14 +98,14 @@ async function getUsers() {
   if (!exists) {
     return users;
   }
-  
+
   const subPaths = await fs.readdir(userDataPath);
   for (const userGuid of subPaths) {
     if (!isGuid(userGuid)) {
       continue;
     }
     //
-    if (!await fs.pathExists(path.join(userDataPath, userGuid, 'index.db'))) {
+    if (!await fs.exists(path.join(userDataPath, userGuid, 'index.db'))) {
       continue;
     }
     //

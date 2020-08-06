@@ -57,7 +57,7 @@ async function readNoteHtml(userGuid, kbGuid, noteGuid) {
 
 async function noteDataExists(userGuid, kbGuid, noteGuid) {
   const p = getNoteHtmlPath(userGuid, kbGuid, noteGuid);
-  const ret = await fs.pathExists(p);
+  const ret = await fs.exists(p);
   return ret;
 }
 

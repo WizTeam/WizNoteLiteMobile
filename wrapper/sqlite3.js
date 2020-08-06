@@ -57,8 +57,8 @@ class Database {
   }
 
   close(callback) {
-    db.close(() => {
-      callback
+    this._db.close(() => {
+      callback();
     }, callback);
   }
 }
