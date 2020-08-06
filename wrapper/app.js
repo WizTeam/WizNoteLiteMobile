@@ -11,6 +11,8 @@ function getPath(name) {
     return rnfs.DocumentDirectoryPath;
   } else if (name === 'temp') {
     return rnfs.TemporaryDirectoryPath;
+  } else if (name === 'res') {
+    return rnfs.MainBundlePath;
   } else {
     assert(false, `unknown path name: ${name}`);
   }

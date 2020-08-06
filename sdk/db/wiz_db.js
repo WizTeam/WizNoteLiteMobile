@@ -91,6 +91,7 @@ class WizDb extends EventEmitter {
   }
 
   async updateUserInfo(user) {
+    console.log(user);
     await this.setMeta('user', JSON.stringify(user));
     this.emit('userInfoChanged', user);
   }

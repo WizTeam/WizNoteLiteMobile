@@ -3,6 +3,11 @@ const path = require('path');
 const wrapper = global.wizWrapper;
 const app = wrapper.app;
 
+function getResourcesPath() {
+  const resourcePath = app.getPath('res');
+  return resourcePath;
+}
+
 function getAppData() {
   return path.join(app.getPath('appData'), app.name);
 }
@@ -43,4 +48,5 @@ module.exports = {
   getNoteData,
   getNoteResources,
   getTempPath,
+  getResourcesPath,
 };

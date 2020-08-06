@@ -23,6 +23,7 @@
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-fs": "^2.16.6",
+    "react-native-get-random-values": "^1.4.0",
     "react-native-path": "0.0.5",
     "remove-markdown": "^0.3.0",
     "sync-storage": "^0.4.2",

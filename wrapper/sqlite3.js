@@ -32,7 +32,6 @@ class Database {
     this._db.executeSql(sql, values, (results) => {
       callback(null, results);
     }, (err) => {
-      console.error(err);
       callback(err);
     });
   }
@@ -42,7 +41,17 @@ class Database {
       if (err) {
         callback(err);
       } else {
-        callback(null, results.rows);
+        //
+        const resultRows = [];
+        const rows = results?.rows;
+        if (rows) {
+          for (let i = 0; i < rows.length; i++) {
+            let row = results.rows.item(i);
+            resultRows.push(row);
+          }
+        }
+        //
+        callback(null, resultRows);
       }
     });
   }

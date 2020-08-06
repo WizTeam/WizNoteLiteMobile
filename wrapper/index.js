@@ -1,3 +1,4 @@
+import 'react-native-get-random-values'; // https://github.com/uuidjs/uuid#getrandomvalues-not-supported
 import fs from './fs';
 import app from './app';
 import sqlite3 from './sqlite3';

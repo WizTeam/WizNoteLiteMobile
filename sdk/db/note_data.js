@@ -74,9 +74,9 @@ async function getMarkdownNoteTemplate() {
 
 async function getGuideNoteData() {
   const lang = getCurrentLang();
-  let guideDataPath = path.join(__dirname, `../resources/${lang}/guide`);
+  let guideDataPath = path.join(paths.getResourcesPath(), `${lang}/guide`);
   if (!(await fs.exists(guideDataPath))) {
-    guideDataPath = path.join(__dirname, `../resources/en/guide`);
+    guideDataPath = path.join(paths.getResourcesPath(), `en/guide`);
   }
   //
   const data = await fs.readFile(path.join(guideDataPath, 'index.md'));
