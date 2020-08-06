@@ -1,3 +1,6 @@
+include ':react-native-sqlite-storage'
 rootProject.name = 'WizNoteLiteMobile'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+include ':react-native-sqlite-storage'
+project(':react-native-sqlite-storage').projectDir = new File(rootProject.projectDir, '../thirdparty/react-native-sqlite-storage/platforms/android-native')
 include ':app'
