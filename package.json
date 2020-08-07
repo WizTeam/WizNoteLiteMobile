@@ -32,7 +32,8 @@
     "sync-storage": "^0.4.2",
     "url": "^0.11.0",
     "uuid": "^8.3.0",
-    "wiznote-sdk-js": "git+https://github.com/WizTeam/wiznote-sdk-js.git",
+    "wiznote-sdk-js": "^1.0.4",
+    "wiznote-sdk-js-share": "^1.0.2",
     "xregexp": "^4.3.0"
   },
   "devDependencies": {
