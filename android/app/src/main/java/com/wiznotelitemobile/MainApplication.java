@@ -2,6 +2,9 @@ package com.wiznotelitemobile;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.util.Log;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -9,6 +12,11 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -49,9 +57,64 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    copyFileOrDir("resources");
   }
 
-  /**
+  private String localAssertsFolder() {
+    File filesDir = getFilesDir();
+    return new File(filesDir, "assets").getAbsolutePath();
+  }
+  
+  private void copyFileOrDir(String path) {
+      AssetManager assetManager = getAssets();
+      try {
+          String[] assets = assetManager.list(path);
+          if (assets == null) {
+              return;
+          }
+          if (assets.length == 0) {
+              copyFile(path);
+          } else {
+              String fullPath = localAssertsFolder() + "/" + path;
+              File dir = new File(fullPath);
+              if (!dir.exists()) dir.mkdirs();
+              for (String asset : assets) {
+                  copyFileOrDir(path + "/" + asset);
+              }
+          }
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
+
+  private void copyFile(String filename) {
+      AssetManager assetManager = getAssets();
+      InputStream in = null;
+      OutputStream out = null;
+      try {
+          String outputFileName = localAssertsFolder() + "/" + filename;
+          if (new File(outputFileName).exists()) return;
+          in = assetManager.open(filename);
+          out = new FileOutputStream(outputFileName);
+          byte[] buffer = new byte[2048];
+          int read;
+          while ((read = in.read(buffer)) != -1) {
+              out.write(buffer, 0, read);
+          }
+      } catch (IOException e) {
+          e.printStackTrace();
+      } finally {
+          try {
+              if (in != null ) in.close();
+              if (out != null) out.close();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+      }
+  }
+    
+  
+    /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like
    * initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
    *

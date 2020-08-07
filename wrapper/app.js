@@ -1,10 +1,17 @@
 const assert = require('assert');
 const rnfs = require('react-native-fs');
 const pkg = require('../package.json');
+const {Platform} = require('react-native');
+const path = require('path');
 
 function getVersion() {
   return pkg.version;
 }
+
+Platform.select({
+  ios: () => {},
+  android: () => {rnfs.MainBundlePath = path.join(rnfs.DocumentDirectoryPath, 'resources');},
+})();
 
 function getPath(name) {
   if (name === 'appData') {
