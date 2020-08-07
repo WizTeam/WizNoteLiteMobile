@@ -6,9 +6,10 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.facebook.react.PackageList;
-import com.facebook.react.ReactApplication;
+import com.reactnativenavigation.NavigationApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
+import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
@@ -22,10 +23,10 @@ import java.util.List;
 
 import io.liteglue.SQLitePluginPackage;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends NavigationApplication {
 
   private final ReactNativeHost mReactNativeHost =
-      new ReactNativeHost(this) {
+      new NavigationReactNativeHost(this) {
         @Override
         public boolean getUseDeveloperSupport() {
           return BuildConfig.DEBUG;
@@ -55,7 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
+    
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
     copyFileOrDir("resources");
   }

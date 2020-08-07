@@ -14,6 +14,7 @@ import {
   View,
   Text,
   StatusBar,
+  Button,
 } from 'react-native';
 
 import {
@@ -24,7 +25,10 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
+import { RNNDrawer } from "react-native-navigation-drawer-extension";
+
+const App: () => React$Node = (props) => {
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -71,6 +75,26 @@ const App: () => React$Node = () => {
     </>
   );
 };
+
+App.options = {
+  topBar: {
+    title: {
+      text: 'WizNote Lite',
+      // color: 'black'
+    },
+    leftButtons: [
+      {
+        id: 'MainMenuButton',
+        component: {
+          name: 'MainMenuButton',
+        },
+        passProps: {
+          // Pass initial props to the button here
+        }
+      }
+    ],
+  },
+}
 
 const styles = StyleSheet.create({
   scrollView: {
