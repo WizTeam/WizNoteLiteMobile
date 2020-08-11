@@ -1,8 +1,9 @@
 const assert = require('assert');
 const rnfs = require('react-native-fs');
-const pkg = require('../package.json');
-const {Platform} = require('react-native');
+const { Platform } = require('react-native');
 const path = require('path');
+
+const pkg = require('../package.json');
 
 function getVersion() {
   return pkg.version;
@@ -10,7 +11,7 @@ function getVersion() {
 
 Platform.select({
   ios: () => {},
-  android: () => {rnfs.MainBundlePath = path.join(rnfs.DocumentDirectoryPath, 'resources');},
+  android: () => { rnfs.MainBundlePath = path.join(rnfs.DocumentDirectoryPath, 'resources'); },
 })();
 
 function getPath(name) {
@@ -20,9 +21,10 @@ function getPath(name) {
     return rnfs.TemporaryDirectoryPath;
   } else if (name === 'res') {
     return rnfs.MainBundlePath;
-  } else {
-    assert(false, `unknown path name: ${name}`);
   }
+
+  assert(false, `unknown path name: ${name}`);
+  return '';
 }
 
 function getLocale() {

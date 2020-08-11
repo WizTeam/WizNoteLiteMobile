@@ -1,5 +1,6 @@
-const path = require('path');
+/* eslint-disable no-param-reassign */
 import { Platform } from 'react-native';
+
 const rnfs = require('react-native-fs');
 const SQLite = require('../thirdparty/react-native-sqlite-storage/sqlite');
 
@@ -8,6 +9,7 @@ class Database {
     if (Platform.OS === 'ios') {
       const documentsPath = rnfs.DocumentDirectoryPath;
       if (dbPath.startsWith(documentsPath)) {
+        // eslint-disable-next-line no-param-reassign
         dbPath = dbPath.substr(documentsPath.length);
       }
     }
@@ -46,7 +48,7 @@ class Database {
         const rows = results?.rows;
         if (rows) {
           for (let i = 0; i < rows.length; i++) {
-            let row = results.rows.item(i);
+            const row = results.rows.item(i);
             resultRows.push(row);
           }
         }

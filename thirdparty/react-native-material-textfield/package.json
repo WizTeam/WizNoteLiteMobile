@@ -1,0 +1,87 @@
+{
+  "_from": "react-native-material-textfield@^0.12.0",
+  "_id": "react-native-material-textfield@0.12.0",
+  "_inBundle": false,
+  "_integrity": "sha1-P7oZ12q4n2cFLIHgghUvwkPYKj8=",
+  "_location": "/react-native-material-textfield",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "react-native-material-textfield@^0.12.0",
+    "name": "react-native-material-textfield",
+    "escapedName": "react-native-material-textfield",
+    "rawSpec": "^0.12.0",
+    "saveSpec": null,
+    "fetchSpec": "^0.12.0"
+  },
+  "_requiredBy": [
+    "/react-native-material-dropdown"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-material-textfield/-/react-native-material-textfield-0.12.0.tgz",
+  "_shasum": "3fba19d76ab89f67052c81e082152fc243d82a3f",
+  "_spec": "react-native-material-textfield@^0.12.0",
+  "_where": "/Users/weishijun/WizTeam/WizNoteLiteMobile/node_modules/react-native-material-dropdown",
+  "author": {
+    "name": "Alexander Nazarov",
+    "email": "n4kz@n4kz.com"
+  },
+  "bugs": {
+    "url": "https://github.com/n4kz/react-native-material-textfield/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "prop-types": "^15.5.9"
+  },
+  "deprecated": false,
+  "description": "Material textfield",
+  "devDependencies": {
+    "babel-eslint": "^8.0.0",
+    "babel-jest": "^22.0.0",
+    "babel-preset-react-native": "4.0.0",
+    "eslint": "^4.6.0",
+    "eslint-plugin-react": "^7.0.0",
+    "jest": "^22.0.0",
+    "react": "16.2.0",
+    "react-native": "0.52.0",
+    "react-test-renderer": "16.2.0"
+  },
+  "homepage": "https://github.com/n4kz/react-native-material-textfield#readme",
+  "jest": {
+    "preset": "react-native",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/example"
+    ]
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "react-native",
+    "ios",
+    "android",
+    "material",
+    "input",
+    "textinput",
+    "field",
+    "textfield",
+    "floating",
+    "label"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "index.js",
+  "name": "react-native-material-textfield",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/n4kz/react-native-material-textfield.git"
+  },
+  "scripts": {
+    "jest": "jest",
+    "lint": "eslint src example/app.js",
+    "test": "npm run lint && npm run jest -- --silent"
+  },
+  "version": "0.12.0"
+}

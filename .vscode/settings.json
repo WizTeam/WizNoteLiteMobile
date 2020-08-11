@@ -4,5 +4,6 @@
     "rnfs",
     "thirdparty",
     "wiznote"
-  ]
+  ],
+  "javascript.validate.enable": false
 }

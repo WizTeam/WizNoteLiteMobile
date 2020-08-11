@@ -16,4 +16,3 @@ const wizWrapper = {
 global.wizWrapper = wizWrapper;
 
 module.exports = {};
-

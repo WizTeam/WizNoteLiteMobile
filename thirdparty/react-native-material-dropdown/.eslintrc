@@ -1,0 +1,28 @@
+{
+  'parser': 'babel-eslint',
+
+  'globals': {
+    'setTimeout': true,
+  },
+
+  'plugins': [
+    'react',
+  ],
+
+  'extends': [
+    'eslint:recommended',
+    'plugin:react/recommended',
+  ],
+
+  'rules': {
+    'no-unused-vars': ['error', {
+      'vars': 'all',
+      'args': 'none',
+      'ignoreRestSiblings': true,
+    }],
+
+    'comma-dangle': ['error', 'always-multiline'],
+  },
+}
+
+/* vim: set ft=javascript : */

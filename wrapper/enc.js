@@ -5,21 +5,22 @@ const base64 = require('js-base64');
 const IV_LENGTH = 16;
 
 function concatTypedArrays(a, b) { // a, b TypedArray of same type
-  var c = new (a.constructor)(a.length + b.length);
+  const c = new (a.constructor)(a.length + b.length);
   c.set(a, 0);
   c.set(b, a.length);
   return c;
 }
 
 function concatBytes(ui8a, byte) {
-  var b = new Uint8Array(1);
+  const b = new Uint8Array(1);
   b[0] = byte;
   return concatTypedArrays(ui8a, b);
 }
 
 function paddingBytes(bytes) {
-  const paddingLength = 16 - bytes.length % 16;
+  const paddingLength = 16 - (bytes.length % 16);
   for (let i = 0; i < paddingLength; i++) {
+    // eslint-disable-next-line no-param-reassign
     bytes = concatBytes(bytes, paddingLength);
   }
   return bytes;
@@ -48,8 +49,10 @@ function encryptText(text, password) {
     return '';
   }
   const iv = new Uint8Array(IV_LENGTH);
+  // eslint-disable-next-line no-undef
   crypto.getRandomValues(iv);
   const key = passwordToKey(password);
+  // eslint-disable-next-line new-cap
   const aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
   const textBytes = paddingBytes(aesjs.utils.utf8.toBytes(text));
   const encryptedBytes = aesCbc.encrypt(textBytes);
@@ -65,8 +68,9 @@ function decryptText(text, password) {
   const textParts = text.split(':');
   const iv = aesjs.utils.hex.toBytes(textParts.shift(), 'hex');
   const encryptedBytes = aesjs.utils.hex.toBytes(textParts.join(':'), 'hex');
+  // eslint-disable-next-line new-cap
   const aesCbc = new aesjs.ModeOfOperation.cbc(passwordToKey(password), iv);
-  const decryptedBytes = removePaddingBytes(aesCbc.decrypt(encryptedBytes));  
+  const decryptedBytes = removePaddingBytes(aesCbc.decrypt(encryptedBytes));
   const decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
 
   return decryptedText;

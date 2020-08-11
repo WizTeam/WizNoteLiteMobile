@@ -1,5 +1,4 @@
 const rnfs = require('react-native-fs');
-const path = require('path');
 const assert = require('assert');
 
 async function ensureDir(pth, options) {

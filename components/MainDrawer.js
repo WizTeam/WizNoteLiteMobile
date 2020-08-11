@@ -19,13 +19,18 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 const MainDrawer: () => React$Node = () => {
+  //
+  console.log('Drawer');
+  //
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+          style={styles.scrollView}
+        >
+          {/* empty */}
         </ScrollView>
       </SafeAreaView>
     </>
