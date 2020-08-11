@@ -13,11 +13,14 @@ class Store {
   }
 
   set(key, value) {
+    console.log(`set ${key}=${value}`);
     SyncStorage.set(this._getKey(key), value);
   }
 
   get(key) {
-    SyncStorage.get(this._getKey(key));
+    const value = SyncStorage.get(this._getKey(key));
+    console.log(`get ${key}=${value}`);
+    return value;
   }
 }
 

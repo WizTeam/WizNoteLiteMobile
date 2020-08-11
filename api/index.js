@@ -23,6 +23,7 @@ class Api {
 
   async signUp(server, userId, password, options) {
     this._user = await sdk.signUp(server, userId, password, options);
+    return this._user;
   }
 
   get user() {
@@ -35,6 +36,25 @@ class Api {
 
   get kbGuid() {
     return this._user.kbGuid;
+  }
+
+  async syncData() {
+    try {
+      await this.refreshUserInfo();
+      await this.syncKb(this.kbGuid, {
+        noWait: true,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async refreshUserInfo() {
+    sdk.refreshUserInfo(this.userGuid);
+  }
+
+  async syncKb(kbGuid, options) {
+    sdk.syncKb(this.userGuid, kbGuid, options);
   }
 
   async getAllNotes(options) {

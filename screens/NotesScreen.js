@@ -27,13 +27,9 @@ const NotesScreen: () => React$Node = () => {
 
   useEffect(() => {
     async function loadNotes() {
-      const user = global.user;
-      console.log(user);
-      const { userGuid, kbGuid } = user;
-      console.log(userGuid);
-      console.log(kbGuid);
       try {
-        const allNotes = await api.getAllNotes(userGuid, kbGuid);
+        const allNotes = await api.getAllNotes();
+        console.log(allNotes);
         setNotes(allNotes);
       } catch (err) {
         console.error(err);

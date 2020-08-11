@@ -164,7 +164,9 @@ const LoginScreen: () => React$Node = () => {
         setServerErrorMessage('');
         setWorking(true);
         const server = isPrivateServer ? serverUrl : 'as.wiz.cn';
-        await api.onlineLogin(server, userId, password);
+        await api.onlineLogin(server, userId, password, {
+          autoLogin: true,
+        });
         //
         setWorking(false);
         setMainAsRoot();
@@ -190,7 +192,9 @@ const LoginScreen: () => React$Node = () => {
         setServerErrorMessage('');
         setWorking(true);
         const server = isPrivateServer ? serverUrl : 'as.wiz.cn';
-        await api.signUp(server, userId, password);
+        await api.signUp(server, userId, password, {
+          autoLogin: true,
+        });
         //
         setWorking(false);
         setMainAsRoot();
@@ -247,13 +251,13 @@ const LoginScreen: () => React$Node = () => {
 
             </View>
             <View style={styles.sectionContainer}>
-              <Input disabled={isWorking} placeholder={i18n.t('placeholderUserId')} errorMessage={userIdErrorMessage} onChangeText={handleChangeUserId} />
-              <Input disabled={isWorking} placeholder={i18n.t('placeholderUserPassword')} errorMessage={passwordErrorMessage} secureTextEntry onChangeText={handleChangePassword} />
+              <Input disabled={isWorking} textContentType="username" placeholder={i18n.t('placeholderUserId')} errorMessage={userIdErrorMessage} onChangeText={handleChangeUserId} />
+              <Input disabled={isWorking} textContentType="password" placeholder={i18n.t('placeholderUserPassword')} errorMessage={passwordErrorMessage} secureTextEntry onChangeText={handleChangePassword} />
               {isPrivateServer && <Input disabled={isWorking} placeholder={i18n.t('placeholderPrivateServer')} errorMessage={serverErrorMessage} onChangeText={handleChangeServerUrl} />}
             </View>
             <View style={styles.sectionContainer}>
-              {isLogin && <Button disabled={isWorking} title={i18n.t('buttonLogin')} onPress={handleLogin} />}
-              {!isLogin && <Button disabled={isWorking} title={i18n.t('buttonSignUp')} onPress={handleSignUp} />}
+              {isLogin && <Button loading={isWorking} disabled={isWorking} title={i18n.t('buttonLogin')} onPress={handleLogin} />}
+              {!isLogin && <Button loading={isWorking} disabled={isWorking} title={i18n.t('buttonSignUp')} onPress={handleSignUp} />}
 
             </View>
             <View style={styles.sectionContainer}>
