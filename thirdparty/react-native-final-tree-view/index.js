@@ -120,6 +120,7 @@ class TreeView extends React.Component {
             containerStyle={{
               ...this.props.itemContainerStyle,
               paddingLeft: 22 * level,
+              paddingRight: 8,
             }}
             titleStyle={this.props.itemTitleStyle}
             contentContainerStyle={this.props.itemContentContainerStyle}
@@ -145,6 +146,22 @@ class TreeView extends React.Component {
                 </TouchableOpacity>
               </View>
             )}
+            rightElement={
+              this.props.selected === node.id
+              && this.props.renderSelectedMarker
+              && (
+                <View style={{
+                  width: 44,
+                  height: 44,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                >
+                  {this.props.renderSelectedMarker(node)}
+                </View>
+              )
+            }
           />
           {shouldRenderLevel && (
             <NodeComponent

@@ -1,12 +1,4 @@
 /* eslint-disable no-param-reassign */
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -23,8 +15,9 @@ import i18n from 'i18n-js';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
 import api from '../api';
+import store, { connect } from '../simple_store';
 
-const MainDrawer: () => React$Node = () => {
+const MainDrawer: () => React$Node = (props) => {
   //
   function handleCloseDrawer() {
     RNNDrawer.dismissDrawer();
@@ -94,17 +87,26 @@ const MainDrawer: () => React$Node = () => {
     return <Icon name="keyboard-arrow-right" size={24} style={styles.itemTitle} />;
   }
 
-  function handleGotoAllNotes() {
+  function handleRenderSelectedMarker() {
+    return <Icon name="brightness-1" size={12} style={styles.selectedMarker} />;
+  }
 
+  function handleGotoAllNotes() {
+    store.setData('selectedType', '#allNotes');
+    handleCloseDrawer();
   }
 
   function handleGotoTrash() {
-
+    store.setData('selectedType', '#trash');
+    handleCloseDrawer();
   }
 
   function handleClickTreeItem({ node }) {
-    console.log(node.id);
+    store.setData('selectedType', node.id);
+    handleCloseDrawer();
   }
+  //
+  const selectedType = props.selectedType || '#allNotes';
   //
   return (
     <>
@@ -118,10 +120,11 @@ const MainDrawer: () => React$Node = () => {
           rightComponent={(
             <View style={{ marginRight: 8 }}>
               <TouchableHighlight onPress={handleCloseDrawer}>
-                <View style={{
-                  padding: 8,
-                  paddingTop: 10,
-                }}
+                <View
+                  style={{
+                    padding: 8,
+                    paddingTop: 10,
+                  }}
                 >
                   <Icon name="close" style={styles.icon} size={24} color="white" />
                 </View>
@@ -133,8 +136,30 @@ const MainDrawer: () => React$Node = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
         >
-          <ListItem title={i18n.t('itemAllNotes')} containerStyle={styles.item} titleStyle={styles.itemTitle} onPress={handleGotoAllNotes} />
-          {showTrash && <ListItem title={i18n.t('itemTrash')} containerStyle={styles.item} titleStyle={styles.itemTitle} onPress={handleGotoTrash} />}
+          <ListItem
+            title={i18n.t('itemAllNotes')}
+            containerStyle={styles.item}
+            titleStyle={styles.itemTitle}
+            onPress={handleGotoAllNotes}
+            rightElement={selectedType === '#allNotes' && (
+              <View style={styles.itemRightElement}>
+                {handleRenderSelectedMarker()}
+              </View>
+            )}
+          />
+          {showTrash && (
+            <ListItem
+              title={i18n.t('itemTrash')}
+              containerStyle={styles.item}
+              titleStyle={styles.itemTitle}
+              onPress={handleGotoTrash}
+              rightElement={selectedType === '#trash' && (
+                <View style={styles.itemRightElement}>
+                  {handleRenderSelectedMarker()}
+                </View>
+              )}
+            />
+          )}
 
           <TreeView
             containerStyle={{
@@ -142,11 +167,13 @@ const MainDrawer: () => React$Node = () => {
             }}
             data={tags}
             renderExpandButton={handleRenderExpandButton}
+            renderSelectedMarker={handleRenderSelectedMarker}
             getCollapsedNodeHeight={() => 44}
             onNodePress={handleClickTreeItem}
             itemContainerStyle={styles.treeItemContainerStyle}
             itemTitleStyle={styles.treeItemTitleStyle}
             itemContentContainerStyle={styles.treeItemContentContainerStyle}
+            selected={selectedType}
           />
 
         </ScrollView>
@@ -190,6 +217,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     margin: 0,
   },
+  selectedMarker: {
+    paddingRight: 18,
+    color: 'rgb(46, 100, 172)',
+  },
+  itemRightElement: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
-export default MainDrawer;
+export default connect(['selectedType'])(MainDrawer);

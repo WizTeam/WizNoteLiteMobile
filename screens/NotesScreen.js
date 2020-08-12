@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
@@ -21,21 +13,32 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import api from '../api';
+import { connect } from '../simple_store';
 
-const NotesScreen: () => React$Node = () => {
+const NotesScreen: () => React$Node = (props) => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
     async function loadNotes() {
       try {
-        const allNotes = await api.getAllNotes();
+        const type = props.selectedType || '#allNotes';
+        const options = {};
+        if (type === '#allNotes') {
+          //
+        } else if (type === '#trash') {
+          options.trash = true;
+        } else {
+          options.tags = type;
+        }
+        //
+        const allNotes = await api.getAllNotes(options);
         setNotes(allNotes);
       } catch (err) {
         console.error(err);
       }
     }
     loadNotes();
-  }, []);
+  }, [props.selectedType]);
 
   return (
     <>
@@ -61,7 +64,9 @@ const NotesScreen: () => React$Node = () => {
   );
 };
 
-NotesScreen.options = {
+const NotesScreenImpl = connect(['selectedType'])(NotesScreen);
+
+NotesScreenImpl.options = {
   topBar: {
     largeTitle: {
       visible: true,
@@ -102,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NotesScreen;
+export default NotesScreenImpl;
