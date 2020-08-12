@@ -1,0 +1,67 @@
+{
+  "_args": [
+    [
+      "react-native-final-tree-view@2.0.3",
+      "/Users/weishijun/WizTeam/WizNoteLiteMobile"
+    ]
+  ],
+  "_from": "react-native-final-tree-view@2.0.3",
+  "_id": "react-native-final-tree-view@2.0.3",
+  "_inBundle": false,
+  "_integrity": "sha512-pQ5j8fJi+OEfd3cFBD3OSwbwIUElJeHZh6Mxa2tW2SSj26R5ybAtCg91ZkvE3wnS3hFe4rPu384O6KlayowmHA==",
+  "_location": "/react-native-final-tree-view",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "react-native-final-tree-view@2.0.3",
+    "name": "react-native-final-tree-view",
+    "escapedName": "react-native-final-tree-view",
+    "rawSpec": "2.0.3",
+    "saveSpec": null,
+    "fetchSpec": "2.0.3"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-final-tree-view/-/react-native-final-tree-view-2.0.3.tgz",
+  "_spec": "2.0.3",
+  "_where": "/Users/weishijun/WizTeam/WizNoteLiteMobile",
+  "author": {
+    "name": "Luis Felipe Zaguini",
+    "email": "luisfelipezaguini@gmail.com",
+    "url": "https://github.com/zaguiini"
+  },
+  "bugs": {
+    "url": "https://github.com/zaguiini/react-native-final-tree-view/issues",
+    "email": "luisfelipezaguini@gmail.com"
+  },
+  "dependencies": {
+    "lodash.get": "^4.4.2"
+  },
+  "description": "A React Native tree view component!",
+  "homepage": "https://github.com/zaguiini/react-native-final-tree-view",
+  "keywords": [
+    "react",
+    "react-native",
+    "react-component",
+    "react-native-tree-view",
+    "react-native-final-tree-view",
+    "tree-view",
+    "tree",
+    "view"
+  ],
+  "license": "MIT",
+  "main": "./index.js",
+  "name": "react-native-final-tree-view",
+  "peerDependencies": {
+    "react": "^16.0",
+    "react-native": "^0.51"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zaguiini/react-native-final-tree-view.git"
+  },
+  "typings": "./index.d.ts",
+  "version": "2.0.3"
+}

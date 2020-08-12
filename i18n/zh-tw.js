@@ -35,4 +35,7 @@ export default {
   error31004: '登錄太頻繁啦，休息一下吧！',
   error31005: '用戶被鎖定',
   error31013: '手機號已經被註冊，請更換手機號！',
+
+  itemAllNotes: 'All Notes',
+  itemTrash: 'Trash',
 };

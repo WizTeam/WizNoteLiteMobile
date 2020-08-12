@@ -29,7 +29,6 @@ const NotesScreen: () => React$Node = () => {
     async function loadNotes() {
       try {
         const allNotes = await api.getAllNotes();
-        console.log(allNotes);
         setNotes(allNotes);
       } catch (err) {
         console.error(err);

@@ -61,6 +61,16 @@ class Api {
     const notes = await sdk.queryNotes(this.userGuid, this.kbGuid, 0, 10000, options);
     return notes;
   }
+
+  async getAllTags(kbGuid) {
+    const ret = await sdk.getAllTags(this.userGuid, kbGuid || this.kbGuid);
+    return ret;
+  }
+
+  async hasNotesInTrash(kbGuid) {
+    const ret = await sdk.hasNotesInTrash(this.userGuid, kbGuid || this.kbGuid);
+    return ret;
+  }
 }
 
 const api = new Api();

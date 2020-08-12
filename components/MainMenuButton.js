@@ -22,10 +22,10 @@ const MainMenuButton: () => React$Node = (props) => {
           direction: 'left',
           dismissWhenTouchOutside: true,
           fadeOpacity: 0.6,
-          drawerScreenWidth: '75%' || 445, // Use relative to screen '%' or absolute
+          drawerScreenWidth: '100%' || 445, // Use relative to screen '%' or absolute
           drawerScreenHeight: '100%' || 700,
           style: { // Styles the drawer container, supports any react-native style
-            backgroundColor: 'rgba(11, 11, 11, 0.8)',
+            backgroundColor: '#333333',
           },
           // Custom prop, will be available in your custom drawer component props
           // eslint-disable-next-line react/prop-types
