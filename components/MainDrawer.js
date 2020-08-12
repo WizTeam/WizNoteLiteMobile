@@ -228,4 +228,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(['selectedType'])(MainDrawer);
+export default connect('selectedType')(MainDrawer);

@@ -34,7 +34,17 @@ const store = new SimpleStore();
 
 export default store;
 
-export function connect(keys) {
+export function connect(keyOrKeys) {
+  //
+  function toArray(o) {
+    if (Array.isArray(o)) {
+      return o;
+    }
+    return [o];
+  }
+  //
+  const keys = toArray(keyOrKeys);
+  //
   return function wrapWithConnect(WrappedComponent) {
     class Connect extends React.Component {
       constructor(props, context) {
@@ -48,8 +58,16 @@ export function connect(keys) {
       }
 
       componentDidMount() {
+        //
         keys.forEach((key) => {
-          store.subscribe(key, this.handleDataChange);
+          if (typeof key === 'function') {
+            const subKeys = key(this.props);
+            toArray(subKeys).forEach((subKey) => {
+              store.subscribe(subKey, this.handleDataChange);
+            });
+          } else {
+            store.subscribe(key, this.handleDataChange);
+          }
         });
       }
 

@@ -64,7 +64,7 @@ const NotesScreen: () => React$Node = (props) => {
   );
 };
 
-const NotesScreenImpl = connect(['selectedType'])(NotesScreen);
+const NotesScreenImpl = connect('selectedType')(NotesScreen);
 
 NotesScreenImpl.options = {
   topBar: {
