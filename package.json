@@ -27,6 +27,7 @@
     "lodash.findindex": "^4.6.0",
     "lodash.isequal": "^4.5.0",
     "lodash.memoize": "^4.1.2",
+    "lodash.merge": "^4.6.2",
     "lodash.remove": "^4.7.0",
     "md5": "^2.3.0",
     "moment": "^2.27.0",

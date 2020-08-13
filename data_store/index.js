@@ -13,7 +13,7 @@ export const KEYS = {
 };
 
 function compareNote(note1, note2) {
-  return note1.modified - note2.modified;
+  return note2.modified - note1.modified;
 }
 
 function sortNotes(notes) {

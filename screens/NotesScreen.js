@@ -79,6 +79,7 @@ NotesScreenImpl.options = {
 const styles = StyleSheet.create({
   content: {
     display: 'flex',
+    flex: 1,
   },
   body: {
     backgroundColor: Colors.white,
