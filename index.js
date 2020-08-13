@@ -17,7 +17,6 @@ Navigation.events().registerAppLaunchedListener(async () => {
     iniI18nConfig();
     await api.localLogin();
     await dataStore.initUser();
-    api.syncData();
   } catch (err) {
     console.error(err);
   }

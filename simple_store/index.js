@@ -1,6 +1,7 @@
 import React from 'react';
 import EventEmitter from 'events';
 import isEqual from 'lodash.isequal';
+import cloneDeep from 'lodash.clonedeep';
 
 class SimpleStore {
   constructor() {
@@ -26,7 +27,7 @@ class SimpleStore {
   }
 
   getData(key) {
-    return this._data[key];
+    return cloneDeep(this._data[key]);
   }
 }
 
