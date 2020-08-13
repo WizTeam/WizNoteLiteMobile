@@ -29,6 +29,10 @@ class SimpleStore {
   getData(key) {
     return cloneDeep(this._data[key]);
   }
+
+  hasKey(key) {
+    return this._data[key] !== undefined;
+  }
 }
 
 const store = new SimpleStore();

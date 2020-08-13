@@ -38,4 +38,5 @@ export default {
 
   itemAllNotes: 'All Notes',
   itemTrash: 'Trash',
+  titleStarredNotes: 'Starred Notes',
 };

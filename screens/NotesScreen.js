@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,39 +7,42 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import i18n from 'i18n-js';
 
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
-import api from '../api';
-import { KEYS, connect } from '../data_store';
+import dataStore, { KEYS, connect } from '../data_store';
 import NoteList from '../components/NoteList';
 
 const NotesScreen: () => React$Node = (props) => {
-  const [notes, setNotes] = useState([]);
-
   useEffect(() => {
-    async function loadNotes() {
-      try {
-        const type = props.selectedType || '#allNotes';
-        const options = {};
-        if (type === '#allNotes') {
-          //
-        } else if (type === '#trash') {
-          options.trash = true;
-        } else {
-          options.tags = type;
-        }
-        //
-        const allNotes = await api.getAllNotes(options);
-        setNotes(allNotes);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    loadNotes();
+    dataStore.initAllNotes();
   }, [props.selectedType]);
+  //
+  useEffect(() => {
+    const type = props.selectedType;
+    let title;
+    if (type === '#allNotes') {
+      title = i18n.t('itemAllNotes');
+    } else if (type === '#trash') {
+      title = i18n.t('itemTrash');
+    } else {
+      title = type;
+    }
+    Navigation.mergeOptions(props.componentId, {
+      topBar: {
+        title: {
+          text: title,
+        },
+      },
+    });
+  }, [props.selectedType]);
+
+  const notes = props[KEYS.ALL_NOTES] || [];
+  //
 
   return (
     <>
@@ -61,7 +64,7 @@ const NotesScreen: () => React$Node = (props) => {
   );
 };
 
-const NotesScreenImpl = connect(KEYS.SELECTED_TYPE)(NotesScreen);
+const NotesScreenImpl = connect([KEYS.SELECTED_TYPE, KEYS.ALL_NOTES])(NotesScreen);
 
 NotesScreenImpl.options = {
   topBar: {

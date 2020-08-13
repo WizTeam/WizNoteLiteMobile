@@ -19,6 +19,8 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import i18n from 'i18n-js';
+
 import NoteList from '../components/NoteList';
 
 import dataStore, { KEYS, connect } from '../data_store';
@@ -42,9 +44,6 @@ const StarredNotesScreen: () => React$Node = (props) => {
           style={styles.scrollView}
         >
           <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Starred notes list Screen</Text>
-            </View>
             <NoteList notes={notes} />
           </View>
         </ScrollView>
@@ -58,7 +57,7 @@ const StarredNotesScreenImpl = connect(KEYS.STARRED_NOTES)(StarredNotesScreen);
 StarredNotesScreenImpl.options = {
   topBar: {
     title: {
-      text: 'Starred Notes',
+      text: i18n.t('titleStarredNotes'),
       // color: 'black'
     },
     largeTitle: {

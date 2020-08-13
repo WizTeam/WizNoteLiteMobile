@@ -1,12 +1,14 @@
-import store from './simple_store';
-import api from './api';
-import * as arrayUtils from './utils/array';
+import store from '../simple_store';
+import api from '../api';
+import { updateAllNotes, getAllNotes } from './all_notes';
+import { updateStarredNotes, getStarredNotes } from './starred_notes';
 
-export { connect } from './simple_store';
+export { connect } from '../simple_store';
 
 export const KEYS = {
   USER_INFO: 'userInfo',
   SELECTED_TYPE: 'selectedType',
+  ALL_NOTES: 'allNotes',
   STARRED_NOTES: 'starredNotes',
 };
 
@@ -18,50 +20,39 @@ function sortNotes(notes) {
   notes.sort(compareNote);
 }
 
-function handleNewNote(kbGuid, note) {
-  const starredNotes = store.getData(KEYS.STARRED_NOTES);
-  if (!Array.isArray(starredNotes)) {
-    return;
-  }
-  if (note.starred) {
-    arrayUtils.upsert(starredNotes, { guid: note.guid }, note);
-    sortNotes(starredNotes);
-    store.setData(KEYS.STARRED_NOTES, starredNotes);
-  }
-}
-
-function handleModifyNote(kbGuid, note) {
-  const starredNotes = store.getData(KEYS.STARRED_NOTES);
-  if (!Array.isArray(starredNotes)) {
-    return;
-  }
-  if (note.starred) {
-    arrayUtils.upsert(starredNotes, { guid: note.guid }, note);
-    sortNotes(starredNotes);
-  } else {
-    arrayUtils.remove(starredNotes, { guid: note.guid });
-  }
-  store.setData(KEYS.STARRED_NOTES, starredNotes);
-}
-
 function handleDownloadNotes(kbGuid, notes) {
-  let starredNotes = store.getData(KEYS.STARRED_NOTES);
-  const updateStarredNotes = Array.isArray(starredNotes);
-
+  const starredNotes = store.getData(KEYS.STARRED_NOTES);
+  const shouldUpdateStarredNotes = Array.isArray(starredNotes);
+  const allNotes = store.getData(KEYS.STARRED_NOTES);
+  const shouldUpdateAllNotes = Array.isArray(allNotes);
+  //
+  const selectedType = store.getData(KEYS.SELECTED_TYPE);
+  //
   notes.forEach((note) => {
-    if (updateStarredNotes) {
-      if (note.starred) {
-        starredNotes = arrayUtils.upsert(starredNotes, { guid: note.guid }, note);
-        sortNotes(starredNotes);
-      } else {
-        arrayUtils.remove(starredNotes, { guid: note.guid });
-      }
+    if (shouldUpdateStarredNotes) {
+      updateStarredNotes(starredNotes, note);
+    }
+    if (shouldUpdateAllNotes) {
+      updateAllNotes(allNotes, note, selectedType);
     }
   });
   //
-  if (updateStarredNotes) {
+  if (shouldUpdateStarredNotes) {
+    sortNotes(starredNotes);
     store.setData(KEYS.STARRED_NOTES, starredNotes);
   }
+  if (shouldUpdateAllNotes) {
+    sortNotes(allNotes);
+    store.setData(KEYS.ALL_NOTES, allNotes);
+  }
+}
+
+function handleNewNote(kbGuid, note) {
+  handleDownloadNotes(kbGuid, [note]);
+}
+
+function handleModifyNote(kbGuid, note) {
+  handleDownloadNotes(kbGuid, [note]);
 }
 
 function handleApiEvents(userGuid, eventName, ...args) {
@@ -96,13 +87,20 @@ async function initUser() {
   api.registerListener(api.userGuid, handleApiEvents);
   //
   setInterval(() => {
-    api.syncData();
+    // api.syncData();
   }, 10 * 1000);
   //
 }
 
+async function initAllNotes() {
+  const selectedType = store.getData(KEYS.SELECTED_TYPE) || '#allNotes';
+  const notes = await getAllNotes(selectedType);
+  sortNotes(notes);
+  store.setData(KEYS.ALL_NOTES, notes);
+}
+
 async function initStarredNotes() {
-  const notes = await api.getAllNotes({ starred: true });
+  const notes = await getStarredNotes();
   sortNotes(notes);
   store.setData(KEYS.STARRED_NOTES, notes);
 }
@@ -112,5 +110,6 @@ export default {
   //
   setSelectedType,
   //
+  initAllNotes,
   initStarredNotes,
 };
