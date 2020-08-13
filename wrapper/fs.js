@@ -27,4 +27,4 @@ assert(rnfs.stat);
 assert(rnfs.copyFile);
 assert(rnfs.exists);
 
-module.exports = rnfs;
+export default rnfs;

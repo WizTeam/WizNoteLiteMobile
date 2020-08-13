@@ -15,7 +15,7 @@ import i18n from 'i18n-js';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
 import api from '../api';
-import store, { connect } from '../simple_store';
+import dataStore, { KEYS, connect } from '../data_store';
 
 const MainDrawer: () => React$Node = (props) => {
   //
@@ -92,17 +92,17 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleGotoAllNotes() {
-    store.setData('selectedType', '#allNotes');
+    dataStore.setSelectedType('#allNotes');
     handleCloseDrawer();
   }
 
   function handleGotoTrash() {
-    store.setData('selectedType', '#trash');
+    dataStore.setSelectedType('#trash');
     handleCloseDrawer();
   }
 
   function handleClickTreeItem({ node }) {
-    store.setData('selectedType', node.id);
+    dataStore.setSelectedType(node.id);
     handleCloseDrawer();
   }
   //
@@ -228,4 +228,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect('selectedType')(MainDrawer);
+export default connect(KEYS.SELECTED_TYPE)(MainDrawer);

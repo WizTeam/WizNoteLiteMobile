@@ -13,7 +13,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import api from '../api';
-import { connect } from '../simple_store';
+import { KEYS, connect } from '../data_store';
 
 const NotesScreen: () => React$Node = (props) => {
   const [notes, setNotes] = useState([]);
@@ -64,7 +64,7 @@ const NotesScreen: () => React$Node = (props) => {
   );
 };
 
-const NotesScreenImpl = connect('selectedType')(NotesScreen);
+const NotesScreenImpl = connect(KEYS.SELECTED_TYPE)(NotesScreen);
 
 NotesScreenImpl.options = {
   topBar: {

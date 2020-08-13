@@ -71,6 +71,22 @@ class Api {
     const ret = await sdk.hasNotesInTrash(this.userGuid, kbGuid || this.kbGuid);
     return ret;
   }
+
+  getSettings(key, defaultValue) {
+    return sdk.getSettings(key, defaultValue);
+  }
+
+  setSettings(key, value) {
+    sdk.setSettings(key, value);
+  }
+
+  getUserSettings(userGuid, key, defaultValue) {
+    return sdk.getUserSettings(userGuid, key, defaultValue);
+  }
+
+  setUserSettings(userGuid, key, value) {
+    return sdk.setUserSettings(userGuid, key, value);
+  }
 }
 
 const api = new Api();

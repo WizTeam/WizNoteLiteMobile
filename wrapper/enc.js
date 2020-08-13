@@ -76,7 +76,7 @@ function decryptText(text, password) {
   return decryptedText;
 }
 
-module.exports = {
+export default {
   aes: {
     encryptText,
     decryptText,
