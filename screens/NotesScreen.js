@@ -14,6 +14,7 @@ import {
 
 import api from '../api';
 import { KEYS, connect } from '../data_store';
+import NoteList from '../components/NoteList';
 
 const NotesScreen: () => React$Node = (props) => {
   const [notes, setNotes] = useState([]);
@@ -52,11 +53,7 @@ const NotesScreen: () => React$Node = (props) => {
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Notes list Screen</Text>
             </View>
-            {notes.map((note) => (
-              <View style={styles.sectionContainer} key={note.guid}>
-                <Text style={styles.sectionTitle}>{note.title}</Text>
-              </View>
-            ))}
+            <NoteList notes={notes} />
           </View>
         </ScrollView>
       </SafeAreaView>

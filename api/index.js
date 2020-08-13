@@ -1,6 +1,24 @@
 import assert from 'assert';
 import sdk from 'wiznote-sdk-js';
 
+class SdkEventListener {
+  static _listeners = new Map();
+
+  constructor(userGuid, handler) {
+    this._userGuid = userGuid;
+    this._handler = handler;
+    SdkEventListener._listeners.set(handler, this);
+  }
+
+  static fromHandler(handler) {
+    return SdkEventListener._listeners.get(handler);
+  }
+
+  send(eventName, ...args) {
+    this._handler(this._userGuid, eventName, ...args);
+  }
+}
+
 class Api {
   constructor() {
     this._user = null;
@@ -36,6 +54,18 @@ class Api {
 
   get kbGuid() {
     return this._user.kbGuid;
+  }
+
+  registerListener(userGuid, callback) {
+    const listener = new SdkEventListener(userGuid, callback);
+    sdk.registerListener(userGuid, listener);
+  }
+
+  unregisterListener(callback) {
+    const listener = SdkEventListener.fromHandler(callback);
+    if (listener) {
+      sdk.unregisterListener(listener);
+    }
   }
 
   async syncData() {

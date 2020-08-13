@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,17 +14,24 @@ import {
   View,
   Text,
   StatusBar,
-  Button,
 } from 'react-native';
 
 import {
-  Header,
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import NoteList from '../components/NoteList';
 
-const StarredNotesScreen: () => React$Node = () => {
+import dataStore, { KEYS, connect } from '../data_store';
+
+const StarredNotesScreen: () => React$Node = (props) => {
   //
-  console.log('Starred Notes');
+  const notes = props[KEYS.STARRED_NOTES] || [];
+  //
+  useEffect(() => {
+    //
+    dataStore.initStarredNotes();
+    //
+  }, []);
   //
   return (
     <>
@@ -34,14 +41,11 @@ const StarredNotesScreen: () => React$Node = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
         >
-          <Header />
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Starred notes list Screen</Text>
             </View>
-            <View style={styles.sectionContainer}>
-              <Button title="Logout" />
-            </View>
+            <NoteList notes={notes} />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -49,11 +53,16 @@ const StarredNotesScreen: () => React$Node = () => {
   );
 };
 
-StarredNotesScreen.options = {
+const StarredNotesScreenImpl = connect(KEYS.STARRED_NOTES)(StarredNotesScreen);
+
+StarredNotesScreenImpl.options = {
   topBar: {
     title: {
-      text: 'WizNote Lite',
+      text: 'Starred Notes',
       // color: 'black'
+    },
+    largeTitle: {
+      visible: true,
     },
     leftButtons: [
       {
@@ -72,9 +81,11 @@ StarredNotesScreen.options = {
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
+    minHeight: '100%',
   },
   body: {
     backgroundColor: Colors.white,
+    minHeight: '100%',
   },
   sectionContainer: {
     marginTop: 32,
@@ -87,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StarredNotesScreen;
+export default StarredNotesScreenImpl;

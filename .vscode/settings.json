@@ -1,8 +1,10 @@
 {
   "cSpell.words": [
     "aesjs",
+    "findindex",
     "rnfs",
     "thirdparty",
+    "upsert",
     "wiznote"
   ],
   "javascript.validate.enable": false
