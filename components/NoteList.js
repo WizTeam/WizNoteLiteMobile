@@ -1,38 +1,60 @@
 import React from 'react';
 import {
   StyleSheet,
-  View,
-  Text,
+  FlatList,
 } from 'react-native';
+import {
+  ListItem,
+} from 'react-native-elements';
 
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
+import { formatDateString } from '../utils/date';
+
 const NoteList: () => React$Node = (props) => {
   //
   const notes = props.notes;
+  const keyExtractor = (note) => note.guid;
+  //
+  function renderItem({ item }) {
+    const note = item;
+    return (
+      <ListItem
+        key={note.guid}
+        title={note.title}
+        subtitle={formatDateString(note.modified)}
+        bottomDivider
+        titleStyle={styles.title}
+        subTitleStyle={styles.subtitle}
+        titleProps={{
+          numberOfLines: 2,
+          ellipsizeMode: 'tail',
+        }}
+      />
+    );
+  }
   //
   return (
-    <>
-      {notes.map((note) => (
-        <View style={styles.sectionContainer} key={note.guid}>
-          <Text style={styles.sectionTitle}>{note.title}</Text>
-        </View>
-      ))}
-    </>
+    <FlatList
+      style={props.style}
+      keyExtractor={keyExtractor}
+      data={notes}
+      renderItem={renderItem}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  title: {
+    fontSize: 16,
+    fontWeight: '400',
+    paddingBottom: 8,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+  subtitle: {
+    fontSize: 14,
+    color: Colors.grey,
   },
 });
 

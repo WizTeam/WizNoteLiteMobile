@@ -2,9 +2,6 @@ import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
   StatusBar,
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -47,18 +44,8 @@ const NotesScreen: () => React$Node = (props) => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}
-        >
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Notes list Screen</Text>
-            </View>
-            <NoteList notes={notes} />
-          </View>
-        </ScrollView>
+      <SafeAreaView style={styles.content}>
+        <NoteList notes={notes} style={styles.body} />
       </SafeAreaView>
     </>
   );
@@ -90,20 +77,13 @@ NotesScreenImpl.options = {
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  content: {
+    display: 'flex',
   },
   body: {
     backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+    minHeight: '100%',
+    flexGrow: 1,
   },
 });
 

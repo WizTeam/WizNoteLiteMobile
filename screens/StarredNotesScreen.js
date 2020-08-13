@@ -12,7 +12,6 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  Text,
   StatusBar,
 } from 'react-native';
 
@@ -38,15 +37,8 @@ const StarredNotesScreen: () => React$Node = (props) => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}
-        >
-          <View style={styles.body}>
-            <NoteList notes={notes} />
-          </View>
-        </ScrollView>
+      <SafeAreaView style={styles.content}>
+        <NoteList notes={notes} style={styles.body} />
       </SafeAreaView>
     </>
   );
@@ -78,22 +70,13 @@ StarredNotesScreenImpl.options = {
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-    minHeight: '100%',
+  content: {
+    display: 'flex',
   },
   body: {
     backgroundColor: Colors.white,
     minHeight: '100%',
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+    flexGrow: 1,
   },
 });
 
