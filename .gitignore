@@ -39,6 +39,9 @@ project.xcworkspace
 .gradle
 local.properties
 
+# vscode debug info
+.vscode/.react
+
 # node.js
 node_modules/
 npm-debug.log

@@ -45,7 +45,7 @@ const NotesScreen: () => React$Node = (props) => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.content}>
-        <NoteList notes={notes} style={styles.body} />
+        <NoteList notes={notes} style={styles.body} showStar />
       </SafeAreaView>
     </>
   );

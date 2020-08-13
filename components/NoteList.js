@@ -7,12 +7,9 @@ import {
   ListItem,
   Divider,
 } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import merge from 'lodash.merge';
-
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
 
 import { formatDateString } from '../utils/date';
 
@@ -34,6 +31,9 @@ const NoteList: () => React$Node = (props) => {
           key={note.guid}
           title={note.title}
           subtitle={formatDateString(note.modified)}
+          rightIcon={props.showStar && note.starred && (
+            <Icon name="star" size={20} style={styles.star} />
+          )}
           containerStyle={styles.container}
           titleStyle={styles.title}
           subtitleStyle={styles.subtitle}
@@ -75,6 +75,9 @@ const styles = StyleSheet.create({
   divider: {
     marginLeft: 22,
     marginRight: 16,
+  },
+  star: {
+    color: 'rgb(253, 201, 46)',
   },
 });
 

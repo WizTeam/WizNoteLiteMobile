@@ -23,7 +23,7 @@ function sortNotes(notes) {
 function handleDownloadNotes(kbGuid, notes) {
   const starredNotes = store.getData(KEYS.STARRED_NOTES);
   const shouldUpdateStarredNotes = Array.isArray(starredNotes);
-  const allNotes = store.getData(KEYS.STARRED_NOTES);
+  const allNotes = store.getData(KEYS.ALL_NOTES);
   const shouldUpdateAllNotes = Array.isArray(allNotes);
   //
   const selectedType = store.getData(KEYS.SELECTED_TYPE);
@@ -87,7 +87,7 @@ async function initUser() {
   api.registerListener(api.userGuid, handleApiEvents);
   //
   setInterval(() => {
-    // api.syncData();
+    api.syncData();
   }, 10 * 1000);
   //
 }
