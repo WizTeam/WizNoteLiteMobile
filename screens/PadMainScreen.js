@@ -56,6 +56,10 @@ class Circle extends React.Component {
       this._draggedXValue.setValue(moved);
       const toValue = pane3Left - pane3OriginLeft;
       //
+      this._panGestureHandler.current.setNativeProps({
+        enabled: false,
+      });
+      //
       Animated.spring(this._draggedXValue, {
         velocity: 0,
         bounciness: 0,
@@ -63,7 +67,9 @@ class Circle extends React.Component {
         useNativeDriver: true,
       }).start(({ finished }) => {
         if (finished) {
-          this._panGestureHandler.current.disabled = false;
+          this._panGestureHandler.current.setNativeProps({
+            enabled: true,
+          });
           this._draggedXValue.setValue(0);
           if (nextState !== this.state.openState) {
             this.setState({ openState: nextState });
