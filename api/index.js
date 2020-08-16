@@ -29,7 +29,7 @@ class Api {
   }
 
   async localLogin() {
-    assert(!this._user);
+    assert(!this._user, 'user has already logged in');
     this._user = await sdk.localLogin();
     return this._user;
   }

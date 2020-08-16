@@ -313,6 +313,8 @@ PODS:
     - React
   - RNFS (2.16.6):
     - React
+  - RNGestureHandler (1.7.0):
+    - React
   - RNLocalize (1.4.1):
     - React
   - RNSVG (12.1.0):
@@ -375,6 +377,7 @@ DEPENDENCIES:
   - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFS (from `../node_modules/react-native-fs`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -456,6 +459,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNFS:
     :path: "../node_modules/react-native-fs"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
   RNSVG:
@@ -507,6 +512,7 @@ SPEC CHECKSUMS:
   ReactNativeNavigation: b38eca44d4d85e04757a2681bfc6e1b178c6c2d1
   RNCAsyncStorage: db711e29e5e0500d9bd21aa0c2e397efa45302b1
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
+  RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976

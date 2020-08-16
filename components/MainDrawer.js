@@ -109,76 +109,74 @@ const MainDrawer: () => React$Node = (props) => {
   const selectedType = props.selectedType || '#allNotes';
   //
   return (
-    <>
-      <View>
-        <Header
-          barStyle="light-content"
-          backgroundColor="transparent"
-          containerStyle={{
-            borderBottomColor: 'transparent',
-          }}
-          rightComponent={(
-            <View style={{ marginRight: 8 }}>
-              <TouchableHighlight onPress={handleCloseDrawer}>
-                <View
-                  style={{
-                    padding: 8,
-                    paddingTop: 10,
-                  }}
-                >
-                  <Icon name="close" style={styles.icon} size={24} color="white" />
-                </View>
-              </TouchableHighlight>
+    <View style={props.style}>
+      <Header
+        barStyle="light-content"
+        backgroundColor="transparent"
+        containerStyle={{
+          borderBottomColor: 'transparent',
+        }}
+        rightComponent={(
+          <View style={{ marginRight: 8 }}>
+            <TouchableHighlight onPress={handleCloseDrawer}>
+              <View
+                style={{
+                  padding: 8,
+                  paddingTop: 10,
+                }}
+              >
+                <Icon name="close" style={styles.icon} size={24} color="white" />
+              </View>
+            </TouchableHighlight>
+          </View>
+        )}
+      />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={styles.scrollView}
+      >
+        <ListItem
+          title={i18n.t('itemAllNotes')}
+          containerStyle={styles.item}
+          titleStyle={styles.itemTitle}
+          onPress={handleGotoAllNotes}
+          rightElement={selectedType === '#allNotes' && (
+            <View style={styles.itemRightElement}>
+              {handleRenderSelectedMarker()}
             </View>
           )}
         />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}
-        >
+        {showTrash && (
           <ListItem
-            title={i18n.t('itemAllNotes')}
+            title={i18n.t('itemTrash')}
             containerStyle={styles.item}
             titleStyle={styles.itemTitle}
-            onPress={handleGotoAllNotes}
-            rightElement={selectedType === '#allNotes' && (
+            onPress={handleGotoTrash}
+            rightElement={selectedType === '#trash' && (
               <View style={styles.itemRightElement}>
                 {handleRenderSelectedMarker()}
               </View>
             )}
           />
-          {showTrash && (
-            <ListItem
-              title={i18n.t('itemTrash')}
-              containerStyle={styles.item}
-              titleStyle={styles.itemTitle}
-              onPress={handleGotoTrash}
-              rightElement={selectedType === '#trash' && (
-                <View style={styles.itemRightElement}>
-                  {handleRenderSelectedMarker()}
-                </View>
-              )}
-            />
-          )}
+        )}
 
-          <TreeView
-            containerStyle={{
-              paddingTop: 44,
-            }}
-            data={tags}
-            renderExpandButton={handleRenderExpandButton}
-            renderSelectedMarker={handleRenderSelectedMarker}
-            getCollapsedNodeHeight={() => 44}
-            onNodePress={handleClickTreeItem}
-            itemContainerStyle={styles.treeItemContainerStyle}
-            itemTitleStyle={styles.treeItemTitleStyle}
-            itemContentContainerStyle={styles.treeItemContentContainerStyle}
-            selected={selectedType}
-          />
+        <TreeView
+          containerStyle={{
+            paddingTop: 44,
+          }}
+          data={tags}
+          renderExpandButton={handleRenderExpandButton}
+          renderSelectedMarker={handleRenderSelectedMarker}
+          getCollapsedNodeHeight={() => 44}
+          onNodePress={handleClickTreeItem}
+          itemContainerStyle={styles.treeItemContainerStyle}
+          itemTitleStyle={styles.treeItemTitleStyle}
+          itemContentContainerStyle={styles.treeItemContentContainerStyle}
+          selected={selectedType}
+        />
 
-        </ScrollView>
-      </View>
-    </>
+      </ScrollView>
+    </View>
   );
 };
 

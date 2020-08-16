@@ -20,33 +20,23 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import i18n from 'i18n-js';
 
-import NoteList from '../components/NoteList';
+import StarredNoteList from '../components/StarredNoteList';
 
 import dataStore, { KEYS, connect } from '../data_store';
 
 const StarredNotesScreen: () => React$Node = (props) => {
   //
-  const notes = props[KEYS.STARRED_NOTES] || [];
-  //
-  useEffect(() => {
-    //
-    dataStore.initStarredNotes();
-    //
-  }, []);
-  //
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.content}>
-        <NoteList notes={notes} style={styles.body} />
+        <StarredNoteList style={styles.body} />
       </SafeAreaView>
     </>
   );
 };
 
-const StarredNotesScreenImpl = connect(KEYS.STARRED_NOTES)(StarredNotesScreen);
-
-StarredNotesScreenImpl.options = {
+StarredNotesScreen.options = {
   topBar: {
     title: {
       text: i18n.t('titleStarredNotes'),
@@ -81,4 +71,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StarredNotesScreenImpl;
+export default StarredNotesScreen;

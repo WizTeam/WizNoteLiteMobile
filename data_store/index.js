@@ -1,6 +1,6 @@
 import store from '../simple_store';
 import api from '../api';
-import { updateAllNotes, getAllNotes } from './all_notes';
+import { updateCategoryNotes, getCategoryNotes } from './category_notes';
 import { updateStarredNotes, getStarredNotes } from './starred_notes';
 
 export { connect } from '../simple_store';
@@ -8,7 +8,7 @@ export { connect } from '../simple_store';
 export const KEYS = {
   USER_INFO: 'userInfo',
   SELECTED_TYPE: 'selectedType',
-  ALL_NOTES: 'allNotes',
+  CATEGORY_NOTES: 'categoryNotes',
   STARRED_NOTES: 'starredNotes',
 };
 
@@ -23,8 +23,8 @@ function sortNotes(notes) {
 function handleDownloadNotes(kbGuid, notes) {
   const starredNotes = store.getData(KEYS.STARRED_NOTES);
   const shouldUpdateStarredNotes = Array.isArray(starredNotes);
-  const allNotes = store.getData(KEYS.ALL_NOTES);
-  const shouldUpdateAllNotes = Array.isArray(allNotes);
+  const categoryNotes = store.getData(KEYS.CATEGORY_NOTES);
+  const shouldUpdateCategoryNotes = Array.isArray(categoryNotes);
   //
   const selectedType = store.getData(KEYS.SELECTED_TYPE);
   //
@@ -32,8 +32,8 @@ function handleDownloadNotes(kbGuid, notes) {
     if (shouldUpdateStarredNotes) {
       updateStarredNotes(starredNotes, note);
     }
-    if (shouldUpdateAllNotes) {
-      updateAllNotes(allNotes, note, selectedType);
+    if (shouldUpdateCategoryNotes) {
+      updateCategoryNotes(categoryNotes, note, selectedType);
     }
   });
   //
@@ -41,9 +41,9 @@ function handleDownloadNotes(kbGuid, notes) {
     sortNotes(starredNotes);
     store.setData(KEYS.STARRED_NOTES, starredNotes);
   }
-  if (shouldUpdateAllNotes) {
-    sortNotes(allNotes);
-    store.setData(KEYS.ALL_NOTES, allNotes);
+  if (shouldUpdateCategoryNotes) {
+    sortNotes(categoryNotes);
+    store.setData(KEYS.CATEGORY_NOTES, categoryNotes);
   }
 }
 
@@ -87,16 +87,16 @@ async function initUser() {
   api.registerListener(api.userGuid, handleApiEvents);
   //
   setInterval(() => {
-    api.syncData();
+    // api.syncData();
   }, 10 * 1000);
   //
 }
 
-async function initAllNotes() {
+async function initCategoryNotes() {
   const selectedType = store.getData(KEYS.SELECTED_TYPE) || '#allNotes';
-  const notes = await getAllNotes(selectedType);
+  const notes = await getCategoryNotes(selectedType);
   sortNotes(notes);
-  store.setData(KEYS.ALL_NOTES, notes);
+  store.setData(KEYS.CATEGORY_NOTES, notes);
 }
 
 async function initStarredNotes() {
@@ -110,6 +110,6 @@ export default {
   //
   setSelectedType,
   //
-  initAllNotes,
+  initCategoryNotes,
   initStarredNotes,
 };

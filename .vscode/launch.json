@@ -9,7 +9,9 @@
       "cwd": "${workspaceFolder}",
       "type": "reactnative",
       "request": "launch",
-      "platform": "ios"
+      "platform": "ios",
+      "target": "simulator",
+      "runArguments": ["--simulator", "iPad (7th generation)"]
     }    
   ]
 }

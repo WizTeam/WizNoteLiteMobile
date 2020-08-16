@@ -1,7 +1,7 @@
 import * as arrayUtils from '../utils/array';
 import api from '../api';
 
-export function updateAllNotes(allNotes, note, selectedType) {
+export function updateCategoryNotes(allNotes, note, selectedType) {
   let accept = false;
   //
   if (selectedType === '#allNotes') {
@@ -19,7 +19,7 @@ export function updateAllNotes(allNotes, note, selectedType) {
   }
 }
 
-export async function getAllNotes(selectedType) {
+export async function getCategoryNotes(selectedType) {
   console.log('get all notes', selectedType);
   const options = {};
   if (selectedType === '#allNotes') {

@@ -15,7 +15,7 @@ import { formatDateString } from '../utils/date';
 
 const NoteList: () => React$Node = (props) => {
   //
-  const notes = props.notes;
+  const notes = props.notes || [];
   const keyExtractor = (note) => note.guid;
   //
   function handlerPressItem(item) {
@@ -34,7 +34,7 @@ const NoteList: () => React$Node = (props) => {
           rightIcon={props.showStar && note.starred && (
             <Icon name="star" size={20} style={styles.star} />
           )}
-          containerStyle={styles.container}
+          containerStyle={styles.itemContainer}
           titleStyle={styles.title}
           subtitleStyle={styles.subtitle}
           titleProps={{
@@ -47,6 +47,7 @@ const NoteList: () => React$Node = (props) => {
     );
   }
   //
+  console.log(props.style);
   return (
     <FlatList
       style={merge(styles.list, props.style)}
@@ -60,7 +61,7 @@ const NoteList: () => React$Node = (props) => {
 const styles = StyleSheet.create({
   list: {
   },
-  container: {
+  itemContainer: {
     paddingLeft: 22,
   },
   title: {
