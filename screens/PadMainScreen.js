@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Animated, StyleSheet, Keyboard } from 'react-native';
+import { Animated, StyleSheet, Keyboard } from 'react-native';
 
 import { PanGestureHandler, State } from 'react-native-gesture-handler/GestureHandler';
 
@@ -40,19 +40,34 @@ class Circle extends React.Component {
   _openingHandlerStateChange = ({ nativeEvent }) => {
     if (nativeEvent.oldState === State.ACTIVE) {
       const moved = nativeEvent.translationX;
-      this._onGestureEnd(moved);
+      this._onGestureEnd(moved, nativeEvent);
     } else if (nativeEvent.state === State.ACTIVE) {
       Keyboard.dismiss();
     }
   };
 
-  _onGestureEnd(moved) {
+  _onGestureEnd(moved, nativeEvent) {
+    //
     const gotoNextState = (nextState) => {
       //
       const pane3OriginLeft = this._getPane3X(this.state.openState);
       const pane3Left = this._getPane3X(nextState);
-      this._draggedXValue.setValue(moved);
       const toValue = pane3Left - pane3OriginLeft;
+      //
+      let nextFramePosition = moved;
+      let { velocityX } = nativeEvent;
+      if (moved < 0) {
+        velocityX = -velocityX;
+      }
+      const velocity = velocityX;
+      const fromValue = moved;
+      if (fromValue < toValue && velocity > 0) {
+        nextFramePosition = Math.min(fromValue + velocity / 60.0, toValue);
+      } else if (fromValue > toValue && velocity < 0) {
+        nextFramePosition = Math.max(fromValue + velocity / 60.0, toValue);
+      }
+      //
+      this._draggedXValue.setValue(nextFramePosition);
       //
       this._panGestureHandler.current.setNativeProps({
         enabled: false,
