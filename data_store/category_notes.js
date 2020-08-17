@@ -30,6 +30,6 @@ export async function getCategoryNotes(selectedType) {
     options.tags = selectedType;
   }
   //
-  const allNotes = await api.getAllNotes(options);
+  const allNotes = await api.getAllNotes(null, options);
   return allNotes;
 }

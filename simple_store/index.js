@@ -83,7 +83,14 @@ export function connect(keyOrKeys) {
 
       componentWillUnmount() {
         keys.forEach((key) => {
-          store.unsubscribe(key, this.handleDataChange);
+          if (typeof key === 'function') {
+            const subKeys = key(this.props);
+            toArray(subKeys).forEach((subKey) => {
+              store.unsubscribe(subKey, this.handleDataChange);
+            });
+          } else {
+            store.unsubscribe(key, this.handleDataChange);
+          }
         });
       }
 

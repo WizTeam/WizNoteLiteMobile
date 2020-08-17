@@ -9,8 +9,6 @@ import {
 } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import merge from 'lodash.merge';
-
 import { formatDateString } from '../utils/date';
 
 const NoteList: () => React$Node = (props) => {
@@ -18,23 +16,24 @@ const NoteList: () => React$Node = (props) => {
   const notes = props.notes || [];
   const keyExtractor = (note) => note.guid;
   //
-  function handlerPressItem(item) {
-    //
+  async function handlerPressItem(note) {
+    props.onPressNote(note);
   }
   //
   function renderItem({ item }) {
     const note = item;
+    const selected = note.guid === props.selectedNoteGuid;
     return (
       <>
         <ListItem
-          onPress={handlerPressItem}
+          onPress={() => handlerPressItem(note)}
           key={note.guid}
           title={note.title}
           subtitle={formatDateString(note.modified)}
           rightIcon={props.showStar && note.starred && (
             <Icon name="star" size={20} style={styles.star} />
           )}
-          containerStyle={styles.itemContainer}
+          containerStyle={[styles.itemContainer, selected && styles.selected]}
           titleStyle={styles.title}
           subtitleStyle={styles.subtitle}
           titleProps={{
@@ -47,10 +46,9 @@ const NoteList: () => React$Node = (props) => {
     );
   }
   //
-  console.log(props.style);
   return (
     <FlatList
-      style={merge(styles.list, props.style)}
+      style={[styles.list, props.style]}
       keyExtractor={keyExtractor}
       data={notes}
       renderItem={renderItem}
@@ -63,6 +61,9 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     paddingLeft: 22,
+  },
+  selected: {
+    backgroundColor: 'red',
   },
   title: {
     fontSize: 16,

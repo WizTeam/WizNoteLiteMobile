@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   StyleSheet,
   ScrollView,
+  Button,
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 
@@ -16,6 +17,7 @@ import i18n from 'i18n-js';
 import TreeView from '../thirdparty/react-native-final-tree-view';
 import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
+import { setLoginAsRoot } from '../services/navigation';
 
 const MainDrawer: () => React$Node = (props) => {
   //
@@ -105,6 +107,10 @@ const MainDrawer: () => React$Node = (props) => {
     dataStore.setSelectedType(node.id);
     handleCloseDrawer();
   }
+
+  function handleLogin() {
+    setLoginAsRoot();
+  }
   //
   const selectedType = props.selectedType || '#allNotes';
   //
@@ -135,6 +141,7 @@ const MainDrawer: () => React$Node = (props) => {
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}
       >
+        <Button title="Login" onPress={handleLogin} />
         <ListItem
           title={i18n.t('itemAllNotes')}
           containerStyle={styles.item}

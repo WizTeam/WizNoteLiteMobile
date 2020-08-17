@@ -87,9 +87,19 @@ class Api {
     sdk.syncKb(this.userGuid, kbGuid, options);
   }
 
-  async getAllNotes(options) {
-    const notes = await sdk.queryNotes(this.userGuid, this.kbGuid, 0, 10000, options);
+  async getAllNotes(kbGuid, options) {
+    const notes = await sdk.queryNotes(this.userGuid, kbGuid || this.kbGuid, 0, 10000, options);
     return notes;
+  }
+
+  async getNote(kbGuid, noteGuid) {
+    const note = await sdk.getNote(this.userGuid, kbGuid || this.kbGuid, noteGuid);
+    return note;
+  }
+
+  async getNoteMarkdown(kbGuid, noteGuid) {
+    const markdown = await sdk.getNoteMarkdown(this.userGuid, kbGuid, noteGuid);
+    return markdown;
   }
 
   async getAllTags(kbGuid) {

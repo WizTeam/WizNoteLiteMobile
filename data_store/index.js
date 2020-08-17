@@ -10,6 +10,7 @@ export const KEYS = {
   SELECTED_TYPE: 'selectedType',
   CATEGORY_NOTES: 'categoryNotes',
   STARRED_NOTES: 'starredNotes',
+  CURRENT_NOTE: 'currentNote',
 };
 
 function compareNote(note1, note2) {
@@ -80,15 +81,28 @@ function setSelectedType(type) {
   api.setUserSettings(api.userGuid, KEYS.SELECTED_TYPE, type);
 }
 
+function setCurrentNote(note) {
+  store.setData(KEYS.CURRENT_NOTE, note);
+  api.setUserSettings(api.userGuid, 'selectedNoteGuid', note?.guid);
+}
+
 async function initUser() {
   const selectedType = api.getUserSettings(api.userGuid, KEYS.SELECTED_TYPE, '#allNotes');
   setSelectedType(selectedType);
   //
+  const currentNoteGuid = api.getUserSettings(api.userGuid, 'selectedNoteGuid', '');
+  if (currentNoteGuid) {
+    //
+    const note = await api.getNote(null, currentNoteGuid);
+    setCurrentNote(note);
+  }
+  //
   api.registerListener(api.userGuid, handleApiEvents);
   //
+  api.syncData();
   setInterval(() => {
-    // api.syncData();
-  }, 10 * 1000);
+    api.syncData();
+  }, 60 * 1000);
   //
 }
 
@@ -109,6 +123,7 @@ export default {
   initUser,
   //
   setSelectedType,
+  setCurrentNote,
   //
   initCategoryNotes,
   initStarredNotes,

@@ -22,6 +22,11 @@ class Store {
     console.log(`get ${key}=${value}`);
     return value;
   }
+
+  delete(key) {
+    console.log(`delete ${key}`);
+    SyncStorage.remove(this._getKey(key));
+  }
 }
 
 export default Store;

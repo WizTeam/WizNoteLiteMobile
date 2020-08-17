@@ -1,9 +1,9 @@
 import React from 'react';
-import { Animated, StyleSheet, Keyboard } from 'react-native';
+import { Animated, StyleSheet, Keyboard, Easing } from 'react-native';
 
 import { PanGestureHandler, State } from 'react-native-gesture-handler/GestureHandler';
 
-const STATE = {
+export const STATE = {
   openAll: 0, // a | b | c
   open2: 1, // b | c
   closeAll: 2, // c
@@ -17,7 +17,7 @@ class TriplePane extends React.Component {
       containerWidth: 0,
       // containerHeight: 0,
       isLandscape: false,
-      openState: STATE.open2,
+      openState: props.openState || STATE.open2,
     };
     //
     this._draggedXValue = new Animated.Value(0);
@@ -76,6 +76,26 @@ class TriplePane extends React.Component {
         nextFramePosition = Math.max(fromValue + velocity / 60.0, toValue);
       }
       //
+      if (toValue > 0 && nextFramePosition > toValue) {
+        // nextFramePosition = toValue;
+        console.log(`set state: ${nextState}`);
+        this._draggedXValue.setValue(0);
+        setTimeout(() => {
+          this.setState({ openState: nextState });
+        });
+        return;
+      } else if (toValue < 0 && nextFramePosition < toValue) {
+        // nextFramePosition = toValue;
+        console.log(`set state: ${nextState}`);
+        this._draggedXValue.setValue(0);
+        setTimeout(() => {
+          this.setState({ openState: nextState });
+        });
+        return;
+      }
+      //
+      console.log(`from=${nextFramePosition}, to=${toValue}`);
+      //
       this._draggedXValue.setValue(nextFramePosition);
       //
       this._panGestureHandler.current.setNativeProps({
@@ -83,10 +103,12 @@ class TriplePane extends React.Component {
       });
       //
       Animated.timing(this._draggedXValue, {
-        velocity: 0,
-        bounciness: 0,
+        duration: 250,
+        velocity,
+        // bounciness: 0,
         toValue,
         useNativeDriver: false,
+        easing: Easing.in,
       }).start(({ finished }) => {
         if (finished) {
           this._panGestureHandler.current.setNativeProps({
@@ -106,10 +128,11 @@ class TriplePane extends React.Component {
 
     if (Math.abs(moved) < 30) {
       rollback(moved);
+      console.log('rollback');
       return;
     }
     //
-    const oldState = this.state.openState || 0;
+    const oldState = this.state.openState;
     if (moved < 0) {
       // <-
       if (oldState === STATE.closeAll) {

@@ -10,6 +10,6 @@ export function updateStarredNotes(starredNotes, note) {
 }
 
 export async function getStarredNotes() {
-  const notes = await api.getAllNotes({ starred: true });
+  const notes = await api.getAllNotes(null, { starred: true });
   return notes;
 }

@@ -6,6 +6,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import TriplePane from '../components/TriplePane';
 import MainDrawer from '../components/MainDrawer';
 import CategoryNoteList from '../components/CategoryNoteList';
+import NoteEditor from '../components/NoteEditor';
 
 const PadMainScreen: () => React$Node = () => {
   console.log('render');
@@ -20,15 +21,7 @@ const PadMainScreen: () => React$Node = () => {
         </View>
       )}
       pane3={(
-        <View style={styles.editor}>
-          <Text>
-            this is text. this is text. this is text. this is text. this is text.
-            this is text. this is text. this is text. this is text. this is text.
-            this is text. this is text. this is text. this is text. this is text.
-            this is text. this is text. this is text. this is text. this is text.
-            this is text. this is text. this is text. this is text. this is text.
-          </Text>
-        </View>
+        <NoteEditor style={styles.editor} />
       )}
     />
   );
