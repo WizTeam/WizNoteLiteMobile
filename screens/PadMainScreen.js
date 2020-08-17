@@ -6,7 +6,7 @@ import { PanGestureHandler, State } from 'react-native-gesture-handler/GestureHa
 const STATE = {
   openAll: 0, // a | b | c
   open2: 1, // b | c
-  allClosed: 2, // c
+  closeAll: 2, // c
   COUNT: 3,
 };
 
@@ -15,12 +15,10 @@ class Circle extends React.Component {
     super(props);
     this.state = {
       containerWidth: 0,
-      openState: STATE.openAll,
+      openState: STATE.closeAll,
     };
     //
     this._draggedXValue = new Animated.Value(0);
-    this._pane2XValue = new Animated.Value(0);
-    this._pane3XValue = new Animated.Value(0);
     //
     this._panGestureHandler = React.createRef();
     //
@@ -67,6 +65,7 @@ class Circle extends React.Component {
         useNativeDriver: true,
       }).start(({ finished }) => {
         if (finished) {
+          console.log('finished');
           this._panGestureHandler.current.setNativeProps({
             enabled: true,
           });
@@ -74,7 +73,6 @@ class Circle extends React.Component {
           if (nextState !== this.state.openState) {
             this.setState({ openState: nextState });
           }
-          console.log('finished');
         }
       });
     };
@@ -91,7 +89,7 @@ class Circle extends React.Component {
     const oldState = this.state.openState || 0;
     if (moved < 0) {
       // <-
-      if (oldState === STATE.allClosed) {
+      if (oldState === STATE.closeAll) {
         rollback(moved);
         return;
       }
@@ -109,8 +107,13 @@ class Circle extends React.Component {
     }
   }
 
-  _getPane1X() {
-    return 0;
+  _getPane1X(openState) {
+    if (openState === STATE.openAll) {
+      return 0;
+    } else if (openState === STATE.open2) {
+      return -this._getPane1Width() / 3;
+    }
+    return -this._getPane1Width() / 3;
   }
 
   _getPane1Width() {
@@ -120,8 +123,10 @@ class Circle extends React.Component {
   _getPane2X(openState) {
     if (openState === STATE.openAll) {
       return this._getPane1Width();
+    } else if (openState === STATE.open2) {
+      return 0;
     }
-    return 0;
+    return -(this._getPane2Width() / 3);
   }
 
   _getPane2Width() {
@@ -141,6 +146,42 @@ class Circle extends React.Component {
     return this.state.containerWidth;
   }
 
+  _getDragRange(openState) {
+    if (openState === STATE.openAll) {
+      return [-this._getPane1Width(), 0];
+    } else if (openState === STATE.open2) {
+      return [-this._getPane2Width(), 0, this._getPane1Width()];
+    }
+    return [0, this._getPane2Width()];
+  }
+
+  _getPane1MoveRange(openState) {
+    if (openState === STATE.openAll) {
+      return [-this._getPane1Width() / 3, 0];
+    } else if (openState === STATE.open2) {
+      return [0, 0, this._getPane1Width() / 3];
+    }
+    return [0, 0];
+  }
+
+  _getPane2MoveRange(openState) {
+    if (openState === STATE.openAll) {
+      return [-this._getPane1Width(), 0];
+    } else if (openState === STATE.open2) {
+      return [-this._getPane2Width() / 3, 0, this._getPane1Width()];
+    }
+    return [0, this._getPane2Width() / 3];
+  }
+
+  _getPane3MoveRange(openState) {
+    if (openState === STATE.openAll) {
+      return [-this._getPane1Width(), 0];
+    } else if (openState === STATE.open2) {
+      return [-this._getPane2Width(), 0, this._getPane1Width()];
+    }
+    return [0, this._getPane2Width()];
+  }
+
   render() {
     //
     const openState = this.state.openState;
@@ -151,28 +192,22 @@ class Circle extends React.Component {
     const pane1Left = this._getPane1X(openState);
     const pane2Left = this._getPane2X(openState);
     const pane3Left = this._getPane3X(openState);
+
+    const dragRange = this._getDragRange(openState);
+    const pane1MoveRange = this._getPane1MoveRange(openState);
+    const pane2MoveRange = this._getPane2MoveRange(openState);
+    const pane3MoveRange = this._getPane3MoveRange(openState);
+    //
     //
     let activeOffsetX;
-    let pane2MinMoveLeft = 0;
-    let pane3MinMoveLeft = 0;
-    let pane2MaxMoveLeft = 0;
-    let pane3MaxMoveLeft = 0;
     if (openState === STATE.openAll) {
       activeOffsetX = [0, 100000]; // disable left -> right
-      pane2MinMoveLeft = -pane2Left;
-      pane3MinMoveLeft = -pane2Left;
     } else if (openState === STATE.open2) {
       // allow all
-      pane2MinMoveLeft = -pane2Left;
-      pane3MinMoveLeft = -pane3Left;
-      pane2MaxMoveLeft = pane1Width;
-      pane3MaxMoveLeft = pane1Width;
       activeOffsetX = 0;
       //
     } else { // all closed
       activeOffsetX = [-100000, 0]; // disable left <- right
-      pane2MaxMoveLeft = 0;
-      pane3MaxMoveLeft = pane2Width;
     }
     //
     return (
@@ -192,7 +227,7 @@ class Circle extends React.Component {
           }}
           onLayout={this._onContainerLayout}
         >
-          <View
+          <Animated.View
             style={[
               {
                 backgroundColor: '#42a5f5',
@@ -203,6 +238,19 @@ class Circle extends React.Component {
                 top: 0,
                 bottom: 0,
                 zIndex: 1,
+              },
+              {
+                transform: [
+                  {
+                    translateX: Animated.diffClamp(
+                      this._draggedXValue,
+                      dragRange[0], dragRange[dragRange.length - 1],
+                    ).interpolate({
+                      inputRange: dragRange,
+                      outputRange: pane1MoveRange,
+                    }),
+                  },
+                ],
               },
             ]}
           />
@@ -216,15 +264,18 @@ class Circle extends React.Component {
                 left: pane2Left,
                 top: 10,
                 bottom: 0,
-                zIndex: 1,
+                zIndex: 2,
               },
               {
                 transform: [
                   {
-                    translateX: Animated.add(
-                      Animated.diffClamp(this._draggedXValue, pane2MinMoveLeft, pane2MaxMoveLeft),
-                      this._pane2XValue,
-                    ),
+                    translateX: Animated.diffClamp(
+                      this._draggedXValue,
+                      dragRange[0], dragRange[dragRange.length - 1],
+                    ).interpolate({
+                      inputRange: dragRange,
+                      outputRange: pane2MoveRange,
+                    }),
                   },
                 ],
               },
@@ -240,15 +291,18 @@ class Circle extends React.Component {
                 left: pane3Left,
                 top: 20,
                 bottom: 0,
-                zIndex: 2,
+                zIndex: 3,
               },
               {
                 transform: [
                   {
-                    translateX: Animated.add(
-                      Animated.diffClamp(this._draggedXValue, pane3MinMoveLeft, pane3MaxMoveLeft),
-                      this._pane3XValue,
-                    ),
+                    translateX: Animated.diffClamp(
+                      this._draggedXValue,
+                      dragRange[0], dragRange[dragRange.length - 1],
+                    ).interpolate({
+                      inputRange: dragRange,
+                      outputRange: pane3MoveRange,
+                    }),
                   },
                 ],
               },
