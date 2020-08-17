@@ -22,9 +22,9 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
+// eslint-disable-next-line arrow-body-style
 const SearchNotesScreen: () => React$Node = () => {
   //
-  console.log('Search Notes');
   return (
     <>
       <StatusBar barStyle="dark-content" />

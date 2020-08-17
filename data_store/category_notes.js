@@ -20,7 +20,6 @@ export function updateCategoryNotes(allNotes, note, selectedType) {
 }
 
 export async function getCategoryNotes(selectedType) {
-  console.log('get all notes', selectedType);
   const options = {};
   if (selectedType === '#allNotes') {
     //

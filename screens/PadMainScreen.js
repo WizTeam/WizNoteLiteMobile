@@ -8,8 +8,10 @@ import MainDrawer from '../components/MainDrawer';
 import CategoryNoteList from '../components/CategoryNoteList';
 import NoteEditor from '../components/NoteEditor';
 
+// eslint-disable-next-line arrow-body-style
 const PadMainScreen: () => React$Node = () => {
-  console.log('render');
+  //
+  //
   return (
     <TriplePane
       pane1Width={300}

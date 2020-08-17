@@ -78,7 +78,6 @@ class TriplePane extends React.Component {
       //
       if (toValue > 0 && nextFramePosition > toValue) {
         // nextFramePosition = toValue;
-        console.log(`set state: ${nextState}`);
         this._draggedXValue.setValue(0);
         setTimeout(() => {
           this.setState({ openState: nextState });
@@ -86,15 +85,12 @@ class TriplePane extends React.Component {
         return;
       } else if (toValue < 0 && nextFramePosition < toValue) {
         // nextFramePosition = toValue;
-        console.log(`set state: ${nextState}`);
         this._draggedXValue.setValue(0);
         setTimeout(() => {
           this.setState({ openState: nextState });
         });
         return;
       }
-      //
-      console.log(`from=${nextFramePosition}, to=${toValue}`);
       //
       this._draggedXValue.setValue(nextFramePosition);
       //
@@ -128,7 +124,6 @@ class TriplePane extends React.Component {
 
     if (Math.abs(moved) < 30) {
       rollback(moved);
-      console.log('rollback');
       return;
     }
     //
