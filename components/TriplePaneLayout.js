@@ -10,7 +10,7 @@ export const STATE = {
   COUNT: 3,
 };
 
-class TriplePane extends React.Component {
+class TriplePaneLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -397,4 +397,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TriplePane;
+export default TriplePaneLayout;

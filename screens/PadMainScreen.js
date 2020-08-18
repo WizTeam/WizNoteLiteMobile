@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
-import TriplePane from '../components/TriplePane';
+import TriplePaneLayout from '../components/TriplePaneLayout';
 import MainDrawer from '../components/MainDrawer';
 import CategoryNoteList from '../components/CategoryNoteList';
 import NoteEditor from '../components/NoteEditor';
@@ -13,7 +13,7 @@ const PadMainScreen: () => React$Node = () => {
   //
   //
   return (
-    <TriplePane
+    <TriplePaneLayout
       pane1Width={300}
       pane2Width={400}
       pane1={<MainDrawer style={styles.drawer} />}
