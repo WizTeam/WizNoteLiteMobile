@@ -23,6 +23,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
 import { setMainAsRoot } from '../services/navigation';
 import api from '../api';
+import dataStore from '../data_store';
 
 const LoginScreen: () => React$Node = () => {
   const [isLogin, setLogin] = useState(true);
@@ -168,6 +169,8 @@ const LoginScreen: () => React$Node = () => {
           autoLogin: true,
         });
         //
+        await dataStore.initUser();
+        //
         setWorking(false);
         setMainAsRoot();
         //
@@ -195,6 +198,8 @@ const LoginScreen: () => React$Node = () => {
         await api.signUp(server, userId, password, {
           autoLogin: true,
         });
+        //
+        await dataStore.initUser();
         //
         setWorking(false);
         setMainAsRoot();

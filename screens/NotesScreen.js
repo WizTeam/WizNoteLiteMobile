@@ -12,11 +12,11 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import dataStore, { KEYS, connect } from '../data_store';
-import NoteList from '../components/NoteList';
+import CategoryNoteList from '../components/CategoryNoteList';
 
 const NotesScreen: () => React$Node = (props) => {
   useEffect(() => {
-    dataStore.initAllNotes();
+    dataStore.initCategoryNotes();
   }, [props.selectedType]);
   //
   useEffect(() => {
@@ -38,20 +38,17 @@ const NotesScreen: () => React$Node = (props) => {
     });
   }, [props.selectedType]);
 
-  const notes = props[KEYS.ALL_NOTES] || [];
-  //
-
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.content}>
-        <NoteList notes={notes} style={styles.body} showStar />
+        <CategoryNoteList style={styles.body} showStar />
       </SafeAreaView>
     </>
   );
 };
 
-const NotesScreenImpl = connect([KEYS.SELECTED_TYPE, KEYS.ALL_NOTES])(NotesScreen);
+const NotesScreenImpl = connect([KEYS.SELECTED_TYPE])(NotesScreen);
 
 NotesScreenImpl.options = {
   topBar: {

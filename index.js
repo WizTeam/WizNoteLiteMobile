@@ -3,6 +3,7 @@ import { Navigation } from 'react-native-navigation';
 
 import { registerScreens } from './screens';
 import { setLoginAsRoot, setMainAsRoot } from './services/navigation';
+import { startResourceLoader } from './services/resources_loader';
 import api from './api';
 import { iniI18nConfig } from './i18n';
 import dataStore from './data_store';
@@ -15,6 +16,7 @@ Navigation.events().registerAppLaunchedListener(async () => {
   try {
     await SyncStorage.init();
     iniI18nConfig();
+    startResourceLoader();
     await api.localLogin();
     await dataStore.initUser();
   } catch (err) {
