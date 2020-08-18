@@ -10,6 +10,8 @@ import i18n from 'i18n-js';
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import { SideMenuView } from 'react-native-navigation-drawer-extension';
+import { showDrawer } from '../components/MainDrawer';
 
 import dataStore, { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
@@ -42,7 +44,12 @@ const NotesScreen: () => React$Node = (props) => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.content}>
-        <CategoryNoteList style={styles.body} showStar />
+        <SideMenuView
+          style={styles.root}
+          left={showDrawer}
+        >
+          <CategoryNoteList style={styles.body} showStar />
+        </SideMenuView>
       </SafeAreaView>
     </>
   );

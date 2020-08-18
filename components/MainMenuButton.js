@@ -8,31 +8,12 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { showDrawer } from './MainDrawer';
 
 const MainMenuButton: () => React$Node = (props) => {
   function handleOpenDrawer() {
-    RNNDrawer.showDrawer({
-      component: {
-        name: 'MainDrawer',
-        passProps: {
-          animationOpenTime: 300,
-          animationCloseTime: 300,
-          direction: 'left',
-          dismissWhenTouchOutside: true,
-          fadeOpacity: 0.6,
-          drawerScreenWidth: '100%' || 445, // Use relative to screen '%' or absolute
-          drawerScreenHeight: '100%' || 700,
-          style: { // Styles the drawer container, supports any react-native style
-            backgroundColor: '#333333',
-          },
-          // Custom prop, will be available in your custom drawer component props
-          // eslint-disable-next-line react/prop-types
-          parentComponentId: props.componentId,
-        },
-      },
-    });
+    showDrawer(props.componentId);
   }
 
   return (

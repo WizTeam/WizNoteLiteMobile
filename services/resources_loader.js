@@ -1,5 +1,5 @@
-const httpBridge = require('react-native-http-bridge');
 const axios = require('axios');
+const httpBridge = require('../thirdparty/react-native-http-bridge');
 
 const PORT = 5569;
 
