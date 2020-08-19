@@ -41,7 +41,6 @@ class SaveDataQueue {
 
   _saveNow() {
     assert(this._last);
-    console.log('save now');
     this._onSave(this._last);
     this._last = null;
   }
@@ -50,7 +49,13 @@ class SaveDataQueue {
 function Editor(props) {
   //
   function doSaveData({contentId, content}) {
-    console.log(`save ${contentId}, ${content.markdown}`);
+    //
+    const messageData = JSON.stringify({
+      contentId,
+      markdown: content.markdown,
+    });
+    window.postMessage('saveData', messageData);
+    //
   }
 
   const saveDataQueueRef = useRef(new SaveDataQueue(doSaveData));
@@ -59,11 +64,14 @@ function Editor(props) {
 
   function handleChange(content) {
     //
-    if (lastDataRef.current.contentId === props.contentId
-      && lastDataRef.current.markdown === content.markdown) {
-      console.log('not changed, skip');
+    if (!props.contentId) {
       return;
-    }    
+    }
+    //
+    if (lastDataRef.current.contentId === props.contentId
+      && lastDataRef.current.markdown.trim() === content.markdown.trim()) {
+      return;
+    }
     lastDataRef.current = {
       contentId: props.contentId,
       markdown: content.markdown,
