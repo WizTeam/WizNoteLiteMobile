@@ -1,0 +1,81 @@
+{
+  "_from": "react-native-fetch-blob",
+  "_id": "react-native-fetch-blob@0.10.8",
+  "_inBundle": false,
+  "_integrity": "sha1-T8JWq64MtfEOfEHyjBGz/zMNcqk=",
+  "_location": "/react-native-fetch-blob",
+  "_phantomChildren": {
+    "fs.realpath": "1.0.0",
+    "inflight": "1.0.6",
+    "inherits": "2.0.4",
+    "minimatch": "3.0.4",
+    "once": "1.4.0",
+    "path-is-absolute": "1.0.1"
+  },
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "react-native-fetch-blob",
+    "name": "react-native-fetch-blob",
+    "escapedName": "react-native-fetch-blob",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-fetch-blob/-/react-native-fetch-blob-0.10.8.tgz",
+  "_shasum": "4fc256abae0cb5f10e7c41f28c11b3ff330d72a9",
+  "_spec": "react-native-fetch-blob",
+  "_where": "/Users/weishijun/WizTeam/WizNoteLiteMobile",
+  "author": {
+    "name": "wkh237",
+    "email": "xeiyan@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/wkh237/react-native-fetch-blob/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Ben",
+      "email": "benhsieh@catchplay.com"
+    },
+    {}
+  ],
+  "dependencies": {
+    "base-64": "0.1.0",
+    "glob": "7.0.6"
+  },
+  "deprecated": false,
+  "description": "A module provides upload, download, and files access API. Supports file stream read/write for process large files.",
+  "homepage": "https://github.com/wkh237/react-native-fetch-blob#readme",
+  "keywords": [
+    "react-native",
+    "fetch",
+    "blob",
+    "fs",
+    "upload",
+    "file",
+    "download",
+    "filestream",
+    "image header"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "react-native-fetch-blob",
+  "repository": {
+    "url": "git+https://github.com/wkh237/react-native-fetch-blob.git"
+  },
+  "rnpm": {
+    "commands": {
+      "prelink": "node ./node_modules/react-native-fetch-blob/scripts/prelink.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.10.8"
+}

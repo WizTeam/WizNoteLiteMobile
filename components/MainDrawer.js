@@ -5,24 +5,35 @@ import {
   TouchableHighlight,
   StyleSheet,
   ScrollView,
-  Button,
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import { isTablet } from 'react-native-device-detection';
 import i18n from 'i18n-js';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
 import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
+import UserButton from './UserButton';
 import { setLoginAsRoot } from '../services/navigation';
 
 const MainDrawer: () => React$Node = (props) => {
   //
   function handleCloseDrawer() {
     RNNDrawer.dismissDrawer();
+  }
+
+  function handleLogin() {
+    setLoginAsRoot();
+    setTimeout(() => {
+      handleCloseDrawer();
+    }, 100);
+  }
+
+  function handleViewUserInfo() {
+    //
   }
 
   //
@@ -108,14 +119,10 @@ const MainDrawer: () => React$Node = (props) => {
     handleCloseDrawer();
   }
 
-  function handleLogin() {
-    setLoginAsRoot();
-  }
-  //
   const selectedType = props.selectedType || '#allNotes';
   //
   return (
-    <View style={props.style}>
+    <View style={[styles.root, props.style]}>
       <Header
         barStyle="light-content"
         backgroundColor="transparent"
@@ -141,7 +148,10 @@ const MainDrawer: () => React$Node = (props) => {
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}
       >
-        <Button title="Login" onPress={handleLogin} />
+        {isTablet && (
+          <UserButton style={styles.padLoginButton} />
+        )}
+
         <ListItem
           title={i18n.t('itemAllNotes')}
           containerStyle={styles.item}
@@ -170,6 +180,7 @@ const MainDrawer: () => React$Node = (props) => {
         <TreeView
           containerStyle={{
             paddingTop: 44,
+            flexGrow: 1,
           }}
           data={tags}
           renderExpandButton={handleRenderExpandButton}
@@ -181,16 +192,28 @@ const MainDrawer: () => React$Node = (props) => {
           itemContentContainerStyle={styles.treeItemContentContainerStyle}
           selected={selectedType}
         />
-
       </ScrollView>
+
+      {!isTablet && (
+        <UserButton
+          onLogin={handleLogin}
+          onPressUser={handleViewUserInfo}
+          style={styles.phoneLoginButton}
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   scrollView: {
     backgroundColor: 'transparent',
     minHeight: '100%',
+    display: 'flex',
+    flex: 1,
   },
   item: {
     backgroundColor: '#333333',
@@ -231,6 +254,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  padLoginButton: {
+    paddingBottom: 32,
+    paddingLeft: 16,
+  },
+  phoneLoginButton: {
+    paddingTop: 32,
+    paddingLeft: 16,
+    paddingBottom: 64,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 });
 
 export default connect(KEYS.SELECTED_TYPE)(MainDrawer);
@@ -248,6 +284,7 @@ export function showDrawer(parentComponentId) {
         drawerScreenWidth: '100%' || 445, // Use relative to screen '%' or absolute
         drawerScreenHeight: '100%' || 700,
         style: { // Styles the drawer container, supports any react-native style
+          // backgroundColor: '#333333',
           backgroundColor: '#333333',
         },
         // Custom prop, will be available in your custom drawer component props

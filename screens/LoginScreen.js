@@ -153,6 +153,10 @@ const LoginScreen: () => React$Node = () => {
     //
   }
 
+  function shouldMergeAccount() {
+    return api.isLoggedIn() && api.user.isLocalUser;
+  }
+
   async function handleLogin() {
     if (!checkInput()) {
       return;
@@ -167,6 +171,7 @@ const LoginScreen: () => React$Node = () => {
         const server = isPrivateServer ? serverUrl : 'as.wiz.cn';
         await api.onlineLogin(server, userId, password, {
           autoLogin: true,
+          mergeLocalAccount: shouldMergeAccount(),
         });
         //
         await dataStore.initUser();
@@ -197,6 +202,7 @@ const LoginScreen: () => React$Node = () => {
         const server = isPrivateServer ? serverUrl : 'as.wiz.cn';
         await api.signUp(server, userId, password, {
           autoLogin: true,
+          mergeLocalAccount: shouldMergeAccount(),
         });
         //
         await dataStore.initUser();

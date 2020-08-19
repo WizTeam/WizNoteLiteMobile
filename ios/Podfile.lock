@@ -239,6 +239,8 @@ PODS:
     - React-cxxreact (= 0.63.2)
     - React-jsi (= 0.63.2)
   - React-jsinspector (0.63.2)
+  - react-native-fetch-blob (0.10.6):
+    - React-Core
   - react-native-get-random-values (1.4.0):
     - React
   - react-native-http-bridge (0.6.1):
@@ -368,6 +370,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-fetch-blob (from `../thirdparty/react-native-fetch-blob`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-http-bridge (from `../thirdparty/react-native-http-bridge`)
   - react-native-sqlite-storage (from `../thirdparty/react-native-sqlite-storage`)
@@ -437,6 +440,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-fetch-blob:
+    :path: "../thirdparty/react-native-fetch-blob"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
   react-native-http-bridge:
@@ -508,6 +513,7 @@ SPEC CHECKSUMS:
   React-jsi: 54245e1d5f4b690dec614a73a3795964eeef13a8
   React-jsiexecutor: 8ca588cc921e70590820ce72b8789b02c67cce38
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
+  react-native-fetch-blob: 0cbdf9764c75d9438c162427395f4bc35a857d5a
   react-native-get-random-values: 2b7500cdb68066aba87cdccd97067c29e16ffe95
   react-native-http-bridge: e10d82f3ecb1c4b84ac0cb8fa430649b1cf4602a
   react-native-sqlite-storage: 07e2d6678c29a20a6fe7adc13ef06630331d7820
@@ -531,6 +537,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 4f8103c5ca45a3baf2b6a05bdea7e7aa9c40bfbe
+PODFILE CHECKSUM: 876f6d325847b375e58d5f5f1f8d6abb67b293f3
 
 COCOAPODS: 1.8.4

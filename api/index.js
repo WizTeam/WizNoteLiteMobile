@@ -70,6 +70,10 @@ class Api {
 
   async syncData() {
     try {
+      if (this._user.isLocalUser) {
+        return;
+      }
+      //
       await this.refreshUserInfo();
       await this.syncKb(this.kbGuid, {
         noWait: true,

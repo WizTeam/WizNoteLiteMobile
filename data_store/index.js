@@ -87,6 +87,9 @@ function setCurrentNote(note) {
 }
 
 async function initUser() {
+  //
+  store.setData(KEYS.USER_INFO, api.user);
+  //
   const selectedType = api.getUserSettings(api.userGuid, KEYS.SELECTED_TYPE, '#allNotes');
   setSelectedType(selectedType);
   //

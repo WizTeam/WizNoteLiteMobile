@@ -46,15 +46,15 @@ StarredNotesScreen.options = {
       visible: true,
     },
     leftButtons: [
-      {
-        id: 'MainMenuButton',
-        component: {
-          name: 'MainMenuButton',
-        },
-        passProps: {
-          // Pass initial props to the button here
-        },
-      },
+      // {
+      //   id: 'MainMenuButton',
+      //   component: {
+      //     name: 'MainMenuButton',
+      //   },
+      //   passProps: {
+      //     // Pass initial props to the button here
+      //   },
+      // },
     ],
   },
 };

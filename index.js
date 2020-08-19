@@ -17,8 +17,10 @@ Navigation.events().registerAppLaunchedListener(async () => {
     await SyncStorage.init();
     iniI18nConfig();
     startResourceLoader();
-    await api.localLogin();
-    await dataStore.initUser();
+    const user = await api.localLogin();
+    if (user) {
+      await dataStore.initUser();
+    }
   } catch (err) {
     console.error(err);
   }
