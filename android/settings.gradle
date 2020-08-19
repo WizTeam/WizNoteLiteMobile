@@ -3,4 +3,8 @@ rootProject.name = 'WizNoteLiteMobile'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':react-native-sqlite-storage'
 project(':react-native-sqlite-storage').projectDir = new File(rootProject.projectDir, '../thirdparty/react-native-sqlite-storage/platforms/android-native')
+include ':react-native-http-bridge'
+project(':react-native-http-bridge').projectDir = new File(rootProject.projectDir, '../thirdparty/react-native-http-bridge/android')
+include(':react-native-fetch-blob')
+project(':react-native-fetch-blob').projectDir = new File(rootProject.projectDir, '../thirdparty/react-native-fetch-blob/android')
 include ':app'

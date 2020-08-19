@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.HashMap;
 import java.util.Random;
 
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 public class Server extends NanoHTTPD {
@@ -82,7 +81,7 @@ public class Server extends NanoHTTPD {
         return request;
     }
 
-    private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
+    private void sendEvent(ReactContext reactContext, String eventName, WritableMap params) {
         reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
     }
 }
