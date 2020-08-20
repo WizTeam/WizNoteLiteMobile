@@ -9,9 +9,9 @@ import { Header, ListItem } from 'react-native-elements';
 
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { isTablet } from 'react-native-device-detection';
 import i18n from 'i18n-js';
 import { DynamicValue, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { isTablet } from '../utils/device';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
 import api from '../api';

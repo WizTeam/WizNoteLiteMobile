@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.PackageList;
 import com.reactnativenavigation.NavigationApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -22,6 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import io.liteglue.SQLitePluginPackage;
+import me.alwx.HttpServer.HttpServerReactPackage;
 
 public class MainApplication extends NavigationApplication {
 
@@ -39,6 +41,8 @@ public class MainApplication extends NavigationApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
             packages.add(new SQLitePluginPackage());
+            packages.add(new HttpServerReactPackage());
+           packages.add(new RNFetchBlobPackage());
           return packages;
         }
 

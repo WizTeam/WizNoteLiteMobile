@@ -209,6 +209,8 @@ dependencies {
     }
 
     implementation project(':react-native-sqlite-storage')
+    implementation project(':react-native-http-bridge')
+    implementation project(':react-native-fetch-blob')
 }
 
 // Run this once to be able to run the application with BUCK
