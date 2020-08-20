@@ -1,12 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react';
 import assert from 'assert';
+import queryString from 'query-string';
 
-// import MarkdownEditor from './editor/src/index';
 import MarkdownEditor from 'wiz-react-markdown-editor';
 
 import 'wiz-react-markdown-editor/lib/index.min.css';
 import './App.css';
 
+
+const params = queryString.parse(window.location.search);
 
 class SaveDataQueue {
   constructor(onSave) {
@@ -51,10 +53,15 @@ function Editor(props) {
   function doSaveData({contentId, content}) {
     //
     const messageData = JSON.stringify({
+      event: 'saveData',
       contentId,
       markdown: content.markdown,
     });
-    window.postMessage('saveData', messageData);
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(messageData);
+    } else {
+      console.log(`request save data: contentId=${contentId}`);
+    }
     //
   }
 
@@ -84,8 +91,6 @@ function Editor(props) {
     });
   }
 
-  console.log(`render, contentId=`, props.contentId);
-
   useEffect(() => {
     // content changed
     saveDataQueueRef.current.push(null);
@@ -95,8 +100,12 @@ function Editor(props) {
     };
   }, [props.contentId, props.markdown]);
 
+  //
+  const theme = params.theme || 'lite';
+
   return (
     <MarkdownEditor
+      theme={theme}
       onChange={handleChange}
       markdown={props.markdown}
       resourceUrl={props.resourceUrl}

@@ -26,6 +26,7 @@
 		301F7E8624DBA1C3004C4968 /* zh-cn in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8324DBA1C2004C4968 /* zh-cn */; };
 		301F7E8724DBA1C3004C4968 /* en in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8424DBA1C2004C4968 /* en */; };
 		301F7E8824DBA1C3004C4968 /* default_note.html in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8524DBA1C2004C4968 /* default_note.html */; };
+		30AB5C4D24EE1DDE00BEE17A /* build in Resources */ = {isa = PBXBuildFile; fileRef = 30AB5C4C24EE1DDE00BEE17A /* build */; };
 		4F4E8EBB9FC015896EF16477 /* libPods-WizNoteLiteMobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7543716A2129D0D966569954 /* libPods-WizNoteLiteMobile-tvOSTests.a */; };
 		8017807D826BE5067D5889E5 /* libPods-WizNoteLiteMobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2883BBA261921F9D44C0E8B6 /* libPods-WizNoteLiteMobile-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -70,6 +71,7 @@
 		301F7E8324DBA1C2004C4968 /* zh-cn */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "zh-cn"; sourceTree = "<group>"; };
 		301F7E8424DBA1C2004C4968 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en; sourceTree = "<group>"; };
 		301F7E8524DBA1C2004C4968 /* default_note.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default_note.html; sourceTree = "<group>"; };
+		30AB5C4C24EE1DDE00BEE17A /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../web_editor/build; sourceTree = "<group>"; };
 		3A2E8258D141E5ACDE5E1E8A /* Pods-WizNoteLiteMobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		3A5086FD14FEBB43765E59EA /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5490F16C354F9B60C9C99EC8 /* Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOSTests/Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		301F7E6224DB9C21004C4968 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				30AB5C4C24EE1DDE00BEE17A /* build */,
 				301F7E8524DBA1C2004C4968 /* default_note.html */,
 				301F7E8424DBA1C2004C4968 /* en */,
 				301F7E8324DBA1C2004C4968 /* zh-cn */,
@@ -405,6 +408,7 @@
 				301F7E8824DBA1C3004C4968 /* default_note.html in Resources */,
 				301F7E8624DBA1C3004C4968 /* zh-cn in Resources */,
 				301F7E8724DBA1C3004C4968 /* en in Resources */,
+				30AB5C4D24EE1DDE00BEE17A /* build in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);

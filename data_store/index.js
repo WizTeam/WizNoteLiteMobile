@@ -97,6 +97,7 @@ async function initUser() {
   if (currentNoteGuid) {
     //
     const note = await api.getNote(null, currentNoteGuid);
+    note.markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
     setCurrentNote(note);
   }
   //

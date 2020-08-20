@@ -35,7 +35,6 @@ function getLocale() {
 async function doStandardPost(options) {
   //
   const headers = options.headers;
-  const contentType = (headers && headers['Content-Type']) || 'multipart/form-data';
   //
   const data = [];
   for (const pair of options.data._parts) {

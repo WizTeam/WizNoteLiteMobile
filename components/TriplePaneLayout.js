@@ -35,6 +35,9 @@ class TriplePaneLayout extends React.Component {
     const containerWidth = nativeEvent.layout.width;
     const containerHeight = nativeEvent.layout.height;
     const isLandscape = containerWidth > containerHeight;
+    if (this.props.onLayout) {
+      this.props.onLayout({ nativeEvent, isLandscape });
+    }
     this.setState({
       containerWidth,
       // containerHeight,

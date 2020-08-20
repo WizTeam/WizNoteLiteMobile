@@ -1,7 +1,7 @@
 const axios = require('axios');
 const httpBridge = require('../thirdparty/react-native-http-bridge');
 
-const PORT = 5569;
+export const PORT = 5569;
 
 export function startResourceLoader() {
   console.log(1);

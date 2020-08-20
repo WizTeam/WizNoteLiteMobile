@@ -10,7 +10,7 @@ const UserButton: () => React$Node = (props) => {
   }, []);
 
   const userInfo = props[KEYS.USER_INFO] || {};
-  console.log('userInfo', userInfo);
+  // console.log('userInfo', userInfo);
 
   function handleClick() {
     if (userInfo.isLocalUser) {

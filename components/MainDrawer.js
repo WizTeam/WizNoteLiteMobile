@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   TouchableHighlight,
-  StyleSheet,
   ScrollView,
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
@@ -12,6 +11,7 @@ import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { isTablet } from 'react-native-device-detection';
 import i18n from 'i18n-js';
+import { DynamicValue, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
 import api from '../api';
@@ -20,6 +20,8 @@ import UserButton from './UserButton';
 import { setLoginAsRoot } from '../services/navigation';
 
 const MainDrawer: () => React$Node = (props) => {
+  //
+  const styles = useDynamicValue(dynamicStyles);
   //
   function handleCloseDrawer() {
     RNNDrawer.dismissDrawer();
@@ -205,7 +207,7 @@ const MainDrawer: () => React$Node = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const dynamicStyles = new DynamicStyleSheet({
   root: {
     flex: 1,
   },
@@ -216,14 +218,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   item: {
-    backgroundColor: '#333333',
+    backgroundColor: 'transparent',
     paddingLeft: 44,
   },
   itemTitle: {
-    color: 'white',
+    color: new DynamicValue('rgb(51, 51, 51)', 'rgb(240, 240, 240)'),
   },
   treeItem: {
-    backgroundColor: '#333333',
+    backgroundColor: 'transparent',
     marginLeft: 0,
     paddingLeft: 0,
   },
@@ -231,13 +233,13 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     paddingHorizontal: 0,
-    backgroundColor: '#333333',
+    backgroundColor: 'transparent',
   },
   treeItemTitleStyle: {
     paddingTop: 0,
     paddingBottom: 0,
     paddingLeft: 0,
-    color: 'white',
+    color: new DynamicValue('rgb(51, 51, 51)', 'rgb(240, 240, 240)'),
     paddingHorizontal: 0,
   },
   treeItemContentContainerStyle: {
