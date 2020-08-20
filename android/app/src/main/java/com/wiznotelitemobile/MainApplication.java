@@ -42,7 +42,7 @@ public class MainApplication extends NavigationApplication {
           // packages.add(new MyReactNativePackage());
             packages.add(new SQLitePluginPackage());
             packages.add(new HttpServerReactPackage());
-//            packages.add(new RNFetchBlobPackage());
+           packages.add(new RNFetchBlobPackage());
           return packages;
         }
 
