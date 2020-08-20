@@ -1,5 +1,5 @@
 import { Navigation } from 'react-native-navigation';
-import { isTablet } from 'react-native-device-detection';
+import { isTablet } from '../utils/device';
 
 export function setLoginAsRoot() {
   Navigation.setRoot({
