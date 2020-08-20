@@ -8,6 +8,7 @@ import TriplePaneLayout from '../components/TriplePaneLayout';
 import MainDrawer from '../components/MainDrawer';
 import CategoryNoteList from '../components/CategoryNoteList';
 import NoteEditor from '../components/NoteEditor';
+import ThemedStatusBar from '../components/ThemedStatusBar';
 
 const useForceUpdate = () => useState()[1];
 
@@ -38,10 +39,11 @@ const PadMainScreen: () => React$Node = () => {
 
   return (
     <ColorSchemeProvider>
+      <ThemedStatusBar />
       <TriplePaneLayout
         onLayout={forceUpdate}
-        pane1Width={300}
-        pane2Width={400}
+        pane1Width={192}
+        pane2Width={320}
         pane1={<MainDrawer style={styles.drawer} />}
         pane2={(
           <View style={styles.noteListContainer}>
