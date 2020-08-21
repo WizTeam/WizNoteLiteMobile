@@ -42,6 +42,7 @@
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}],
     "import/prefer-default-export": ["off"],
     "no-use-before-define": ["off"],
+    "global-require": ["off"],
     "object-curly-newline": ["error", {
       // "ObjectExpression": "always",
       "ObjectPattern": { "multiline": true },

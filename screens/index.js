@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import { Navigation } from 'react-native-navigation';
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 

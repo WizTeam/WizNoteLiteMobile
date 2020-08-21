@@ -1,6 +1,18 @@
 import { Navigation } from 'react-native-navigation';
 import { isTablet } from '../utils/device';
 
+export function setDefaultNavigationOptions() {
+  Navigation.setDefaultOptions({
+    bottomTabs: {
+      titleDisplayMode: 'alwaysShow',
+    },
+    bottomTab: {
+      selectedIconColor: 'red',
+      selectedTextColor: 'red',
+    },
+  });
+}
+
 export function setLoginAsRoot() {
   Navigation.setRoot({
     root: {
@@ -53,6 +65,7 @@ export function setMainAsRoot() {
                 options: {
                   bottomTab: {
                     text: 'Notes',
+                    icon: require('../images/icons/notes.png'),
                   },
                   topBar: {
                     title: {
@@ -79,6 +92,7 @@ export function setMainAsRoot() {
                   },
                   bottomTab: {
                     text: 'Starred',
+                    icon: require('../images/icons/starred.png'),
                   },
                 },
               },
@@ -100,6 +114,7 @@ export function setMainAsRoot() {
                   },
                   bottomTab: {
                     text: 'Search',
+                    icon: require('../images/icons/search.png'),
                   },
                 },
               },
