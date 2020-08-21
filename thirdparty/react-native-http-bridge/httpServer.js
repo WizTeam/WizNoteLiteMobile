@@ -1,32 +1,31 @@
 /**
  * @providesModule react-native-http-server
  */
-'use strict';
+import { NativeEventEmitter, NativeModules } from 'react-native';
 
-import {DeviceEventEmitter} from 'react-native';
-import {NativeModules} from 'react-native';
-var Server = NativeModules.HttpServer;
+const Server = NativeModules.HttpServer;
+const eventObject = new NativeEventEmitter(Server);
 
 module.exports = {
-    start: function (port, serviceName, callback) {
-        if (port == 80) {
-            throw "Invalid server port specified. Port 80 is reserved.";
-        }
+  start: function start(port, serviceName, callback) {
+    if (port === 80) {
+      throw new Error('Invalid server port specified. Port 80 is reserved.');
+    }
 
-        Server.start(port, serviceName);
-        DeviceEventEmitter.addListener('httpServerResponseReceived', callback);
-    },
+    Server.start(port, serviceName);
+    eventObject.addListener('httpServerResponseReceived', callback);
+  },
 
-    stop: function () {
-        Server.stop();
-        DeviceEventEmitter.removeAllListeners('httpServerResponseReceived');
-    },
+  stop: function stop() {
+    Server.stop();
+    eventObject.removeAllListeners('httpServerResponseReceived');
+  },
 
-    respond: function (requestId, code, type, body) {
-        Server.respond(requestId, code, type, body);
-    },
+  respond: function respond(requestId, code, type, body) {
+    Server.respond(requestId, code, type, body);
+  },
 
-    respondWithFile: function (requestId, code, type, file) {
-      Server.respondWithFile(requestId, code, type, file);
-  }
-}
+  respondWithFile: function respondWithFile(requestId, code, type, file) {
+    Server.respondWithFile(requestId, code, type, file);
+  },
+};

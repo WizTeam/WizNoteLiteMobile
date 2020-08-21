@@ -1,5 +1,6 @@
 #import "RCTHttpServer.h"
 #import "React/RCTBridge.h"
+#import "React/RCTEventEmitter.h"
 #import "React/RCTLog.h"
 #import "React/RCTEventDispatcher.h"
 
@@ -9,7 +10,7 @@
 #import "GCDWebServerPrivate.h"
 #include <stdlib.h>
 
-@interface RCTHttpServer : NSObject <RCTBridgeModule> {
+@interface RCTHttpServer : RCTEventEmitter <RCTBridgeModule> {
     GCDWebServer* _webServer;
     NSMutableDictionary* _completionBlocks;
 }
@@ -23,6 +24,10 @@ static RCTBridge *bridge;
 
 RCT_EXPORT_MODULE();
 
+- (NSArray<NSString *> *)supportedEvents
+{
+    return @[@"httpServerResponseReceived"];
+}
 
 - (void)initResponseReceivedFor:(GCDWebServer *)server forType:(NSString*)type {
     [server addDefaultHandlerForMethod:type
@@ -44,19 +49,19 @@ RCT_EXPORT_MODULE();
         @try {
             if ([GCDWebServerTruncateHeaderValue(request.contentType) isEqualToString:@"application/json"]) {
                 GCDWebServerDataRequest* dataRequest = (GCDWebServerDataRequest*)request;
-                [self.bridge.eventDispatcher sendAppEventWithName:@"httpServerResponseReceived"
+                [self sendEventWithName:@"httpServerResponseReceived"
                                                              body:@{@"requestId": requestId,
                                                                     @"postData": dataRequest.jsonObject,
                                                                     @"type": type,
                                                                     @"url": request.URL.relativeString}];
             } else {
-                [self.bridge.eventDispatcher sendAppEventWithName:@"httpServerResponseReceived"
+                [self sendEventWithName:@"httpServerResponseReceived"
                                                              body:@{@"requestId": requestId,
                                                                     @"type": type,
                                                                     @"url": request.URL.relativeString}];
             }
         } @catch (NSException *exception) {
-            [self.bridge.eventDispatcher sendAppEventWithName:@"httpServerResponseReceived"
+            [self sendEventWithName:@"httpServerResponseReceived"
                                                          body:@{@"requestId": requestId,
                                                                 @"type": type,
                                                                 @"url": request.URL.relativeString}];
@@ -68,7 +73,6 @@ RCT_EXPORT_METHOD(start:(NSInteger) port
                   serviceName:(NSString *) serviceName)
 {
     RCTLogInfo(@"Running HTTP bridge server: %ld", port);
-    NSMutableDictionary *_requestResponses = [[NSMutableDictionary alloc] init];
     
     dispatch_sync(dispatch_get_main_queue(), ^{
         _webServer = [[GCDWebServer alloc] init];
@@ -126,6 +130,8 @@ RCT_EXPORT_METHOD(respondWithFile: (NSString *) requestId
         [_completionBlocks removeObjectForKey:requestId];
     }
 
+    if (!completionBlock) return;
+    //
     completionBlock(requestResponse);
 }
 
