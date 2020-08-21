@@ -10,7 +10,7 @@ import { Header, ListItem } from 'react-native-elements';
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import i18n from 'i18n-js';
-import { DynamicValue, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { isTablet } from '../utils/device';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
@@ -18,6 +18,7 @@ import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
 import { setLoginAsRoot } from '../services/navigation';
+import Colors, { getColor, getDynamicColor, getDeviceDynamicColor } from '../config/Colors';
 
 const MainDrawer: () => React$Node = (props) => {
   //
@@ -131,7 +132,7 @@ const MainDrawer: () => React$Node = (props) => {
         containerStyle={{
           borderBottomColor: 'transparent',
         }}
-        rightComponent={(
+        rightComponent={!isTablet && (
           <View style={{ marginRight: 8 }}>
             <TouchableHighlight onPress={handleCloseDrawer}>
               <View
@@ -140,7 +141,7 @@ const MainDrawer: () => React$Node = (props) => {
                   paddingTop: 10,
                 }}
               >
-                <Icon name="close" style={styles.icon} size={24} color="white" />
+                <Icon name="close" style={styles.icon} size={24} />
               </View>
             </TouchableHighlight>
           </View>
@@ -211,6 +212,9 @@ const dynamicStyles = new DynamicStyleSheet({
   root: {
     flex: 1,
   },
+  icon: {
+    color: getDynamicColor('closeDrawerButton'),
+  },
   scrollView: {
     backgroundColor: 'transparent',
     minHeight: '100%',
@@ -222,7 +226,7 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingLeft: 44,
   },
   itemTitle: {
-    color: new DynamicValue('rgb(51, 51, 51)', 'rgb(240, 240, 240)'),
+    color: getDeviceDynamicColor('drawerItemTitle'),
   },
   treeItem: {
     backgroundColor: 'transparent',
@@ -239,7 +243,7 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingTop: 0,
     paddingBottom: 0,
     paddingLeft: 0,
-    color: new DynamicValue('rgb(51, 51, 51)', 'rgb(240, 240, 240)'),
+    color: getDeviceDynamicColor('drawerItemTitle'),
     paddingHorizontal: 0,
   },
   treeItemContentContainerStyle: {
@@ -249,7 +253,7 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   selectedMarker: {
     paddingRight: 18,
-    color: 'rgb(46, 100, 172)',
+    color: Colors.light.primary,
   },
   itemRightElement: {
     display: 'flex',
@@ -286,8 +290,7 @@ export function showDrawer(parentComponentId) {
         drawerScreenWidth: '100%' || 445, // Use relative to screen '%' or absolute
         drawerScreenHeight: '100%' || 700,
         style: { // Styles the drawer container, supports any react-native style
-          // backgroundColor: '#333333',
-          backgroundColor: '#333333',
+          backgroundColor: getColor('drawerBackground'),
         },
         // Custom prop, will be available in your custom drawer component props
         // eslint-disable-next-line react/prop-types

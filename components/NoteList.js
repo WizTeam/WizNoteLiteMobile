@@ -7,7 +7,9 @@ import {
   Divider,
 } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { DynamicStyleSheet, DynamicValue, useDynamicValue } from 'react-native-dynamic';
+import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
+import { getDeviceDynamicColor } from '../config/Colors';
+import { isTablet } from '../utils/device';
 
 import { formatDateString } from '../utils/date';
 
@@ -28,7 +30,7 @@ const NoteList: () => React$Node = (props) => {
     const note = item;
     const selected = note.guid === props.selectedNoteGuid;
     //
-    const hideDivider = selected || index === selectedIndex - 1;
+    const hideDivider = isTablet && (selected || index === selectedIndex - 1);
     const showDivider = !hideDivider;
     //
     return (
@@ -69,25 +71,25 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   itemContainer: {
     paddingLeft: 22,
-    backgroundColor: new DynamicValue('rgb(240, 240, 240)', 'rgb(42, 42, 42)'),
+    backgroundColor: getDeviceDynamicColor('noteListBackground'),
   },
   selected: {
-    backgroundColor: new DynamicValue('white', 'rgb(51, 51, 51)'),
+    backgroundColor: getDeviceDynamicColor('noteListSelectedBackground'),
   },
   title: {
     fontSize: 16,
     fontWeight: '400',
     paddingBottom: 8,
-    color: new DynamicValue('rgb(51, 51, 51)', 'rgb(240, 240, 240)'),
+    color: getDeviceDynamicColor('noteListTitle'),
   },
   subtitle: {
     fontSize: 14,
-    color: new DynamicValue('rgb(170, 170, 170)', 'rgb(170, 170, 170)'),
+    color: getDeviceDynamicColor('noteListSubTitle'),
   },
   divider: {
     marginLeft: 22,
     marginRight: 16,
-    backgroundColor: new DynamicValue('rgb(216, 216, 216)', 'rgb(64, 64, 64)'),
+    backgroundColor: getDeviceDynamicColor('noteListDivider'),
     // color: 'red',
   },
   star: {

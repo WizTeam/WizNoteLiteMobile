@@ -1,17 +1,6 @@
 import { Navigation } from 'react-native-navigation';
-import { isTablet } from '../utils/device';
 
-export function setDefaultNavigationOptions() {
-  Navigation.setDefaultOptions({
-    bottomTabs: {
-      titleDisplayMode: 'alwaysShow',
-    },
-    bottomTab: {
-      selectedIconColor: 'red',
-      selectedTextColor: 'red',
-    },
-  });
-}
+import { isTablet } from '../utils/device';
 
 export function setLoginAsRoot() {
   Navigation.setRoot({
