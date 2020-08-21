@@ -6,6 +6,9 @@
 
 ```bash
 npm i
+cd ios
+pod install
+cd ..
 cd web_editor
 npm i
 npm run build

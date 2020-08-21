@@ -70,10 +70,10 @@ RCT_EXPORT_METHOD(start:(NSInteger) port
     dispatch_sync(dispatch_get_main_queue(), ^{
         _webServer = [[GCDWebServer alloc] init];
         
-        [self initResponseReceivedFor:_webServer forType:@"POST"];
-        [self initResponseReceivedFor:_webServer forType:@"PUT"];
+//        [self initResponseReceivedFor:_webServer forType:@"POST"];
+//        [self initResponseReceivedFor:_webServer forType:@"PUT"];
         [self initResponseReceivedFor:_webServer forType:@"GET"];
-        [self initResponseReceivedFor:_webServer forType:@"DELETE"];
+//        [self initResponseReceivedFor:_webServer forType:@"DELETE"];
         
         [_webServer startWithPort:port bonjourName:serviceName];
     });
@@ -96,6 +96,24 @@ RCT_EXPORT_METHOD(respond: (NSString *) requestId
                   body: (NSString *) body)
 {
     NSData* data = [body dataUsingEncoding:NSUTF8StringEncoding];
+    GCDWebServerDataResponse* requestResponse = [[GCDWebServerDataResponse alloc] initWithData:data contentType:type];
+    requestResponse.statusCode = code;
+
+    GCDWebServerCompletionBlock completionBlock = nil;
+    @synchronized (self) {
+        completionBlock = [_completionBlocks objectForKey:requestId];
+        [_completionBlocks removeObjectForKey:requestId];
+    }
+
+    completionBlock(requestResponse);
+}
+
+RCT_EXPORT_METHOD(respondWithFile: (NSString *) requestId
+                  code: (NSInteger) code
+                  type: (NSString *) type
+                  file: (NSString *) file)
+{
+    NSData* data = [NSData dataWithContentsOfFile:file];
     GCDWebServerDataResponse* requestResponse = [[GCDWebServerDataResponse alloc] initWithData:data contentType:type];
     requestResponse.statusCode = code;
 

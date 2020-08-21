@@ -102,6 +102,8 @@ function Editor(props) {
 
   //
   const theme = params.theme || 'lite';
+  //
+  console.log(`resourceUrl: ${props.resourceUrl}`);
 
   return (
     <MarkdownEditor

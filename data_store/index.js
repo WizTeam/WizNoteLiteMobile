@@ -7,6 +7,7 @@ export { connect } from '../simple_store';
 
 export const KEYS = {
   USER_INFO: 'userInfo',
+  CURRENT_KB: 'kbGuid',
   SELECTED_TYPE: 'selectedType',
   CATEGORY_NOTES: 'categoryNotes',
   STARRED_NOTES: 'starredNotes',
@@ -86,9 +87,14 @@ function setCurrentNote(note) {
   api.setUserSettings(api.userGuid, 'selectedNoteGuid', note?.guid);
 }
 
+function setCurrentKb(kbGuid) {
+  store.setData(KEYS.CURRENT_KB, kbGuid);
+}
+
 async function initUser() {
   //
   store.setData(KEYS.USER_INFO, api.user);
+  store.setData(KEYS.CURRENT_KB, api.user.kbGuid);
   //
   const selectedType = api.getUserSettings(api.userGuid, KEYS.SELECTED_TYPE, '#allNotes');
   setSelectedType(selectedType);
@@ -125,6 +131,7 @@ async function initStarredNotes() {
 
 export default {
   initUser,
+  setCurrentKb,
   //
   setSelectedType,
   setCurrentNote,
