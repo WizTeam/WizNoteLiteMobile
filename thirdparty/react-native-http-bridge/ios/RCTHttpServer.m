@@ -33,9 +33,12 @@ RCT_EXPORT_MODULE();
         int r = arc4random_uniform(1000000);
         NSString *requestId = [NSString stringWithFormat:@"%lld:%d", milliseconds, r];
 
-        _completionBlocks = [[NSMutableDictionary alloc] init];
+        
          @synchronized (self) {
-             [_completionBlocks setObject:completionBlock forKey:requestId];
+             if (!self->_completionBlocks) {
+                 self->_completionBlocks = [[NSMutableDictionary alloc] init];
+             }
+             [self->_completionBlocks setObject:completionBlock forKey:requestId];
          }
 
         @try {
