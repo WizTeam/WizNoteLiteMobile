@@ -1,4 +1,3 @@
-const axios = require('axios');
 const url = require('url');
 const path = require('path');
 const sdk = require('wiznote-sdk-js');
@@ -63,13 +62,4 @@ export function startResourceLoader() {
       httpBridge.respond(request.requestId, 400, 'application/json', '{"message": "Bad Request"}');
     }
   });
-
-  setTimeout(async () => {
-    try {
-      const ret = await axios(`http://localhost:${PORT}/6d4038e3-e78e-102c-91bb-4abbcbc78238/1bb811b2-3a09-11e2-a9b7-907ab51b66ae/fd82ea8e-b7a3-43a8-9229-aa7a7cdaabe1/index_files/en-preview.gif`);
-      console.log(ret.data);
-    } catch (err) {
-      console.error(err);
-    }
-  }, 1000);
 }

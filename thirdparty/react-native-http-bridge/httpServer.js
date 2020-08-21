@@ -24,5 +24,9 @@ module.exports = {
 
     respond: function (requestId, code, type, body) {
         Server.respond(requestId, code, type, body);
-    }
+    },
+
+    respondWithFile: function (requestId, code, type, file) {
+      Server.respondWithFile(requestId, code, type, file);
+  }
 }

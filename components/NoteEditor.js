@@ -5,6 +5,7 @@ import { useDarkMode } from 'react-native-dynamic';
 
 import { PORT } from '../services/resources_loader';
 import dataStore, { KEYS, connect } from '../data_store';
+import api from '../api';
 import app from '../wrapper/app';
 
 const NoteEditor: () => React$Node = (props) => {
@@ -22,7 +23,7 @@ const NoteEditor: () => React$Node = (props) => {
     // console.log(`load note: ${note.markdown}`);
     const data = {
       markdown: note.markdown,
-      resourceUrl: `http://localhost:${PORT}/res/${kbGuid}/${note.guid}`,
+      resourceUrl: `http://localhost:${PORT}/${api.userGuid}/${kbGuid}/${note.guid}`,
       contentId: note.guid,
     };
     const dataText = JSON.stringify(data);
