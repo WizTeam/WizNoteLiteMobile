@@ -8,6 +8,11 @@ const light = {
   bottomTabText: '#333333',
   drawerBackground: 'white',
   closeDrawerButton: 'rgb(51, 51, 51)',
+  loginBoxBackground: '#ffffff',
+  loginBoxText: '#333333',
+  loginBoxText2: '#333333',
+  loginBoxInputBackground: '#f0f0f0',
+  loginBoxButtonBackground: '#333333',
   //
   phone: {
     noteListBackground: 'white',
@@ -30,6 +35,11 @@ const dark = merge({}, light, {
   bottomTabText: 'rgb(216, 216, 216)',
   drawerBackground: '#333333',
   closeDrawerButton: 'rgb(240, 240, 240)',
+  loginBoxBackground: '#606266',
+  loginBoxText: '#ffffff',
+  loginBoxText2: '#aaaaaa',
+  loginBoxInputBackground: '#53565c',
+  loginBoxButtonBackground: '#000000',
 
   phone: {
     noteListBackground: 'rgb(42, 42, 42)',
