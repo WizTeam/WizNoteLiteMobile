@@ -4,15 +4,11 @@ import { WebView } from 'react-native-webview';
 import { useDarkMode } from 'react-native-dynamic';
 
 import { PORT } from '../services/resources_loader';
-import dataStore, { KEYS, connect } from '../data_store';
+import { KEYS, connect } from '../data_store';
 import api from '../api';
 import app from '../wrapper/app';
 
 const NoteEditor: () => React$Node = (props) => {
-  useEffect(() => {
-    dataStore.initStarredNotes();
-  }, []);
-
   const webViewRef = useRef(null);
   const isLoadedRef = useRef(false);
   //
@@ -20,6 +16,7 @@ const NoteEditor: () => React$Node = (props) => {
     if (!note) {
       return;
     }
+    console.log(`load note: ${note.title}`);
     // console.log(`load note: ${note.markdown}`);
     const data = {
       markdown: note.markdown,
@@ -60,6 +57,7 @@ const NoteEditor: () => React$Node = (props) => {
   const resPath = app.getPath('res');
   // const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}`;
   const editorHtmlPath = `http://localhost:3000?theme=${theme}`;
+  console.log(`load html: ${editorHtmlPath}`);
   //
   return (
     <View style={props.containerStyle}>

@@ -10,6 +10,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import { getDeviceDynamicColor } from '../config/Colors';
 import { isTablet } from '../utils/device';
+import dataStore from '../data_store';
+import api from '../api';
 
 import { formatDateString } from '../utils/date';
 
@@ -23,7 +25,12 @@ const NoteList: () => React$Node = (props) => {
   const selectedIndex = notes.findIndex((note) => note.guid === props.selectedNoteGuid);
   //
   async function handlerPressItem(note) {
-    props.onPressNote(note);
+    const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
+    const newNote = { ...note, markdown };
+    dataStore.setCurrentNote(newNote);
+    if (props.onPressNote) {
+      props.onPressNote(newNote);
+    }
   }
   //
   function renderItem({ item, index }) {

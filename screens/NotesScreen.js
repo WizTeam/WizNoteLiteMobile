@@ -53,6 +53,21 @@ const NotesScreen: () => React$Node = (props) => {
     updateBottomTabButton(props.componentId, themeName);
   }
 
+  function handlePressNote() {
+    Navigation.push(props.componentId, {
+      component: {
+        name: 'NoteScreen', // Push the screen registered with the 'Settings' key
+        options: { // Optional options object to configure the screen
+          topBar: {
+            title: {
+              // text: 'Settings', // Set the TopBar title of the new Screen
+            },
+          },
+        },
+      },
+    });
+  }
+
   const styles = useDynamicValue(dynamicStyles);
 
   return (
@@ -63,7 +78,7 @@ const NotesScreen: () => React$Node = (props) => {
           style={styles.root}
           left={showDrawer}
         >
-          <CategoryNoteList style={styles.body} showStar />
+          <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
         </SideMenuView>
       </SafeAreaView>
     </ColorSchemeProvider>
