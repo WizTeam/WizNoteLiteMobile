@@ -9,23 +9,35 @@
 import React, { useState } from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
   ScrollView,
   View,
   Text,
-  StatusBar,
   Alert,
 } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { DynamicValue, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
 import { setMainAsRoot } from '../services/navigation';
 import api from '../api';
 import dataStore from '../data_store';
 
+import ThemedStatusBar from '../components/ThemedStatusBar';
+import LoginVackgroundLight from '../components/svg/LoginBackgroundLight';
+import LoginBackgroundDark from '../components/svg/LoginBackgroundDark';
+import LoginBannerLight from '../components/svg/LoginBannerLight';
+import LoginBannerDark from '../components/svg/LoginBannerDark';
+
+const loginBackground = new DynamicValue(LoginVackgroundLight, LoginBackgroundDark);
+const loginBanner = new DynamicValue(LoginBannerLight, LoginBannerDark);
+
 const LoginScreen: () => React$Node = () => {
+  const styles = useDynamicValue(dynamicStyles);
+  const Background = useDynamicValue(loginBackground);
+  const Banner = useDynamicValue(loginBanner);
+
   const [isLogin, setLogin] = useState(true);
   const [isPrivateServer, setUsePrivateServer] = useState(false);
 
@@ -241,14 +253,20 @@ const LoginScreen: () => React$Node = () => {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
+      <ThemedStatusBar />
+      <Background />
+      <SafeAreaView style={styles.root}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
         >
           <View style={styles.body}>
-            <View style={styles.tab}>
+            <Banner style={styles.title} />
+            <View style={styles.shadowBox}>
+              <View style={styles.tab}>
+                <Button disabled={isWorking} type="clear" titleStyle={isLogin ? styles.selectedButton : styles.normalButton} title={i18n.t('tabLogin')} onPress={handleSwitchLogin} />
+                <Button disabled={isWorking} type="clear" titleStyle={!isLogin ? styles.selectedButton : styles.normalButton} title={i18n.t('tabRegister')} onPress={handleSwitchSignUp} />
+              </View>
               <Dropdown
                 containerStyle={styles.serverDropdown}
                 label="WizNote Server"
@@ -257,26 +275,43 @@ const LoginScreen: () => React$Node = () => {
                 onChangeText={handleChangeServerType}
                 disabled={isWorking}
               />
-              <Button disabled={isWorking} type="clear" titleStyle={isLogin ? styles.selectedButton : styles.normalButton} title={i18n.t('tabLogin')} onPress={handleSwitchLogin} />
-              <Button disabled={isWorking} type="clear" titleStyle={!isLogin ? styles.selectedButton : styles.normalButton} title={i18n.t('tabRegister')} onPress={handleSwitchSignUp} />
-
+              <View style={styles.sectionContainer}>
+                <Input
+                  containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.input}
+                  disabled={isWorking}
+                  textContentType="username"
+                  placeholder={i18n.t('placeholderUserId')}
+                  errorMessage={userIdErrorMessage}
+                  onChangeText={handleChangeUserId}
+                />
+                <Input
+                  containerStyle={styles.inputContainer}
+                  inputContainerStyle={styles.input}
+                  disabled={isWorking}
+                  textContentType="password"
+                  placeholder={i18n.t('placeholderUserPassword')}
+                  errorMessage={passwordErrorMessage}
+                  secureTextEntry
+                  onChangeText={handleChangePassword}
+                />
+                {isPrivateServer && <Input containerStyle={styles.inputContainer} inputContainerStyle={styles.input} disabled={isWorking} placeholder={i18n.t('placeholderPrivateServer')} errorMessage={serverErrorMessage} onChangeText={handleChangeServerUrl} />}
+              </View>
+              <View style={{ ...styles.sectionContainer, ...styles.buttonBox }}>
+                {isLogin && <Button buttonStyle={styles.button} loading={isWorking} disabled={isWorking} title={i18n.t('buttonLogin')} onPress={handleLogin} />}
+                {!isLogin && <Button buttonStyle={styles.button} loading={isWorking} disabled={isWorking} title={i18n.t('buttonSignUp')} onPress={handleSignUp} />}
+              </View>
+              <View style={styles.sectionContainer}>
+                {isLogin && <Button titleStyle={styles.forgotButton} type="clear" title={i18n.t('buttonForgotPassword')} onPress={handleSignUp} />}
+              </View>
             </View>
-            <View style={styles.sectionContainer}>
-              <Input disabled={isWorking} textContentType="username" placeholder={i18n.t('placeholderUserId')} errorMessage={userIdErrorMessage} onChangeText={handleChangeUserId} />
-              <Input disabled={isWorking} textContentType="password" placeholder={i18n.t('placeholderUserPassword')} errorMessage={passwordErrorMessage} secureTextEntry onChangeText={handleChangePassword} />
-              {isPrivateServer && <Input disabled={isWorking} placeholder={i18n.t('placeholderPrivateServer')} errorMessage={serverErrorMessage} onChangeText={handleChangeServerUrl} />}
-            </View>
-            <View style={styles.sectionContainer}>
-              {isLogin && <Button loading={isWorking} disabled={isWorking} title={i18n.t('buttonLogin')} onPress={handleLogin} />}
-              {!isLogin && <Button loading={isWorking} disabled={isWorking} title={i18n.t('buttonSignUp')} onPress={handleSignUp} />}
-
-            </View>
-            <View style={styles.sectionContainer}>
-              {isLogin && <Button type="clear" title={i18n.t('buttonForgotPassword')} onPress={handleSignUp} />}
-            </View>
+            <Text style={styles.declare}>
+              By Signing in, you agree the Terms of Service and Privacy Policy
+            </Text>
           </View>
         </ScrollView>
       </SafeAreaView>
+      {/* </ImageBackground> */}
     </>
   );
 };
@@ -287,18 +322,49 @@ LoginScreen.options = {
   },
 };
 
-const styles = StyleSheet.create({
+const dynamicStyles = new DynamicStyleSheet({
+  root: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
   scrollView: {
-    backgroundColor: Colors.lighter,
+    // backgroundColor: Colors.lighter,
     minHeight: '100%',
   },
   body: {
-    backgroundColor: Colors.white,
+    // backgroundColor: Colors.white,
     minHeight: '100%',
+  },
+  title: {
+    marginTop: 35,
+  },
+  shadowBox: {
+    marginTop: 40,
+    marginHorizontal: 12,
+    paddingBottom: 55,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
+  },
+  image: {
+    // resizeMode: 'cover',
+    flex: 1,
+    width: null,
+    height: null,
   },
   sectionContainer: {
     marginTop: 32,
-    paddingHorizontal: 24,
+    paddingHorizontal: 32,
+  },
+  buttonBox: {
+    marginTop: 16,
   },
   sectionTitle: {
     fontSize: 24,
@@ -310,18 +376,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 24,
-    paddingTop: 64,
+    paddingTop: 32,
   },
   normalButton: {
-
+    color: '#333333',
+    fontSize: 16,
+  },
+  inputContainer: {
+    paddingHorizontal: 0,
+  },
+  input: {
+    backgroundColor: '#f0f0f0',
+    borderBottomWidth: 0,
+    borderRadius: 2,
+    paddingHorizontal: 9,
   },
   selectedButton: {
     fontSize: 24,
     fontWeight: '600',
+    color: '#333333',
   },
   serverDropdown: {
-    minWidth: 200,
-    flexGrow: 1,
+    // minWidth: 200,
+    // flexGrow: 1,
+    paddingHorizontal: 32,
+    marginTop: 32,
   },
   serverDropdownBase: {
     paddingTop: 4,
@@ -330,6 +409,20 @@ const styles = StyleSheet.create({
   },
   serverDropdownText: {
     fontSize: 18,
+  },
+  declare: {
+    marginTop: 80,
+    fontSize: 12,
+    lineHeight: 22,
+    color: '#333333',
+    textAlign: 'center',
+    paddingHorizontal: 68,
+  },
+  button: {
+    backgroundColor: '#333333',
+  },
+  forgotButton: {
+    color: '#333333',
   },
 });
 
