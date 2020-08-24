@@ -16,11 +16,7 @@
 }
 @end
 
-static RCTBridge *bridge;
-
 @implementation RCTHttpServer
-
-@synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE();
 

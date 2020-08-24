@@ -87,14 +87,25 @@ function setCurrentNote(note) {
   api.setUserSettings(api.userGuid, 'selectedNoteGuid', note?.guid);
 }
 
+function getCurrentNote() {
+  return store.getData(KEYS.CURRENT_NOTE);
+}
+
 function setCurrentKb(kbGuid) {
   store.setData(KEYS.CURRENT_KB, kbGuid);
+  console.log('set current kb', kbGuid);
+}
+
+function getCurrentKb() {
+  return store.getData(KEYS.CURRENT_KB);
 }
 
 async function initUser() {
   //
+  const kbGuid = api.user.kbGuid;
   store.setData(KEYS.USER_INFO, api.user);
-  store.setData(KEYS.CURRENT_KB, api.user.kbGuid);
+  store.setData(KEYS.CURRENT_KB, kbGuid);
+  console.log('set current kb', kbGuid);
   //
   const selectedType = api.getUserSettings(api.userGuid, KEYS.SELECTED_TYPE, '#allNotes');
   setSelectedType(selectedType);
@@ -103,7 +114,7 @@ async function initUser() {
   if (currentNoteGuid) {
     //
     const note = await api.getNote(null, currentNoteGuid);
-    note.markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
+    note.markdown = await api.getNoteMarkdown(kbGuid, note.guid);
     setCurrentNote(note);
   }
   //
@@ -132,9 +143,11 @@ async function initStarredNotes() {
 export default {
   initUser,
   setCurrentKb,
+  getCurrentKb,
   //
   setSelectedType,
   setCurrentNote,
+  getCurrentNote,
   //
   initCategoryNotes,
   initStarredNotes,
