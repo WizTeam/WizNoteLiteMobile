@@ -78,6 +78,10 @@ RCT_EXPORT_METHOD(start:(NSInteger) port
                   serviceName:(NSString *) serviceName)
 {
     RCTLogInfo(@"Running HTTP bridge server: %ld", port);
+    if (_webServer) {
+        RCTLogInfo(@"_web server has already running");
+        return;
+    }
     
     dispatch_sync(dispatch_get_main_queue(), ^{
         _webServer = [[GCDWebServer alloc] init];
