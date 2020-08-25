@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.PackageList;
 import com.reactnativenavigation.NavigationApplication;
@@ -13,6 +15,10 @@ import com.facebook.react.ReactNativeHost;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.reactnativenavigation.viewcontrollers.externalcomponent.ExternalComponent;
+import com.reactnativenavigation.viewcontrollers.externalcomponent.ExternalComponentCreator;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,7 +48,8 @@ public class MainApplication extends NavigationApplication {
           // packages.add(new MyReactNativePackage());
             packages.add(new SQLitePluginPackage());
             packages.add(new HttpServerReactPackage());
-           packages.add(new RNFetchBlobPackage());
+            packages.add(new RNFetchBlobPackage());
+            packages.add(new NoteViewPackage());
           return packages;
         }
 
@@ -60,7 +67,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    
+    registerExternalComponent("NoteViewScreen", (activity, reactInstanceManager, props) -> new NoteViewComponent(activity, props));
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
     copyFileOrDir("resources");
   }

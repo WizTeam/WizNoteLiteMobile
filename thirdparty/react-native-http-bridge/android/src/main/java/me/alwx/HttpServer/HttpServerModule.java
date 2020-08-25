@@ -52,6 +52,13 @@ public class HttpServerModule extends ReactContextBaseJavaModule implements Life
         }
     }
 
+    @ReactMethod
+    public void respondWithFile(String requestId, int code, String type, String fileName) {
+        if (server != null) {
+            server.respondWithFile(requestId, code, type, fileName);
+        }
+    }
+
     @Override
     public void onHostResume() {
 

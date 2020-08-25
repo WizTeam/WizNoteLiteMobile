@@ -9,6 +9,10 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
@@ -63,6 +67,18 @@ public class Server extends NanoHTTPD {
 
     public void respond(String requestId, int code, String type, String body) {
         responses.put(requestId, newFixedLengthResponse(Status.lookup(code), type, body));
+    }
+
+    public void respondWithFile(String requestId, int code, String type, String fileName) {
+        try {
+            File file = new File(fileName);
+            InputStream data = new FileInputStream(file);
+            long totalBytes = file.length();
+            Response response = NanoHTTPD.newFixedLengthResponse(Status.lookup(code), type, data, totalBytes);
+            responses.put(requestId, response);
+        } catch (FileNotFoundException e) {
+            responses.put(requestId, newFixedLengthResponse(Status.lookup(404), type, "not found"));
+        }
     }
 
     private WritableMap fillRequestMap(IHTTPSession session, String requestId) throws Exception {
