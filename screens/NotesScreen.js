@@ -10,7 +10,7 @@ import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-n
 
 import { showDrawer } from '../components/MainDrawer';
 import ThemedStatusBar from '../components/ThemedStatusBar';
-import { updateBottomTabButton } from '../components/ThemeListener';
+import { updateNavigationTheme } from '../components/ThemeListener';
 import { viewNote } from '../services/view_note';
 
 import { KEYS, connect } from '../data_store';
@@ -48,7 +48,23 @@ const NotesScreen: () => React$Node = (props) => {
   }, []);
 
   function handleThemeChanged(themeName) {
-    updateBottomTabButton(props.componentId, themeName);
+    updateNavigationTheme(props.componentId, themeName);
+    //
+    // force update buttons color
+    Navigation.mergeOptions(props.componentId, {
+      topBar: {
+        leftButtons: [],
+      },
+    });
+    Navigation.mergeOptions(props.componentId, {
+      topBar: {
+        leftButtons: [{
+          id: 'MainMenuButton',
+          // eslint-disable-next-line import/no-unresolved
+          icon: require('../images/icons/menu.png'),
+        }],
+      },
+    });
   }
 
   function handlePressNote() {
@@ -78,18 +94,16 @@ NotesScreenImpl.options = {
   topBar: {
     largeTitle: {
       visible: true,
+      color: 'red',
     },
     title: {
-      text: 'WizNote Lite',
-      // color: 'black'
+      text: i18n.t('itemAllNotes'),
     },
-    leftButtons: [
-      {
-        id: 'MainMenuButton',
-        // eslint-disable-next-line import/no-unresolved
-        icon: require('../images/icons/menu.png'),
-      },
-    ],
+    leftButtons: [{
+      id: 'MainMenuButton',
+      // eslint-disable-next-line import/no-unresolved
+      icon: require('../images/icons/menu.png'),
+    }],
   },
 };
 

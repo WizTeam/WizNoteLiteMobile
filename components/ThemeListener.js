@@ -4,16 +4,23 @@ import { useDarkMode } from 'react-native-dynamic';
 import { Navigation } from 'react-native-navigation';
 import Colors from '../config/Colors';
 
-export function setDefaultNavigationOptions(isDarkMode) {
-  //
+function getNavigationOptions(isDarkMode) {
   if (isDarkMode === undefined) {
     // eslint-disable-next-line no-param-reassign
     isDarkMode = Appearance.getColorScheme() === 'dark';
   }
-  //
   const colors = Colors[isDarkMode ? 'dark' : 'light'];
   //
-  Navigation.setDefaultOptions({
+  return {
+    topBar: {
+      leftButtonColor: colors.topBarTitle,
+      background: {
+        color: colors.topBarBackground,
+      },
+      largeTitle: {
+        color: colors.topBarTitle,
+      },
+    },
     bottomTabs: {
       titleDisplayMode: 'alwaysShow',
       backgroundColor: colors.bottomTabBackground,
@@ -24,25 +31,16 @@ export function setDefaultNavigationOptions(isDarkMode) {
       selectedIconColor: colors.primary,
       selectedTextColor: colors.primary,
     },
-    topBar: {
-      leftButtonColor: colors.topBarTitle,
-      background: {
-        color: colors.topBarBackground,
-      },
-    },
-  });
+  };
 }
 
-export function updateBottomTabButton(componentId, themeName) {
-  const colors = Colors[themeName];
-  Navigation.mergeOptions(componentId, {
-    bottomTab: {
-      textColor: colors.bottomTabText,
-      iconColor: colors.bottomTabText,
-      selectedIconColor: colors.primary,
-      selectedTextColor: colors.primary,
-    },
-  });
+export function setDefaultNavigationOptions(isDarkMode) {
+  Navigation.setDefaultOptions(getNavigationOptions(isDarkMode));
+}
+
+export function updateNavigationTheme(componentId, themeName) {
+  console.log(`switch bottom tab theme to: ${themeName}`);
+  Navigation.mergeOptions(componentId, getNavigationOptions(themeName === 'dark'));
 }
 
 const ThemeListener: () => React$Node = (props) => {

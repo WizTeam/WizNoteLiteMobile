@@ -13,7 +13,6 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar,
   Button,
 } from 'react-native';
 
@@ -22,12 +21,19 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
+import ThemedStatusBar from '../components/ThemedStatusBar';
+import { updateNavigationTheme } from '../components/ThemeListener';
+
 // eslint-disable-next-line arrow-body-style
-const SearchNotesScreen: () => React$Node = () => {
+const SearchNotesScreen: () => React$Node = (props) => {
   //
+  function handleThemeChanged(themeName) {
+    updateNavigationTheme(props.componentId, themeName);
+  }
+
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <ThemedStatusBar onThemeChanged={handleThemeChanged} />
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"

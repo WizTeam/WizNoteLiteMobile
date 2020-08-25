@@ -1,13 +1,15 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StatusBar,
 } from 'react-native';
 
 import i18n from 'i18n-js';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import StarredNoteList from '../components/StarredNoteList';
+import ThemedStatusBar from '../components/ThemedStatusBar';
+import { updateNavigationTheme } from '../components/ThemeListener';
+
 import { viewNote } from '../services/view_note';
 import { getDeviceDynamicColor } from '../config/Colors';
 
@@ -18,9 +20,13 @@ const StarredNotesScreen: () => React$Node = (props) => {
   //
   const styles = useDynamicValue(dynamicStyles);
   //
+  function handleThemeChanged(themeName) {
+    updateNavigationTheme(props.componentId, themeName);
+  }
+  //
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <ThemedStatusBar onThemeChanged={handleThemeChanged} />
       <SafeAreaView style={styles.content}>
         <StarredNoteList style={styles.body} onPressNote={handlePressNote} />
       </SafeAreaView>

@@ -30,8 +30,10 @@ export function viewNote(parentComponentId) {
       options: { // Optional options object to configure the screen
         topBar: {
           title: {
-            // text: 'Settings', // Set the TopBar title of the new Screen
           },
+        },
+        bottomTabs: {
+          visible: false,
         },
       },
     },
