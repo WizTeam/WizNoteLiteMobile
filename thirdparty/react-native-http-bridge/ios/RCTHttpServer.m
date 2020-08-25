@@ -20,6 +20,15 @@
 
 RCT_EXPORT_MODULE();
 
++ (id)allocWithZone:(NSZone *)zone {
+    static RCTHttpServer *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [super allocWithZone:zone];
+    });
+    return sharedInstance;
+}
+
 - (NSArray<NSString *> *)supportedEvents
 {
     return @[@"httpServerResponseReceived"];
