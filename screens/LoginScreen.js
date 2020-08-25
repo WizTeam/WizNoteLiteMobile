@@ -14,6 +14,7 @@ import {
   Text,
   Alert,
   ImageBackground,
+  TouchableHighlight,
 } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
@@ -25,6 +26,7 @@ import { setMainAsRoot } from '../services/navigation';
 import { getDynamicColor } from '../config/Colors';
 import api from '../api';
 import dataStore from '../data_store';
+import { isTablet } from '../utils/device';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import LoginBannerLight from '../components/svg/LoginBannerLight';
@@ -230,6 +232,10 @@ const LoginScreen: () => React$Node = () => {
     await doSignUp();
   }
 
+  function handleCloseLogin() {
+    setMainAsRoot();
+  }
+
   // eslint-disable-next-line react/prop-types
   function handleRenderDropdownBase({ value }) {
     const key = value === 'private' ? 'serverTypePrivate' : 'serverTypeDefault';
@@ -262,6 +268,13 @@ const LoginScreen: () => React$Node = () => {
         style={styles.image}
       >
         <SafeAreaView>
+          <View style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+            {!isTablet && (
+              <TouchableHighlight style={styles.closeTouchable} onPress={handleCloseLogin}>
+                <Icon name="close" color={styles.serverDropdownIcon.color} size={24} />
+              </TouchableHighlight>
+            )}
+          </View>
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}
@@ -339,6 +352,10 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   title: {
     marginTop: 35,
+  },
+  closeTouchable: {
+    padding: 8,
+    marginRight: 8,
   },
   shadowBox: {
     marginTop: 40,
