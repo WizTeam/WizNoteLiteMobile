@@ -13,14 +13,11 @@ import ThemedStatusBar from '../components/ThemedStatusBar';
 import { updateBottomTabButton } from '../components/ThemeListener';
 import { viewNote } from '../services/view_note';
 
-import dataStore, { KEYS, connect } from '../data_store';
+import { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
 import { getDeviceDynamicColor } from '../config/Colors';
 
 const NotesScreen: () => React$Node = (props) => {
-  useEffect(() => {
-    dataStore.initCategoryNotes();
-  }, [props.selectedType]);
   //
   useEffect(() => {
     const type = props.selectedType;

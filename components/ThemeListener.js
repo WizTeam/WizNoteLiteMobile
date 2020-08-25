@@ -16,12 +16,19 @@ export function setDefaultNavigationOptions(isDarkMode) {
   Navigation.setDefaultOptions({
     bottomTabs: {
       titleDisplayMode: 'alwaysShow',
+      backgroundColor: colors.bottomTabBackground,
     },
     bottomTab: {
       textColor: colors.bottomTabText,
       iconColor: colors.bottomTabText,
       selectedIconColor: colors.primary,
       selectedTextColor: colors.primary,
+    },
+    topBar: {
+      leftButtonColor: colors.topBarTitle,
+      background: {
+        color: colors.topBarBackground,
+      },
     },
   });
 }

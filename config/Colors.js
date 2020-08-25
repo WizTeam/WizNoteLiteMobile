@@ -6,6 +6,9 @@ import { isTablet } from '../utils/device';
 const light = {
   primary: '#448aff',
   bottomTabText: '#333333',
+  topBarBackground: '#2a2a2a',
+  topBarTitle: '#2a2a2a',
+  bottomTabBackground: '#2a2a2a',
   drawerBackground: 'white',
   closeDrawerButton: 'rgb(51, 51, 51)',
   loginBoxBackground: '#ffffff',
@@ -19,20 +22,23 @@ const light = {
     noteListSelectedBackground: 'white',
     noteListTitle: 'rgb(51, 51, 51)',
     noteListSubTitle: 'rgb(170, 170, 170)',
-    noteListDivider: 'rgb(216, 216, 216)',
+    noteListDivider: '#d8d8d8',
     drawerItemTitle: 'rgb(51, 51, 51)',
   },
   pad: {
     noteListBackground: 'rgb(240, 240, 240)',
     noteListSelectedBackground: 'white',
     noteListSubTitle: 'rgb(170, 170, 170)',
-    noteListDivider: 'rgb(216, 216, 216)',
+    noteListDivider: '#d8d8d8',
   },
 };
 
 const dark = merge({}, light, {
   primary: '#448aff',
-  bottomTabText: 'rgb(216, 216, 216)',
+  bottomTabText: '#d8d8d8',
+  topBarTitle: '#d8d8d8',
+  topBarBackground: '#2a2a2a',
+  bottomTabBackground: '#2a2a2a',
   drawerBackground: '#333333',
   closeDrawerButton: 'rgb(240, 240, 240)',
   loginBoxBackground: '#606266',
@@ -42,15 +48,15 @@ const dark = merge({}, light, {
   loginBoxButtonBackground: '#000000',
 
   phone: {
-    noteListBackground: 'rgb(42, 42, 42)',
-    noteListSelectedBackground: 'rgb(42, 42, 42)',
+    noteListBackground: '#2a2a2a',
+    noteListSelectedBackground: '#2a2a2a',
     noteListTitle: 'rgb(240, 240, 240)',
     noteListSubTitle: 'rgb(170, 170, 170)',
     noteListDivider: 'rgb(64, 64, 64)',
     drawerItemTitle: 'rgb(240, 240, 240)',
   },
   pad: {
-    noteListBackground: 'rgb(42, 42, 42)',
+    noteListBackground: '#2a2a2a',
     noteListSelectedBackground: 'rgb(51, 51, 51)',
     noteListTitle: 'rgb(240, 240, 240)',
     noteListSubTitle: 'rgb(170, 170, 170)',
