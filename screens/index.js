@@ -4,6 +4,7 @@ import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import MainDrawer from '../components/MainDrawer';
 
 export function registerScreens() {
+  Navigation.registerComponent('SearchNotesField', () => require('../components/SearchNotesField').default);
   Navigation.registerComponent('MainDrawer', () => RNNDrawer.create(MainDrawer));
   Navigation.registerComponent('LoginScreen', () => require('./LoginScreen').default);
   Navigation.registerComponent('NotesScreen', () => require('./NotesScreen').default);

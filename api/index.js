@@ -131,6 +131,14 @@ class Api {
   setUserSettings(userGuid, key, value) {
     return sdk.setUserSettings(userGuid, key, value);
   }
+
+  async searchNotes(kbGuid, key) {
+    const options = {
+      searchText: key,
+    };
+    const notes = await sdk.queryNotes(this.userGuid, kbGuid || this.kbGuid, 0, 10000, options);
+    return notes;
+  }
 }
 
 const api = new Api();

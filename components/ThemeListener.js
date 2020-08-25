@@ -12,13 +12,16 @@ function getNavigationOptions(isDarkMode) {
   const colors = Colors[isDarkMode ? 'dark' : 'light'];
   //
   return {
+    statusBar: {
+      style: isDarkMode ? 'light' : 'dark',
+    },
     topBar: {
       leftButtonColor: colors.topBarTitle,
       background: {
         color: colors.topBarBackground,
       },
       largeTitle: {
-        color: colors.topBarTitle,
+        color: colors.topBarTitle, // rnn bug, not working
       },
     },
     bottomTabs: {
