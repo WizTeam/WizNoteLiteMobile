@@ -25,7 +25,7 @@ public class NoteView extends WebView {
         return instance;
     }
 
-    private boolean loadFinished = true;
+    private boolean loadFinished = false;
     public NoteView(Context context) {
         super(context);
         initSettings();
@@ -68,11 +68,21 @@ public class NoteView extends WebView {
         webSettings.setSavePassword(false);
     }
 
-    public boolean loadFinished() {
-        return loadFinished;
+    public void updateProps(String props) {
+        if (!loadFinished) {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    updateProps(props);
+                }
+            }, 200);
+        } else {
+            loadNote(props);
+        }
+
     }
 
-    public void updateProps(String props) {
+    private void loadNote(String props) {
         String js = String.format("window.loadMarkdown(%s)", props);
         evaluateJavascript(js, null);
     }
