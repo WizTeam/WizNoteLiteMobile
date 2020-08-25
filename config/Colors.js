@@ -16,6 +16,8 @@ const light = {
   loginBoxText2: '#333333',
   loginBoxInputBackground: '#f0f0f0',
   loginBoxButtonBackground: '#333333',
+  searchFieldBackground: '#eeeeee',
+  searchField: '#333333',
   //
   phone: {
     noteListBackground: 'white',
@@ -46,6 +48,8 @@ const dark = merge({}, light, {
   loginBoxText2: '#aaaaaa',
   loginBoxInputBackground: '#53565c',
   loginBoxButtonBackground: '#000000',
+  searchFieldBackground: '#333333',
+  searchField: '#f0f0f0',
 
   phone: {
     noteListBackground: '#2a2a2a',
@@ -65,6 +69,7 @@ const dark = merge({}, light, {
 });
 
 const Colors = {
+  primary: light.primary,
   dark,
   light,
 };

@@ -14,6 +14,7 @@ import dataStore from '../data_store';
 import api from '../api';
 
 import { formatDateString } from '../utils/date';
+import HighlightText from './HighlightText';
 
 const NoteList: () => React$Node = (props) => {
   //
@@ -40,13 +41,27 @@ const NoteList: () => React$Node = (props) => {
     const hideDivider = isTablet && (selected || index === selectedIndex - 1);
     const showDivider = !hideDivider;
     //
+    let title = note.title;
+    let subTitle = formatDateString(note.modified);
+    if (props.showHighlight && note.highlight) {
+      if (note.highlight.title) {
+        const highlightText = note.highlight.title.join(' ');
+        title = <HighlightText text={highlightText} style={styles.title} />;
+      }
+      if (note.highlight.text) {
+        const allText = note.highlight.text.join(' ');
+        const highlightText = `${allText}\n\n${subTitle}`;
+        subTitle = <HighlightText text={highlightText} style={styles.subtitle} />;
+      }
+    }
+    //
     return (
       <>
         <ListItem
           onPress={() => handlerPressItem(note)}
           key={note.guid}
-          title={note.title}
-          subtitle={formatDateString(note.modified)}
+          title={title}
+          subtitle={subTitle}
           rightIcon={props.showStar && note.starred && (
             <Icon name="star" size={20} style={styles.star} />
           )}

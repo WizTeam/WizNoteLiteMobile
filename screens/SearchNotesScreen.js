@@ -1,54 +1,30 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  Button,
-} from 'react-native';
-
-import {
-  Header,
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import { SafeAreaView } from 'react-native';
+import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { updateNavigationTheme } from '../components/ThemeListener';
+import SearchResultNoteList from '../components/SearchResultNoteList';
+import { viewNote } from '../services/view_note';
+import { getDeviceDynamicColor } from '../config/Colors';
 
-// eslint-disable-next-line arrow-body-style
 const SearchNotesScreen: () => React$Node = (props) => {
   //
   function handleThemeChanged(themeName) {
     updateNavigationTheme(props.componentId, themeName);
   }
 
+  function handlePressNote() {
+    viewNote(props.componentId);
+  }
+
+  const styles = useDynamicValue(dynamicStyles);
+
   return (
     <>
       <ThemedStatusBar onThemeChanged={handleThemeChanged} />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}
-        >
-          <Header />
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>search notes Screen</Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Button title="Logout" />
-            </View>
-          </View>
-        </ScrollView>
+      <SafeAreaView style={styles.content}>
+        <SearchResultNoteList style={styles.body} onPressNote={handlePressNote} />
       </SafeAreaView>
     </>
   );
@@ -56,39 +32,25 @@ const SearchNotesScreen: () => React$Node = (props) => {
 
 SearchNotesScreen.options = {
   topBar: {
+    noBorder: true,
     title: {
-      text: 'WizNote Lite',
-      // color: 'black'
+      component: {
+        name: 'SearchNotesField',
+        alignment: 'fill',
+      },
     },
-    leftButtons: [
-      // {
-      //   id: 'MainMenuButton',
-      //   component: {
-      //     name: 'MainMenuButton',
-      //   },
-      //   passProps: {
-      //     // Pass initial props to the button here
-      //   },
-      // },
-    ],
   },
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+const dynamicStyles = new DynamicStyleSheet({
+  content: {
+    display: 'flex',
+    flex: 1,
   },
   body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+    backgroundColor: getDeviceDynamicColor('noteListBackground'),
+    minHeight: '100%',
+    flexGrow: 1,
   },
 });
 
