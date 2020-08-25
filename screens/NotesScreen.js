@@ -11,6 +11,7 @@ import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-n
 import { showDrawer } from '../components/MainDrawer';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { updateBottomTabButton } from '../components/ThemeListener';
+import { viewNote } from '../services/view_note';
 
 import dataStore, { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
@@ -54,18 +55,7 @@ const NotesScreen: () => React$Node = (props) => {
   }
 
   function handlePressNote() {
-    Navigation.push(props.componentId, {
-      component: {
-        name: 'NoteScreen', // Push the screen registered with the 'Settings' key
-        options: { // Optional options object to configure the screen
-          topBar: {
-            title: {
-              // text: 'Settings', // Set the TopBar title of the new Screen
-            },
-          },
-        },
-      },
-    });
+    viewNote(props.componentId);
   }
 
   const styles = useDynamicValue(dynamicStyles);
