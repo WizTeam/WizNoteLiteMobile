@@ -303,6 +303,7 @@ const LoginScreen: () => React$Node = () => {
                   <Input
                     containerStyle={styles.inputContainer}
                     inputContainerStyle={styles.input}
+                    inputStyle={styles.inputElement}
                     disabled={isWorking}
                     textContentType="username"
                     placeholder={i18n.t('placeholderUserId')}
@@ -312,6 +313,7 @@ const LoginScreen: () => React$Node = () => {
                   <Input
                     containerStyle={styles.inputContainer}
                     inputContainerStyle={styles.input}
+                    inputStyle={styles.inputElement}
                     disabled={isWorking}
                     textContentType="password"
                     placeholder={i18n.t('placeholderUserPassword')}
@@ -319,7 +321,17 @@ const LoginScreen: () => React$Node = () => {
                     secureTextEntry
                     onChangeText={handleChangePassword}
                   />
-                  {isPrivateServer && <Input containerStyle={styles.inputContainer} inputContainerStyle={styles.input} disabled={isWorking} placeholder={i18n.t('placeholderPrivateServer')} errorMessage={serverErrorMessage} onChangeText={handleChangeServerUrl} />}
+                  {isPrivateServer && (
+                    <Input
+                      containerStyle={styles.inputContainer}
+                      inputContainerStyle={styles.input}
+                      inputStyle={styles.inputElement}
+                      disabled={isWorking}
+                      placeholder={i18n.t('placeholderPrivateServer')}
+                      errorMessage={serverErrorMessage}
+                      onChangeText={handleChangeServerUrl}
+                    />
+                  )}
                 </View>
                 <View style={[styles.sectionContainer, styles.buttonBox]}>
                   {isLogin && <Button disabledStyle={styles.button} buttonStyle={styles.button} loading={isWorking} disabled={isWorking} title={i18n.t('buttonLogin')} onPress={handleLogin} />}
@@ -412,6 +424,9 @@ const dynamicStyles = new DynamicStyleSheet({
     borderBottomWidth: 0,
     borderRadius: 2,
     paddingHorizontal: 9,
+  },
+  inputElement: {
+    color: getDynamicColor('loginBoxText'),
   },
   selectedButton: {
     fontSize: 24,
