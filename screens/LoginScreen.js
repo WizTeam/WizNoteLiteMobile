@@ -264,7 +264,6 @@ const LoginScreen: () => React$Node = (props) => {
     // eslint-disable-next-line import/no-unresolved
     : require('../images/background/bg.png');
 
-  console.log(props);
   //
   return (
     <>
@@ -303,6 +302,7 @@ const LoginScreen: () => React$Node = (props) => {
                   renderBase={handleRenderDropdownBase}
                   onChangeText={handleChangeServerType}
                   disabled={isWorking}
+                  useNativeDriver
                 />
                 <View style={styles.sectionContainer}>
                   <Input

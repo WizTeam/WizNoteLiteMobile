@@ -1,6 +1,11 @@
 import { Navigation } from 'react-native-navigation';
+import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 
 import { isTablet } from '../utils/device';
+
+export function closeDrawer() {
+  RNNDrawer.dismissDrawer();
+}
 
 export function setLoginAsRoot() {
   Navigation.setRoot({
