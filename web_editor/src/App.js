@@ -10,24 +10,23 @@ const params = queryString.parse(window.location.search);
 
 function Editor(props) {
   //
-  function handleSave({contentId, content}) {
+  function handleSave({contentId, markdown}) {
     //
     const messageData = JSON.stringify({
       event: 'saveData',
       contentId,
-      markdown: content.markdown,
+      markdown,
     });
-    if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(messageData);
+    if (window.WizWebView) {
+      window.WizWebView.postMessage(messageData);
     } else {
       console.log(`request save data: contentId=${contentId}`);
     }
   }
   //
-  const theme = params.theme || 'lite';
+  const theme = props.theme || params.theme || 'light';
   //
   let markdown = props.markdown || '';
-  // markdown = markdown.replace(new RegExp('index_files/', 'g'), `${props.resourceUrl}/index_files/`);
 
   return (
     <MarkdownEditor
@@ -35,6 +34,7 @@ function Editor(props) {
       onSave={handleSave}
       markdown={markdown}
       resourceUrl={props.resourceUrl}
+      contentId={props.contentId}
     />
   );
 }
@@ -44,11 +44,13 @@ function App() {
   const [data, setData] = useState(null);
   //
   useEffect(() => {
-    window.loadMarkdown = ({markdown, resourceUrl, contentId}) => {
+    window.loadMarkdown = (options) => {
+      const {markdown, resourceUrl, contentId, theme} = options;
       setData({
         markdown,
         resourceUrl,
         contentId,
+        theme,
       });
     }
   });
@@ -64,6 +66,7 @@ function App() {
         contentId={data?.contentId}
         markdown={data?.markdown}
         resourceUrl={data?.resourceUrl}  
+        theme={data?.theme}
       />
     </div>
   );

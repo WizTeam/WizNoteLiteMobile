@@ -12,13 +12,11 @@
 #import <React/RCTBridgeModule.h>
 
 @interface NoteViewModule : RCTEventEmitter <RCTBridgeModule>
-@property NSString* loadNoteOptions;
 @end
 
 NoteViewModule* g_noteViewModule;
 
 @implementation NoteViewModule
-@synthesize loadNoteOptions;
 
 RCT_EXPORT_MODULE();
 
@@ -29,18 +27,13 @@ RCT_EXPORT_MODULE();
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[@"saveNote"];
+  return @[@"onMessage"];
 }
-
-RCT_EXPORT_METHOD(willLoadNote:(NSString *)options) {
-  self.loadNoteOptions = options;
-}
-
 
 @end
 
 
-@interface NoteViewController () <WKNavigationDelegate>
+@interface NoteViewController () <WKNavigationDelegate, WKScriptMessageHandler>
 
 @end
 
@@ -53,8 +46,14 @@ RCT_EXPORT_METHOD(willLoadNote:(NSString *)options) {
 - (id) init {
   self = [super init];
   if (self) {
-    _webView = [WKWebView new];
+    WKWebViewConfiguration* config = [WKWebViewConfiguration new];
+    [config.userContentController addScriptMessageHandler:self name:@"WizWebView"];
+    NSString* js = @"window.WizWebView = window.webkit.messageHandlers.WizWebView";
+    WKUserScript* script = [[WKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+    [config.userContentController addUserScript:script];
+    _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) configuration:config];
     _webView.navigationDelegate = self;
+    [_webView setOpaque:NO];
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:3000"]]];
   }
   return self;
@@ -77,15 +76,36 @@ RCT_EXPORT_METHOD(willLoadNote:(NSString *)options) {
 - (void) viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-  //
-  if (!_loaded) {
-    _waitForLoad = g_noteViewModule.loadNoteOptions;
+}
+
+// Assumes input like "#00FF00" (#RRGGBB).
++ (UIColor *)colorFromHexString:(NSString *)hexString {
+  unsigned rgbValue = 0;
+  NSScanner *scanner = [NSScanner scannerWithString:hexString];
+  [scanner setScanLocation:1]; // bypass '#' character
+  [scanner scanHexInt:&rgbValue];
+  return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+}
+
+- (void) updateTheme:(NSString*)theme {
+  if ([theme isEqualToString:@"dark"]) {
+    UIColor* backgroundColor = [NoteViewController colorFromHexString:@"#2a2a2a"];
+    _webView.backgroundColor = backgroundColor;
+    _webView.scrollView.backgroundColor = backgroundColor;
+    [_webView setOpaque:NO];
   } else {
-    [self loadNote: g_noteViewModule.loadNoteOptions];
+    UIColor* backgroundColor = [UIColor whiteColor];
+    _webView.backgroundColor = backgroundColor;
+    _webView.scrollView.backgroundColor = backgroundColor;
+    [_webView setOpaque:NO];
   }
 }
 
 - (void) loadNote:(NSString*)options {
+  if (!_loaded) {
+    _waitForLoad = options;
+    return;
+  }
   NSString* js = [NSString stringWithFormat:@"window.loadMarkdown(%@)", options];
   [_webView evaluateJavaScript:js completionHandler:^(id result, NSError * _Nullable error) {
     if (error) {
@@ -96,21 +116,33 @@ RCT_EXPORT_METHOD(willLoadNote:(NSString *)options) {
 
 - (void) viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
-  NSString* jsSave = @"window.trySaveNow()";
-  [_webView evaluateJavaScript:jsSave completionHandler:^(id result, NSError * _Nullable error) {
-    //
-    NSString* jsClear = @"window.loadMarkdown({contentId:'', markdown: '', resourceUrl: ''});";
-    [self->_webView evaluateJavaScript:jsClear completionHandler:nil];
-  }];
 }
 
-+ (UIViewController *) noteViewController {
++ (UIViewController *) noteViewController:(NSDictionary *)props {
   static dispatch_once_t onceToken;
   static NoteViewController* viewController;
   dispatch_once(&onceToken, ^{
     viewController = [NoteViewController new];
   });
+  if (props) {
+    NSString* loadData = props[@"loadData"];
+    if (loadData) {
+      [viewController loadNote:loadData];
+    }
+    NSString* theme = props[@"theme"];
+    if (theme) {
+      [viewController updateTheme:theme];
+    }
+  }
   return viewController;
+}
+
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+  //
+  if ([message.name isEqualToString:@"WizWebView"]) {
+    [g_noteViewModule sendEventWithName:@"onMessage" body:message.body];
+  }
+  //
 }
 
 @end

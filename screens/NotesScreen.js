@@ -111,6 +111,7 @@ const dynamicStyles = new DynamicStyleSheet({
   content: {
     display: 'flex',
     flex: 1,
+    backgroundColor: getDeviceDynamicColor('noteListBackground'),
   },
   body: {
     backgroundColor: getDeviceDynamicColor('noteListBackground'),

@@ -36,10 +36,10 @@ static void InitializeFlipper(UIApplication *application) {
   [ReactNativeNavigation bootstrapWithDelegate:self launchOptions:launchOptions];
   //
   // initialize on app startted
-  [NoteViewController noteViewController];
+  [NoteViewController noteViewController:nil];
   
   [ReactNativeNavigation registerExternalComponent:@"NoteViewScreen" callback:^UIViewController *(NSDictionary *props, RCTBridge *bridge) {
-      return [NoteViewController noteViewController];
+    return [NoteViewController noteViewController:props];
   }];
   return YES;
 }

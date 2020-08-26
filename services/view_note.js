@@ -1,4 +1,4 @@
-import { NativeEventEmitter, NativeModules } from 'react-native';
+import { NativeEventEmitter, NativeModules, Appearance } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import dataStore from '../data_store';
@@ -8,8 +8,8 @@ import api from '../api';
 const NoteViewer = NativeModules.NoteViewModule;
 const eventObject = new NativeEventEmitter(NoteViewer);
 
-eventObject.addListener('saveNote', (contentId, markdown) => {
-  console.log(`handle save note: ${contentId}, ${markdown}`);
+eventObject.addListener('onMessage', (body) => {
+  console.log(body);
 });
 
 export function viewNote(parentComponentId) {
@@ -19,10 +19,11 @@ export function viewNote(parentComponentId) {
   const markdown = note.markdown;
   const resourceUrl = `http://localhost:${PORT}/${api.userGuid}/${kbGuid}/${note.guid}`;
 
-  const options = {
-    contentId, markdown, resourceUrl,
-  };
-  NoteViewer.willLoadNote(JSON.stringify(options));
+  const theme = Appearance.getColorScheme();
+  //
+  const loadData = JSON.stringify({
+    contentId, markdown, resourceUrl, theme,
+  });
   //
   Navigation.push(parentComponentId, {
     externalComponent: {
@@ -35,6 +36,10 @@ export function viewNote(parentComponentId) {
         bottomTabs: {
           visible: false,
         },
+      },
+      passProps: {
+        loadData,
+        theme,
       },
     },
   });
