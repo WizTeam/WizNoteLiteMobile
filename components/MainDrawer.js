@@ -17,7 +17,7 @@ import TreeView from '../thirdparty/react-native-final-tree-view';
 import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
-import { setLoginAsRoot } from '../services/navigation';
+import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
 import Colors, { getColor, getDynamicColor, getDeviceDynamicColor } from '../config/Colors';
 
 const MainDrawer: () => React$Node = (props) => {
@@ -29,10 +29,19 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleLogin() {
-    setLoginAsRoot();
-    setTimeout(() => {
-      handleCloseDrawer();
-    }, 100);
+    if (api.user.isLocalUser) {
+      RNNDrawer.dismissDrawer();
+      setTimeout(() => {
+        showLoginDialog({
+          closable: true,
+        });
+      }, 300);
+    } else {
+      setLoginAsRoot();
+      setTimeout(() => {
+        handleCloseDrawer();
+      }, 100);
+    }
   }
 
   function handleViewUserInfo() {

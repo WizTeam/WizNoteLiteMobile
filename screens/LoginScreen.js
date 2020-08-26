@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { useState } from 'react';
 import {
   SafeAreaView,
@@ -21,6 +13,7 @@ import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { DynamicValue, useDynamicValue, DynamicStyleSheet, useDarkMode } from 'react-native-dynamic';
+import { Navigation } from 'react-native-navigation';
 
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
 import { setMainAsRoot } from '../services/navigation';
@@ -35,7 +28,7 @@ import LoginBannerDark from '../components/svg/LoginBannerDark';
 
 const loginBanner = new DynamicValue(LoginBannerLight, LoginBannerDark);
 
-const LoginScreen: () => React$Node = () => {
+const LoginScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles);
   const isDarkMode = useDarkMode();
   const Banner = useDynamicValue(loginBanner);
@@ -234,7 +227,11 @@ const LoginScreen: () => React$Node = () => {
   }
 
   function handleCloseLogin() {
-    setMainAsRoot();
+    if (props.closable) {
+      Navigation.dismissModal(props.componentId);
+    } else {
+      setMainAsRoot();
+    }
   }
 
   function handleForgotPassword() {
@@ -262,9 +259,13 @@ const LoginScreen: () => React$Node = () => {
   }];
 
   const backgroundSource = isDarkMode
+    // eslint-disable-next-line import/no-unresolved
     ? require('../images/background/bg_night.png')
+    // eslint-disable-next-line import/no-unresolved
     : require('../images/background/bg.png');
 
+  console.log(props);
+  //
   return (
     <>
       <ThemedStatusBar />
@@ -274,7 +275,7 @@ const LoginScreen: () => React$Node = () => {
       >
         <SafeAreaView>
           <View style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            {!isTablet && (
+            {!isTablet && props.closable && (
               <TouchableHighlight style={styles.closeTouchable} onPress={handleCloseLogin}>
                 <Icon name="close" color={styles.serverDropdownIcon.color} size={24} />
               </TouchableHighlight>

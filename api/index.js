@@ -1,5 +1,6 @@
 import assert from 'assert';
 import sdk from 'wiznote-sdk-js';
+import { EventEmitter } from 'events';
 
 class SdkEventListener {
   static _listeners = new Map();
@@ -19,8 +20,9 @@ class SdkEventListener {
   }
 }
 
-class Api {
+class Api extends EventEmitter {
   constructor() {
+    super();
     this._user = null;
   }
 
@@ -54,6 +56,12 @@ class Api {
 
   get kbGuid() {
     return this._user.kbGuid;
+  }
+
+  initEvents() {
+    this.registerListener(this.userGuid, (userGuid, eventName, ...args) => {
+      this.emit(eventName, userGuid, ...args);
+    });
   }
 
   registerListener(userGuid, callback) {

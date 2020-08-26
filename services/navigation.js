@@ -20,6 +20,19 @@ export function setLoginAsRoot() {
   });
 }
 
+export function showLoginDialog(options) {
+  Navigation.showModal({
+    stack: {
+      children: [{
+        component: {
+          name: 'LoginScreen',
+          passProps: options,
+        },
+      }],
+    },
+  });
+}
+
 export function setMainAsRoot() {
   if (isTablet) {
     Navigation.setRoot({

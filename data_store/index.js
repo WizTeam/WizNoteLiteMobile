@@ -115,17 +115,16 @@ async function initUser() {
   if (currentNoteGuid) {
     //
     const note = await api.getNote(null, currentNoteGuid);
-    note.markdown = await api.getNoteMarkdown(kbGuid, note.guid);
-    setCurrentNote(note);
+    if (note) {
+      note.markdown = await api.getNoteMarkdown(kbGuid, note.guid);
+      setCurrentNote(note);
+    }
   }
   //
+  api.initEvents();
   api.registerListener(api.userGuid, handleApiEvents);
   //
   api.syncData();
-  setInterval(() => {
-    api.syncData();
-  }, 60 * 1000);
-  //
 }
 
 async function initCategoryNotes() {

@@ -1,11 +1,6 @@
-import React from 'react';
-import {
-  FlatList,
-} from 'react-native';
-import {
-  ListItem,
-  Divider,
-} from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
+import { FlatList } from 'react-native';
+import { ListItem, Divider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import { getDeviceDynamicColor } from '../config/Colors';
@@ -78,12 +73,44 @@ const NoteList: () => React$Node = (props) => {
     );
   }
   //
+  //
+
+  const [isRefreshing, setRefreshing] = useState(false);
+  //
+  function handleRefresh() {
+    setRefreshing(true);
+    api.syncKb(null, {
+      manual: true,
+    });
+  }
+  //
+  useEffect(() => {
+    //
+    function handleSyncStart() {
+    }
+
+    function handleSyncFinish() {
+      setRefreshing(false);
+    }
+    //
+    api.on('syncStart', handleSyncStart);
+    api.on('syncFinish', handleSyncFinish);
+    //
+    return () => {
+      api.off('syncStart', handleSyncStart);
+      api.off('syncFinish', handleSyncFinish);
+    };
+  }, []);
+
+  //
   return (
     <FlatList
       style={[styles.list, props.style]}
       keyExtractor={keyExtractor}
       data={notes}
       renderItem={renderItem}
+      onRefresh={handleRefresh}
+      refreshing={isRefreshing}
     />
   );
 };
