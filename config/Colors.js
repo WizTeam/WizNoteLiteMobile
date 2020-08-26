@@ -18,6 +18,9 @@ const light = {
   loginBoxButtonBackground: '#333333',
   searchFieldBackground: '#eeeeee',
   searchField: '#333333',
+  dropdownPickerBackground: '#ffffff',
+  dropdownPickerItemColor: 'rgba(0,0,0,0.38)',
+  dropdownPickerItemSelectedColor: 'rgba(0,0,0,0.87)',
   //
   phone: {
     noteListBackground: 'white',
@@ -50,6 +53,9 @@ const dark = merge({}, light, {
   loginBoxButtonBackground: '#000000',
   searchFieldBackground: '#333333',
   searchField: '#f0f0f0',
+  dropdownPickerBackground: '#333333',
+  dropdownPickerItemColor: 'rgba(255,255,255,0.38)',
+  dropdownPickerItemSelectedColor: 'rgba(255,255,255,0.87)',
 
   phone: {
     noteListBackground: '#2a2a2a',
