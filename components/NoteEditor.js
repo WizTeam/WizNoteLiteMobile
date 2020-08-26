@@ -55,9 +55,9 @@ const NoteEditor: () => React$Node = (props) => {
   const theme = isDarkMode ? 'dark' : 'lite';
   //
   const resPath = app.getPath('res');
-  // const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}`;
-  const editorHtmlPath = `http://localhost:3000?theme=${theme}`;
-  console.log(`load html: ${editorHtmlPath}`);
+  const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}`;
+  // const editorHtmlPath = `http://localhost:3000?theme=${theme}`;
+  // console.log(`load html: ${editorHtmlPath}`);
   //
   return (
     <View style={props.containerStyle}>

@@ -144,7 +144,14 @@ function setSearchResult(notes) {
   store.setData(KEYS.SEARCH_RESULT_NOTES, notes);
 }
 
+function logout() {
+  api.logout();
+}
+
 export default {
+  //
+  logout,
+  //
   initUser,
   setCurrentKb,
   getCurrentKb,

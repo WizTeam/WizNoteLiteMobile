@@ -127,7 +127,7 @@ RCT_EXPORT_MODULE();
   }];
 }
 
-+ (UIViewController *) noteViewController:(NSDictionary *)props {
++ (UIViewController *) noteViewController:(NSDictionary * _Nullable)props {
   static dispatch_once_t onceToken;
   static NoteViewController* viewController;
   dispatch_once(&onceToken, ^{

@@ -46,6 +46,10 @@ class Api extends EventEmitter {
     return this._user;
   }
 
+  async logout() {
+    sdk.logout(this.userGuid);
+  }
+
   get user() {
     return this._user;
   }

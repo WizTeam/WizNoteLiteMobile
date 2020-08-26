@@ -46,6 +46,7 @@ const UserButton: () => React$Node = (props) => {
   function handleUserAction(value) {
     if (value === 'logout') {
       setTimeout(() => {
+        dataStore.logout();
         closeDrawer();
         setTimeout(() => {
           setLoginAsRoot();

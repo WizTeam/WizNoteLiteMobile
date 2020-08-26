@@ -33,6 +33,7 @@ export default {
   error31004: '登录太频繁啦，休息一下吧！',
   error31005: '用户被锁定',
   error31013: '手机号已经被注册，请更换手机号！',
+  menuLogout: 'Logout',
 
   itemAllNotes: 'All Notes',
   itemTrash: 'Trash',

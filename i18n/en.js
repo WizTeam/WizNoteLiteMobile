@@ -32,6 +32,7 @@ export default {
   error31004: 'Log in too frequently, please try again later.',
   error31005: 'Deactivate Account',
   error31013: 'This phone number has been used for registration, please change another one.',
+  menuLogout: 'Logout',
 
   itemAllNotes: 'All Notes',
   itemTrash: 'Trash',

@@ -310,7 +310,8 @@ const LoginScreen: () => React$Node = (props) => {
                     inputContainerStyle={styles.input}
                     inputStyle={styles.inputElement}
                     disabled={isWorking}
-                    textContentType="username"
+                    textContentType="emailAddress"
+                    autoCapitalize="none"
                     placeholder={i18n.t('placeholderUserId')}
                     errorMessage={userIdErrorMessage}
                     onChangeText={handleChangeUserId}
