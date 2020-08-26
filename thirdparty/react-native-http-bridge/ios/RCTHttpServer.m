@@ -54,22 +54,12 @@ RCT_EXPORT_MODULE();
         @try {
             if ([GCDWebServerTruncateHeaderValue(request.contentType) isEqualToString:@"application/json"]) {
                 GCDWebServerDataRequest* dataRequest = (GCDWebServerDataRequest*)request;
-                [self sendEventWithName:@"httpServerResponseReceived"
-                                                             body:@{@"requestId": requestId,
-                                                                    @"postData": dataRequest.jsonObject,
-                                                                    @"type": type,
-                                                                    @"url": request.URL.relativeString}];
+                [self sendEventWithName:@"httpServerResponseReceived" body:@{@"requestId": requestId, @"postData": dataRequest.jsonObject, @"type": type, @"url": request.URL.relativeString}];
             } else {
-                [self sendEventWithName:@"httpServerResponseReceived"
-                                                             body:@{@"requestId": requestId,
-                                                                    @"type": type,
-                                                                    @"url": request.URL.relativeString}];
+                [self sendEventWithName:@"httpServerResponseReceived" body:@{@"requestId": requestId, @"type": type, @"url": request.URL.relativeString}];
             }
         } @catch (NSException *exception) {
-            [self sendEventWithName:@"httpServerResponseReceived"
-                                                         body:@{@"requestId": requestId,
-                                                                @"type": type,
-                                                                @"url": request.URL.relativeString}];
+            [self sendEventWithName:@"httpServerResponseReceived" body:@{@"requestId": requestId, @"type": type, @"url": request.URL.relativeString}];
         }
     }];
 }
@@ -132,6 +122,7 @@ RCT_EXPORT_METHOD(respondWithFile: (NSString *) requestId
     NSData* data = [NSData dataWithContentsOfFile:file];
     GCDWebServerDataResponse* requestResponse = [[GCDWebServerDataResponse alloc] initWithData:data contentType:type];
     requestResponse.statusCode = code;
+    requestResponse.cacheControlMaxAge = 31536000;
 
     GCDWebServerCompletionBlock completionBlock = nil;
     @synchronized (self) {

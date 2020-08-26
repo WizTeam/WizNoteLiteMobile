@@ -51,7 +51,7 @@ RCT_EXPORT_MODULE();
     NSString* js = @"window.WizWebView = window.webkit.messageHandlers.WizWebView";
     WKUserScript* script = [[WKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
     [config.userContentController addUserScript:script];
-    _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) configuration:config];
+    _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
     _webView.navigationDelegate = self;
     [_webView setOpaque:NO];
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:3000"]]];
@@ -78,13 +78,17 @@ RCT_EXPORT_MODULE();
   [super viewWillAppear:animated];
 }
 
-// Assumes input like "#00FF00" (#RRGGBB).
-+ (UIColor *)colorFromHexString:(NSString *)hexString {
-  unsigned rgbValue = 0;
-  NSScanner *scanner = [NSScanner scannerWithString:hexString];
-  [scanner setScanLocation:1]; // bypass '#' character
-  [scanner scanHexInt:&rgbValue];
-  return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+- (void) viewWillDisappear:(BOOL)animated
+{
+  [_webView endEditing:YES];
+  [super viewWillDisappear:animated];
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+  NSString* data = @"{markdown: '', contentId: ''}";
+  [self loadNote:data];
+  [super viewDidDisappear:animated];
 }
 
 - (void) updateTheme:(NSString*)theme {
@@ -114,10 +118,6 @@ RCT_EXPORT_MODULE();
   }];
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-}
-
 + (UIViewController *) noteViewController:(NSDictionary *)props {
   static dispatch_once_t onceToken;
   static NoteViewController* viewController;
@@ -144,5 +144,16 @@ RCT_EXPORT_MODULE();
   }
   //
 }
+
+
+// Assumes input like "#00FF00" (#RRGGBB).
++ (UIColor *)colorFromHexString:(NSString *)hexString {
+  unsigned rgbValue = 0;
+  NSScanner *scanner = [NSScanner scannerWithString:hexString];
+  [scanner setScanLocation:1]; // bypass '#' character
+  [scanner scanHexInt:&rgbValue];
+  return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+}
+
 
 @end

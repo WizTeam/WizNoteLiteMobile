@@ -24,7 +24,12 @@ function Editor(props) {
     }
   }
   //
-  const theme = props.theme || params.theme || 'light';
+  let theme = props.theme || params.theme;
+  if (!theme) {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)')?.matches ?? false;
+    const defaultTheme = isDarkMode ? 'dark' : 'light';
+    theme = defaultTheme;
+  }
   //
   let markdown = props.markdown || '';
 
@@ -60,7 +65,9 @@ function App() {
   };
   //
   return (
-    <div className="App">
+    <div className="App" style={{
+      height: '100vh'
+    }}>
       <Editor
         style={style}
         contentId={data?.contentId}
