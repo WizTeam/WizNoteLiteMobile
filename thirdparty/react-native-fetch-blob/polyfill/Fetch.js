@@ -1,8 +1,14 @@
-import RNFetchBlob from '../index.js'
+import config from '../config';
+import wrap from '../wrap';
 import Log from '../utils/log.js'
 import fs from '../fs'
 import unicode from '../utils/unicode'
 import Blob from './Blob'
+
+const RNFetchBlob = {
+  wrap,
+  config,
+};
 
 const log = new Log('FetchPolyfill')
 

@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NoteViewController : UIViewController
 
-+ (UIViewController *) noteViewController:(NSDictionary *)props;
++ (UIViewController *) noteViewController:(NSDictionary  * _Nullable )props;
 
 @end
 

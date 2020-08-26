@@ -26,6 +26,9 @@ import _ from 'lodash'
 import android from './android'
 import ios from './ios'
 import JSONStream from './json-stream'
+import config from './config';
+import wrap from './wrap';
+
 const {
   RNFetchBlobSession,
   readStream,
@@ -78,10 +81,6 @@ if(!RNFetchBlob || !RNFetchBlob.fetchBlobForm || !RNFetchBlob.fetchBlob) {
   )
 }
 
-function wrap(path:string):string {
-  return 'RNFetchBlob-file://' + path
-}
-
 /**
  * Calling this method will inject configurations into followed `fetch` method.
  * @param  {RNFetchBlobConfig} options
@@ -108,9 +107,6 @@ function wrap(path:string):string {
  *
  * @return {function} This method returns a `fetch` method instance.
  */
-function config (options:RNFetchBlobConfig) {
-  return { fetch : fetch.bind(options) }
-}
 
 /**
  * Fetch from file system, use the same interface as RNFB.fetch

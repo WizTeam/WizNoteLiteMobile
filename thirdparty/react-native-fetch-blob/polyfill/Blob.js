@@ -2,11 +2,17 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-import RNFetchBlob from '../index.js'
+import config from '../config';
+import wrap from '../wrap';
 import fs from '../fs.js'
 import getUUID from '../utils/uuid'
 import Log from '../utils/log.js'
 import EventTarget from './EventTarget'
+
+const RNFetchBlob = {
+  wrap,
+  config,
+};
 
 const log = new Log('Blob')
 const blobCacheDir = fs.dirs.DocumentDir + '/RNFetchBlob-blobs/'
