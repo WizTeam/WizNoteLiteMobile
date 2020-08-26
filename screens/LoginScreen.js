@@ -15,6 +15,7 @@ import {
   Alert,
   ImageBackground,
   TouchableHighlight,
+  Linking,
 } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
@@ -236,6 +237,10 @@ const LoginScreen: () => React$Node = () => {
     setMainAsRoot();
   }
 
+  function handleForgotPassword() {
+    Linking.openURL('https://www.wiz.cn/login#forgot');
+  }
+
   // eslint-disable-next-line react/prop-types
   function handleRenderDropdownBase({ value }) {
     const key = value === 'private' ? 'serverTypePrivate' : 'serverTypeDefault';
@@ -316,12 +321,12 @@ const LoginScreen: () => React$Node = () => {
                   />
                   {isPrivateServer && <Input containerStyle={styles.inputContainer} inputContainerStyle={styles.input} disabled={isWorking} placeholder={i18n.t('placeholderPrivateServer')} errorMessage={serverErrorMessage} onChangeText={handleChangeServerUrl} />}
                 </View>
-                <View style={{ ...styles.sectionContainer, ...styles.buttonBox }}>
+                <View style={[styles.sectionContainer, styles.buttonBox]}>
                   {isLogin && <Button disabledStyle={styles.button} buttonStyle={styles.button} loading={isWorking} disabled={isWorking} title={i18n.t('buttonLogin')} onPress={handleLogin} />}
                   {!isLogin && <Button disabledStyle={styles.button} buttonStyle={styles.button} loading={isWorking} disabled={isWorking} title={i18n.t('buttonSignUp')} onPress={handleSignUp} />}
                 </View>
                 <View style={styles.sectionContainer}>
-                  {isLogin && <Button titleStyle={styles.forgotButton} type="clear" title={i18n.t('buttonForgotPassword')} onPress={handleSignUp} />}
+                  {isLogin && <Button titleStyle={styles.forgotButton} type="clear" title={i18n.t('buttonForgotPassword')} onPress={handleForgotPassword} />}
                 </View>
               </View>
               <Text style={styles.declare}>
