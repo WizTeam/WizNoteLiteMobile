@@ -15,7 +15,7 @@
       "scale" : "1x"
     },
     {
-      "filename" : "启动页_light_12.9\"iPad Pro横屏@2x.png",
+      "filename" : "ipad_lauch_light@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -26,12 +26,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "启动页_night_12.9\"iPad Pro横屏@2x.png",
+      "filename" : "ipad_lauch_dark@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "启动页_light_12.9\"iPad Pro横屏@3x.png",
+      "filename" : "ipad_lauch_light@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -42,7 +42,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "启动页_night_12.9\"iPad Pro横屏@3x.png",
+      "filename" : "ipad_lauch_dark@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -63,7 +63,7 @@
       "width-class" : "compact"
     },
     {
-      "filename" : "启动页_light_12.9\"iPad Pro竖屏@2x.png",
+      "filename" : "ipad_lauch_light_C@2x.png",
       "idiom" : "universal",
       "scale" : "2x",
       "width-class" : "compact"
@@ -75,13 +75,13 @@
           "value" : "dark"
         }
       ],
-      "filename" : "启动页_night_12.9\"iPad Pro竖屏@2x.png",
+      "filename" : "ipad_lauch_dark_C@2x.png",
       "idiom" : "universal",
       "scale" : "2x",
       "width-class" : "compact"
     },
     {
-      "filename" : "启动页_light_12.9\"iPad Pro竖屏@3x.png",
+      "filename" : "ipad_lauch_light_C@3x.png",
       "idiom" : "universal",
       "scale" : "3x",
       "width-class" : "compact"
@@ -93,7 +93,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "启动页_night_12.9\"iPad Pro竖屏@3x.png",
+      "filename" : "ipad_lauch_dark_C@3x.png",
       "idiom" : "universal",
       "scale" : "3x",
       "width-class" : "compact"
