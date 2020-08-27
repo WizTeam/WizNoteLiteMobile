@@ -115,8 +115,12 @@ class Api extends EventEmitter {
   }
 
   async getNoteMarkdown(kbGuid, noteGuid) {
-    const markdown = await sdk.getNoteMarkdown(this.userGuid, kbGuid, noteGuid);
+    const markdown = await sdk.getNoteMarkdown(this.userGuid, kbGuid || this.kbGuid, noteGuid);
     return markdown;
+  }
+
+  async setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown) {
+    await sdk.setNoteMarkdown(userGuid || this.userGuid, kbGuid || this.kbGuid, noteGuid, markdown);
   }
 
   async getAllTags(kbGuid) {

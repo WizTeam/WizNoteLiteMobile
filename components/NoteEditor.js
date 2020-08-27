@@ -7,6 +7,7 @@ import { PORT } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
 import app from '../wrapper/app';
+import { handleEditorEvent } from '../services/view_note';
 
 const NoteEditor: () => React$Node = (props) => {
   const webViewRef = useRef(null);
@@ -16,12 +17,11 @@ const NoteEditor: () => React$Node = (props) => {
     if (!note) {
       return;
     }
-    console.log(`load note: ${note.title}`);
     // console.log(`load note: ${note.markdown}`);
     const data = {
       markdown: note.markdown,
       resourceUrl: `http://localhost:${PORT}/${api.userGuid}/${kbGuid}/${note.guid}`,
-      contentId: note.guid,
+      contentId: `${api.userGuid}/${kbGuid}/${note.guid}`,
     };
     const dataText = JSON.stringify(data);
     const js = `window.loadMarkdown(${dataText});true;`;
@@ -50,6 +50,13 @@ const NoteEditor: () => React$Node = (props) => {
       });
     }
   }
+
+  function handleMessage(event) {
+    const body = event.nativeEvent.data;
+    if (body) {
+      handleEditorEvent(body);
+    }
+  }
   //
   const isDarkMode = useDarkMode();
   const theme = isDarkMode ? 'dark' : 'lite';
@@ -62,6 +69,7 @@ const NoteEditor: () => React$Node = (props) => {
   return (
     <View style={props.containerStyle}>
       <WebView
+        injectedJavaScript="window.WizWebView = window.ReactNativeWebView;"
         ref={(r) => { webViewRef.current = r; }}
         style={props.editorStyle}
         originWhitelist={['*']}
@@ -69,6 +77,7 @@ const NoteEditor: () => React$Node = (props) => {
           uri: editorHtmlPath,
         }}
         onLoad={handleLoaded}
+        onMessage={handleMessage}
       />
     </View>
   );
