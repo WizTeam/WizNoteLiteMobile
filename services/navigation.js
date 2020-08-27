@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
+import i18n from 'i18n-js';
 import { Navigation } from 'react-native-navigation';
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
-import { showMessage } from "react-native-flash-message";
+import { showMessage } from 'react-native-flash-message';
 
 import { isTablet } from '../utils/device';
 
@@ -101,7 +102,7 @@ export function setMainAsRoot() {
                 ],
                 options: {
                   bottomTab: {
-                    text: 'Notes',
+                    text: i18n.t('bottomBarNotes'),
                     icon: require('../images/icons/notes.png'),
                   },
                   topBar: {
@@ -128,7 +129,7 @@ export function setMainAsRoot() {
                     },
                   },
                   bottomTab: {
-                    text: 'Starred',
+                    text: i18n.t('bottomBarStarred'),
                     icon: require('../images/icons/starred.png'),
                   },
                 },
@@ -150,7 +151,7 @@ export function setMainAsRoot() {
                     },
                   },
                   bottomTab: {
-                    text: 'Search',
+                    text: i18n.t('bottomBarSearch'),
                     icon: require('../images/icons/search.png'),
                   },
                 },

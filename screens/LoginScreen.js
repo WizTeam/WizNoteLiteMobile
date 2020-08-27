@@ -251,10 +251,10 @@ const LoginScreen: () => React$Node = (props) => {
   }
 
   const serverData = [{
-    label: 'WizNote Server',
+    label: i18n.t('serverTypeDefault'),
     value: 'official',
   }, {
-    label: 'Private Server',
+    label: i18n.t('serverTypePrivate'),
     value: 'private',
   }];
 

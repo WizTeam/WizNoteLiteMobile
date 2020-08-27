@@ -40,4 +40,7 @@ export default {
   itemAllNotes: 'All Notes',
   itemTrash: 'Trash',
   titleStarredNotes: 'Starred Notes',
+  bottomBarNotes: 'Notes',
+  bottomBarStarred: 'Starred',
+  bottomBarSearch: 'Search',
 };
