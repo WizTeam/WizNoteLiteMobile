@@ -63,7 +63,12 @@ RCT_EXPORT_MODULE();
     _webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
     _webView.navigationDelegate = self;
     [_webView setOpaque:NO];
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:3000"]]];
+    //
+    NSString *path = [[NSBundle mainBundle] resourcePath];
+    NSString* editorHtmlPath = [path stringByAppendingPathComponent:@"build/index.html"];
+    NSURL* editorHtmlUrl = [NSURL fileURLWithPath:editorHtmlPath];
+    //
+    [_webView loadRequest:[NSURLRequest requestWithURL:editorHtmlUrl]];
   }
   return self;
 }
