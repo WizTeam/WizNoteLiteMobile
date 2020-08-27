@@ -1,7 +1,38 @@
+/* eslint-disable import/no-unresolved */
+import i18n from 'i18n-js';
 import { Navigation } from 'react-native-navigation';
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
+import { showMessage } from 'react-native-flash-message';
 
 import { isTablet } from '../utils/device';
+
+export async function showTopBarMessage({ message, description, type }) {
+  const componentId = await Navigation.showOverlay({
+    component: {
+      name: 'TopBarFlashMessages',
+      passProps: {},
+      options: {
+        overlay: {
+          interceptTouchOutside: false,
+        },
+        layout: {
+          componentBackgroundColor: 'transparent',
+          orientation: ['portrait'],
+        },
+      },
+    },
+  });
+  //
+  showMessage({
+    message,
+    description,
+    type,
+  });
+  //
+  setTimeout(() => {
+    Navigation.dismissOverlay(componentId);
+  }, 3000);
+}
 
 export function closeDrawer() {
   RNNDrawer.dismissDrawer();
@@ -71,7 +102,7 @@ export function setMainAsRoot() {
                 ],
                 options: {
                   bottomTab: {
-                    text: 'Notes',
+                    text: i18n.t('bottomBarNotes'),
                     icon: require('../images/icons/notes.png'),
                   },
                   topBar: {
@@ -98,7 +129,7 @@ export function setMainAsRoot() {
                     },
                   },
                   bottomTab: {
-                    text: 'Starred',
+                    text: i18n.t('bottomBarStarred'),
                     icon: require('../images/icons/starred.png'),
                   },
                 },
@@ -120,7 +151,7 @@ export function setMainAsRoot() {
                     },
                   },
                   bottomTab: {
-                    text: 'Search',
+                    text: i18n.t('bottomBarSearch'),
                     icon: require('../images/icons/search.png'),
                   },
                 },
