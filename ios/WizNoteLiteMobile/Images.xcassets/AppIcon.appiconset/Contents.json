@@ -1,46 +1,55 @@
 {
   "images" : [
     {
+      "filename" : "iPhone Notification_iOS 7-13_20pt@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
+      "filename" : "iPhone Notification_iOS 7-13_20pt@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
+      "filename" : "iPhone Settings_iOS 7-13_29pt@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "iPhone Settings_iOS 7-13_29pt@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
+      "filename" : "iPhone Spotlight_iOS 7-13_40pt@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
+      "filename" : "iPhone Spotlight_iOS 7-13_40pt@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
+      "filename" : "iPhone App_iOS 7-13_60pt@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "iPhone App_iOS 7-13_60pt@3x-1.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
+      "filename" : "App Store_iOS 1024t.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
