@@ -23,6 +23,9 @@ export default {
   errorUpdateServer: 'WizNote server is too old, update needed.',
   errorUnknownServerVersion: 'Unknown server version: {{message}}',
   errorNetwork: 'Network error: {{message}}',
+  errorSync: 'Sync Error',
+  errorNoAccount: 'No WizNote Account, please login or sign up.',
+  errorSyncMessage: '{{message}}',
 
   errorInvalidUserId: 'User not exists (invalid email).',
   errorLicenseUserLimit: 'License error: too many active users.',

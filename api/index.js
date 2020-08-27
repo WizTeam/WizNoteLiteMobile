@@ -23,6 +23,7 @@ class SdkEventListener {
 class Api extends EventEmitter {
   constructor() {
     super();
+    sdk.i18nInit({});
     this._user = null;
   }
 
@@ -100,7 +101,7 @@ class Api extends EventEmitter {
   }
 
   async syncKb(kbGuid, options) {
-    sdk.syncKb(this.userGuid, kbGuid, options);
+    await sdk.syncKb(this.userGuid, kbGuid, options);
   }
 
   async getAllNotes(kbGuid, options) {

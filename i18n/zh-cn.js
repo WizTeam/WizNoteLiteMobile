@@ -24,6 +24,9 @@ export default {
   errorUpdateServer: '为知笔记服务太旧了, 请升级服务器.',
   errorUnknownServerVersion: '无法获取服务器版本: {{message}}',
   errorNetwork: '网络错误: {{message}}',
+  errorSync: 'Sync Error',
+  errorNoAccount: 'No WizNote Account, please login or sign up.',
+  errorSyncMessage: '{{message}}',
 
   errorInvalidUserId: '用户不存在，无效的邮箱 或 手机号',
   errorLicenseUserLimit: '许可错误。 当前用户超出许可用户限制。',

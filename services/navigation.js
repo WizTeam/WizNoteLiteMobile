@@ -1,7 +1,37 @@
+/* eslint-disable import/no-unresolved */
 import { Navigation } from 'react-native-navigation';
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
+import { showMessage } from "react-native-flash-message";
 
 import { isTablet } from '../utils/device';
+
+export async function showTopBarMessage({ message, description, type }) {
+  const componentId = await Navigation.showOverlay({
+    component: {
+      name: 'TopBarFlashMessages',
+      passProps: {},
+      options: {
+        overlay: {
+          interceptTouchOutside: false,
+        },
+        layout: {
+          componentBackgroundColor: 'transparent',
+          orientation: ['portrait'],
+        },
+      },
+    },
+  });
+  //
+  showMessage({
+    message,
+    description,
+    type,
+  });
+  //
+  setTimeout(() => {
+    Navigation.dismissOverlay(componentId);
+  }, 3000);
+}
 
 export function closeDrawer() {
   RNNDrawer.dismissDrawer();

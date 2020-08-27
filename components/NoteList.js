@@ -3,11 +3,13 @@ import { FlatList } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
+import i18n from 'i18n-js';
+
 import { getDeviceDynamicColor } from '../config/Colors';
 import { isTablet } from '../utils/device';
 import dataStore from '../data_store';
 import api from '../api';
-
+import { showTopBarMessage } from '../services/navigation';
 import { formatDateString } from '../utils/date';
 import HighlightText from './HighlightText';
 
@@ -77,11 +79,28 @@ const NoteList: () => React$Node = (props) => {
 
   const [isRefreshing, setRefreshing] = useState(false);
   //
-  function handleRefresh() {
+  async function handleRefresh() {
     setRefreshing(true);
-    api.syncKb(null, {
-      manual: true,
-    });
+    try {
+      await api.syncKb(null, {
+        manual: true,
+      });
+    } catch (err) {
+      if (err.code === 'WizErrorNoAccount') {
+        showTopBarMessage({
+          message: i18n.t('errorSync'),
+          description: i18n.t('errorNoAccount'),
+          type: 'warning',
+        });
+      } else {
+        showTopBarMessage({
+          message: i18n.t('errorSync'),
+          description: i18n.t('errorSyncMessage', err.message),
+          type: 'error',
+        });
+      }
+      setRefreshing(false);
+    }
   }
   //
   useEffect(() => {
@@ -89,8 +108,16 @@ const NoteList: () => React$Node = (props) => {
     function handleSyncStart() {
     }
 
-    function handleSyncFinish() {
+    function handleSyncFinish(userGuid, kbGuid, result) {
       setRefreshing(false);
+      const error = result.error;
+      if (error) {
+        showTopBarMessage({
+          message: i18n.t('errorSync'),
+          description: i18n.t('errorSyncMessage', error.message),
+          type: 'error',
+        });
+      }
     }
     //
     api.on('syncStart', handleSyncStart);

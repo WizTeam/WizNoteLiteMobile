@@ -26,6 +26,9 @@ export default {
   errorUpdateServer: '為知筆記服務太舊了, 請升級服務器.',
   errorUnknownServerVersion: '無法獲取服務器版本: {{message}}',
   errorNetwork: '網絡錯誤: {{message}}',
+  errorSync: 'Sync Error',
+  errorNoAccount: 'No WizNote Account, please login or sign up.',
+  errorSyncMessage: '{{message}}',
 
   errorInvalidUserId: '用戶不存在，無效的郵箱 或 手機號',
   errorLicenseUserLimit: '許可錯誤。 當前用戶超出許可用戶限制。',
