@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* WizNoteLiteMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* WizNoteLiteMobileTests.m */; };
-		1282C3DFD718E40DA8C0DA45 /* libPods-WizNoteLiteMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CD559D3D61F8467C46B581 /* libPods-WizNoteLiteMobile.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -28,11 +27,11 @@
 		301F7E8824DBA1C3004C4968 /* default_note.html in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8524DBA1C2004C4968 /* default_note.html */; };
 		3081134324F3B983003E9528 /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3081134224F3B983003E9528 /* NoteViewController.m */; };
 		30AB5C4D24EE1DDE00BEE17A /* build in Resources */ = {isa = PBXBuildFile; fileRef = 30AB5C4C24EE1DDE00BEE17A /* build */; };
-		4F4E8EBB9FC015896EF16477 /* libPods-WizNoteLiteMobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7543716A2129D0D966569954 /* libPods-WizNoteLiteMobile-tvOSTests.a */; };
-		8017807D826BE5067D5889E5 /* libPods-WizNoteLiteMobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2883BBA261921F9D44C0E8B6 /* libPods-WizNoteLiteMobile-tvOS.a */; };
+		39E305B57498CDDB2C2B226B /* libPods-WizNoteLiteMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE2B4D33B3C882B076CF2E16 /* libPods-WizNoteLiteMobile.a */; };
+		62227E4A95FAEC8E10914C0B /* libPods-WizNoteLiteMobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 347EEE8B21010D11B3F8E6FF /* libPods-WizNoteLiteMobile-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		CD9BDB568ACE74BA37E75891 /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5086FD14FEBB43765E59EA /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a */; };
-		F4286F8BFADE772A29AFEAB3 /* libPods-WizNoteLiteMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CD559D3D61F8467C46B581 /* libPods-WizNoteLiteMobile.a */; };
+		898C86C543527EA76397A388 /* libPods-WizNoteLiteMobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12798D93BDC55EDE913400A0 /* libPods-WizNoteLiteMobile-tvOSTests.a */; };
+		D889BB8C958BD77FB7AC2C32 /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E64DFF7D47C6EE01AD692327 /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,37 +56,36 @@
 		00E356EE1AD99517003FC87E /* WizNoteLiteMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WizNoteLiteMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* WizNoteLiteMobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WizNoteLiteMobileTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* WizNoteLiteMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WizNoteLiteMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B31D745A0EA4BF974E3E8FE /* Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOSTests/Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		12798D93BDC55EDE913400A0 /* libPods-WizNoteLiteMobile-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* WizNote Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WizNote Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = WizNoteLiteMobile/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = WizNoteLiteMobile/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = WizNoteLiteMobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = WizNoteLiteMobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = WizNoteLiteMobile/main.m; sourceTree = "<group>"; };
-		145B5F2E7FBCD7B3D5A06886 /* Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOSTests/Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		2883BBA261921F9D44C0E8B6 /* libPods-WizNoteLiteMobile-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* WizNoteLiteMobile-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WizNoteLiteMobile-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* WizNoteLiteMobile-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WizNoteLiteMobile-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30077D4024EA737700473121 /* WizNoteLiteMobile-Deploy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WizNoteLiteMobile-Deploy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		30077D4124EA737800473121 /* WizNoteLiteMobile copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "WizNoteLiteMobile copy-Info.plist"; path = "/Users/weishijun/WizTeam/WizNoteLiteMobile/ios/WizNoteLiteMobile copy-Info.plist"; sourceTree = "<absolute>"; };
 		301F7E8324DBA1C2004C4968 /* zh-cn */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "zh-cn"; sourceTree = "<group>"; };
 		301F7E8424DBA1C2004C4968 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en; sourceTree = "<group>"; };
 		301F7E8524DBA1C2004C4968 /* default_note.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default_note.html; sourceTree = "<group>"; };
 		3081134124F3B983003E9528 /* NoteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NoteViewController.h; path = WizNoteLiteMobile/NoteViewController.h; sourceTree = "<group>"; };
 		3081134224F3B983003E9528 /* NoteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NoteViewController.m; path = WizNoteLiteMobile/NoteViewController.m; sourceTree = "<group>"; };
 		30AB5C4C24EE1DDE00BEE17A /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../web_editor/build; sourceTree = "<group>"; };
-		3A2E8258D141E5ACDE5E1E8A /* Pods-WizNoteLiteMobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		3A5086FD14FEBB43765E59EA /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5490F16C354F9B60C9C99EC8 /* Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOSTests/Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5A79E18EECFFA41885501FC3 /* Pods-WizNoteLiteMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile/Pods-WizNoteLiteMobile.release.xcconfig"; sourceTree = "<group>"; };
-		7543716A2129D0D966569954 /* libPods-WizNoteLiteMobile-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		77B128D941C6E9BCA2E0F4CB /* Pods-WizNoteLiteMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile/Pods-WizNoteLiteMobile.debug.xcconfig"; sourceTree = "<group>"; };
-		78E14998D6F334BA12C4B618 /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		316778D42B7DF52950C1A1AB /* Pods-WizNoteLiteMobile-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		347EEE8B21010D11B3F8E6FF /* libPods-WizNoteLiteMobile-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		34C4D3E2D4546A6492E464BD /* Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOSTests/Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		80B10362CB6FA4E9328F02CF /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = WizNoteLiteMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		90EF40FE7A265B99AF6EA78E /* Pods-WizNoteLiteMobile-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		97CD559D3D61F8467C46B581 /* libPods-WizNoteLiteMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA808514AC9391EE149728B7 /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig"; sourceTree = "<group>"; };
+		B0C26D461F8FEA2A46BA1B5E /* Pods-WizNoteLiteMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile/Pods-WizNoteLiteMobile.release.xcconfig"; sourceTree = "<group>"; };
+		C07B6D8A1C4CE8916D777228 /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig"; sourceTree = "<group>"; };
+		D13016A017B36AC6ED53519A /* Pods-WizNoteLiteMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile/Pods-WizNoteLiteMobile.debug.xcconfig"; sourceTree = "<group>"; };
+		DE2B4D33B3C882B076CF2E16 /* libPods-WizNoteLiteMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E64DFF7D47C6EE01AD692327 /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F9A82C3DABD507FFFE682029 /* Pods-WizNoteLiteMobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD9BDB568ACE74BA37E75891 /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a in Frameworks */,
+				D889BB8C958BD77FB7AC2C32 /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,8 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4286F8BFADE772A29AFEAB3 /* libPods-WizNoteLiteMobile.a in Frameworks */,
-				1282C3DFD718E40DA8C0DA45 /* libPods-WizNoteLiteMobile.a in Frameworks */,
+				39E305B57498CDDB2C2B226B /* libPods-WizNoteLiteMobile.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8017807D826BE5067D5889E5 /* libPods-WizNoteLiteMobile-tvOS.a in Frameworks */,
+				62227E4A95FAEC8E10914C0B /* libPods-WizNoteLiteMobile-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,7 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F4E8EBB9FC015896EF16477 /* libPods-WizNoteLiteMobile-tvOSTests.a in Frameworks */,
+				898C86C543527EA76397A388 /* libPods-WizNoteLiteMobile-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,10 +169,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				97CD559D3D61F8467C46B581 /* libPods-WizNoteLiteMobile.a */,
-				3A5086FD14FEBB43765E59EA /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a */,
-				2883BBA261921F9D44C0E8B6 /* libPods-WizNoteLiteMobile-tvOS.a */,
-				7543716A2129D0D966569954 /* libPods-WizNoteLiteMobile-tvOSTests.a */,
+				DE2B4D33B3C882B076CF2E16 /* libPods-WizNoteLiteMobile.a */,
+				E64DFF7D47C6EE01AD692327 /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a */,
+				347EEE8B21010D11B3F8E6FF /* libPods-WizNoteLiteMobile-tvOS.a */,
+				12798D93BDC55EDE913400A0 /* libPods-WizNoteLiteMobile-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -194,14 +191,14 @@
 		7883B8497B6B693B5699A530 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				78E14998D6F334BA12C4B618 /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig */,
-				AA808514AC9391EE149728B7 /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig */,
-				90EF40FE7A265B99AF6EA78E /* Pods-WizNoteLiteMobile-tvOS.debug.xcconfig */,
-				3A2E8258D141E5ACDE5E1E8A /* Pods-WizNoteLiteMobile-tvOS.release.xcconfig */,
-				5490F16C354F9B60C9C99EC8 /* Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig */,
-				145B5F2E7FBCD7B3D5A06886 /* Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig */,
-				77B128D941C6E9BCA2E0F4CB /* Pods-WizNoteLiteMobile.debug.xcconfig */,
-				5A79E18EECFFA41885501FC3 /* Pods-WizNoteLiteMobile.release.xcconfig */,
+				D13016A017B36AC6ED53519A /* Pods-WizNoteLiteMobile.debug.xcconfig */,
+				B0C26D461F8FEA2A46BA1B5E /* Pods-WizNoteLiteMobile.release.xcconfig */,
+				80B10362CB6FA4E9328F02CF /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig */,
+				C07B6D8A1C4CE8916D777228 /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig */,
+				316778D42B7DF52950C1A1AB /* Pods-WizNoteLiteMobile-tvOS.debug.xcconfig */,
+				F9A82C3DABD507FFFE682029 /* Pods-WizNoteLiteMobile-tvOS.release.xcconfig */,
+				34C4D3E2D4546A6492E464BD /* Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig */,
+				0B31D745A0EA4BF974E3E8FE /* Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -223,7 +220,6 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				7883B8497B6B693B5699A530 /* Pods */,
-				30077D4124EA737800473121 /* WizNoteLiteMobile copy-Info.plist */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -233,7 +229,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* WizNoteLiteMobile.app */,
+				13B07F961A680F5B00A75B9A /* WizNote Lite.app */,
 				00E356EE1AD99517003FC87E /* WizNoteLiteMobileTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* WizNoteLiteMobile-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* WizNoteLiteMobile-tvOSTests.xctest */,
@@ -249,11 +245,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "WizNoteLiteMobileTests" */;
 			buildPhases = (
-				07E1239DDAA059054961C2F2 /* [CP] Check Pods Manifest.lock */,
+				C46C72F93D400D5D25CBDA62 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				647FC7AA568675F8F946C22B /* [CP] Copy Pods Resources */,
+				61C2C93C897462A83A334F0A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -269,13 +265,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "WizNoteLiteMobile" */;
 			buildPhases = (
-				52E1DE22DD021DEEEE72E8E1 /* [CP] Check Pods Manifest.lock */,
+				46B2866827D1CB6DAEAA2DEE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				E4C5D8DC2FBDC962BA41A744 /* [CP] Copy Pods Resources */,
+				B55D653163C93226443ADF31 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -283,20 +279,20 @@
 			);
 			name = WizNoteLiteMobile;
 			productName = WizNoteLiteMobile;
-			productReference = 13B07F961A680F5B00A75B9A /* WizNoteLiteMobile.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* WizNote Lite.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* WizNoteLiteMobile-tvOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "WizNoteLiteMobile-tvOS" */;
 			buildPhases = (
-				4E045C8C5FF502E1DCA4F39A /* [CP] Check Pods Manifest.lock */,
+				933CAEA7301B894F747B724D /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
 				2D02E4791E0B4A5D006451C7 /* Resources */,
 				2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */,
-				22B2E2373D6C631A27C6EE9E /* [CP] Copy Pods Resources */,
+				898DA4D1B91AE5705D400F1E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -311,7 +307,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "WizNoteLiteMobile-tvOSTests" */;
 			buildPhases = (
-				42E96EB8007F8C6FDE41E425 /* [CP] Check Pods Manifest.lock */,
+				70609BE7B6AFA371D9CDE45E /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -463,46 +459,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		07E1239DDAA059054961C2F2 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		22B2E2373D6C631A27C6EE9E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core.common/AccessibilityResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -567,51 +523,7 @@
 			shellPath = /bin/sh;
 			shellScript = "yes | cp -rf ${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/main.jsbundle $SRCROOT/main.jsbundle\n";
 		};
-		42E96EB8007F8C6FDE41E425 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WizNoteLiteMobile-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4E045C8C5FF502E1DCA4F39A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WizNoteLiteMobile-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		52E1DE22DD021DEEEE72E8E1 /* [CP] Check Pods Manifest.lock */ = {
+		46B2866827D1CB6DAEAA2DEE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -633,7 +545,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		647FC7AA568675F8F946C22B /* [CP] Copy Pods Resources */ = {
+		61C2C93C897462A83A334F0A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -683,7 +595,69 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E4C5D8DC2FBDC962BA41A744 /* [CP] Copy Pods Resources */ = {
+		70609BE7B6AFA371D9CDE45E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WizNoteLiteMobile-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		898DA4D1B91AE5705D400F1E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core.common/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		933CAEA7301B894F747B724D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WizNoteLiteMobile-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B55D653163C93226443ADF31 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -731,6 +705,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WizNoteLiteMobile/Pods-WizNoteLiteMobile-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C46C72F93D400D5D25CBDA62 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -836,7 +832,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 78E14998D6F334BA12C4B618 /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig */;
+			baseConfigurationReference = 80B10362CB6FA4E9328F02CF /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -859,7 +855,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA808514AC9391EE149728B7 /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig */;
+			baseConfigurationReference = C07B6D8A1C4CE8916D777228 /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -879,7 +875,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77B128D941C6E9BCA2E0F4CB /* Pods-WizNoteLiteMobile.debug.xcconfig */;
+			baseConfigurationReference = D13016A017B36AC6ED53519A /* Pods-WizNoteLiteMobile.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -895,7 +891,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.wiz.note.lite;
-				PRODUCT_NAME = WizNoteLiteMobile;
+				PRODUCT_NAME = "WizNote Lite";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -905,7 +901,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5A79E18EECFFA41885501FC3 /* Pods-WizNoteLiteMobile.release.xcconfig */;
+			baseConfigurationReference = B0C26D461F8FEA2A46BA1B5E /* Pods-WizNoteLiteMobile.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -920,7 +916,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cn.wiz.note.lite;
-				PRODUCT_NAME = WizNoteLiteMobile;
+				PRODUCT_NAME = "WizNote Lite";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -929,7 +925,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90EF40FE7A265B99AF6EA78E /* Pods-WizNoteLiteMobile-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 316778D42B7DF52950C1A1AB /* Pods-WizNoteLiteMobile-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -957,7 +953,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A2E8258D141E5ACDE5E1E8A /* Pods-WizNoteLiteMobile-tvOS.release.xcconfig */;
+			baseConfigurationReference = F9A82C3DABD507FFFE682029 /* Pods-WizNoteLiteMobile-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -985,7 +981,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5490F16C354F9B60C9C99EC8 /* Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 34C4D3E2D4546A6492E464BD /* Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1012,7 +1008,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 145B5F2E7FBCD7B3D5A06886 /* Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 0B31D745A0EA4BF974E3E8FE /* Pods-WizNoteLiteMobile-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
