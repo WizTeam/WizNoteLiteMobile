@@ -71,6 +71,7 @@ const dark = merge({}, light, {
     noteListTitle: '#f0f0f0',
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
+    drawerItemTitle: '#f0f0f0',
   },
 });
 
