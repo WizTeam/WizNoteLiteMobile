@@ -76,3 +76,41 @@ export function viewNote(parentComponentId) {
     },
   });
 }
+
+export async function createNewNote() {
+  const kbGuid = dataStore.getCurrentKb();
+  //
+  const note = await api.createNote(kbGuid);
+  console.log(note);
+  dataStore.setCurrentNote(note);
+  //
+  const contentId = `${api.userGuid}/${kbGuid}/${note.guid}`;
+  const markdown = note.markdown;
+  const resourceUrl = `http://localhost:${PORT}/${api.userGuid}/${kbGuid}/${note.guid}`;
+
+  const theme = Appearance.getColorScheme();
+  //
+  const loadData = JSON.stringify({
+    contentId, markdown, resourceUrl, theme,
+  });
+  //
+  Navigation.showModal({
+    externalComponent: {
+      name: 'NoteViewScreen', // Push the screen registered with the 'Settings' key
+      options: { // Optional options object to configure the screen
+        topBar: {
+          title: {
+          },
+        },
+        bottomTabs: {
+          visible: false,
+        },
+      },
+      passProps: {
+        loadData,
+        theme,
+        type: 'CreateNote',
+      },
+    },
+  });
+}

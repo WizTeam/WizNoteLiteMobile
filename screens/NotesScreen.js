@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React, { useEffect } from 'react';
 import {
   SafeAreaView,
@@ -11,7 +12,7 @@ import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-n
 import { showDrawer } from '../components/MainDrawer';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { updateNavigationTheme } from '../components/ThemeListener';
-import { viewNote } from '../services/view_note';
+import { viewNote, createNewNote } from '../services/view_note';
 
 import { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
@@ -42,6 +43,8 @@ const NotesScreen: () => React$Node = (props) => {
     const listener = Navigation.events().registerNavigationButtonPressedListener(({ buttonId }) => {
       if (buttonId === 'MainMenuButton') {
         showDrawer(props.componentId);
+      } else if (buttonId === 'NewNoteButton') {
+        createNewNote();
       }
     });
     return () => listener.remove();
@@ -60,7 +63,6 @@ const NotesScreen: () => React$Node = (props) => {
       topBar: {
         leftButtons: [{
           id: 'MainMenuButton',
-          // eslint-disable-next-line import/no-unresolved
           icon: require('../images/icons/menu.png'),
         }],
       },
@@ -101,7 +103,10 @@ NotesScreenImpl.options = {
     },
     leftButtons: [{
       id: 'MainMenuButton',
-      // eslint-disable-next-line import/no-unresolved
+      icon: require('../images/icons/menu.png'),
+    }],
+    rightButtons: [{
+      id: 'NewNoteButton',
       icon: require('../images/icons/menu.png'),
     }],
   },

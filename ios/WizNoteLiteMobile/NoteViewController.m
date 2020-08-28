@@ -42,8 +42,9 @@ RCT_EXPORT_MODULE();
 @end
 
 
-@interface NoteViewController () <WKNavigationDelegate, WKScriptMessageHandler>
-
+@interface NoteViewController () <WKNavigationDelegate,
+  WKScriptMessageHandler>
+@property (nonatomic, strong) NSString* type;
 @end
 
 @implementation NoteViewController {
@@ -51,6 +52,8 @@ RCT_EXPORT_MODULE();
   BOOL _loaded;
   NSString* _waitForLoad;
 }
+
+@synthesize type;
 
 - (id) init {
   self = [super init];
@@ -146,6 +149,16 @@ RCT_EXPORT_MODULE();
     NSString* theme = props[@"theme"];
     if (theme) {
       [viewController updateTheme:theme];
+    }
+    NSString* type = props[@"type"];
+    if (type) {
+      viewController.type = type;
+    }
+    
+    //
+    if ([type isEqualToString:@"CreateNote"]) {
+      UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:viewController];
+      return nav;
     }
   }
   return viewController;
