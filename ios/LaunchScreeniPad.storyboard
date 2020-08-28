@@ -29,10 +29,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="MZx-J8-61u" secondAttribute="bottom" id="H2p-dK-gwK"/>
-                            <constraint firstItem="MZx-J8-61u" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" id="Vmi-mL-GYr"/>
+                            <constraint firstItem="MZx-J8-61u" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Vmi-mL-GYr"/>
                             <constraint firstItem="H4n-e5-mo4" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="b1b-V5-Sb1"/>
-                            <constraint firstItem="MZx-J8-61u" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="jee-yD-Z7z"/>
-                            <constraint firstItem="MZx-J8-61u" firstAttribute="trailing" secondItem="Bcu-3y-fUS" secondAttribute="trailing" id="jx7-vh-d5P"/>
+                            <constraint firstItem="MZx-J8-61u" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="jee-yD-Z7z"/>
+                            <constraint firstItem="MZx-J8-61u" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="jx7-vh-d5P"/>
                             <constraint firstItem="H4n-e5-mo4" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="200" id="nwM-dh-qem"/>
                             <constraint firstItem="H4n-e5-mo4" firstAttribute="trailing" secondItem="Bcu-3y-fUS" secondAttribute="trailing" id="tVl-sX-nx4"/>
                         </constraints>
