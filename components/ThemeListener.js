@@ -17,6 +17,7 @@ function getNavigationOptions(isDarkMode) {
     },
     topBar: {
       leftButtonColor: colors.topBarTitle,
+      rightButtonColor: colors.topBarTitle,
       background: {
         color: colors.topBarBackground,
       },

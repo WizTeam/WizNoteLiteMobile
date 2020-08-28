@@ -123,6 +123,11 @@ class Api extends EventEmitter {
     await sdk.setNoteMarkdown(userGuid || this.userGuid, kbGuid || this.kbGuid, noteGuid, markdown);
   }
 
+  async createNote(kbGuid, note = {}) {
+    const newNote = await sdk.createNote(this.userGuid, kbGuid || this.kbGuid, note);
+    return newNote;
+  }
+
   async getAllTags(kbGuid) {
     const ret = await sdk.getAllTags(this.userGuid, kbGuid || this.kbGuid);
     return ret;
