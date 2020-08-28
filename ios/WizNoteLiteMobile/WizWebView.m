@@ -15,8 +15,8 @@
 
 @interface WizWebViewContainer : UIView
 @property (nonatomic, copy) NSString* url;
-@property (nonatomic, copy) RCTBubblingEventBlock onLoad;
-@property (nonatomic, copy) RCTBubblingEventBlock onMessage;
+@property (nonatomic, copy) RCTDirectEventBlock onLoad;
+@property (nonatomic, copy) RCTDirectEventBlock onMessage;
 @end
 
 @interface WizWebViewManager : RCTViewManager
@@ -80,8 +80,6 @@ WKScriptMessageHandler>
 
 @implementation WizWebViewContainer
 static WizWebView* _webView;
-@synthesize onLoad;
-@synthesize onMessage;
 
 + (void) initialize {
   if (self == [WizWebViewContainer class]) {
@@ -96,6 +94,13 @@ static WizWebView* _webView;
 - (id) init {
   self = [super init];
   [self addSubview:_webView];
+  return self;
+}
+
+- (id) initWithFrame:(CGRect)frame {
+  self = [super initWithFrame:frame];
+  [self addSubview:_webView];
+  _webView.frame = self.bounds;
   return self;
 }
 
@@ -125,7 +130,6 @@ static WizWebView* _webView;
       NSURL* newUrl = [RCTConvert NSURL:urlString];
       NSString* newUrlString = [newUrl absoluteString];
       if ([oldUrlString isEqualToString:newUrlString]) {
-//        self.onLoad(@{});
         return;
       }
     }
@@ -155,8 +159,8 @@ static WizWebView* _webView;
 
 RCT_EXPORT_MODULE(WizWebView)
 RCT_EXPORT_VIEW_PROPERTY(url, NSString*)
-RCT_EXPORT_VIEW_PROPERTY(onLoad, RCTBubblingEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onMessage, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onLoad, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onMessage, RCTDirectEventBlock)
 
 
 - (UIView *)view {

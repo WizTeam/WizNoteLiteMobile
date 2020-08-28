@@ -12,6 +12,9 @@ function getNavigationOptions(isDarkMode) {
   const colors = Colors[isDarkMode ? 'dark' : 'light'];
   //
   return {
+    layout: {
+      componentBackgroundColor: '#282828',
+    },
     statusBar: {
       style: isDarkMode ? 'light' : 'dark',
     },
@@ -34,6 +37,11 @@ function getNavigationOptions(isDarkMode) {
       iconColor: colors.bottomTabText,
       selectedIconColor: colors.primary,
       selectedTextColor: colors.primary,
+    },
+    animations: {
+      push: {
+        shouldWaitForRender: true,
+      },
     },
   };
 }

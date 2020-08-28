@@ -66,7 +66,7 @@ const dark = merge({}, light, {
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
-    noteBackground: '#333333',
+    noteBackground: '#282828',
   },
   pad: {
     noteListBackground: '#2a2a2a',
@@ -75,7 +75,7 @@ const dark = merge({}, light, {
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
-    noteBackground: '#333333',
+    noteBackground: '#282828',
   },
 });
 
