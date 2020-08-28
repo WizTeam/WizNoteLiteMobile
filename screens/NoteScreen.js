@@ -6,8 +6,8 @@ import {
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
-
 import NoteEditor from '../components/NoteEditor';
+import { getDeviceDynamicColor } from '../config/Colors';
 
 const NoteScreen: () => React$Node = () => {
   const styles = useDynamicValue(dynamicStyles);
@@ -34,17 +34,16 @@ const dynamicStyles = new DynamicStyleSheet({
   content: {
     display: 'flex',
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: getDeviceDynamicColor('noteBackground'),
   },
   editorContainer: {
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: getDeviceDynamicColor('noteBackground'),
   },
   editor: {
     alignSelf: 'center',
     width: '100%',
-    // backgroundColor: 'red',
-    backgroundColor: 'transparent',
+    backgroundColor: getDeviceDynamicColor('noteBackground'),
   },
 });
 

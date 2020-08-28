@@ -4,6 +4,7 @@ import { Navigation } from 'react-native-navigation';
 import dataStore from '../data_store';
 import { PORT } from './resources_loader';
 import api from '../api';
+import { injectJavaScript } from '../components/WizWebView';
 
 const NoteViewer = NativeModules.NoteViewModule;
 const eventObject = new NativeEventEmitter(NoteViewer);
@@ -57,9 +58,11 @@ export function viewNote(parentComponentId) {
     contentId, markdown, resourceUrl, theme,
   });
   //
+  injectJavaScript(`window.loadMarkdown(${loadData});`);
+  //
   Navigation.push(parentComponentId, {
-    externalComponent: {
-      name: 'NoteViewScreen', // Push the screen registered with the 'Settings' key
+    component: {
+      name: 'NoteScreen', // Push the screen registered with the 'Settings' key
       options: { // Optional options object to configure the screen
         topBar: {
           title: {
@@ -68,10 +71,6 @@ export function viewNote(parentComponentId) {
         bottomTabs: {
           visible: false,
         },
-      },
-      passProps: {
-        loadData,
-        theme,
       },
     },
   });

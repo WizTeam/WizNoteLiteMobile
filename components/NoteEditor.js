@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { View } from 'react-native';
-import { WebView } from 'react-native-webview';
 import { useDarkMode } from 'react-native-dynamic';
 
 import { PORT } from '../services/resources_loader';
@@ -8,6 +7,7 @@ import { KEYS, connect } from '../data_store';
 import api from '../api';
 import app from '../wrapper/app';
 import { handleEditorEvent } from '../services/view_note';
+import WizWebView from './WizWebView';
 
 const NoteEditor: () => React$Node = (props) => {
   const webViewRef = useRef(null);
@@ -42,6 +42,18 @@ const NoteEditor: () => React$Node = (props) => {
     //
   }, [note, kbGuid]);
 
+  useEffect(() => (
+    () => {
+      const dataText = JSON.stringify({
+        contentId: '',
+        markdown: '',
+        resourceUrl: '',
+      });
+      const js = `window.loadMarkdown(${dataText});true;`;
+      webViewRef.current.injectJavaScript(js);
+    }
+  ), []);
+
   function handleLoaded() {
     if (!isLoadedRef.current) {
       isLoadedRef.current = true;
@@ -68,14 +80,11 @@ const NoteEditor: () => React$Node = (props) => {
   //
   return (
     <View style={props.containerStyle}>
-      <WebView
-        injectedJavaScript="window.WizWebView = window.ReactNativeWebView;"
+      <WizWebView
         ref={(r) => { webViewRef.current = r; }}
         style={props.editorStyle}
-        originWhitelist={['*']}
-        source={{
-          uri: editorHtmlPath,
-        }}
+        // originWhitelist={['*']}
+        url={editorHtmlPath}
         onLoad={handleLoaded}
         onMessage={handleMessage}
       />

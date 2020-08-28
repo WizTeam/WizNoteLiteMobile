@@ -25,6 +25,7 @@
 		301F7E8624DBA1C3004C4968 /* zh-cn in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8324DBA1C2004C4968 /* zh-cn */; };
 		301F7E8724DBA1C3004C4968 /* en in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8424DBA1C2004C4968 /* en */; };
 		301F7E8824DBA1C3004C4968 /* default_note.html in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8524DBA1C2004C4968 /* default_note.html */; };
+		3021967C24F8EC3B001CB726 /* WizWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3021967B24F8EC3B001CB726 /* WizWebView.m */; };
 		3081134324F3B983003E9528 /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3081134224F3B983003E9528 /* NoteViewController.m */; };
 		30AB5C4D24EE1DDE00BEE17A /* build in Resources */ = {isa = PBXBuildFile; fileRef = 30AB5C4C24EE1DDE00BEE17A /* build */; };
 		39E305B57498CDDB2C2B226B /* libPods-WizNoteLiteMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE2B4D33B3C882B076CF2E16 /* libPods-WizNoteLiteMobile.a */; };
@@ -71,6 +72,8 @@
 		301F7E8324DBA1C2004C4968 /* zh-cn */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "zh-cn"; sourceTree = "<group>"; };
 		301F7E8424DBA1C2004C4968 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en; sourceTree = "<group>"; };
 		301F7E8524DBA1C2004C4968 /* default_note.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default_note.html; sourceTree = "<group>"; };
+		3021967A24F8EC3B001CB726 /* WizWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WizWebView.h; path = WizNoteLiteMobile/WizWebView.h; sourceTree = "<group>"; };
+		3021967B24F8EC3B001CB726 /* WizWebView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WizWebView.m; path = WizNoteLiteMobile/WizWebView.m; sourceTree = "<group>"; };
 		3081134124F3B983003E9528 /* NoteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NoteViewController.h; path = WizNoteLiteMobile/NoteViewController.h; sourceTree = "<group>"; };
 		3081134224F3B983003E9528 /* NoteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NoteViewController.m; path = WizNoteLiteMobile/NoteViewController.m; sourceTree = "<group>"; };
 		30AB5C4C24EE1DDE00BEE17A /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../web_editor/build; sourceTree = "<group>"; };
@@ -163,6 +166,8 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				3081134124F3B983003E9528 /* NoteViewController.h */,
 				3081134224F3B983003E9528 /* NoteViewController.m */,
+				3021967A24F8EC3B001CB726 /* WizWebView.h */,
+				3021967B24F8EC3B001CB726 /* WizWebView.m */,
 			);
 			name = WizNoteLiteMobile;
 			sourceTree = "<group>";
@@ -788,6 +793,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				3081134324F3B983003E9528 /* NoteViewController.m in Sources */,
+				3021967C24F8EC3B001CB726 /* WizWebView.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

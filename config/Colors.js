@@ -29,12 +29,14 @@ const light = {
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#d8d8d8',
     drawerItemTitle: '#333333',
+    noteBackground: 'white',
   },
   pad: {
     noteListBackground: '#f0f0f0',
     noteListSelectedBackground: 'white',
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#d8d8d8',
+    noteBackground: 'white',
   },
 };
 
@@ -64,6 +66,7 @@ const dark = merge({}, light, {
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
+    noteBackground: '#333333',
   },
   pad: {
     noteListBackground: '#2a2a2a',
@@ -72,6 +75,7 @@ const dark = merge({}, light, {
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
+    noteBackground: '#333333',
   },
 });
 
