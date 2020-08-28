@@ -19,8 +19,10 @@ function Editor(props) {
     });
     if (window.WizWebView) {
       window.WizWebView.postMessage(messageData);
+    } else if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(messageData);
     } else {
-      console.log(`request save data: contentId=${contentId}`);
+      console.error('unknown browser');
     }
   }
   //
