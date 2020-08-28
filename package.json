@@ -48,6 +48,7 @@
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.7.0",
     "react-native-get-random-values": "^1.4.0",
+    "react-native-iap": "^4.5.3",
     "react-native-localize": "^1.4.1",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-navigation": "^6.11.0",

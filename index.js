@@ -1,5 +1,6 @@
 import './wrapper';
 import { Navigation } from 'react-native-navigation';
+import * as RNIap from 'react-native-iap';
 
 import { registerScreens } from './screens';
 import { setLoginAsRoot, setMainAsRoot } from './services/navigation';
@@ -10,6 +11,10 @@ import dataStore from './data_store';
 import { setDefaultNavigationOptions } from './components/ThemeListener';
 
 const SyncStorage = require('sync-storage').default;
+
+RNIap.initConnection().then((connect) => {
+  console.log('RNIap initConnection', connect);
+});
 
 registerScreens();
 setDefaultNavigationOptions();

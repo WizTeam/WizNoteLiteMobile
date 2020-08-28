@@ -16,6 +16,7 @@ import { viewNote } from '../services/view_note';
 import { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
 import { getDeviceDynamicColor } from '../config/Colors';
+import IapListener from '../components/IapListener';
 
 const NotesScreen: () => React$Node = (props) => {
   //
@@ -76,6 +77,7 @@ const NotesScreen: () => React$Node = (props) => {
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar onThemeChanged={handleThemeChanged} />
+      <IapListener />
       <SafeAreaView style={styles.content}>
         <SideMenuView
           style={styles.root}
