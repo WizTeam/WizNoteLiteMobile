@@ -26,7 +26,6 @@
 		301F7E8724DBA1C3004C4968 /* en in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8424DBA1C2004C4968 /* en */; };
 		301F7E8824DBA1C3004C4968 /* default_note.html in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8524DBA1C2004C4968 /* default_note.html */; };
 		3021967C24F8EC3B001CB726 /* WizWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3021967B24F8EC3B001CB726 /* WizWebView.m */; };
-		3081134324F3B983003E9528 /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3081134224F3B983003E9528 /* NoteViewController.m */; };
 		30AB5C4D24EE1DDE00BEE17A /* build in Resources */ = {isa = PBXBuildFile; fileRef = 30AB5C4C24EE1DDE00BEE17A /* build */; };
 		39E305B57498CDDB2C2B226B /* libPods-WizNoteLiteMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE2B4D33B3C882B076CF2E16 /* libPods-WizNoteLiteMobile.a */; };
 		62227E4A95FAEC8E10914C0B /* libPods-WizNoteLiteMobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 347EEE8B21010D11B3F8E6FF /* libPods-WizNoteLiteMobile-tvOS.a */; };
@@ -74,8 +73,6 @@
 		301F7E8524DBA1C2004C4968 /* default_note.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default_note.html; sourceTree = "<group>"; };
 		3021967A24F8EC3B001CB726 /* WizWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WizWebView.h; path = WizNoteLiteMobile/WizWebView.h; sourceTree = "<group>"; };
 		3021967B24F8EC3B001CB726 /* WizWebView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = WizWebView.m; path = WizNoteLiteMobile/WizWebView.m; sourceTree = "<group>"; };
-		3081134124F3B983003E9528 /* NoteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NoteViewController.h; path = WizNoteLiteMobile/NoteViewController.h; sourceTree = "<group>"; };
-		3081134224F3B983003E9528 /* NoteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NoteViewController.m; path = WizNoteLiteMobile/NoteViewController.m; sourceTree = "<group>"; };
 		30AB5C4C24EE1DDE00BEE17A /* build */ = {isa = PBXFileReference; lastKnownFileType = folder; name = build; path = ../../web_editor/build; sourceTree = "<group>"; };
 		316778D42B7DF52950C1A1AB /* Pods-WizNoteLiteMobile-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOS/Pods-WizNoteLiteMobile-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		347EEE8B21010D11B3F8E6FF /* libPods-WizNoteLiteMobile-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,8 +161,6 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				737B062F24F7970300D21490 /* LaunchScreeniPad.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				3081134124F3B983003E9528 /* NoteViewController.h */,
-				3081134224F3B983003E9528 /* NoteViewController.m */,
 				3021967A24F8EC3B001CB726 /* WizWebView.h */,
 				3021967B24F8EC3B001CB726 /* WizWebView.m */,
 			);
@@ -792,7 +787,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				3081134324F3B983003E9528 /* NoteViewController.m in Sources */,
 				3021967C24F8EC3B001CB726 /* WizWebView.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);

@@ -3,7 +3,6 @@
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
-#import "NoteViewController.h"
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -36,11 +35,6 @@ static void InitializeFlipper(UIApplication *application) {
   [ReactNativeNavigation bootstrapWithDelegate:self launchOptions:launchOptions];
   //
   // initialize on app startted
-  [NoteViewController noteViewController:nil];
-  
-  [ReactNativeNavigation registerExternalComponent:@"NoteViewScreen" callback:^UIViewController *(NSDictionary *props, RCTBridge *bridge) {
-    return [NoteViewController noteViewController:props];
-  }];
   return YES;
 }
 
