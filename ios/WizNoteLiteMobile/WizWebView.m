@@ -106,6 +106,7 @@ static WizWebView* _webView;
 
 - (void) dealloc {
   if (_webView.superview == self) {
+    [_webView endEditing:YES];
     [_webView removeFromSuperview];
   }
 }
