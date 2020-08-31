@@ -23,6 +23,9 @@ const NoteScreen: () => React$Node = () => {
 };
 
 NoteScreen.options = {
+  layout: {
+    componentBackgroundColor: '#282828',
+  },
   topBar: {
     title: {
       // text: 'WizNote Lite',

@@ -107,6 +107,9 @@ NotesScreenImpl.options = {
       icon: require('../images/icons/menu.png'),
     }],
   },
+  sideMenu: {
+    openGestureMode: 'entireScreen',
+  },
 };
 
 const dynamicStyles = new DynamicStyleSheet({

@@ -12,9 +12,6 @@ function getNavigationOptions(isDarkMode) {
   const colors = Colors[isDarkMode ? 'dark' : 'light'];
   //
   return {
-    layout: {
-      componentBackgroundColor: '#282828',
-    },
     statusBar: {
       style: isDarkMode ? 'light' : 'dark',
     },

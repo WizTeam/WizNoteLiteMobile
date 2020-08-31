@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
+import { makeStyles } from '@material-ui/core/styles';
 
 import MarkdownEditor from 'wiz-react-markdown-editor';
 
@@ -8,7 +9,18 @@ import './App.css';
 
 const params = queryString.parse(window.location.search);
 
+const useStyles = makeStyles({
+  editorWrapper: {
+  },
+  editorComponent: {
+    overflowX: 'hidden !important',
+    maxWidth: '100%',
+  },
+});
+
 function Editor(props) {
+  //
+  const classes = useStyles();
   //
   function handleSave({contentId, markdown}) {
     //
@@ -37,11 +49,14 @@ function Editor(props) {
 
   return (
     <MarkdownEditor
+      style={props.style}
       theme={theme}
       onSave={handleSave}
       markdown={markdown}
       resourceUrl={props.resourceUrl}
       contentId={props.contentId}
+      editorWrapperClassName={classes.editorWrapper}
+      editorComponentClassName={classes.editorComponent}
     />
   );
 }
@@ -62,16 +77,13 @@ function App() {
     }
   });
   //
-  const style = {
-    visibility: data ? 'visible' : 'hidden',
-  };
   //
   return (
     <div className="App" style={{
-      height: '100vh'
+      height: '100vh',
+      visibility: (data && data.contentId) ? 'visible' : 'hidden',
     }}>
       <Editor
-        style={style}
         contentId={data?.contentId}
         markdown={data?.markdown}
         resourceUrl={data?.resourceUrl}  

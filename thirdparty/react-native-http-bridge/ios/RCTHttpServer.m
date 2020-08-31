@@ -81,7 +81,15 @@ RCT_EXPORT_METHOD(start:(NSInteger) port
         [self initResponseReceivedFor:_webServer forType:@"GET"];
 //        [self initResponseReceivedFor:_webServer forType:@"DELETE"];
         
-        [_webServer startWithPort:port bonjourName:serviceName];
+        NSMutableDictionary* options = [NSMutableDictionary dictionary];
+        [options setObject:[NSNumber numberWithInteger:port] forKey:GCDWebServerOption_Port];
+        [options setValue:serviceName forKey:GCDWebServerOption_BonjourName];
+        [options setValue:[NSNumber numberWithBool:YES] forKey:GCDWebServerOption_BindToLocalhost];
+        NSError* error = nil;
+        [_webServer startWithOptions:options error:&error];
+        if (error) {
+            RCTLogError(@"failed to start web server: %@", error);
+        }
     });
 }
 

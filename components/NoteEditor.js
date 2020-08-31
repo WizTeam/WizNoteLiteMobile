@@ -82,7 +82,7 @@ const NoteEditor: () => React$Node = (props) => {
     <View style={props.containerStyle}>
       <WizWebView
         ref={(r) => { webViewRef.current = r; }}
-        style={props.editorStyle}
+        style={props.style}
         // originWhitelist={['*']}
         url={editorHtmlPath}
         onLoad={handleLoaded}
