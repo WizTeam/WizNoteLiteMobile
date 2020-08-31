@@ -2,7 +2,6 @@ import React from 'react';
 import {
   SafeAreaView,
 } from 'react-native';
-
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';

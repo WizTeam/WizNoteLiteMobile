@@ -66,7 +66,7 @@ const dark = merge({}, light, {
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
-    noteBackground: '#282828',
+    noteBackground: '#333333',
   },
   pad: {
     noteListBackground: '#2a2a2a',
@@ -75,7 +75,7 @@ const dark = merge({}, light, {
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
-    noteBackground: '#282828',
+    noteBackground: '#333333',
   },
 });
 
@@ -105,4 +105,9 @@ export function getDeviceColor(name) {
   const theme = Appearance.getColorScheme();
   const deviceName = isTablet ? 'pad' : 'phone';
   return Colors[theme][deviceName][name];
+}
+
+export function isDarkMode() {
+  const theme = Appearance.getColorScheme();
+  return theme === 'dark';
 }

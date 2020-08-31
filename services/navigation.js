@@ -5,6 +5,9 @@ import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import { showMessage } from 'react-native-flash-message';
 
 import { isTablet } from '../utils/device';
+import { loadRequest } from '../components/WizSingletonWebView';
+import app from '../wrapper/app';
+import { isDarkMode } from '../config/Colors';
 
 export async function showTopBarMessage({ message, description, type }) {
   const componentId = await Navigation.showOverlay({
@@ -70,6 +73,15 @@ export function showLoginDialog(options) {
 }
 
 export function setMainAsRoot() {
+  //
+  const darkMode = isDarkMode();
+  const theme = darkMode ? 'dark' : 'lite';
+  const resPath = app.getPath('res');
+  const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}`;
+  // const editorHtmlPath = `http://localhost:3000?theme=${theme}`;
+  // console.log(`load html: ${editorHtmlPath}`);
+  loadRequest(editorHtmlPath);
+  //
   if (isTablet) {
     Navigation.setRoot({
       root: {

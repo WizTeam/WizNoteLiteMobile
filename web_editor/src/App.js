@@ -24,13 +24,14 @@ function Editor(props) {
   //
   function handleSave({contentId, markdown}) {
     //
+    // console.log('request save data')
     const messageData = JSON.stringify({
       event: 'saveData',
       contentId,
       markdown,
     });
-    if (window.WizWebView) {
-      window.WizWebView.postMessage(messageData);
+    if (window.WizSingletonWebView) {
+      window.WizSingletonWebView.postMessage(messageData);
     } else if (window.ReactNativeWebView) {
       window.ReactNativeWebView.postMessage(messageData);
     } else {
