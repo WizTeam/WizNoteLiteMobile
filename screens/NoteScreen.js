@@ -7,7 +7,7 @@ import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-n
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import NoteEditor from '../components/NoteEditor';
-import Colors, { getDeviceDynamicColor, getColor } from '../config/Colors';
+import { getDeviceDynamicColor } from '../config/Colors';
 
 const NoteScreen: () => React$Node = () => {
   const styles = useDynamicValue(dynamicStyles);

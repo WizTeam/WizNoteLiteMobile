@@ -5,7 +5,7 @@ import dataStore from '../data_store';
 import { PORT } from './resources_loader';
 import api from '../api';
 import { injectJavaScript } from '../components/WizWebView';
-import { getDeviceColor } from '../config/Colors';
+import { getColor, getDeviceColor } from '../config/Colors';
 
 export function viewNote(parentComponentId) {
   const note = dataStore.getCurrentNote();
@@ -29,6 +29,9 @@ export function viewNote(parentComponentId) {
       options: {
         layout: {
           componentBackgroundColor: getDeviceColor('noteBackground'),
+        },
+        bottomTabs: {
+          backgroundColor: getColor('bottomTabBackground'),
         },
       },
     },
