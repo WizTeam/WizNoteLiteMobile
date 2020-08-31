@@ -7,7 +7,7 @@ import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-n
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import NoteEditor from '../components/NoteEditor';
-import { getDeviceDynamicColor } from '../config/Colors';
+import Colors, { getDeviceDynamicColor, getColor } from '../config/Colors';
 
 const NoteScreen: () => React$Node = () => {
   const styles = useDynamicValue(dynamicStyles);
@@ -23,13 +23,12 @@ const NoteScreen: () => React$Node = () => {
 };
 
 NoteScreen.options = {
-  layout: {
-    componentBackgroundColor: '#282828',
-  },
   topBar: {
     title: {
-      // text: 'WizNote Lite',
     },
+  },
+  bottomTabs: {
+    visible: false,
   },
 };
 

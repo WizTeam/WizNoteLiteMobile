@@ -5,6 +5,7 @@ import dataStore from '../data_store';
 import { PORT } from './resources_loader';
 import api from '../api';
 import { injectJavaScript } from '../components/WizWebView';
+import { getDeviceColor } from '../config/Colors';
 
 export function viewNote(parentComponentId) {
   const note = dataStore.getCurrentNote();
@@ -19,18 +20,15 @@ export function viewNote(parentComponentId) {
     contentId, markdown, resourceUrl, theme,
   });
   //
+  // let browser load markdown first
   injectJavaScript(`window.loadMarkdown(${loadData});`);
   //
   Navigation.push(parentComponentId, {
     component: {
-      name: 'NoteScreen', // Push the screen registered with the 'Settings' key
-      options: { // Optional options object to configure the screen
-        topBar: {
-          title: {
-          },
-        },
-        bottomTabs: {
-          visible: false,
+      name: 'NoteScreen',
+      options: {
+        layout: {
+          componentBackgroundColor: getDeviceColor('noteBackground'),
         },
       },
     },
