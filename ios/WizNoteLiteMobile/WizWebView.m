@@ -93,6 +93,9 @@ static WizWebView* _webView;
 
 - (id) init {
   self = [super init];
+  if (_webView.superview) {
+    [_webView removeFromSuperview];
+  }
   [self addSubview:_webView];
   return self;
 }
@@ -112,8 +115,8 @@ static WizWebView* _webView;
 }
 
 - (void) layoutSubviews {
-  [super layoutSubviews];
   _webView.frame = self.bounds;
+  [super layoutSubviews];
 }
 
 - (NSString *)url {

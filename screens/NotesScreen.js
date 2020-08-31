@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  SafeAreaView,
-} from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import i18n from 'i18n-js';
 
@@ -17,6 +15,7 @@ import { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
 import { getDeviceDynamicColor } from '../config/Colors';
 import IapListener from '../components/IapListener';
+import NoteEditor from '../components/NoteEditor';
 
 const NotesScreen: () => React$Node = (props) => {
   //
@@ -83,7 +82,10 @@ const NotesScreen: () => React$Node = (props) => {
           style={styles.root}
           left={showDrawer}
         >
-          <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
+          <View>
+            <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
+            <NoteEditor style={styles.hiddenEditor} />
+          </View>
         </SideMenuView>
       </SafeAreaView>
     </ColorSchemeProvider>
@@ -122,6 +124,9 @@ const dynamicStyles = new DynamicStyleSheet({
     backgroundColor: getDeviceDynamicColor('noteListBackground'),
     minHeight: '100%',
     flexGrow: 1,
+  },
+  hiddenEditor: {
+    display: 'none',
   },
 });
 
