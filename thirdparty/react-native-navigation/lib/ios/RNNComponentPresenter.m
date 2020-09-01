@@ -116,7 +116,7 @@
     }
 
     if (options.topBar.drawBehind.hasValue) {
-        [viewController setDrawBehindTopBar:options.topBar.drarnnwBehind.get];
+        [viewController setDrawBehindTopBar:options.topBar.drawBehind.get];
     }
     
     if (options.bottomTabs.drawBehind.hasValue) {
