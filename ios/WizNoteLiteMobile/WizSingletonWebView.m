@@ -50,16 +50,6 @@ WKScriptMessageHandler>
   return self;
 }
 
-- (WizSingletonWebViewContainer *) container {
-  if (self.superview) {
-    if ([self.superview isKindOfClass:[WizSingletonWebViewContainer class]]) {
-      return (WizSingletonWebViewContainer*)self.superview;
-    }
-  }
-  return nil;
-}
-
-
 - (void) webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
   [[WizSingletonWebViewModule sharedInstance] sendEventWithName:@"onLoad" body:@{}];
 }
@@ -97,17 +87,10 @@ static WizSingletonWebView* _webView;
   return self;
 }
 
-- (id) initWithFrame:(CGRect)frame {
-  self = [super initWithFrame:frame];
-  [self addSubview:_webView];
-  _webView.frame = self.bounds;
-  return self;
-}
-
 - (void) dealloc {
   if (_webView.superview == self) {
     [_webView endEditing:YES];
-    [_webView removeFromSuperview];
+    [_webView removeFromSuperview]; 
   }
 }
 

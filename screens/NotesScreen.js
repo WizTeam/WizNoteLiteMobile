@@ -15,7 +15,6 @@ import { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
 import { getDeviceDynamicColor } from '../config/Colors';
 import IapListener from '../components/IapListener';
-import NoteEditor from '../components/NoteEditor';
 
 const NotesScreen: () => React$Node = (props) => {
   //
@@ -82,10 +81,7 @@ const NotesScreen: () => React$Node = (props) => {
           style={styles.root}
           left={showDrawer}
         >
-          <View>
-            <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
-            <NoteEditor style={styles.hiddenEditor} />
-          </View>
+          <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
         </SideMenuView>
       </SafeAreaView>
     </ColorSchemeProvider>
@@ -98,7 +94,6 @@ NotesScreenImpl.options = {
   topBar: {
     largeTitle: {
       visible: true,
-      color: 'red',
     },
     title: {
       text: i18n.t('itemAllNotes'),
@@ -108,6 +103,8 @@ NotesScreenImpl.options = {
       // eslint-disable-next-line import/no-unresolved
       icon: require('../images/icons/menu.png'),
     }],
+    searchBar: true,
+    searchBarHiddenWhenScrolling: true,
   },
   sideMenu: {
     openGestureMode: 'entireScreen',

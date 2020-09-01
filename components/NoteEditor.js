@@ -9,7 +9,6 @@ import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript } from '.
 addWebViewEventHandler('onMessage', (eventBody) => {
   const data = JSON.parse(eventBody);
   const name = data.event;
-  console.log(data);
   if (name === 'saveData') {
     const contentId = data.contentId;
     const markdown = data.markdown;
@@ -67,13 +66,7 @@ export async function loadNote(kbGuid, note) {
 
 const NoteEditor: () => React$Node = (props) => {
   //
-  // const note = props[KEYS.CURRENT_NOTE];
-  // const kbGuid = props[KEYS.CURRENT_KB];
-  //
-  // useEffect(() => {
-  //   loadNote(kbGuid, note);
-  // }, [note, kbGuid]);
-
+  // 清空编辑器，可以强制进行保存
   useEffect(() => emptyEditor, []);
 
   return (

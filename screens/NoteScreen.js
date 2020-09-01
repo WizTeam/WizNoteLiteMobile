@@ -29,6 +29,11 @@ NoteScreen.options = {
   bottomTabs: {
     visible: false,
   },
+  animations: {
+    push: {
+      waitForRender: true,
+    },
+  },
 };
 
 const dynamicStyles = new DynamicStyleSheet({
