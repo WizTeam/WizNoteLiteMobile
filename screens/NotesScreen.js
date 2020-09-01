@@ -80,6 +80,7 @@ const NotesScreen: () => React$Node = (props) => {
         <SideMenuView
           style={styles.root}
           left={showDrawer}
+          sideMargin="50%"
         >
           <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
         </SideMenuView>
