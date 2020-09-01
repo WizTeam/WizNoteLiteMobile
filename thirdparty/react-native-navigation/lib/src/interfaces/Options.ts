@@ -506,6 +506,11 @@ export interface OptionsTopBar {
    * #### (iOS 11+ specific)
    */
   searchBarPlaceholder?: string;
+   /**
+   * The background color value in the UISearchBar
+   * #### (iOS 11+ specific)
+   */
+  searchBarBackgroundColor?: string;
   /**
    * Controls Hiding NavBar on focus UISearchBar
    * #### (iOS 11+ specific)

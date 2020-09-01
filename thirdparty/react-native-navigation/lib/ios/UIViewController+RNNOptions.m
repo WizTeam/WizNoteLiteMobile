@@ -24,7 +24,10 @@ const NSInteger BLUR_STATUS_TAG = 78264801;
 }
 
 - (void)setSearchBarWithPlaceholder:(NSString *)placeholder
-		 hideNavBarOnFocusSearchBar:(BOOL)hideNavBarOnFocusSearchBar {
+    hideNavBarOnFocusSearchBar:(BOOL)hideNavBarOnFocusSearchBar
+                    backgroundColor:(UIColor *)backgroundColor
+                           barStyle:(UIBarStyle)barStyle {
+
 	if (@available(iOS 11.0, *)) {
 		if (!self.navigationItem.searchController) {
 			UISearchController *search = [[UISearchController alloc]initWithSearchResultsController:nil];
@@ -37,6 +40,11 @@ const NSInteger BLUR_STATUS_TAG = 78264801;
 				search.searchBar.placeholder = placeholder;
 			}
 			search.hidesNavigationBarDuringPresentation = hideNavBarOnFocusSearchBar;
+      if (backgroundColor)
+          if (@available(iOS 13.0, *))
+              search.searchBar.searchTextField.backgroundColor = backgroundColor;
+      if (barStyle)
+          search.searchBar.barStyle = barStyle;
 			self.navigationItem.searchController = search;
 			[self.navigationItem setHidesSearchBarWhenScrolling:NO];
 

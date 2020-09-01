@@ -70,7 +70,7 @@
         if (withDefault.topBar.hideNavBarOnFocusSearchBar.hasValue) {
             hideNavBarOnFocusSearchBar = withDefault.topBar.hideNavBarOnFocusSearchBar.get;
         }
-//        [viewController setSearchBarWithPlaceholder:[withDefault.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar];
+        // [viewController setSearchBarWithPlaceholder:[withDefault.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar];
         [viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar backgroundColor:[options.topBar.searchBarBackgroundColor getWithDefaultValue:nil] barStyle:[RCTConvert UIBarStyle:[withDefault.topBar.barStyle getWithDefaultValue:@"default"]]];
         if (withDefault.topBar.searchBarHiddenWhenScrolling.hasValue) {
             [viewController setSearchBarHiddenWhenScrolling:[withDefault.topBar.searchBarHiddenWhenScrolling getWithDefaultValue:NO]];
@@ -108,11 +108,15 @@
         if (options.topBar.hideNavBarOnFocusSearchBar.hasValue) {
             hideNavBarOnFocusSearchBar = options.topBar.hideNavBarOnFocusSearchBar.get;
         }
-        [viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar];
+        // [viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar];
+        [viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar backgroundColor:[options.topBar.searchBarBackgroundColor getWithDefaultValue:nil] barStyle:[RCTConvert UIBarStyle:[withDefault.topBar.barStyle getWithDefaultValue:@"default"]]];
+        if (withDefault.topBar.searchBarHiddenWhenScrolling.hasValue) {
+            [viewController setSearchBarHiddenWhenScrolling:withDefault.topBar.searchBarHiddenWhenScrolling];
+        }
     }
 
     if (options.topBar.drawBehind.hasValue) {
-        [viewController setDrawBehindTopBar:options.topBar.drawBehind.get];
+        [viewController setDrawBehindTopBar:options.topBar.drarnnwBehind.get];
     }
     
     if (options.bottomTabs.drawBehind.hasValue) {
