@@ -109,7 +109,8 @@
             hideNavBarOnFocusSearchBar = options.topBar.hideNavBarOnFocusSearchBar.get;
         }
         // [viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar];
-        [viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar backgroundColor:[options.topBar.searchBarBackgroundColor getWithDefaultValue:nil] barStyle:[RCTConvert UIBarStyle:[withDefault.topBar.barStyle getWithDefaultValue:@"default"]]];
+        UIBarStyle barStyle = [RCTConvert UIBarStyle:[withDefault.topBar.barStyle getWithDefaultValue:@"default"]];
+        [viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar backgroundColor:[options.topBar.searchBarBackgroundColor getWithDefaultValue:nil] barStyle:barStyle];
         if (withDefault.topBar.searchBarHiddenWhenScrolling.hasValue) {
             [viewController setSearchBarHiddenWhenScrolling:withDefault.topBar.searchBarHiddenWhenScrolling];
         }
