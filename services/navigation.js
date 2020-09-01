@@ -1,9 +1,9 @@
 /* eslint-disable import/no-unresolved */
 import i18n from 'i18n-js';
-import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import { showMessage } from 'react-native-flash-message';
 
 import { Navigation } from '../thirdparty/react-native-navigation';
+import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
 import { isTablet } from '../utils/device';
 import { loadRequest } from '../components/WizSingletonWebView';
 import app from '../wrapper/app';
@@ -101,75 +101,25 @@ export function setMainAsRoot() {
   } else {
     Navigation.setRoot({
       root: {
-        bottomTabs: {
+        stack: {
           children: [
             {
-              stack: {
-                children: [
-                  {
-                    component: {
-                      name: 'NotesScreen',
-                    },
-                  },
-                ],
-                options: {
-                  bottomTab: {
-                    text: i18n.t('bottomBarNotes'),
-                    icon: require('../images/icons/notes.png'),
-                  },
-                  topBar: {
-                    title: {
-                      text: 'WizNote Lite',
-                    },
-                  },
-                },
-              },
-            },
-            {
-              stack: {
-                children: [
-                  {
-                    component: {
-                      name: 'StarredNotesScreen',
-                    },
-                  },
-                ],
-                options: {
-                  topBar: {
-                    title: {
-                      text: 'Starred',
-                    },
-                  },
-                  bottomTab: {
-                    text: i18n.t('bottomBarStarred'),
-                    icon: require('../images/icons/starred.png'),
-                  },
-                },
-              },
-            },
-            {
-              stack: {
-                children: [
-                  {
-                    component: {
-                      name: 'SearchNotesScreen',
-                    },
-                  },
-                ],
-                options: {
-                  topBar: {
-                    title: {
-                      text: 'Default Title',
-                    },
-                  },
-                  bottomTab: {
-                    text: i18n.t('bottomBarSearch'),
-                    icon: require('../images/icons/search.png'),
-                  },
-                },
+              component: {
+                name: 'NotesScreen',
               },
             },
           ],
+          options: {
+            bottomTab: {
+              text: i18n.t('bottomBarNotes'),
+              icon: require('../images/icons/notes.png'),
+            },
+            topBar: {
+              title: {
+                text: 'WizNote Lite',
+              },
+            },
+          },
         },
       },
     });

@@ -7,13 +7,13 @@ import {
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 
-import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import i18n from 'i18n-js';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { isTablet } from '../utils/device';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
+import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
 import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';

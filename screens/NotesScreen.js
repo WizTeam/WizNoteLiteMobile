@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import i18n from 'i18n-js';
 
-import { SideMenuView } from 'react-native-navigation-drawer-extension';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
+import { SideMenuView } from '../thirdparty/react-native-navigation-drawer-extension';
 import { Navigation } from '../thirdparty/react-native-navigation';
 import { showDrawer } from '../components/MainDrawer';
 import ThemedStatusBar from '../components/ThemedStatusBar';
@@ -105,9 +105,6 @@ NotesScreenImpl.options = {
     }],
     searchBar: true,
     searchBarHiddenWhenScrolling: true,
-  },
-  sideMenu: {
-    openGestureMode: 'entireScreen',
   },
 };
 
