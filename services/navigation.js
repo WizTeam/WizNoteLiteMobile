@@ -157,6 +157,28 @@ export function setMainAsRoot() {
                 },
               },
             },
+            {
+              stack: {
+                children: [
+                  {
+                    component: {
+                      name: 'PurchaseDemo',
+                    },
+                  },
+                ],
+                options: {
+                  topBar: {
+                    title: {
+                      text: 'Purchase',
+                    },
+                  },
+                  bottomTab: {
+                    text: 'Purchase',
+                    icon: require('../images/icons/starred.png'),
+                  },
+                },
+              },
+            },
           ],
         },
       },

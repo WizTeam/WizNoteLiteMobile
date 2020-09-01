@@ -12,7 +12,6 @@ target 'WizNoteLiteMobile' do
 
   use_react_native!(:path => config["reactNativePath"])
 
-  pod 'RNIap', :path => '../node_modules/react-native-iap'
 
   target 'WizNoteLiteMobileTests' do
     inherit! :complete
