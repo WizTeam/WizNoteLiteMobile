@@ -46,6 +46,9 @@ class NativeEventsReceiver {
     registerSearchBarCancelPressedListener(callback) {
         return this.emitter.addListener('RNN.SearchBarCancelPressed', callback);
     }
+    registerSearchBarSearchPressedListener(callback) {
+      return this.emitter.addListener('RNN.SearchBarSearchPressed', callback);
+    }
     registerPreviewCompletedListener(callback) {
         return this.emitter.addListener('RNN.PreviewCompleted', callback);
     }

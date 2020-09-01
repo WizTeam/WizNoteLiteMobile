@@ -5,6 +5,7 @@ import {
   ModalAttemptedToDismissEvent,
   SearchBarUpdatedEvent,
   SearchBarCancelPressedEvent,
+  SearchBarSearchPressedEvent,
   PreviewCompletedEvent,
   ScreenPoppedEvent,
   ComponentDidAppearEvent,
@@ -33,6 +34,7 @@ export class NavigationComponent<Props = {}, State = {}, Snapshot = any> extends
   modalAttemptedToDismiss(_event: ModalAttemptedToDismissEvent) {}
   searchBarUpdated(_event: SearchBarUpdatedEvent) {}
   searchBarCancelPressed(_event: SearchBarCancelPressedEvent) {}
+  searchBarSearchPressed(_event: SearchBarSearchPressedEvent) {}
   previewCompleted(_event: PreviewCompletedEvent) {}
   screenPopped(_event: ScreenPoppedEvent) {}
 }

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { SafeAreaView } from 'react-native';
 import i18n from 'i18n-js';
 
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
@@ -11,7 +11,8 @@ import ThemedStatusBar from '../components/ThemedStatusBar';
 import { updateNavigationTheme } from '../components/ThemeListener';
 import { viewNote } from '../services/view_note';
 
-import { KEYS, connect } from '../data_store';
+import api from '../api';
+import store, { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
 import { getDeviceDynamicColor } from '../config/Colors';
 import IapListener from '../components/IapListener';
@@ -25,6 +26,8 @@ const NotesScreen: () => React$Node = (props) => {
       title = i18n.t('itemAllNotes');
     } else if (type === '#trash') {
       title = i18n.t('itemTrash');
+    } else if (type === '#searchResult') {
+      title = i18n.t('itemSearchResult');
     } else {
       title = type;
     }
@@ -70,6 +73,51 @@ const NotesScreen: () => React$Node = (props) => {
     viewNote(props.componentId);
   }
 
+  const searchTextRef = useRef('');
+  const cancelClickTime = useRef(0);
+
+  function handleSearchBarUpdate({ text, isFocused }) {
+    searchTextRef.current = text;
+    if (!text) {
+      if (isFocused) {
+        const now = new Date().valueOf();
+        if (now - cancelClickTime.current > 100) {
+          console.log('b');
+          store.setSearchResult([]);
+        }
+      }
+    }
+  }
+
+  function handleSearchBarCancel() {
+    cancelClickTime.current = new Date().valueOf();
+    store.setSelectedType('#allNotes');
+    store.initCategoryNotes();
+  }
+  async function handleSearchBarSearch() {
+    try {
+      if (!searchTextRef.current) {
+        return;
+      }
+      const notes = await api.searchNotes(null, searchTextRef.current);
+      store.setSearchResult(notes);
+    } finally {
+      //
+    }
+  }
+
+  useEffect(() => {
+    const events = Navigation.events();
+    const listener1 = events.registerSearchBarUpdatedListener(handleSearchBarUpdate);
+    const listener2 = events.registerSearchBarCancelPressedListener(handleSearchBarCancel);
+    const listener3 = events.registerSearchBarSearchPressedListener(handleSearchBarSearch);
+    return () => {
+      listener1.remove();
+      listener2.remove();
+      listener3.remove();
+    };
+  }, []);
+
   const styles = useDynamicValue(dynamicStyles);
 
   return (
@@ -80,7 +128,7 @@ const NotesScreen: () => React$Node = (props) => {
         <SideMenuView
           style={styles.root}
           left={showDrawer}
-          sideMargin="50%"
+          sideMargin={16}
         >
           <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
         </SideMenuView>

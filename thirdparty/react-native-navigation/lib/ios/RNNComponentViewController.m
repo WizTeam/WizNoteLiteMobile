@@ -88,6 +88,10 @@
 	[self.eventEmitter sendOnSearchBarCancelPressed:self.layoutInfo.componentId];
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self.eventEmitter sendOnSearchBarSearchPressed:self.layoutInfo.componentId];
+}
+
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location{
 	return self.previewController;
 }

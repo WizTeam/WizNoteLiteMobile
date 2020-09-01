@@ -37,6 +37,10 @@ export interface SearchBarCancelPressedEvent extends ComponentEvent {
   componentName?: string;
 }
 
+export interface SearchBarSearchPressedEvent extends ComponentEvent {
+  componentName?: string;
+}
+
 export interface PreviewCompletedEvent extends ComponentEvent {
   componentName?: string;
   previewComponentId?: string;

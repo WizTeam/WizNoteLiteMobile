@@ -42,6 +42,7 @@ export default {
 
   itemAllNotes: '全部筆記',
   itemTrash: '回收站',
+  itemSearchResult: 'Search Result',
   titleStarredNotes: '星標筆記',
   bottomBarNotes: '筆記',
   bottomBarStarred: '星標',

@@ -101,7 +101,7 @@ class Api extends EventEmitter {
   }
 
   async syncKb(kbGuid, options) {
-    await sdk.syncKb(this.userGuid, kbGuid, options);
+    await sdk.syncKb(this.userGuid, kbGuid || this.kbGuid, options);
   }
 
   async getAllNotes(kbGuid, options) {

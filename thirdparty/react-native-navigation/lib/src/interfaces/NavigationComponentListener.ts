@@ -4,6 +4,7 @@ import {
   ModalAttemptedToDismissEvent,
   SearchBarUpdatedEvent,
   SearchBarCancelPressedEvent,
+  SearchBarSearchPressedEvent,
   PreviewCompletedEvent,
   ScreenPoppedEvent,
   ComponentDidAppearEvent,
@@ -18,6 +19,7 @@ export interface NavigationComponentListener {
     modalAttemptedToDismiss? : (_event: ModalAttemptedToDismissEvent) => void
     searchBarUpdated? : (_event: SearchBarUpdatedEvent) => void
     searchBarCancelPressed? : (_event: SearchBarCancelPressedEvent) => void
+    searchBarSearchPressed? : (_event: SearchBarSearchPressedEvent) => void
     previewCompleted? : (_event: PreviewCompletedEvent) => void
     screenPopped? : (_event: ScreenPoppedEvent) => void
   }

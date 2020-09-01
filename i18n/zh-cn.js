@@ -40,6 +40,7 @@ export default {
 
   itemAllNotes: '全部笔记',
   itemTrash: '回收站',
+  itemSearchResult: '搜索结果',
   titleStarredNotes: '星标笔记',
   bottomBarNotes: '笔记',
   bottomBarStarred: '星标',

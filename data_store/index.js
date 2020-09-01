@@ -11,7 +11,6 @@ export const KEYS = {
   SELECTED_TYPE: 'selectedType',
   CATEGORY_NOTES: 'categoryNotes',
   STARRED_NOTES: 'starredNotes',
-  SEARCH_RESULT_NOTES: 'searchResultNotes',
   CURRENT_NOTE: 'currentNote',
 };
 
@@ -141,7 +140,8 @@ async function initStarredNotes() {
 }
 
 function setSearchResult(notes) {
-  store.setData(KEYS.SEARCH_RESULT_NOTES, notes);
+  setSelectedType('#searchResult');
+  store.setData(KEYS.CATEGORY_NOTES, notes);
 }
 
 function logout() {

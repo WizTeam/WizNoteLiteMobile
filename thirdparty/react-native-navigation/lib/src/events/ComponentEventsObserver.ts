@@ -11,6 +11,7 @@ import {
   NavigationButtonPressedEvent,
   SearchBarUpdatedEvent,
   SearchBarCancelPressedEvent,
+  SearchBarSearchPressedEvent,
   ComponentEvent,
   PreviewCompletedEvent,
   ModalDismissedEvent,
@@ -37,6 +38,7 @@ export class ComponentEventsObserver {
     this.notifyModalAttemptedToDismiss = this.notifyModalAttemptedToDismiss.bind(this);
     this.notifySearchBarUpdated = this.notifySearchBarUpdated.bind(this);
     this.notifySearchBarCancelPressed = this.notifySearchBarCancelPressed.bind(this);
+    this.notifySearchBarSearchPressed = this.notifySearchBarSearchPressed.bind(this);
     this.notifyPreviewCompleted = this.notifyPreviewCompleted.bind(this);
     this.notifyScreenPopped = this.notifyScreenPopped.bind(this);
   }
@@ -51,6 +53,7 @@ export class ComponentEventsObserver {
     this.nativeEventsReceiver.registerModalAttemptedToDismissListener(this.notifyModalAttemptedToDismiss);
     this.nativeEventsReceiver.registerSearchBarUpdatedListener(this.notifySearchBarUpdated);
     this.nativeEventsReceiver.registerSearchBarCancelPressedListener(this.notifySearchBarCancelPressed);
+    this.nativeEventsReceiver.registerSearchBarSearchPressedListener(this.notifySearchBarSearchPressed);
     this.nativeEventsReceiver.registerPreviewCompletedListener(this.notifyPreviewCompleted);
     this.nativeEventsReceiver.registerScreenPoppedListener(this.notifyPreviewCompleted);
   }
@@ -109,6 +112,10 @@ export class ComponentEventsObserver {
 
   notifySearchBarCancelPressed(event: SearchBarCancelPressedEvent) {
     this.triggerOnAllListenersByComponentId(event, 'searchBarCancelPressed');
+  }
+
+  notifySearchBarSearchPressed(event: SearchBarSearchPressedEvent) {
+    this.triggerOnAllListenersByComponentId(event, 'searchBarSearchPressed');
   }
 
   notifyPreviewCompleted(event: PreviewCompletedEvent) {

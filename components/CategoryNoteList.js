@@ -10,7 +10,6 @@ const CategoryNoteList: () => React$Node = (props) => {
   //
   const notes = props[KEYS.CATEGORY_NOTES] || [];
   const selectedNote = props[KEYS.CURRENT_NOTE] || {};
-
   //
   return (
     <NoteList

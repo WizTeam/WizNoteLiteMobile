@@ -169,7 +169,7 @@
   "lint-staged": {
     "*.{js,ts,tsx}": "eslint"
   },
-  "main": "lib/dist/index.js",
+  "main": "lib/src/index.ts",
   "name": "react-native-navigation",
   "nativePackage": true,
   "peerDependencies": {
@@ -210,6 +210,5 @@
     "watch": "node ./scripts/watch",
     "xcode": "open playground/ios/playground.xcworkspace"
   },
-  "typings": "lib/dist/index.d.ts",
   "version": "6.11.0"
 }

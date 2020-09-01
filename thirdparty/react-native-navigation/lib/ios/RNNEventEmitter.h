@@ -22,6 +22,8 @@
 
 - (void)sendOnSearchBarCancelPressed:(NSString *)componentId;
 
+- (void)sendOnSearchBarSearchPressed:(NSString *)componentId;
+
 - (void)sendOnPreviewCompleted:(NSString *)componentId previewComponentId:(NSString *)previewComponentId;
 
 - (void)sendModalsDismissedEvent:(NSString *)componentId componentName:(NSString *)componentName numberOfModalsDismissed:(NSNumber *)modalsDismissed;

@@ -11,6 +11,7 @@ import {
   NavigationButtonPressedEvent,
   SearchBarUpdatedEvent,
   SearchBarCancelPressedEvent,
+  SearchBarSearchPressedEvent,
   PreviewCompletedEvent,
   ModalDismissedEvent,
   ScreenPoppedEvent,
@@ -112,6 +113,14 @@ export class EventsRegistry {
     callback: (event: SearchBarCancelPressedEvent) => void
   ): EmitterSubscription {
     return this.nativeEventsReceiver.registerSearchBarCancelPressedListener(
+      callback
+    );
+  }
+
+  public registerSearchBarSearchPressedListener(
+    callback: (event: SearchBarSearchPressedEvent) => void
+  ): EmitterSubscription {
+    return this.nativeEventsReceiver.registerSearchBarSearchPressedListener(
       callback
     );
   }

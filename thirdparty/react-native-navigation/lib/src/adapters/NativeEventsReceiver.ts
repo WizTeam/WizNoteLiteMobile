@@ -94,6 +94,12 @@ export class NativeEventsReceiver {
     return this.emitter.addListener('RNN.SearchBarCancelPressed', callback);
   }
 
+  public registerSearchBarSearchPressedListener(
+    callback: (event: SearchBarCancelPressedEvent) => void
+  ): EmitterSubscription {
+    return this.emitter.addListener('RNN.SearchBarSearchPressed', callback);
+  }
+
   public registerPreviewCompletedListener(
     callback: (event: PreviewCompletedEvent) => void
   ): EmitterSubscription {
