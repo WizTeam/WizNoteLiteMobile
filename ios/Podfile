@@ -6,6 +6,7 @@ platform :ios, '10.0'
 pod 'react-native-sqlite-storage', :path => '../thirdparty/react-native-sqlite-storage'
 pod 'react-native-http-bridge', :path => '../thirdparty/react-native-http-bridge'
 pod 'react-native-fetch-blob', :path => '../thirdparty/react-native-fetch-blob'
+pod 'ReactNativeNavigation', :path => '../thirdparty/react-native-navigation'
 
 target 'WizNoteLiteMobile' do
   config = use_native_modules!

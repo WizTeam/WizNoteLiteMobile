@@ -389,7 +389,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
+  - ReactNativeNavigation (from `../thirdparty/react-native-navigation`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -477,7 +477,7 @@ EXTERNAL SOURCES:
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeNavigation:
-    :path: "../node_modules/react-native-navigation"
+    :path: "../thirdparty/react-native-navigation"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNFS:
@@ -549,6 +549,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: b74087f9453d105b1839e41a247d8b9f5da7f4e3
+PODFILE CHECKSUM: d4080444c3f6e1b926a69a2c549621d3d5d473fa
 
 COCOAPODS: 1.9.3
