@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { SafeAreaView, View } from 'react-native';
-import { Navigation } from 'react-native-navigation';
 import i18n from 'i18n-js';
 
 import { SideMenuView } from 'react-native-navigation-drawer-extension';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
+import { Navigation } from '../thirdparty/react-native-navigation';
 import { showDrawer } from '../components/MainDrawer';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { updateNavigationTheme } from '../components/ThemeListener';

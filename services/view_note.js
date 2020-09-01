@@ -1,5 +1,4 @@
-import { Navigation } from 'react-native-navigation';
-
+import { Navigation } from '../thirdparty/react-native-navigation';
 import dataStore from '../data_store';
 import { getColor, getDeviceColor } from '../config/Colors';
 import { loadNote } from '../components/NoteEditor';

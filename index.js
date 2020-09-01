@@ -1,5 +1,5 @@
 import './wrapper';
-import { Navigation } from 'react-native-navigation';
+import { Navigation } from './thirdparty/react-native-navigation';
 import * as RNIap from 'react-native-iap';
 
 import { registerScreens } from './screens';

@@ -13,8 +13,8 @@ import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { DynamicValue, useDynamicValue, DynamicStyleSheet, useDarkMode } from 'react-native-dynamic';
-import { Navigation } from 'react-native-navigation';
 
+import { Navigation } from '../thirdparty/react-native-navigation';
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
 import { setMainAsRoot } from '../services/navigation';
 import { getDynamicColor } from '../config/Colors';

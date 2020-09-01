@@ -1,6 +1,6 @@
-import { Navigation } from 'react-native-navigation';
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 
+import { Navigation } from '../thirdparty/react-native-navigation';
 import MainDrawer from '../components/MainDrawer';
 
 export function registerScreens() {

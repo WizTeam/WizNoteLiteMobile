@@ -1,9 +1,9 @@
 /* eslint-disable import/no-unresolved */
 import i18n from 'i18n-js';
-import { Navigation } from 'react-native-navigation';
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import { showMessage } from 'react-native-flash-message';
 
+import { Navigation } from '../thirdparty/react-native-navigation';
 import { isTablet } from '../utils/device';
 import { loadRequest } from '../components/WizSingletonWebView';
 import app from '../wrapper/app';
