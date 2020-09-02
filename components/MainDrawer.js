@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   View,
+  Text,
   TouchableHighlight,
   ScrollView,
 } from 'react-native';
@@ -17,8 +18,9 @@ import TreeView from '../thirdparty/react-native-final-tree-view';
 import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
-import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
+import { setLoginAsRoot, showLoginDialog, showUpgradeDialog } from '../services/navigation';
 import Colors, { getColor, getDynamicColor, getDeviceDynamicColor } from '../config/Colors';
+import CrownIcon from './svg/CrownIcon';
 
 const MainDrawer: () => React$Node = (props) => {
   //
@@ -26,6 +28,11 @@ const MainDrawer: () => React$Node = (props) => {
   //
   function handleCloseDrawer() {
     RNNDrawer.dismissDrawer();
+  }
+
+  function handleShowUpgradeDialog() {
+    handleCloseDrawer();
+    showUpgradeDialog();
   }
 
   function handleLogin() {
@@ -141,6 +148,24 @@ const MainDrawer: () => React$Node = (props) => {
         containerStyle={{
           borderBottomColor: 'transparent',
         }}
+        leftComponent={(
+          <View>
+            <TouchableHighlight onPress={handleShowUpgradeDialog}>
+              <View style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: 'rgb(254, 213, 53)',
+                borderRadius: 2,
+                paddingHorizontal: 3,
+              }}
+              >
+                <CrownIcon width="16" height="16" fill="#000" />
+                <Text style={{ fontSize: 12 }}>VIP</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        )}
         rightComponent={!isTablet && (
           <View style={{ marginRight: 8 }}>
             <TouchableHighlight onPress={handleCloseDrawer}>

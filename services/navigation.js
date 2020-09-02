@@ -69,6 +69,19 @@ export function showLoginDialog(options) {
   });
 }
 
+export function showUpgradeDialog(options) {
+  Navigation.showModal({
+    stack: {
+      children: [{
+        component: {
+          name: 'UpgradeToVIP',
+          passProps: options,
+        },
+      }],
+    },
+  });
+}
+
 export function setMainAsRoot() {
   if (isTablet) {
     Navigation.setRoot({
@@ -153,28 +166,6 @@ export function setMainAsRoot() {
                   bottomTab: {
                     text: i18n.t('bottomBarSearch'),
                     icon: require('../images/icons/search.png'),
-                  },
-                },
-              },
-            },
-            {
-              stack: {
-                children: [
-                  {
-                    component: {
-                      name: 'PurchaseDemo',
-                    },
-                  },
-                ],
-                options: {
-                  topBar: {
-                    title: {
-                      text: 'Purchase',
-                    },
-                  },
-                  bottomTab: {
-                    text: 'Purchase',
-                    icon: require('../images/icons/starred.png'),
                   },
                 },
               },

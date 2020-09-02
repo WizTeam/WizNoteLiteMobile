@@ -13,5 +13,5 @@ export function registerScreens() {
   Navigation.registerComponent('StarredNotesScreen', () => require('./StarredNotesScreen').default);
   Navigation.registerComponent('SearchNotesScreen', () => require('./SearchNotesScreen').default);
   Navigation.registerComponent('PadMainScreen', () => require('./PadMainScreen').default);
-  Navigation.registerComponent('PurchaseDemo', () => require('./PurchaseDemo').default);
+  Navigation.registerComponent('UpgradeToVIP', () => require('./UpgradeToVIP').default);
 }

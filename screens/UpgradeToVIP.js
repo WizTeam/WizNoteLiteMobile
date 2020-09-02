@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   TouchableHighlight,
   SafeAreaView,
@@ -9,15 +9,16 @@ import {
 import { Button, Icon } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { Navigation } from 'react-native-navigation';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import IapListener from '../components/IapListener';
 import { getDynamicColor } from '../config/Colors';
-import { getProducts, requestPurchase } from '../utils/iap';
+import { getProducts, requestPurchase, restorePurchases } from '../utils/iap';
 import UploadCloudIcon from '../components/svg/UploadCloudIcon';
 import CrownIcon from '../components/svg/CrownIcon';
 
-const PurchaseDemo: () => React$Node = () => {
+const UpgradeToVIP: () => React$Node = (props) => {
   //
   const styles = useDynamicValue(dynamicStyles);
   const [loading, setLoading] = useState(false);
@@ -30,17 +31,25 @@ const PurchaseDemo: () => React$Node = () => {
     setLoading(false);
   }
 
+  function handleRestorePurchases() {
+    restorePurchases();
+  }
+
+  function handleCloseUpgrade() {
+    Navigation.dismissModal(props.componentId);
+  }
+
   useEffect(() => {
     async function handleGetProducts() {
       const res = await getProducts();
       if (res) {
         setAvailable(true);
-      } else {
-        setAvailable(false);
       }
     }
 
-    handleGetProducts();
+    if (!available) {
+      handleGetProducts();
+    }
   });
 
   return (
@@ -53,7 +62,7 @@ const PurchaseDemo: () => React$Node = () => {
           style={styles.scrollView}
         >
           <View style={styles.closeBox}>
-            <TouchableHighlight style={styles.closeTouchable}>
+            <TouchableHighlight style={styles.closeTouchable} onPress={handleCloseUpgrade}>
               <Icon name="close" color={styles.serverDropdownIcon.color} size={24} />
             </TouchableHighlight>
           </View>
@@ -78,6 +87,7 @@ const PurchaseDemo: () => React$Node = () => {
               disabled={!available}
             />
             <Button
+              onPress={handleRestorePurchases}
               type="clear"
               titleStyle={{ fontSize: 14 }}
               title={i18n.t('buttonRestorePurchases')}
@@ -89,7 +99,10 @@ const PurchaseDemo: () => React$Node = () => {
   );
 };
 
-PurchaseDemo.options = {
+UpgradeToVIP.options = {
+  topBar: {
+    visible: false,
+  },
 };
 
 const dynamicStyles = new DynamicStyleSheet({
@@ -156,4 +169,4 @@ const dynamicStyles = new DynamicStyleSheet({
   },
 });
 
-export default PurchaseDemo;
+export default UpgradeToVIP;
