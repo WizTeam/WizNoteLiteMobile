@@ -35,18 +35,15 @@ WKScriptMessageHandler>
 
 @implementation WizSingletonWebView
 
-- (id) init {
-  self = [super init];
-  if (self) {
-    WKWebViewConfiguration* config = [WKWebViewConfiguration new];
-    [config.userContentController addScriptMessageHandler:self name:@"WizSingletonWebView"];
-    NSString* js = @"window.WizWebView = window.webkit.messageHandlers.WizSingletonWebView";
-    WKUserScript* script = [[WKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
-    [config.userContentController addUserScript:script];
-    self = [super initWithFrame:CGRectZero configuration:config];
-    self.navigationDelegate = self;
-    [self setOpaque:NO];
-  }
+- (id) initWithFrame:(CGRect)frame {
+  WKWebViewConfiguration* config = [WKWebViewConfiguration new];
+  [config.userContentController addScriptMessageHandler:self name:@"WizSingletonWebView"];
+  NSString* js = @"window.WizWebView = window.webkit.messageHandlers.WizSingletonWebView";
+  WKUserScript* script = [[WKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+  [config.userContentController addUserScript:script];
+  self = [super initWithFrame:frame configuration:config];
+  self.navigationDelegate = self;
+  [self setOpaque:NO];
   return self;
 }
 
