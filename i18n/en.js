@@ -43,4 +43,10 @@ export default {
   bottomBarNotes: 'Notes',
   bottomBarStarred: 'Starred',
   bottomBarSearch: 'Search',
+  labelUpgradeToVip: 'Upgrade WizNote VIP',
+  labelUpgradeToVipWhy: 'One Account, for WizNote Service and All Features on Lite',
+  labelUpgradeVipMessage1: 'Upload notes to server, keep syncing data ',
+  labelUpgradeVipMessage2: 'No backup needed',
+  buttonUpgradeVIPWithPrice: 'Upgrade VIP $9.9/year',
+  buttonRestorePurchases: 'Restore Purchase',
 };

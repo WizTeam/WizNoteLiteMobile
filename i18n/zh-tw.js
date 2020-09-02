@@ -46,4 +46,10 @@ export default {
   bottomBarNotes: '筆記',
   bottomBarStarred: '星標',
   bottomBarSearch: '搜索',
+  labelUpgradeToVip: '升級為知筆記 VIP',
+  labelUpgradeToVipWhy: '一個賬號，暢享為知筆記服務與 Lite 功能',
+  labelUpgradeVipMessage1: '上傳到服務器，隨時隨地同步',
+  labelUpgradeVipMessage2: '無需備份，防止丟失',
+  buttonUpgradeVIPWithPrice: '升級 VIP $9.9/年',
+  buttonRestorePurchases: '恢復購買',
 };

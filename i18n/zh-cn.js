@@ -44,4 +44,10 @@ export default {
   bottomBarNotes: '笔记',
   bottomBarStarred: '星标',
   bottomBarSearch: '搜索',
+  labelUpgradeToVip: '升级为知笔记VIP',
+  labelUpgradeToVipWhy: '一个账号，畅享为知笔记服务与 Lite 功能',
+  labelUpgradeVipMessage1: '上传到服务器，随时随地同步',
+  labelUpgradeVipMessage2: '无需备份，防止丢失',
+  buttonUpgradeVIPWithPrice: '升级 VIP ¥60/年',
+  buttonRestorePurchases: '恢复购买',
 };

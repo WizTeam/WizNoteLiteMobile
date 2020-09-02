@@ -21,6 +21,12 @@ const light = {
   dropdownPickerBackground: '#ffffff',
   dropdownPickerItemColor: 'rgba(0,0,0,0.38)',
   dropdownPickerItemSelectedColor: 'rgba(0,0,0,0.87)',
+  upgradeBackgroundColor: '#ffffff',
+  upgradeBannerBackgroundColor: '#fafafa',
+  upgradeText: '#333333',
+  upgradeText2: '#aaaaaa',
+  upgradeButtonBackground: '#333333',
+  upgradeButtonColor: '#ffffff',
   //
   phone: {
     noteListBackground: 'white',
@@ -58,6 +64,12 @@ const dark = merge({}, light, {
   dropdownPickerBackground: '#333333',
   dropdownPickerItemColor: 'rgba(255,255,255,0.38)',
   dropdownPickerItemSelectedColor: 'rgba(255,255,255,0.87)',
+  upgradeBackgroundColor: '#2a2a2a',
+  upgradeBannerBackgroundColor: '#2a2a2a',
+  upgradeText: '#ffffff',
+  upgradeText2: '#d8d8d8',
+  upgradeButtonBackground: '#f0f0f0',
+  upgradeButtonColor: '#333333',
 
   phone: {
     noteListBackground: '#2a2a2a',
