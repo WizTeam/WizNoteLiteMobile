@@ -15,13 +15,6 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* WizNoteLiteMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* WizNoteLiteMobileTests.m */; };
-		30077D3124EA737700473121 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		30077D3224EA737700473121 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		30077D3624EA737700473121 /* default_note.html in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8524DBA1C2004C4968 /* default_note.html */; };
-		30077D3724EA737700473121 /* zh-cn in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8324DBA1C2004C4968 /* zh-cn */; };
-		30077D3824EA737700473121 /* en in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8424DBA1C2004C4968 /* en */; };
-		30077D3924EA737700473121 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		30077D3A24EA737700473121 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		301F7E8624DBA1C3004C4968 /* zh-cn in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8324DBA1C2004C4968 /* zh-cn */; };
 		301F7E8724DBA1C3004C4968 /* en in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8424DBA1C2004C4968 /* en */; };
 		301F7E8824DBA1C3004C4968 /* default_note.html in Resources */ = {isa = PBXBuildFile; fileRef = 301F7E8524DBA1C2004C4968 /* default_note.html */; };
@@ -67,7 +60,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = WizNoteLiteMobile/main.m; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* WizNoteLiteMobile-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WizNoteLiteMobile-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* WizNoteLiteMobile-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WizNoteLiteMobile-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		30077D4024EA737700473121 /* WizNoteLiteMobile-Deploy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WizNoteLiteMobile-Deploy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		301BD42C24FF20F7000BA81F /* WizNoteLiteMobile copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "WizNoteLiteMobile copy-Info.plist"; path = "/Users/weishijun/WizTeam/WizNoteLiteMobile/ios/WizNoteLiteMobile copy-Info.plist"; sourceTree = "<absolute>"; };
 		301F7E8324DBA1C2004C4968 /* zh-cn */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "zh-cn"; sourceTree = "<group>"; };
 		301F7E8424DBA1C2004C4968 /* en */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en; sourceTree = "<group>"; };
 		301F7E8524DBA1C2004C4968 /* default_note.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = default_note.html; sourceTree = "<group>"; };
@@ -120,13 +113,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				898C86C543527EA76397A388 /* libPods-WizNoteLiteMobile-tvOSTests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		30077D3324EA737700473121 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +209,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				7883B8497B6B693B5699A530 /* Pods */,
+				301BD42C24FF20F7000BA81F /* WizNoteLiteMobile copy-Info.plist */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -236,7 +223,6 @@
 				00E356EE1AD99517003FC87E /* WizNoteLiteMobileTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* WizNoteLiteMobile-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* WizNoteLiteMobile-tvOSTests.xctest */,
-				30077D4024EA737700473121 /* WizNoteLiteMobile-Deploy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -325,26 +311,6 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* WizNoteLiteMobile-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		30077D2D24EA737700473121 /* WizNoteLiteMobile-Deploy */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 30077D3D24EA737700473121 /* Build configuration list for PBXNativeTarget "WizNoteLiteMobile-Deploy" */;
-			buildPhases = (
-				30077D2F24EA737700473121 /* Start Packager */,
-				30077D3024EA737700473121 /* Sources */,
-				30077D3324EA737700473121 /* Frameworks */,
-				30077D3524EA737700473121 /* Resources */,
-				30077D3B24EA737700473121 /* Bundle React Native code and images */,
-				30077D4224EA740100473121 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "WizNoteLiteMobile-Deploy";
-			productName = WizNoteLiteMobile;
-			productReference = 30077D4024EA737700473121 /* WizNoteLiteMobile-Deploy.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -370,9 +336,6 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
-					30077D2D24EA737700473121 = {
-						DevelopmentTeam = KCS8N3QJ92;
-					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "WizNoteLiteMobile" */;
@@ -392,7 +355,6 @@
 				00E356ED1AD99517003FC87E /* WizNoteLiteMobileTests */,
 				2D02E47A1E0B4A5D006451C7 /* WizNoteLiteMobile-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* WizNoteLiteMobile-tvOSTests */,
-				30077D2D24EA737700473121 /* WizNoteLiteMobile-Deploy */,
 			);
 		};
 /* End PBXProject section */
@@ -434,18 +396,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		30077D3524EA737700473121 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				30077D3624EA737700473121 /* default_note.html in Resources */,
-				30077D3724EA737700473121 /* zh-cn in Resources */,
-				30077D3824EA737700473121 /* en in Resources */,
-				30077D3924EA737700473121 /* LaunchScreen.storyboard in Resources */,
-				30077D3A24EA737700473121 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -476,56 +426,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		30077D2F24EA737700473121 /* Start Packager */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Start Packager";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		30077D3B24EA737700473121 /* Bundle React Native code and images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native code and images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		30077D4224EA740100473121 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "yes | cp -rf ${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/main.jsbundle $SRCROOT/main.jsbundle\n";
 		};
 		46B2866827D1CB6DAEAA2DEE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -809,15 +709,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		30077D3024EA737700473121 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				30077D3124EA737700473121 /* AppDelegate.m in Sources */,
-				30077D3224EA737700473121 /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1037,52 +928,6 @@
 			};
 			name = Release;
 		};
-		30077D3E24EA737700473121 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = KCS8N3QJ92;
-				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = "WizNoteLiteMobile copy-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.wiz.note.lite;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Debug;
-		};
-		30077D3F24EA737700473121 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = KCS8N3QJ92;
-				INFOPLIST_FILE = "WizNoteLiteMobile copy-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = cn.wiz.note.lite;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Release;
-		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1231,15 +1076,6 @@
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		30077D3D24EA737700473121 /* Build configuration list for PBXNativeTarget "WizNoteLiteMobile-Deploy" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				30077D3E24EA737700473121 /* Debug */,
-				30077D3F24EA737700473121 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

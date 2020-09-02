@@ -30,8 +30,8 @@ function Editor(props) {
       contentId,
       markdown,
     });
-    if (window.WizSingletonWebView) {
-      window.WizSingletonWebView.postMessage(messageData);
+    if (window.WizWebView) {
+      window.WizWebView.postMessage(messageData);
     } else if (window.ReactNativeWebView) {
       window.ReactNativeWebView.postMessage(messageData);
     } else {

@@ -82,7 +82,6 @@ const NotesScreen: () => React$Node = (props) => {
       if (isFocused) {
         const now = new Date().valueOf();
         if (now - cancelClickTime.current > 100) {
-          console.log('b');
           store.setSearchResult([]);
         }
       }
@@ -128,7 +127,7 @@ const NotesScreen: () => React$Node = (props) => {
         <SideMenuView
           style={styles.root}
           left={showDrawer}
-          sideMargin={16}
+          sideMargin={32}
         >
           <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
         </SideMenuView>
