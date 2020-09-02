@@ -18,6 +18,16 @@ const useStyles = makeStyles({
   },
 });
 
+function postMessage(messageData) {
+  if (window.WizWebView) {
+    window.WizWebView.postMessage(messageData);
+  } else if (window.ReactNativeWebView) {
+    window.ReactNativeWebView.postMessage(messageData);
+  } else {
+    console.error('unknown browser');
+  }
+}
+
 function Editor(props) {
   //
   const classes = useStyles();
@@ -30,13 +40,7 @@ function Editor(props) {
       contentId,
       markdown,
     });
-    if (window.WizWebView) {
-      window.WizWebView.postMessage(messageData);
-    } else if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(messageData);
-    } else {
-      console.error('unknown browser');
-    }
+    postMessage(messageData);
   }
   //
   let theme = props.theme || params.theme;
@@ -76,12 +80,27 @@ function App() {
         theme,
       });
     }
-  });
+  }, []);
+  //
+  useEffect(() => {
+    //
+    function handleKeyDown() {
+      const messageData = {
+        event: 'onKeyDown',
+      }
+      postMessage(JSON.stringify(messageData));
+    }
+    //
+    document.body.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.removeEventListener('keydown', handleKeyDown);
+    }
+
+  }, []);
   //
   //
   return (
     <div className="App" style={{
-      height: '100vh',
       visibility: (data && data.contentId) ? 'visible' : 'hidden',
     }}>
       <Editor

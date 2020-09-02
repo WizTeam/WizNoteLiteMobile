@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View } from 'react-native';
 
 import { PORT } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
-import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript } from './WizSingletonWebView';
+import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing } from './WizSingletonWebView';
 
 addWebViewEventHandler('onMessage', (eventBody) => {
   const data = JSON.parse(eventBody);
   const name = data.event;
+
   if (name === 'saveData') {
     const contentId = data.contentId;
     const markdown = data.markdown;
@@ -34,6 +35,8 @@ addWebViewEventHandler('onMessage', (eventBody) => {
     }
     //
     api.setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown);
+  } else if (name === 'onKeyDown') {
+    console.log('keydown');
   } else {
     console.error(`unknown browser event: ${eventBody}`);
   }
@@ -68,10 +71,42 @@ const NoteEditor: () => React$Node = (props) => {
   //
   // 清空编辑器，可以强制进行保存
   useEffect(() => emptyEditor, []);
+  const keyboardVisibleTimeRef = useRef(0);
+  const keyboardVisibleRef = useRef(false);
+
+  function handleScroll() {
+    if (keyboardVisibleRef.current) {
+      const now = new Date().valueOf();
+      if (now - keyboardVisibleTimeRef.current > 1000) {
+        endEditing(true);
+      }
+    }
+  }
+
+  function handleKeyboardShow() {
+    keyboardVisibleRef.current = true;
+    keyboardVisibleTimeRef.current = new Date().valueOf();
+  }
+
+  function handleKeyboardHide() {
+    keyboardVisibleRef.current = false;
+  }
+
+  function handleMessage({ nativeEvent }) {
+    const data = JSON.parse(nativeEvent.body);
+    const name = data.event;
+    if (name === 'onKeyDown') {
+      keyboardVisibleTimeRef.current = new Date().valueOf();
+    }
+  }
 
   return (
     <View style={props.containerStyle}>
       <WizSingletonWebView
+        onScroll={handleScroll}
+        onKeyboardShow={handleKeyboardShow}
+        onKeyboardHide={handleKeyboardHide}
+        onMessage={handleMessage}
         style={props.style}
       />
     </View>

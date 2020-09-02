@@ -33,6 +33,10 @@ export function loadRequest(url) {
   WizSingletonWebViewModule.loadRequest(url);
 }
 
+export function endEditing(force) {
+  WizSingletonWebViewModule.endEditing(!!force);
+}
+
 const NativeWizSingletonWebView = requireNativeComponent('WizSingletonWebView');
 
 export default class WizSingletonWebView extends React.Component {
@@ -74,7 +78,12 @@ export default class WizSingletonWebView extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    // height: '100%',
     flex: 1,
-    overflow: 'hidden',
+    // overflow: 'hidden',
+  },
+  webView: {
+    flex: 1,
+    // height: '100%',
   },
 });

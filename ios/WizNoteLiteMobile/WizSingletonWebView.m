@@ -11,6 +11,30 @@
 #import <React/RCTUIManager.h>
 #import <React/RCTEventEmitter.h>
 #import <React/RCTBridgeModule.h>
+#import <React/RCTView.h>
+#import "objc/runtime.h"
+
+static NSTimer *keyboardTimer;
+// runtime trick to remove WKWebView keyboard default toolbar
+// see: http://stackoverflow.com/questions/19033292/ios-7-uiwebview-keyboard-issue/19042279#19042279
+@interface _SwizzleHelperWK_Wiz : UIView
+@property (nonatomic, copy) WKWebView *webView;
+@end
+@implementation _SwizzleHelperWK_Wiz
+-(id)inputAccessoryView
+{
+    if (_webView == nil) {
+        return nil;
+    }
+
+    if ([_webView respondsToSelector:@selector(inputAssistantItem)]) {
+        UITextInputAssistantItem *inputAssistantItem = [_webView inputAssistantItem];
+        inputAssistantItem.leadingBarButtonGroups = @[];
+        inputAssistantItem.trailingBarButtonGroups = @[];
+    }
+    return nil;
+}
+@end
 
 // global object
 @interface WizSingletonWebViewModule : RCTEventEmitter <RCTBridgeModule>
@@ -24,8 +48,11 @@ WKScriptMessageHandler>
 @end
 
 // webview container
-@interface WizSingletonWebViewContainer : UIView
-@property (nonatomic, copy) NSString* url;
+@interface WizSingletonWebViewContainer : RCTView<UIScrollViewDelegate>
+@property (nonatomic, copy) RCTDirectEventBlock onScroll;
+@property (nonatomic, copy) RCTDirectEventBlock onKeyboardShow;
+@property (nonatomic, copy) RCTDirectEventBlock onKeyboardHide;
+@property (nonatomic, copy) RCTDirectEventBlock onMessage;
 @end
 
 // view manager, communicate with js component
@@ -55,7 +82,44 @@ WKScriptMessageHandler>
   //
   if ([message.name isEqualToString:@"WizSingletonWebView"]) {
     [[WizSingletonWebViewModule sharedInstance] sendEventWithName:@"onMessage" body:message.body];
+    //
+    UIView* parent = self.superview;
+    if (parent && [parent isKindOfClass:[WizSingletonWebViewContainer class]]) {
+      WizSingletonWebViewContainer* container = (WizSingletonWebViewContainer *)parent;
+      if (container.onMessage) {
+        container.onMessage(@{@"body":message.body});
+      }
+    }
   }
+}
+
+
+-(void)hideKeyboardAccessoryView
+{
+    UIView* subview;
+
+    for (UIView* view in self.scrollView.subviews) {
+        if([[view.class description] hasPrefix:@"WK"])
+            subview = view;
+    }
+
+    if(subview == nil) return;
+
+    NSString* name = [NSString stringWithFormat:@"%@_SwizzleHelperWK_Wiz", subview.class.superclass];
+    Class newClass = NSClassFromString(name);
+
+    if(newClass == nil)
+    {
+        newClass = objc_allocateClassPair(subview.class, [name cStringUsingEncoding:NSASCIIStringEncoding], 0);
+        if(!newClass) return;
+
+        Method method = class_getInstanceMethod([_SwizzleHelperWK_Wiz class], @selector(inputAccessoryView));
+        class_addMethod(newClass, @selector(inputAccessoryView), method_getImplementation(method), method_getTypeEncoding(method));
+
+        objc_registerClassPair(newClass);
+    }
+
+    object_setClass(subview, newClass);
 }
 
 @end
@@ -81,6 +145,15 @@ static WizSingletonWebView* _webView;
     [_webView removeFromSuperview];
   }
   [self addSubview:_webView];
+  _webView.scrollView.delegate = self;
+  [[NSNotificationCenter defaultCenter]
+    addObserver:self
+    selector:@selector(keyboardWillHide)
+    name:UIKeyboardWillHideNotification object:nil];
+  [[NSNotificationCenter defaultCenter]
+    addObserver:self
+    selector:@selector(keyboardWillShow)
+    name:UIKeyboardWillShowNotification object:nil];
   return self;
 }
 
@@ -89,6 +162,8 @@ static WizSingletonWebView* _webView;
     [_webView endEditing:YES];
     [_webView removeFromSuperview]; 
   }
+  _webView.scrollView.delegate = nil;
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) layoutSubviews {
@@ -102,6 +177,71 @@ static WizSingletonWebView* _webView;
   _webView.scrollView.backgroundColor = backgroundColor;
 }
 
+- (void) didMoveToWindow {
+  if (_webView.superview == self) {
+    [_webView hideKeyboardAccessoryView];
+  }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  if (_onScroll != nil) {
+    NSDictionary *event = @{
+      @"contentOffset": @{
+          @"x": @(scrollView.contentOffset.x),
+          @"y": @(scrollView.contentOffset.y)
+          },
+      @"contentInset": @{
+          @"top": @(scrollView.contentInset.top),
+          @"left": @(scrollView.contentInset.left),
+          @"bottom": @(scrollView.contentInset.bottom),
+          @"right": @(scrollView.contentInset.right)
+          },
+      @"contentSize": @{
+          @"width": @(scrollView.contentSize.width),
+          @"height": @(scrollView.contentSize.height)
+          },
+      @"layoutMeasurement": @{
+          @"width": @(scrollView.frame.size.width),
+          @"height": @(scrollView.frame.size.height)
+          },
+      @"zoomScale": @(scrollView.zoomScale ?: 1),
+      };
+    _onScroll(event);
+  }
+}
+
+-(void)keyboardWillHide {
+  keyboardTimer = [NSTimer scheduledTimerWithTimeInterval:0 target:self selector:@selector(keyboardDisplacementFix) userInfo:nil repeats:false];
+  [[NSRunLoop mainRunLoop] addTimer:keyboardTimer forMode:NSRunLoopCommonModes];
+  if (_onKeyboardHide) {
+    _onKeyboardHide(@{});
+  }
+}
+
+-(void)keyboardWillShow {
+  if (keyboardTimer != nil) {
+    [keyboardTimer invalidate];
+  }
+  if (_onKeyboardShow) {
+    _onKeyboardShow(@{});
+  }
+}
+
+-(void)keyboardDisplacementFix {
+  // Additional viewport checks to prevent unintentional scrolls
+  UIScrollView *scrollView = _webView.scrollView;
+  double maxContentOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+  if (maxContentOffset < 0) {
+      maxContentOffset = 0;
+  }
+  if (scrollView.contentOffset.y > maxContentOffset) {
+    // https://stackoverflow.com/a/9637807/824966
+    [UIView animateWithDuration:.25 animations:^{
+        scrollView.contentOffset = CGPointMake(0, maxContentOffset);
+    }];
+  }
+}
+
 @end
 
 
@@ -109,7 +249,11 @@ static WizSingletonWebView* _webView;
 @implementation WizSingletonWebViewManager
 
 RCT_EXPORT_MODULE(WizSingletonWebView)
-RCT_EXPORT_VIEW_PROPERTY(url, NSString*)
+RCT_EXPORT_VIEW_PROPERTY(onScroll, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onKeyboardShow, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onKeyboardHide, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onMessage, RCTDirectEventBlock)
+
 
 - (UIView *)view {
   return [[WizSingletonWebViewContainer alloc] init];
@@ -157,6 +301,13 @@ RCT_EXPORT_METHOD(injectJavaScript:(NSString*)script resolver: (RCTPromiseResolv
       }
     }
   });
+}
+
+RCT_EXPORT_METHOD(endEditing:(BOOL)force) {
+  WizSingletonWebView* web = [WizSingletonWebViewContainer webView];
+  if (web) {
+    [_webView endEditing:force];
+  }
 }
 
 - (NSArray<NSString *> *)supportedEvents {
