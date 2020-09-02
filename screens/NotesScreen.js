@@ -10,6 +10,7 @@ import { showDrawer } from '../components/MainDrawer';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { updateNavigationTheme } from '../components/ThemeListener';
 import { viewNote } from '../services/view_note';
+import { createNewNote } from '../services/new_note';
 
 import api from '../api';
 import store, { KEYS, connect } from '../data_store';
@@ -24,6 +25,8 @@ const NotesScreen: () => React$Node = (props) => {
     let title;
     if (type === '#allNotes') {
       title = i18n.t('itemAllNotes');
+    } else if (type === '#starredNotes') {
+      title = i18n.t('itemStarredNotes');
     } else if (type === '#trash') {
       title = i18n.t('itemTrash');
     } else if (type === '#searchResult') {
@@ -44,6 +47,8 @@ const NotesScreen: () => React$Node = (props) => {
     const listener = Navigation.events().registerNavigationButtonPressedListener(({ buttonId }) => {
       if (buttonId === 'MainMenuButton') {
         showDrawer(props.componentId);
+      } else if (buttonId === 'NewNoteButton') {
+        createNewNote(props.componentId);
       }
     });
     return () => listener.remove();
@@ -64,6 +69,11 @@ const NotesScreen: () => React$Node = (props) => {
           id: 'MainMenuButton',
           // eslint-disable-next-line import/no-unresolved
           icon: require('../images/icons/menu.png'),
+        }],
+        rightButtons: [{
+          id: 'NewNoteButton',
+          // eslint-disable-next-line import/no-unresolved
+          icon: require('../images/icons/new_note.png'),
         }],
       },
     });
@@ -150,6 +160,11 @@ NotesScreenImpl.options = {
       id: 'MainMenuButton',
       // eslint-disable-next-line import/no-unresolved
       icon: require('../images/icons/menu.png'),
+    }],
+    rightButtons: [{
+      id: 'NewNoteButton',
+      // eslint-disable-next-line import/no-unresolved
+      icon: require('../images/icons/new_note.png'),
     }],
     searchBar: true,
     searchBarHiddenWhenScrolling: true,

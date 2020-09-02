@@ -8,7 +8,7 @@ import ThemedStatusBar from '../components/ThemedStatusBar';
 import NoteEditor from '../components/NoteEditor';
 import { getDeviceDynamicColor } from '../config/Colors';
 
-const NoteScreen: () => React$Node = () => {
+const ViewNoteScreen: () => React$Node = () => {
   const styles = useDynamicValue(dynamicStyles);
 
   return (
@@ -21,7 +21,7 @@ const NoteScreen: () => React$Node = () => {
   );
 };
 
-NoteScreen.options = {
+ViewNoteScreen.options = {
   topBar: {
     title: {
     },
@@ -53,4 +53,4 @@ const dynamicStyles = new DynamicStyleSheet({
   },
 });
 
-export default NoteScreen;
+export default ViewNoteScreen;

@@ -1,7 +1,6 @@
 import store from '../simple_store';
 import api from '../api';
 import { updateCategoryNotes, getCategoryNotes } from './category_notes';
-import { updateStarredNotes, getStarredNotes } from './starred_notes';
 
 export { connect } from '../simple_store';
 
@@ -10,7 +9,6 @@ export const KEYS = {
   CURRENT_KB: 'kbGuid',
   SELECTED_TYPE: 'selectedType',
   CATEGORY_NOTES: 'categoryNotes',
-  STARRED_NOTES: 'starredNotes',
   CURRENT_NOTE: 'currentNote',
 };
 
@@ -23,26 +21,17 @@ function sortNotes(notes) {
 }
 
 function handleDownloadNotes(kbGuid, notes) {
-  const starredNotes = store.getData(KEYS.STARRED_NOTES);
-  const shouldUpdateStarredNotes = Array.isArray(starredNotes);
   const categoryNotes = store.getData(KEYS.CATEGORY_NOTES);
   const shouldUpdateCategoryNotes = Array.isArray(categoryNotes);
   //
   const selectedType = store.getData(KEYS.SELECTED_TYPE);
   //
   notes.forEach((note) => {
-    if (shouldUpdateStarredNotes) {
-      updateStarredNotes(starredNotes, note);
-    }
     if (shouldUpdateCategoryNotes) {
       updateCategoryNotes(categoryNotes, note, selectedType);
     }
   });
   //
-  if (shouldUpdateStarredNotes) {
-    sortNotes(starredNotes);
-    store.setData(KEYS.STARRED_NOTES, starredNotes);
-  }
   if (shouldUpdateCategoryNotes) {
     sortNotes(categoryNotes);
     store.setData(KEYS.CATEGORY_NOTES, categoryNotes);
@@ -75,6 +64,9 @@ function handleApiEvents(userGuid, eventName, ...args) {
     const [userInfo] = args;
     store.setData(KEYS.USER_INFO, userInfo);
   }
+}
+function getSelectedType() {
+  return store.getData(KEYS.SELECTED_TYPE);
 }
 
 function setSelectedType(type) {
@@ -133,12 +125,6 @@ async function initCategoryNotes() {
   store.setData(KEYS.CATEGORY_NOTES, notes);
 }
 
-async function initStarredNotes() {
-  const notes = await getStarredNotes();
-  sortNotes(notes);
-  store.setData(KEYS.STARRED_NOTES, notes);
-}
-
 function setSearchResult(notes) {
   setSelectedType('#searchResult');
   store.setData(KEYS.CATEGORY_NOTES, notes);
@@ -156,12 +142,12 @@ export default {
   setCurrentKb,
   getCurrentKb,
   //
+  getSelectedType,
   setSelectedType,
   setCurrentNote,
   getCurrentNote,
   //
   initCategoryNotes,
-  initStarredNotes,
   //
   setSearchResult,
 };

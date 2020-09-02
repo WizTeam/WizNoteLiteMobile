@@ -1,9 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React, { useEffect, useState } from 'react';
 import {
-  View,
-  TouchableHighlight,
-  ScrollView,
+  View, ScrollView,
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 
@@ -18,7 +16,7 @@ import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
 import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
-import Colors, { getColor, getDynamicColor, getDeviceDynamicColor } from '../config/Colors';
+import Colors, { getDeviceColor, getDeviceDynamicColor } from '../config/Colors';
 
 const MainDrawer: () => React$Node = (props) => {
   //
@@ -117,18 +115,31 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleGotoAllNotes() {
-    dataStore.setSelectedType('#allNotes');
     handleCloseDrawer();
+    setTimeout(() => {
+      dataStore.setSelectedType('#allNotes');
+    }, 300);
+  }
+
+  function handleGotoStarredNotes() {
+    handleCloseDrawer();
+    setTimeout(() => {
+      dataStore.setSelectedType('#starredNotes');
+    }, 300);
   }
 
   function handleGotoTrash() {
-    dataStore.setSelectedType('#trash');
     handleCloseDrawer();
+    setTimeout(() => {
+      dataStore.setSelectedType('#trash');
+    }, 300);
   }
 
   function handleClickTreeItem({ node }) {
-    dataStore.setSelectedType(node.id);
     handleCloseDrawer();
+    setTimeout(() => {
+      dataStore.setSelectedType(node.id);
+    }, 300);
   }
 
   const selectedType = props.selectedType || '#allNotes';
@@ -136,25 +147,11 @@ const MainDrawer: () => React$Node = (props) => {
   return (
     <View style={[styles.root, props.style]}>
       <Header
-        barStyle="light-content"
+        // barStyle="dark-content"
         backgroundColor="transparent"
         containerStyle={{
           borderBottomColor: 'transparent',
         }}
-        rightComponent={!isTablet && (
-          <View style={{ marginRight: 8 }}>
-            <TouchableHighlight onPress={handleCloseDrawer}>
-              <View
-                style={{
-                  padding: 8,
-                  paddingTop: 10,
-                }}
-              >
-                <Icon name="close" style={styles.icon} size={24} />
-              </View>
-            </TouchableHighlight>
-          </View>
-        )}
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -175,6 +172,19 @@ const MainDrawer: () => React$Node = (props) => {
             </View>
           )}
         />
+
+        <ListItem
+          title={i18n.t('itemStarredNotes')}
+          containerStyle={styles.item}
+          titleStyle={styles.itemTitle}
+          onPress={handleGotoStarredNotes}
+          rightElement={selectedType === '#starredNotes' && (
+            <View style={styles.itemRightElement}>
+              {handleRenderSelectedMarker()}
+            </View>
+          )}
+        />
+
         {showTrash && (
           <ListItem
             title={i18n.t('itemTrash')}
@@ -220,9 +230,6 @@ const MainDrawer: () => React$Node = (props) => {
 const dynamicStyles = new DynamicStyleSheet({
   root: {
     flex: 1,
-  },
-  icon: {
-    color: getDynamicColor('closeDrawerButton'),
   },
   scrollView: {
     backgroundColor: 'transparent',
@@ -296,10 +303,10 @@ export function showDrawer(parentComponentId) {
         direction: 'left',
         dismissWhenTouchOutside: true,
         fadeOpacity: 0.6,
-        drawerScreenWidth: '100%' || 445, // Use relative to screen '%' or absolute
+        drawerScreenWidth: '80%' || 445, // Use relative to screen '%' or absolute
         drawerScreenHeight: '100%' || 700,
         style: { // Styles the drawer container, supports any react-native style
-          backgroundColor: getColor('drawerBackground'),
+          backgroundColor: getDeviceColor('drawerBackground'),
         },
         // Custom prop, will be available in your custom drawer component props
         // eslint-disable-next-line react/prop-types

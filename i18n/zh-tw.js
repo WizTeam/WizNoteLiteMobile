@@ -41,6 +41,7 @@ export default {
   menuLogout: 'Logout',
 
   itemAllNotes: '全部筆記',
+  itemStarredNotes: 'Starred Notes',
   itemTrash: '回收站',
   itemSearchResult: 'Search Result',
   titleStarredNotes: '星標筆記',

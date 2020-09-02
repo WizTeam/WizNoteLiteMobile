@@ -10,10 +10,12 @@ class SimpleStore {
   }
 
   subscribe(key, listener) {
+    console.info(`subscribe ${key}`);
     this._listener.on(key, listener);
   }
 
   unsubscribe(key, listener) {
+    console.info(`unsubscribe ${key}`);
     this._listener.off(key, listener);
   }
 

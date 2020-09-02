@@ -39,6 +39,7 @@ export default {
   menuLogout: 'Logout',
 
   itemAllNotes: '全部笔记',
+  itemStarredNotes: '星标笔记',
   itemTrash: '回收站',
   itemSearchResult: '搜索结果',
   titleStarredNotes: '星标笔记',

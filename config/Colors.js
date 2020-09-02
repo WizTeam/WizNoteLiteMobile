@@ -9,7 +9,6 @@ const light = {
   topBarBackground: 'white',
   topBarTitle: '#333333',
   bottomTabBackground: 'white',
-  drawerBackground: 'white',
   closeDrawerButton: '#333333',
   loginBoxBackground: '#ffffff',
   loginBoxText: '#333333',
@@ -30,6 +29,7 @@ const light = {
     noteListDivider: '#d8d8d8',
     drawerItemTitle: '#333333',
     noteBackground: 'white',
+    drawerBackground: '#f0f0f0',
   },
   pad: {
     noteListBackground: '#f0f0f0',
@@ -37,6 +37,7 @@ const light = {
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#d8d8d8',
     noteBackground: 'white',
+    drawerBackground: '#f0f0f0',
   },
 };
 
@@ -46,7 +47,6 @@ const dark = merge({}, light, {
   topBarTitle: '#d8d8d8',
   topBarBackground: '#2a2a2a',
   bottomTabBackground: '#2a2a2a',
-  drawerBackground: '#333333',
   closeDrawerButton: '#f0f0f0',
   loginBoxBackground: '#606266',
   loginBoxText: '#ffffff',
@@ -67,6 +67,7 @@ const dark = merge({}, light, {
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
     noteBackground: '#333333',
+    drawerBackground: '#333333',
   },
   pad: {
     noteListBackground: '#2a2a2a',
@@ -76,6 +77,7 @@ const dark = merge({}, light, {
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
     noteBackground: '#333333',
+    drawerBackground: '#333333',
   },
 });
 

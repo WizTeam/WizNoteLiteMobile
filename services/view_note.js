@@ -10,7 +10,7 @@ export async function viewNote(parentComponentId) {
   //
   Navigation.push(parentComponentId, {
     component: {
-      name: 'NoteScreen',
+      name: 'ViewNoteScreen',
       options: {
         layout: {
           componentBackgroundColor: getDeviceColor('noteBackground'),

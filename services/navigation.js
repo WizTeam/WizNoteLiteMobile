@@ -110,10 +110,6 @@ export function setMainAsRoot() {
             },
           ],
           options: {
-            bottomTab: {
-              text: i18n.t('bottomBarNotes'),
-              icon: require('../images/icons/notes.png'),
-            },
             topBar: {
               title: {
                 text: 'WizNote Lite',

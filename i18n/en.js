@@ -38,6 +38,7 @@ export default {
   menuLogout: 'Logout',
 
   itemAllNotes: 'All Notes',
+  itemStarredNotes: 'Starred Notes',
   itemTrash: 'Trash',
   itemSearchResult: 'Search Result',
   titleStarredNotes: 'Starred Notes',
