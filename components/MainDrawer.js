@@ -149,17 +149,9 @@ const MainDrawer: () => React$Node = (props) => {
           borderBottomColor: 'transparent',
         }}
         leftComponent={(
-          <View>
+          <View style={{ marginLeft: 8 }}>
             <TouchableHighlight onPress={handleShowUpgradeDialog}>
-              <View style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                backgroundColor: 'rgb(254, 213, 53)',
-                borderRadius: 2,
-                paddingHorizontal: 3,
-              }}
-              >
+              <View style={styles.vip}>
                 <CrownIcon width="16" height="16" fill="#000" />
                 <Text style={{ fontSize: 12 }}>VIP</Text>
               </View>
@@ -245,6 +237,14 @@ const MainDrawer: () => React$Node = (props) => {
 const dynamicStyles = new DynamicStyleSheet({
   root: {
     flex: 1,
+  },
+  vip: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgb(254, 213, 53)',
+    borderRadius: 2,
+    paddingHorizontal: 3,
   },
   icon: {
     color: getDynamicColor('closeDrawerButton'),
