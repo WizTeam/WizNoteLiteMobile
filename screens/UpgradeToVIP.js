@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TouchableHighlight,
   SafeAreaView,
@@ -10,6 +10,8 @@ import { Button, Icon } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { Navigation } from 'react-native-navigation';
+
+import api from '../api';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import IapListener from '../components/IapListener';
@@ -24,10 +26,12 @@ const UpgradeToVIP: () => React$Node = (props) => {
   const [loading, setLoading] = useState(false);
   const [available, setAvailable] = useState(false);
   //
+  const { user } = api;
+  //
   async function handlePurchase() {
     setLoading(true);
     const result = await requestPurchase('cn.wiz.note.lite.year');
-    console.log('handlePurchase result', result);
+    // console.log('handlePurchase result', result);
     setLoading(false);
   }
 
@@ -52,6 +56,25 @@ const UpgradeToVIP: () => React$Node = (props) => {
     }
   });
 
+  let buttonText = '';
+  //
+  if (user && (user.vip || user.vipDate)) {
+    buttonText = i18n.t('buttonRenewVIPWithPrice');
+  } else {
+    buttonText = i18n.t('buttonUpgradeVIPWithPrice');
+  }
+
+  let userVipMessage = '';
+  if (user) {
+    if (user.vip) {
+      const date = new Date(user.vipDate).toLocaleDateString();
+      userVipMessage = i18n.t('messageVipServiceDate', { date });
+    } else if (user.vipDate) {
+      const date = new Date(user.vipDate).toLocaleDateString();
+      userVipMessage = i18n.t('messageVipServiceEndedDate', { date });
+    }
+  }
+
   return (
     <>
       <ThemedStatusBar />
@@ -71,6 +94,9 @@ const UpgradeToVIP: () => React$Node = (props) => {
             <Text style={[styles.bannerText, styles.upgradeToVipWhy]}>
               {i18n.t('labelUpgradeToVipWhy')}
             </Text>
+            <Text style={[styles.bannerText, styles.upgradeToVipWhy, { marginBottom: 32 }]}>
+              {userVipMessage}
+            </Text>
           </View>
           <View style={styles.content}>
             <UploadCloudIcon style={styles.uploadCloudIcon} fill={styles.contentText.color} />
@@ -82,7 +108,7 @@ const UpgradeToVIP: () => React$Node = (props) => {
               buttonStyle={styles.upgradeButton}
               titleStyle={styles.upgradeTitle}
               icon={<CrownIcon fill={styles.upgradeTitle.color} />}
-              title={i18n.t('buttonUpgradeVIPWithPrice')}
+              title={buttonText}
               loading={loading}
               disabled={!available}
             />
@@ -138,7 +164,7 @@ const dynamicStyles = new DynamicStyleSheet({
   upgradeToVipWhy: {
     fontSize: 12,
     color: getDynamicColor('upgradeText2'),
-    marginBottom: 34,
+    marginBottom: 8,
   },
   contentText: {
     color: getDynamicColor('upgradeText'),

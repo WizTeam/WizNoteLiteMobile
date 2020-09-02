@@ -48,5 +48,8 @@ export default {
   labelUpgradeVipMessage1: 'Upload notes to server, keep syncing data ',
   labelUpgradeVipMessage2: 'No backup needed',
   buttonUpgradeVIPWithPrice: 'Upgrade VIP $9.9/year',
+  buttonRenewVIPWithPrice: 'Renew VIP $9.9/year',
   buttonRestorePurchases: 'Restore Purchase',
+  messageVipServiceDate: 'Your WizNote VIP service will expire on %{date}.',
+  messageVipServiceEndedDate: 'Your WizNote VIP service has expired on %{date}.',
 };

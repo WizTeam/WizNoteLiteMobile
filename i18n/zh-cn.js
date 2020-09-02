@@ -49,5 +49,8 @@ export default {
   labelUpgradeVipMessage1: '上传到服务器，随时随地同步',
   labelUpgradeVipMessage2: '无需备份，防止丢失',
   buttonUpgradeVIPWithPrice: '升级 VIP ¥60/年',
+  buttonRenewVIPWithPrice: '续费 VIP ¥60/年',
   buttonRestorePurchases: '恢复购买',
+  messageVipServiceDate: 'VIP 到期时间 %{date}.',
+  messageVipServiceEndedDate: 'VIP 已经在 %{date} 到期.',
 };

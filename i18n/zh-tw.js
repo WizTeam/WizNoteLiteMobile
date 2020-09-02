@@ -51,5 +51,8 @@ export default {
   labelUpgradeVipMessage1: '上傳到服務器，隨時隨地同步',
   labelUpgradeVipMessage2: '無需備份，防止丟失',
   buttonUpgradeVIPWithPrice: '升級 VIP $9.9/年',
+  buttonRenewVIPWithPrice: '續費 VIP $9.9/年',
   buttonRestorePurchases: '恢復購買',
+  messageVipServiceDate: 'VIP 到期日期 %{date}。',
+  messageVipServiceEndedDate: 'VIP 已經在 %{date} 到期。',
 };
