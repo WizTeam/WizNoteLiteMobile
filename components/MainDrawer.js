@@ -243,7 +243,10 @@ const MainDrawer: () => React$Node = (props) => {
           renderSelectedMarker={handleRenderSelectedMarker}
           getCollapsedNodeHeight={() => 44}
           onNodePress={handleClickTreeItem}
-          itemContainerStyle={styles.treeItemContainerStyle}
+          itemContainerStyle={{
+            ...styles.treeItemContainerStyle,
+            marginLeft: isTablet ? 16 : 0,
+          }}
           itemTitleStyle={styles.treeItemTitleStyle}
           itemContentContainerStyle={styles.treeItemContentContainerStyle}
           selected={selectedType}
@@ -264,10 +267,11 @@ const MainDrawer: () => React$Node = (props) => {
 const dynamicStyles = new DynamicStyleSheet({
   root: {
     flex: 1,
+    flexDirection: 'column',
   },
   scrollView: {
     backgroundColor: 'transparent',
-    minHeight: '100%',
+    width: '100%',
     display: 'flex',
     flex: 1,
   },
@@ -278,7 +282,7 @@ const dynamicStyles = new DynamicStyleSheet({
   itemSelect: {
     marginHorizontal: 16,
     backgroundColor: '#333333',
-    borderRadius: 4,
+    borderRadius: 8,
   },
   itemSelectTitle: {
     color: '#ffffff',
@@ -320,16 +324,16 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   padLoginButton: {
     paddingBottom: 32,
-    paddingLeft: 16,
+    paddingLeft: 32,
   },
   phoneLoginButton: {
     paddingTop: 32,
     paddingLeft: 16,
     paddingBottom: 64,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
+    // position: 'absolute',
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
   },
 });
 
