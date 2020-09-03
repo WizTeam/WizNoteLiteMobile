@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import queryString from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
 
 import MarkdownEditor from 'wiz-react-markdown-editor';
 
 import 'wiz-react-markdown-editor/lib/index.min.css';
 import './App.css';
-
-const params = queryString.parse(window.location.search);
 
 const useStyles = makeStyles({
   editorWrapper: {
@@ -43,19 +40,11 @@ function Editor(props) {
     postMessage(messageData);
   }
   //
-  let theme = props.theme || params.theme;
-  if (!theme) {
-    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)')?.matches ?? false;
-    const defaultTheme = isDarkMode ? 'dark' : 'light';
-    theme = defaultTheme;
-  }
-  //
   let markdown = props.markdown || '';
 
   return (
     <MarkdownEditor
       style={props.style}
-      theme={theme}
       onSave={handleSave}
       markdown={markdown}
       resourceUrl={props.resourceUrl}
@@ -72,12 +61,11 @@ function App() {
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
-      const {markdown, resourceUrl, contentId, theme} = options;
+      const {markdown, resourceUrl, contentId} = options;
       setData({
         markdown,
         resourceUrl,
         contentId,
-        theme,
       });
     }
   }, []);
@@ -102,12 +90,14 @@ function App() {
   return (
     <div className="App" style={{
       visibility: (data && data.contentId) ? 'visible' : 'hidden',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
     }}>
       <Editor
         contentId={data?.contentId}
         markdown={data?.markdown}
         resourceUrl={data?.resourceUrl}  
-        theme={data?.theme}
       />
     </div>
   );
