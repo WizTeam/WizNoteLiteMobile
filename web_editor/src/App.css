@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #333333;
+  }
+}

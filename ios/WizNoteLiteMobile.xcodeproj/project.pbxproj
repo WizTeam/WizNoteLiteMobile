@@ -779,7 +779,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = WizNoteLiteMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -804,7 +804,7 @@
 				DEVELOPMENT_TEAM = KCS8N3QJ92;
 				INFOPLIST_FILE = WizNoteLiteMobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
