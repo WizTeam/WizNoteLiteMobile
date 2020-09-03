@@ -36,6 +36,7 @@ const light = {
     noteListSelectedBackground: 'white',
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#d8d8d8',
+    drawerItemTitle: '#333333',
     noteBackground: 'white',
     drawerBackground: '#f0f0f0',
   },

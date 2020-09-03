@@ -17,6 +17,9 @@ import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
 import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
 import Colors, { getDeviceColor, getDeviceDynamicColor } from '../config/Colors';
+import NotesIcon from './svg/NotesIcon';
+import StarredIcon from './svg/StarredIcon';
+import TrashIcon from './svg/TrashIcon';
 
 const MainDrawer: () => React$Node = (props) => {
   //
@@ -144,6 +147,33 @@ const MainDrawer: () => React$Node = (props) => {
 
   const selectedType = props.selectedType || '#allNotes';
   //
+  const list = React.useMemo(() => [
+    {
+      title: i18n.t('itemAllNotes'),
+      selectedType: '#allNotes',
+      leftIcon: NotesIcon,
+      onPress: () => { handleGotoAllNotes(); },
+      isSelect: selectedType === '#allNotes',
+      show: true,
+    },
+    {
+      title: i18n.t('itemStarredNotes'),
+      selectedType: '#starredNotes',
+      leftIcon: StarredIcon,
+      onPress: () => { handleGotoStarredNotes(); },
+      isSelect: selectedType === '#starredNotes',
+      show: true,
+    },
+    {
+      title: i18n.t('itemTrash'),
+      selectedType: '#trash',
+      leftIcon: TrashIcon,
+      onPress: () => { handleGotoTrash(); },
+      isSelect: selectedType === '#trash',
+      show: showTrash,
+    },
+  ], [styles, selectedType]);
+  //
   return (
     <View style={[styles.root, props.style]}>
       <Header
@@ -158,46 +188,50 @@ const MainDrawer: () => React$Node = (props) => {
         style={styles.scrollView}
       >
         {isTablet && (
-          <UserButton style={styles.padLoginButton} />
-        )}
-
-        <ListItem
-          title={i18n.t('itemAllNotes')}
-          containerStyle={styles.item}
-          titleStyle={styles.itemTitle}
-          onPress={handleGotoAllNotes}
-          rightElement={selectedType === '#allNotes' && (
-            <View style={styles.itemRightElement}>
-              {handleRenderSelectedMarker()}
-            </View>
-          )}
-        />
-
-        <ListItem
-          title={i18n.t('itemStarredNotes')}
-          containerStyle={styles.item}
-          titleStyle={styles.itemTitle}
-          onPress={handleGotoStarredNotes}
-          rightElement={selectedType === '#starredNotes' && (
-            <View style={styles.itemRightElement}>
-              {handleRenderSelectedMarker()}
-            </View>
-          )}
-        />
-
-        {showTrash && (
-          <ListItem
-            title={i18n.t('itemTrash')}
-            containerStyle={styles.item}
-            titleStyle={styles.itemTitle}
-            onPress={handleGotoTrash}
-            rightElement={selectedType === '#trash' && (
-              <View style={styles.itemRightElement}>
-                {handleRenderSelectedMarker()}
-              </View>
-            )}
+          <UserButton
+            onLogin={handleLogin}
+            onPressUser={handleViewUserInfo}
+            style={styles.padLoginButton}
           />
         )}
+
+        {
+          list.map((item) => {
+            if (!item.show) return <React.Fragment key={item.selectedType} />;
+            if (isTablet) {
+              return (
+                <ListItem
+                  key={item.selectedType}
+                  title={item.title}
+                  containerStyle={[
+                    styles.item,
+                    item.isSelect && styles.itemSelect,
+                  ]}
+                  titleStyle={[
+                    styles.itemTitle,
+                    item.isSelect && styles.itemSelectTitle,
+                  ]}
+                  onPress={item.onPress}
+                  leftIcon={<item.leftIcon fill={item.isSelect ? '#fff' : styles.itemTitle.color} />}
+                />
+              );
+            }
+            return (
+              <ListItem
+                key={item.selectedType}
+                title={item.title}
+                containerStyle={styles.item}
+                titleStyle={styles.itemTitle}
+                onPress={item.onPress}
+                rightElement={item.isSelect && (
+                  <View style={styles.itemRightElement}>
+                    {handleRenderSelectedMarker()}
+                  </View>
+                )}
+              />
+            );
+          })
+        }
 
         <TreeView
           containerStyle={{
@@ -238,8 +272,16 @@ const dynamicStyles = new DynamicStyleSheet({
     flex: 1,
   },
   item: {
+    marginHorizontal: 16,
     backgroundColor: 'transparent',
-    paddingLeft: 44,
+  },
+  itemSelect: {
+    marginHorizontal: 16,
+    backgroundColor: '#333333',
+    borderRadius: 4,
+  },
+  itemSelectTitle: {
+    color: '#ffffff',
   },
   itemTitle: {
     color: getDeviceDynamicColor('drawerItemTitle'),

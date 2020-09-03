@@ -283,6 +283,7 @@ const LoginScreen: () => React$Node = (props) => {
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}
+            contentContainerStyle={styles.contentContainerStyle}
           >
             <View style={styles.body}>
               <Banner style={styles.title} />
@@ -365,12 +366,20 @@ LoginScreen.options = {
 };
 
 const dynamicStyles = new DynamicStyleSheet({
+  image: {
+    flex: 1,
+    width: null,
+    height: null,
+  },
   scrollView: {
-    // backgroundColor: Colors.lighter,
     minHeight: '100%',
   },
+  contentContainerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   body: {
-    // backgroundColor: Colors.white,
+    maxWidth: 350,
     minHeight: '100%',
   },
   title: {
@@ -393,11 +402,6 @@ const dynamicStyles = new DynamicStyleSheet({
     },
     shadowRadius: 4,
     shadowOpacity: 1,
-  },
-  image: {
-    flex: 1,
-    width: null,
-    height: null,
   },
   sectionContainer: {
     marginTop: 32,
