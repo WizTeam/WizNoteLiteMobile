@@ -60,7 +60,7 @@ const NoteList: () => React$Node = (props) => {
           rightIcon={props.showStar && note.starred && (
             <Icon name="star" size={20} style={styles.star} />
           )}
-          style={[styles.itemContainer, selected && styles.selected]}
+          containerStyle={[styles.itemContainer, selected && styles.selected]}
         >
           <ListItem.Content style={styles.itemContent}>
             <ListItem.Title numberOfLines={2} ellipsizeMode="tail" style={styles.title}>{title}</ListItem.Title>

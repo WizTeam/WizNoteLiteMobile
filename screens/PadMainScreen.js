@@ -9,6 +9,7 @@ import MainDrawer from '../components/MainDrawer';
 import CategoryNoteList from '../components/CategoryNoteList';
 import NoteEditor from '../components/NoteEditor';
 import ThemedStatusBar from '../components/ThemedStatusBar';
+import { getDeviceDynamicColor } from '../config/Colors';
 
 const useForceUpdate = () => useState()[1];
 
@@ -42,8 +43,8 @@ const PadMainScreen: () => React$Node = () => {
       <ThemedStatusBar />
       <TriplePaneLayout
         onLayout={forceUpdate}
-        pane1Width={192}
-        pane2Width={320}
+        pane1Width={288}
+        pane2Width={368}
         pane1={<MainDrawer style={styles.drawer} />}
         pane2={(
           <View style={styles.noteListContainer}>
@@ -71,12 +72,12 @@ PadMainScreenImpl.options = {
 
 const dynamicStyles = new DynamicStyleSheet({
   drawer: {
-    backgroundColor: new DynamicValue('rgb(216, 216, 216)', 'rgb(18, 18, 18)'),
+    backgroundColor: getDeviceDynamicColor('drawerBackground'),
     flex: 1,
   },
   noteListContainer: {
     flex: 1,
-    backgroundColor: new DynamicValue('rgb(240, 240, 240)', 'rgb(42, 42, 42)'),
+    backgroundColor: getDeviceDynamicColor('noteListBackground'),
     height: '100%',
   },
   noteList: {
