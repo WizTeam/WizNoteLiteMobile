@@ -207,7 +207,9 @@ const MainDrawer: () => React$Node = (props) => {
                 onPress={item.onPress}
               >
                 {isTablet && <item.leftIcon fill={item.isSelect ? '#fff' : styles.itemTitle.color} />}
-                <ListItem.Content>
+                <ListItem.Content
+                  style={!isTablet && styles.itemContent}
+                >
                   <ListItem.Title
                     style={[
                       styles.itemTitle,
@@ -272,6 +274,9 @@ const dynamicStyles = new DynamicStyleSheet({
   item: {
     paddingHorizontal: 16,
     backgroundColor: getDeviceDynamicColor('drawerBackground'),
+  },
+  itemContent: {
+    paddingLeft: 28,
   },
   itemSelect: {
     marginHorizontal: 16,
