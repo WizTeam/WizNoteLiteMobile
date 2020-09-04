@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { View, Dimensions } from 'react-native';
-
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { Header } from 'react-native-elements';
 
 import TriplePaneLayout from '../components/TriplePaneLayout';
 import MainDrawer from '../components/MainDrawer';
 import CategoryNoteList from '../components/CategoryNoteList';
 import NoteEditor from '../components/NoteEditor';
 import ThemedStatusBar from '../components/ThemedStatusBar';
-import { getDeviceDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
+import { createNewNote } from '../services/new_note';
 
 const useForceUpdate = () => useState()[1];
 
@@ -36,6 +37,14 @@ const PadMainScreen: () => React$Node = () => {
     width: editorMaxWidth,
   };
 
+  function handleCreateNote() {
+    createNewNote();
+  }
+
+  function handleToggleMenu() {
+    //
+  }
+
   //
   const forceUpdate = useForceUpdate();
 
@@ -49,6 +58,21 @@ const PadMainScreen: () => React$Node = () => {
         pane1={<MainDrawer style={styles.drawer} />}
         pane2={(
           <View style={styles.noteListContainer}>
+            <Header
+              containerStyle={styles.listHeader}
+              leftComponent={{
+                icon: 'menu',
+                onPress: handleToggleMenu,
+                style: styles.headerButton,
+                color: getDeviceColor('noteListTitle'),
+              }}
+              rightComponent={{
+                icon: 'add',
+                onPress: handleCreateNote,
+                style: styles.headerButton,
+                color: getDeviceColor('noteListTitle'),
+              }}
+            />
             <CategoryNoteList style={styles.noteList} />
           </View>
         )}
@@ -84,6 +108,14 @@ const dynamicStyles = new DynamicStyleSheet({
   noteList: {
     flex: 1,
     height: '100%',
+  },
+  listHeader: {
+    backgroundColor: 'transparent',
+    borderBottomColor: 'transparent',
+  },
+  headerButton: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
   },
   editorContainer: {
     backgroundColor: getDeviceDynamicColor('noteBackground'),
