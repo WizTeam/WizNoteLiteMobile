@@ -62,7 +62,7 @@ const NoteList: () => React$Node = (props) => {
           )}
           style={[styles.itemContainer, selected && styles.selected]}
         >
-          <ListItem.Content>
+          <ListItem.Content style={styles.itemContent}>
             <ListItem.Title numberOfLines={2} ellipsizeMode="tail" style={styles.title}>{title}</ListItem.Title>
             <ListItem.Subtitle style={styles.subtitle}>{subTitle}</ListItem.Subtitle>
           </ListItem.Content>
@@ -146,8 +146,10 @@ const dynamicStyles = new DynamicStyleSheet({
   list: {
   },
   itemContainer: {
-    paddingLeft: 22,
     backgroundColor: getDeviceDynamicColor('noteListBackground'),
+  },
+  itemContent: {
+    paddingLeft: 8,
   },
   selected: {
     backgroundColor: getDeviceDynamicColor('noteListSelectedBackground'),

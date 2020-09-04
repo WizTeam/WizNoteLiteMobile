@@ -264,14 +264,14 @@ const dynamicStyles = new DynamicStyleSheet({
     flexDirection: 'column',
   },
   scrollView: {
-    backgroundColor: 'transparent',
+    backgroundColor: getDeviceDynamicColor('drawerBackground'),
     width: '100%',
     display: 'flex',
     flex: 1,
   },
   item: {
-    marginHorizontal: 16,
-    backgroundColor: 'transparent',
+    paddingHorizontal: 16,
+    backgroundColor: getDeviceDynamicColor('drawerBackground'),
   },
   itemSelect: {
     marginHorizontal: 16,
@@ -285,7 +285,7 @@ const dynamicStyles = new DynamicStyleSheet({
     color: getDeviceDynamicColor('drawerItemTitle'),
   },
   treeItem: {
-    backgroundColor: 'transparent',
+    backgroundColor: getDeviceDynamicColor('drawerBackground'),
     marginLeft: 0,
     paddingLeft: 0,
   },
@@ -293,7 +293,7 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingTop: 0,
     paddingBottom: 0,
     paddingHorizontal: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: getDeviceDynamicColor('drawerBackground'),
   },
   treeItemTitleStyle: {
     paddingTop: 0,
