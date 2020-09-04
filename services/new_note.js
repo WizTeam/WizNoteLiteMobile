@@ -4,9 +4,11 @@ import api from '../api';
 import { getDeviceColor } from '../config/Colors';
 import { loadNote } from '../components/NoteEditor';
 import { isTablet } from '../utils/device';
+import { enableNextAnimation } from './animations';
 
 export async function createNewNote() {
   //
+  enableNextAnimation();
   const kbGuid = dataStore.getCurrentKb();
   const note = await api.createNote(kbGuid);
   dataStore.setCurrentNote(note);

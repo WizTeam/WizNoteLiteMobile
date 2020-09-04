@@ -8,6 +8,7 @@ import { Navigation } from '../thirdparty/react-native-navigation';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import NoteEditor from '../components/NoteEditor';
 import { getDeviceDynamicColor } from '../config/Colors';
+import { enableNextAnimation } from '../services/animations';
 import dataStore from '../data_store';
 import api from '../api';
 
@@ -34,12 +35,9 @@ const NewNoteScreen: () => React$Node = (props) => {
     //
     return () => {
       (async () => {
-        console.log('check new note data');
         const markdown = await api.getNoteMarkdown(kbGuid, note.guid);
-        console.log('new=', markdown);
-        console.log('old=', oldMarkdownRef.current);
         if (oldMarkdownRef.current === markdown) {
-          console.log('delete new created empty note');
+          enableNextAnimation();
           await api.deleteNote(kbGuid, note.guid);
         }
       })();
