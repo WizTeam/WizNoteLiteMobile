@@ -103,14 +103,19 @@ const MainDrawer: () => React$Node = (props) => {
     shouldShowTrash();
   }, []);
 
-  function handleRenderExpandButton({ isExpanded, hasChildrenNodes }) {
+  function handleRenderExpandButton({ isExpanded, hasChildrenNodes, isSelected }) {
+    let style = styles.itemTitle;
+    if (isTablet && isSelected) {
+      style = { color: '#fff' };
+    }
+    //
     if (!hasChildrenNodes) {
       return null;
     } else if (isExpanded) {
-      return <Icon name="keyboard-arrow-down" size={24} style={styles.itemTitle} />;
+      return <Icon name="keyboard-arrow-down" size={24} style={style} />;
     }
 
-    return <Icon name="keyboard-arrow-right" size={24} style={styles.itemTitle} />;
+    return <Icon name="keyboard-arrow-right" size={24} style={style} />;
   }
 
   function handleRenderSelectedMarker() {
@@ -153,7 +158,7 @@ const MainDrawer: () => React$Node = (props) => {
       selectedType: '#allNotes',
       leftIcon: NotesIcon,
       onPress: () => { handleGotoAllNotes(); },
-      isSelect: selectedType === '#allNotes',
+      isSelected: selectedType === '#allNotes',
       show: true,
     },
     {
@@ -161,7 +166,7 @@ const MainDrawer: () => React$Node = (props) => {
       selectedType: '#starredNotes',
       leftIcon: StarredIcon,
       onPress: () => { handleGotoStarredNotes(); },
-      isSelect: selectedType === '#starredNotes',
+      isSelected: selectedType === '#starredNotes',
       show: true,
     },
     {
@@ -169,10 +174,10 @@ const MainDrawer: () => React$Node = (props) => {
       selectedType: '#trash',
       leftIcon: TrashIcon,
       onPress: () => { handleGotoTrash(); },
-      isSelect: selectedType === '#trash',
+      isSelected: selectedType === '#trash',
       show: showTrash,
     },
-  ], [styles, selectedType]);
+  ], [styles, selectedType, showTrash]);
   //
   return (
     <View style={[styles.root, props.style]}>
@@ -202,24 +207,25 @@ const MainDrawer: () => React$Node = (props) => {
                 key={item.selectedType}
                 containerStyle={[
                   styles.item,
-                  isTablet && item.isSelect && styles.itemSelect,
+                  isTablet && styles.tabletItem,
+                  isTablet && item.isSelected && styles.itemSelect,
                 ]}
                 onPress={item.onPress}
               >
-                {isTablet && <item.leftIcon fill={item.isSelect ? '#fff' : styles.itemTitle.color} />}
+                {isTablet && <item.leftIcon fill={item.isSelected ? '#fff' : styles.itemTitle.color} />}
                 <ListItem.Content
                   style={!isTablet && styles.itemContent}
                 >
                   <ListItem.Title
                     style={[
                       styles.itemTitle,
-                      (isTablet && item.isSelect) && styles.itemSelectTitle,
+                      (isTablet && item.isSelected) && styles.itemSelectTitle,
                     ]}
                   >
                     {item.title}
                   </ListItem.Title>
                 </ListItem.Content>
-                {!isTablet && item.isSelect && (
+                {!isTablet && item.isSelected && (
                   <View style={styles.itemRightElement}>
                     {handleRenderSelectedMarker()}
                   </View>
@@ -236,13 +242,15 @@ const MainDrawer: () => React$Node = (props) => {
           }}
           data={tags}
           renderExpandButton={handleRenderExpandButton}
-          renderSelectedMarker={handleRenderSelectedMarker}
+          renderSelectedMarker={isTablet ? null : handleRenderSelectedMarker}
           getCollapsedNodeHeight={() => 44}
           onNodePress={handleClickTreeItem}
           itemContainerStyle={{
             ...styles.treeItemContainerStyle,
-            marginLeft: isTablet ? 16 : 0,
+            marginHorizontal: isTablet ? 16 : 0,
           }}
+          selectedContainerStyle={isTablet && styles.itemSelect}
+          selectedItemTitleStyle={isTablet && styles.itemSelectTitle}
           itemTitleStyle={styles.treeItemTitleStyle}
           itemContentContainerStyle={styles.treeItemContentContainerStyle}
           selected={selectedType}
@@ -274,6 +282,9 @@ const dynamicStyles = new DynamicStyleSheet({
   item: {
     paddingHorizontal: 16,
     backgroundColor: getDeviceDynamicColor('drawerBackground'),
+  },
+  tabletItem: {
+    marginHorizontal: 16,
   },
   itemContent: {
     paddingLeft: 28,

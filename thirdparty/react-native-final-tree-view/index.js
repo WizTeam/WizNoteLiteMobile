@@ -16,7 +16,9 @@ class TreeView extends React.Component {
     onNodePress: PropTypes.func,
     onNodeLongPress: PropTypes.func,
     isNodeExpanded: PropTypes.func,
-    shouldDisableTouchOnLeaf: PropTypes.func
+    shouldDisableTouchOnLeaf: PropTypes.func,
+    selectedContainerStyle: PropTypes.object,
+    selectedItemTitleStyle: PropTypes.object,
   }
 
   static defaultProps = {
@@ -27,7 +29,9 @@ class TreeView extends React.Component {
     onNodePress: null,
     onNodeLongPress: null,
     isNodeExpanded: null,
-    shouldDisableTouchOnLeaf: () => false
+    shouldDisableTouchOnLeaf: () => false,
+    selectedContainerStyle: {},
+    selectedItemTitleStyle: {},
   }
 
   constructor(props) {
@@ -116,11 +120,14 @@ class TreeView extends React.Component {
         >
           <ListItem
             pad={0}
-            containerStyle={{
-              ...this.props.itemContainerStyle,
-              paddingLeft: 22 * level,
-              paddingRight: 8,
-            }}
+            containerStyle={[
+              {
+                ...this.props.itemContainerStyle,
+                paddingLeft: 22 * level,
+                paddingRight: 8,
+              },
+              this.props.selected === node.id && this.props.selectedContainerStyle,
+            ]}
             onPress={() => this.handleNodePressed({ node, level })}
           >
             <View style={{
@@ -139,11 +146,18 @@ class TreeView extends React.Component {
                   level,
                   isExpanded,
                   hasChildrenNodes,
+                  isSelected: this.props.selected === node.id,
                 })}
               </TouchableOpacity>
             </View>
             <ListItem.Content style={this.props.itemContentContainerStyle}>
-              <ListItem.Title style={this.props.itemTitleStyle}>{node.name}</ListItem.Title>
+              <ListItem.Title style={[
+                this.props.itemTitleStyle,
+                this.props.selected === node.id && this.props.selectedItemTitleStyle,
+              ]}
+              >
+                {node.name}
+              </ListItem.Title>
             </ListItem.Content>
             {
               this.props.selected === node.id
