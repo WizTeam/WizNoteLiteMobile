@@ -13,6 +13,7 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTView.h>
 #import "objc/runtime.h"
+#import "WizResourceLoader.h"
 
 static NSTimer *keyboardTimer;
 // runtime trick to remove WKWebView keyboard default toolbar
@@ -64,10 +65,15 @@ WKScriptMessageHandler>
 
 - (id) initWithFrame:(CGRect)frame {
   WKWebViewConfiguration* config = [WKWebViewConfiguration new];
+  //
   [config.userContentController addScriptMessageHandler:self name:@"WizSingletonWebView"];
+  //
+  [config setURLSchemeHandler:[WizResourceLoader new] forURLScheme: @"wiz"];
+  //
   NSString* js = @"window.WizWebView = window.webkit.messageHandlers.WizSingletonWebView";
   WKUserScript* script = [[WKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
   [config.userContentController addUserScript:script];
+  //
   self = [super initWithFrame:frame configuration:config];
   self.navigationDelegate = self;
   [self setOpaque:NO];

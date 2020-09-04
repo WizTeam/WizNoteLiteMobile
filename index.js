@@ -1,7 +1,7 @@
 import './wrapper';
-import { Navigation } from './thirdparty/react-native-navigation';
 import * as RNIap from 'react-native-iap';
 
+import { Navigation } from './thirdparty/react-native-navigation';
 import { registerScreens } from './screens';
 import { setLoginAsRoot, setMainAsRoot } from './services/navigation';
 import { startResourceLoader } from './services/resources_loader';

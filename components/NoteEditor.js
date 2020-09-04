@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View } from 'react-native';
 
-import { PORT } from '../services/resources_loader';
+import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing } from './WizSingletonWebView';
@@ -59,7 +59,7 @@ export async function loadNote(kbGuid, note) {
   // console.log(`load note: ${note.markdown}`);
   const data = {
     markdown: note.markdown,
-    resourceUrl: `http://localhost:${PORT}/${api.userGuid}/${kbGuid}/${note.guid}`,
+    resourceUrl: getResourceBaseUrl(api.userGuid, kbGuid, note.guid),
     contentId: `${api.userGuid}/${kbGuid}/${note.guid}`,
   };
   const dataText = JSON.stringify(data);
@@ -114,7 +114,7 @@ const NoteEditor: () => React$Node = (props) => {
         onKeyboardShow={handleKeyboardShow}
         onKeyboardHide={handleKeyboardHide}
         onMessage={handleMessage}
-        style={props.style}
+        style={props.editorStyle}
       />
     </View>
   );

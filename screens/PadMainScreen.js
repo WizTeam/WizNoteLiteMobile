@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Dimensions } from 'react-native';
 
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { ColorSchemeProvider, DynamicValue, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import TriplePaneLayout from '../components/TriplePaneLayout';
 import MainDrawer from '../components/MainDrawer';
@@ -18,7 +18,8 @@ const PadMainScreen: () => React$Node = () => {
   //
   const styles = useDynamicValue(dynamicStyles);
   //
-  const pane2Width = 400;
+  const pane1Width = 288;
+  const pane2Width = 368;
   //
   const screenWidth = Math.round(Dimensions.get('window').width);
   const screenHeight = Math.round(Dimensions.get('window').height);
@@ -43,8 +44,8 @@ const PadMainScreen: () => React$Node = () => {
       <ThemedStatusBar />
       <TriplePaneLayout
         onLayout={forceUpdate}
-        pane1Width={288}
-        pane2Width={368}
+        pane1Width={pane1Width}
+        pane2Width={pane2Width}
         pane1={<MainDrawer style={styles.drawer} />}
         pane2={(
           <View style={styles.noteListContainer}>
@@ -85,17 +86,17 @@ const dynamicStyles = new DynamicStyleSheet({
     height: '100%',
   },
   editorContainer: {
-    backgroundColor: new DynamicValue('white', 'rgb(51, 51, 51)'),
+    backgroundColor: getDeviceDynamicColor('noteBackground'),
     width: '100%',
     height: '100%',
     display: 'flex',
+    flex: 1,
     flexDirection: 'row',
   },
   editor: {
     alignSelf: 'center',
-    width: 100,
-    flex: 1,
-    backgroundColor: 'transparent',
+    height: '100%',
+    backgroundColor: getDeviceDynamicColor('noteBackground'),
   },
 });
 
