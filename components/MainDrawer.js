@@ -211,7 +211,7 @@ const MainDrawer: () => React$Node = (props) => {
                   <ListItem.Title
                     style={[
                       styles.itemTitle,
-                      (isTablet && item.itemSelectTitle) && styles.itemSelect,
+                      (isTablet && item.isSelect) && styles.itemSelectTitle,
                     ]}
                   >
                     {item.title}
@@ -278,11 +278,11 @@ const dynamicStyles = new DynamicStyleSheet({
     backgroundColor: '#333333',
     borderRadius: 8,
   },
-  itemSelectTitle: {
-    color: '#ffffff',
-  },
   itemTitle: {
     color: getDeviceDynamicColor('drawerItemTitle'),
+  },
+  itemSelectTitle: {
+    color: '#ffffff',
   },
   treeItem: {
     backgroundColor: getDeviceDynamicColor('drawerBackground'),
