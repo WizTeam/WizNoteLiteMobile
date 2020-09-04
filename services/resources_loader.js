@@ -32,8 +32,8 @@ async function handleRequest(request) {
       try {
         await sdk.downloadNoteResource(userGuid, kbGuid, noteGuid, resName);
       } catch (err) {
-        console.error(err);
-        throw err;
+        responseNativeModule.respondWithError(request.requestId, err.message);
+        return;
       }
     }
     //
