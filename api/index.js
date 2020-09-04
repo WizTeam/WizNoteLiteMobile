@@ -119,6 +119,10 @@ class Api extends EventEmitter {
     return markdown;
   }
 
+  async deleteNote(kbGuid, noteGuid) {
+    await sdk.deleteNote(this.userGuid, kbGuid || this.kbGuid, noteGuid);
+  }
+
   async setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown) {
     await sdk.setNoteMarkdown(userGuid || this.userGuid, kbGuid || this.kbGuid, noteGuid, markdown);
   }

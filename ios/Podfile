@@ -13,7 +13,6 @@ target 'WizNoteLiteMobile' do
 
   use_react_native!(:path => config["reactNativePath"])
 
-
   target 'WizNoteLiteMobileTests' do
     inherit! :complete
     # Pods for testing

@@ -55,12 +55,11 @@
     "react-native-path": "0.0.5",
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^7.0.0",
-    "react-native-webview": "^10.7.0",
     "remove-markdown": "^0.3.0",
     "sync-storage": "^0.4.2",
     "url": "^0.11.0",
     "uuid": "^8.3.0",
-    "wiznote-sdk-js": "^1.1.4",
+    "wiznote-sdk-js": "^1.1.7",
     "wiznote-sdk-js-share": "^1.0.2",
     "xregexp": "^4.3.0"
   },

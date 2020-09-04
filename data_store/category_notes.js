@@ -9,7 +9,7 @@ export function updateCategoryNotes(allNotes, note, selectedType) {
   } else if (selectedType === '#starredNotes') {
     accept = !note.trash && note.starred;
   } else if (selectedType === '#trash') {
-    accept = note.trash;
+    accept = note.trash && !note.deleted;
   } else {
     accept = note.tags.toLowerCase().indexOf(selectedType) !== -1;
   }

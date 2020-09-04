@@ -1,6 +1,7 @@
 import store from '../simple_store';
 import api from '../api';
 import { updateCategoryNotes, getCategoryNotes } from './category_notes';
+import { isTablet } from '../utils/device';
 
 export { connect } from '../simple_store';
 
@@ -102,19 +103,21 @@ async function initUser() {
   const selectedType = api.getUserSettings(api.userGuid, KEYS.SELECTED_TYPE, '#allNotes');
   setSelectedType(selectedType);
   //
-  const currentNoteGuid = api.getUserSettings(api.userGuid, 'selectedNoteGuid', '');
-  if (currentNoteGuid) {
-    //
-    const note = await api.getNote(null, currentNoteGuid);
-    if (note) {
-      note.markdown = await api.getNoteMarkdown(kbGuid, note.guid);
-      setCurrentNote(note);
+  if (isTablet) {
+    const currentNoteGuid = api.getUserSettings(api.userGuid, 'selectedNoteGuid', '');
+    if (currentNoteGuid) {
+      //
+      const note = await api.getNote(null, currentNoteGuid);
+      if (note) {
+        note.markdown = await api.getNoteMarkdown(kbGuid, note.guid);
+        setCurrentNote(note);
+      }
     }
   }
   //
   api.initEvents();
   api.registerListener(api.userGuid, handleApiEvents);
-  //
+
   api.syncData();
 }
 
