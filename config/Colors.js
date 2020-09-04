@@ -38,7 +38,7 @@ const light = {
     noteListDivider: '#d8d8d8',
     drawerItemTitle: '#333333',
     noteBackground: 'white',
-    drawerBackground: '#f0f0f0',
+    drawerBackground: '#d8d8d8',
   },
 };
 
@@ -78,7 +78,7 @@ const dark = merge({}, light, {
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
     noteBackground: '#333333',
-    drawerBackground: '#333333',
+    drawerBackground: '#121212',
   },
 });
 
