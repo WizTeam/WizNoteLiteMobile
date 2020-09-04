@@ -177,7 +177,6 @@ const MainDrawer: () => React$Node = (props) => {
   return (
     <View style={[styles.root, props.style]}>
       <Header
-        // barStyle="dark-content"
         backgroundColor="transparent"
         containerStyle={{
           borderBottomColor: 'transparent',
@@ -198,37 +197,32 @@ const MainDrawer: () => React$Node = (props) => {
         {
           list.map((item) => {
             if (!item.show) return <React.Fragment key={item.selectedType} />;
-            if (isTablet) {
-              return (
-                <ListItem
-                  key={item.selectedType}
-                  title={item.title}
-                  containerStyle={[
-                    styles.item,
-                    item.isSelect && styles.itemSelect,
-                  ]}
-                  titleStyle={[
-                    styles.itemTitle,
-                    item.isSelect && styles.itemSelectTitle,
-                  ]}
-                  onPress={item.onPress}
-                  leftIcon={<item.leftIcon fill={item.isSelect ? '#fff' : styles.itemTitle.color} />}
-                />
-              );
-            }
             return (
               <ListItem
                 key={item.selectedType}
-                title={item.title}
-                containerStyle={styles.item}
-                titleStyle={styles.itemTitle}
+                containerStyle={[
+                  styles.item,
+                  isTablet && item.isSelect && styles.itemSelect,
+                ]}
                 onPress={item.onPress}
-                rightElement={item.isSelect && (
+              >
+                {isTablet && <item.leftIcon fill={item.isSelect ? '#fff' : styles.itemTitle.color} />}
+                <ListItem.Content>
+                  <ListItem.Title
+                    style={[
+                      styles.itemTitle,
+                      (isTablet && item.itemSelectTitle) && styles.itemSelect,
+                    ]}
+                  >
+                    {item.title}
+                  </ListItem.Title>
+                </ListItem.Content>
+                {!isTablet && item.isSelect && (
                   <View style={styles.itemRightElement}>
                     {handleRenderSelectedMarker()}
                   </View>
                 )}
-              />
+              </ListItem>
             );
           })
         }

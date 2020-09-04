@@ -3,6 +3,7 @@
     "Guids",
     "aesjs",
     "clonedeep",
+    "ellipsize",
     "findindex",
     "rnfs",
     "thirdparty",

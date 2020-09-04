@@ -57,19 +57,19 @@ const NoteList: () => React$Node = (props) => {
         <ListItem
           onPress={() => handlerPressItem(note)}
           key={note.guid}
-          title={title}
-          subtitle={subTitle}
           rightIcon={props.showStar && note.starred && (
             <Icon name="star" size={20} style={styles.star} />
           )}
-          containerStyle={[styles.itemContainer, selected && styles.selected]}
-          titleStyle={styles.title}
-          subtitleStyle={styles.subtitle}
-          titleProps={{
-            numberOfLines: 2,
-            ellipsizeMode: 'tail',
-          }}
-        />
+          style={[styles.itemContainer, selected && styles.selected]}
+        >
+          <ListItem.Content>
+            <ListItem.Title numberOfLines={2} ellipsizeMode="tail" style={styles.title}>{title}</ListItem.Title>
+            <ListItem.Subtitle style={styles.subtitle}>{subTitle}</ListItem.Subtitle>
+          </ListItem.Content>
+          {props.showStar && note.starred && (
+            <Icon name="star" size={20} style={styles.star} />
+          )}
+        </ListItem>
         {showDivider && <Divider style={styles.divider} />}
       </>
     );
