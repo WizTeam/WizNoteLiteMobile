@@ -36,7 +36,7 @@ addWebViewEventHandler('onMessage', (eventBody) => {
     //
     api.setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown);
   } else if (name === 'onKeyDown') {
-    console.log('keydown');
+    // do nothing
   } else {
     console.error(`unknown browser event: ${eventBody}`);
   }
@@ -99,6 +99,13 @@ const NoteEditor: () => React$Node = (props) => {
       keyboardVisibleTimeRef.current = new Date().valueOf();
     }
   }
+
+  const kbGuid = props[KEYS.CURRENT_KB];
+  const note = props[KEYS.CURRENT_NOTE];
+
+  useEffect(() => {
+    loadNote(kbGuid, note);
+  }, [note]);
 
   return (
     <View style={props.containerStyle}>
