@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Animated } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
@@ -53,7 +53,7 @@ const NoteList: () => React$Node = (props) => {
     }
     //
     return (
-      <>
+      <Animated.View>
         <ListItem
           onPress={() => handlerPressItem(note)}
           key={note.guid}
@@ -71,7 +71,7 @@ const NoteList: () => React$Node = (props) => {
           )}
         </ListItem>
         {showDivider && <Divider style={styles.divider} />}
-      </>
+      </Animated.View>
     );
   }
   //
