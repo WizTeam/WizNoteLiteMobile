@@ -24,6 +24,7 @@ class TriplePaneLayout extends React.Component {
     //
     this._panGestureHandler = React.createRef();
     //
+    this._animating = false;
     this._onPanGestureEvent = Animated.event([{ nativeEvent: {
       translationX: this._draggedXValue,
     } }], {
@@ -57,6 +58,47 @@ class TriplePaneLayout extends React.Component {
       Keyboard.dismiss();
     }
   };
+
+  currentOpenState = () => this.state.openState
+
+  toggleOpenState = (nextState) => {
+    if (this._animating) {
+      return;
+    }
+    const pane3OriginLeft = this._getPane3X(this.state.openState);
+    const pane3Left = this._getPane3X(nextState);
+    const toValue = pane3Left - pane3OriginLeft;
+    //
+    const velocity = 0;
+    //
+    this._draggedXValue.setValue(0);
+    //
+    this._panGestureHandler.current.setNativeProps({
+      enabled: false,
+    });
+    //
+    this._animating = true;
+    Animated.spring(this._draggedXValue, {
+      duration: 250,
+      velocity,
+      bounciness: 0,
+      toValue,
+      useNativeDriver: false,
+    }).start((params) => {
+      if (params.finished) {
+        this._animating = false;
+        this._panGestureHandler.current.setNativeProps({
+          enabled: true,
+        });
+        this._draggedXValue.setValue(0);
+        if (nextState !== this.state.openState) {
+          this.setState({ openState: nextState });
+        }
+      } else {
+        console.log(params);
+      }
+    });
+  }
 
   _onGestureEnd(moved, nativeEvent) {
     //
@@ -101,6 +143,7 @@ class TriplePaneLayout extends React.Component {
         enabled: false,
       });
       //
+      this._animating = true;
       Animated.timing(this._draggedXValue, {
         duration: 250,
         velocity,
@@ -110,6 +153,7 @@ class TriplePaneLayout extends React.Component {
         easing: Easing.in,
       }).start(({ finished }) => {
         if (finished) {
+          this._animating = false;
           this._panGestureHandler.current.setNativeProps({
             enabled: true,
           });

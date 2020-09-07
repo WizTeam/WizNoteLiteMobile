@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Dimensions } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { Header } from 'react-native-elements';
 
-import TriplePaneLayout from '../components/TriplePaneLayout';
+import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneLayout';
 import MainDrawer from '../components/MainDrawer';
 import CategoryNoteList from '../components/CategoryNoteList';
 import NoteEditor from '../components/NoteEditor';
@@ -16,6 +16,8 @@ const useForceUpdate = () => useState()[1];
 
 // eslint-disable-next-line arrow-body-style
 const PadMainScreen: () => React$Node = () => {
+  //
+  const layoutRef = useRef(null);
   //
   const styles = useDynamicValue(dynamicStyles);
   //
@@ -43,6 +45,12 @@ const PadMainScreen: () => React$Node = () => {
 
   function handleToggleMenu() {
     //
+    const openState = layoutRef.current.currentOpenState();
+    if (openState === OPEN_STATE.openAll) {
+      layoutRef.current.toggleOpenState(OPEN_STATE.open2);
+    } else {
+      layoutRef.current.toggleOpenState(OPEN_STATE.openAll);
+    }
   }
 
   //
@@ -52,6 +60,7 @@ const PadMainScreen: () => React$Node = () => {
     <ColorSchemeProvider>
       <ThemedStatusBar />
       <TriplePaneLayout
+        ref={layoutRef}
         onLayout={forceUpdate}
         pane1Width={pane1Width}
         pane2Width={pane2Width}
