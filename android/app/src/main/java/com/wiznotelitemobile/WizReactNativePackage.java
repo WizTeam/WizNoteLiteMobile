@@ -8,21 +8,22 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class NoteViewPackage implements ReactPackage {
+public class WizReactNativePackage implements ReactPackage {
     @NonNull
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new NoteViewModule(reactContext));
+        modules.add(new WizSingletonWebViewModule(reactContext));
         return modules;
     }
 
     @NonNull
     @Override
     public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        List<ViewManager> managers = new ArrayList<>();
+        managers.add(new WizSingletonWebViewManager());
+        return managers;
     }
 }

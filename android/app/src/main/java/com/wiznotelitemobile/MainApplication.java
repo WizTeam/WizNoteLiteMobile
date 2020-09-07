@@ -12,6 +12,7 @@ import com.facebook.react.PackageList;
 import com.reactnativenavigation.NavigationApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
+import com.reactnativenavigation.react.NavigationPackage;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
@@ -42,14 +43,14 @@ public class MainApplication extends NavigationApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-          @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
             packages.add(new SQLitePluginPackage());
             packages.add(new HttpServerReactPackage());
             packages.add(new RNFetchBlobPackage());
-            packages.add(new NoteViewPackage());
+            packages.add(new WizReactNativePackage());
+            packages.add(new NavigationPackage(mReactNativeHost));
           return packages;
         }
 
@@ -67,14 +68,13 @@ public class MainApplication extends NavigationApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    registerExternalComponent("NoteViewScreen", (activity, reactInstanceManager, props) -> new NoteViewComponent(activity, props));
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
     copyFileOrDir("resources");
   }
 
   private String localAssertsFolder() {
     File filesDir = getFilesDir();
-    return new File(filesDir, "assets").getAbsolutePath();
+    return filesDir.getAbsolutePath();
   }
   
   private void copyFileOrDir(String path) {
