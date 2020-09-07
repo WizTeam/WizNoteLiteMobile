@@ -4,7 +4,7 @@ if (UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export function enableNextAnimation() {
+export function enableNextAnimation(finishCallback) {
   LayoutAnimation.configureNext({
     duration: 250,
     update: {
@@ -16,5 +16,9 @@ export function enableNextAnimation() {
       property: LayoutAnimation.Properties.scaleY,
       springDamping: 0.7,
     },
+  }, () => {
+    if (finishCallback) {
+      finishCallback();
+    }
   });
 }

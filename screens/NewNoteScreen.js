@@ -34,12 +34,14 @@ const NewNoteScreen: () => React$Node = (props) => {
     })();
     //
     return () => {
-      (async () => {
-        const markdown = await api.getNoteMarkdown(kbGuid, note.guid);
-        if (oldMarkdownRef.current === markdown) {
-          enableNextAnimation();
-          await api.deleteNote(kbGuid, note.guid);
-        }
+      (() => {
+        setTimeout(async () => {
+          const markdown = await api.getNoteMarkdown(kbGuid, note.guid);
+          if (oldMarkdownRef.current === markdown) {
+            enableNextAnimation();
+            await api.deleteNote(kbGuid, note.guid);
+          }
+        }, 500);
       })();
     };
   }, []);
