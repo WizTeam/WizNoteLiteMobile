@@ -303,7 +303,7 @@ const LoginScreen: () => React$Node = (props) => {
                   renderBase={handleRenderDropdownBase}
                   onChangeText={handleChangeServerType}
                   disabled={isWorking}
-                  useNativeDriver
+                  useNativeDriver={false}
                 />
                 <View style={styles.sectionContainer}>
                   <Input

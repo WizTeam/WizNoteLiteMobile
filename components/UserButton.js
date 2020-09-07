@@ -62,7 +62,7 @@ const UserButton: () => React$Node = (props) => {
           data={userActionsData}
           renderBase={handleRenderDropdownBase}
           onChangeText={handleUserAction}
-          useNativeDriver
+          useNativeDriver={false}
         />
       )}
 
