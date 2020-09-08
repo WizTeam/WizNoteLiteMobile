@@ -14,6 +14,8 @@ import { showTopBarMessage } from '../services/navigation';
 import { formatDateString } from '../utils/date';
 import HighlightText from './HighlightText';
 
+const LIST_HEIGHT_DEFAULT = 73;
+
 const NoteList: () => React$Node = (props) => {
   //
   const listWidth = isTablet ? 368 : Dimensions.get('window').width;
@@ -61,7 +63,7 @@ const NoteList: () => React$Node = (props) => {
     let animationValue = map.get(note.guid);
     //
     if (!animationValue) {
-      animationValue = new Animated.Value(73);
+      animationValue = new Animated.Value(LIST_HEIGHT_DEFAULT);
       map.set(note.guid, animationValue);
     }
     //
@@ -69,6 +71,7 @@ const NoteList: () => React$Node = (props) => {
       <Animated.View
         style={{
           height: animationValue,
+          backgroundColor: '#fff',
         }}
         key={note.guid}
       >
@@ -216,6 +219,7 @@ const dynamicStyles = new DynamicStyleSheet({
   list: {
   },
   itemContainer: {
+    height: LIST_HEIGHT_DEFAULT - 1,
     backgroundColor: getDeviceDynamicColor('noteListBackground'),
   },
   itemContent: {
