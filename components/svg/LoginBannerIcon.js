@@ -11,13 +11,14 @@ const xml = `
           <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.15 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
       </filter>
     </defs>
-    <g id="WizNoteLite_light" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="WizNoteLite_night" stroke="none" stroke-width="1" fill-rule="evenodd">
       <g id="WizNoteLite" fill-rule="nonzero">
-          <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
-          <use fill="#FFFFFF" xlink:href="#path-1"></use>
+        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+        <use xlink:href="#path-1"></use>
       </g>
     </g>
   </svg>
 `;
 
-export default (props) => <SvgXml xml={xml} width="100%" height="24" style={props.style ?? {}} />;
+// eslint-disable-next-line react/jsx-props-no-spreading
+export default (props) => <SvgXml xml={xml} width="100%" height="24" {...props} />;

@@ -12,7 +12,7 @@ import {
 import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { DynamicValue, useDynamicValue, DynamicStyleSheet, useDarkMode } from 'react-native-dynamic';
+import { useDynamicValue, DynamicStyleSheet, useDarkMode } from 'react-native-dynamic';
 
 import { Navigation } from '../thirdparty/react-native-navigation';
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
@@ -23,15 +23,11 @@ import dataStore from '../data_store';
 import { isTablet } from '../utils/device';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
-import LoginBannerLight from '../components/svg/LoginBannerLight';
-import LoginBannerDark from '../components/svg/LoginBannerDark';
-
-const loginBanner = new DynamicValue(LoginBannerLight, LoginBannerDark);
+import LoginBannerIcon from '../components/svg/LoginBannerIcon';
 
 const LoginScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles);
   const isDarkMode = useDarkMode();
-  const Banner = useDynamicValue(loginBanner);
 
   const [isLogin, setLogin] = useState(true);
   const [isPrivateServer, setUsePrivateServer] = useState(false);
@@ -258,6 +254,8 @@ const LoginScreen: () => React$Node = (props) => {
     value: 'private',
   }];
 
+  const bannerHeight = isTablet ? '48' : '24';
+
   const backgroundSource = isDarkMode
     // eslint-disable-next-line import/no-unresolved
     ? require('../images/background/bg_night.png')
@@ -286,7 +284,11 @@ const LoginScreen: () => React$Node = (props) => {
             contentContainerStyle={styles.contentContainerStyle}
           >
             <View style={styles.body}>
-              <Banner style={styles.title} />
+              <LoginBannerIcon
+                fill={styles.title.color}
+                height={bannerHeight}
+                style={styles.title}
+              />
               <View style={styles.shadowBox}>
                 <View style={styles.tab}>
                   <Button disabled={isWorking} type="clear" titleStyle={isLogin ? styles.selectedButton : styles.normalButton} title={i18n.t('tabLogin')} onPress={handleSwitchLogin} />
@@ -384,6 +386,7 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   title: {
     marginTop: 35,
+    color: getDynamicColor('loginBannerColor'),
   },
   closeTouchable: {
     padding: 8,
