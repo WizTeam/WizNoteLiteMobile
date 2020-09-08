@@ -45,4 +45,7 @@ export default {
   bottomBarNotes: 'Notes',
   bottomBarStarred: 'Starred',
   bottomBarSearch: 'Search',
+  buttonStarNote: 'Star',
+  buttonUnstarNote: 'Unstar',
+  buttonDelete: 'Delete',
 };

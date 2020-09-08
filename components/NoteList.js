@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Dimensions, TouchableHighlight } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
+import useStateWithCallback from 'use-state-with-callback';
 
 import { getDeviceDynamicColor } from '../config/Colors';
 import { isTablet } from '../utils/device';
@@ -13,6 +14,8 @@ import { showTopBarMessage } from '../services/navigation';
 import { formatDateString } from '../utils/date';
 import HighlightText from './HighlightText';
 import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
+
+const useForceUpdate = () => useState()[1];
 
 const NoteList: () => React$Node = (props) => {
   //
@@ -54,6 +57,7 @@ const NoteList: () => React$Node = (props) => {
       }
     }
     //
+    const showStar = !!(props.showStar && note.starred);
     //
     return (
       <View>
@@ -63,25 +67,65 @@ const NoteList: () => React$Node = (props) => {
           containerStyle={[styles.itemContainer, selected && styles.selected]}
         >
           <ListItem.Content style={styles.itemContent}>
-            <ListItem.Title numberOfLines={2} ellipsizeMode="tail" style={styles.title}>{title}</ListItem.Title>
+            <ListItem.Title numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
+              <Text>{title}</Text>
+            </ListItem.Title>
             <ListItem.Subtitle style={styles.subtitle}>{subTitle}</ListItem.Subtitle>
           </ListItem.Content>
-          {props.showStar && note.starred && (
-            <Icon name="star" size={20} style={styles.star} />
-          )}
+          {showStar && <ListItem.Chevron name="star" size={20} color="rgb(253, 201, 46)" style={styles.star} />}
         </ListItem>
         <Divider style={[styles.divider, hideDivider && styles.hideDivider]} />
       </View>
     );
   }
   //
+  function handleDeleteNote(note, rowMap) {
+    const row = rowMap[note.guid];
+    row.deleteRow(() => {
+      api.deleteNote(note.kbGuid, note.guid);
+    });
+  }
+
+  const [, setStarNote] = useStateWithCallback({}, ({ note, rowMap }) => {
+    if (note) {
+      setTimeout(() => {
+        const row = rowMap[note.guid];
+        row.closeRow(() => {
+          setTimeout(() => {
+            api.setNoteStarred(note.kbGuid, note.guid, note.starred);
+            setStarNote({});
+          });
+        });
+      });
+    }
+  });
+
+  function handleStarNote(note, rowMap) {
+    // eslint-disable-next-line no-param-reassign
+    note.starred = !note.starred;
+    setStarNote({ note, rowMap });
+  }
   //
-  function renderHiddenItem() {
+  function renderHiddenItem({ item }, rowMap) {
+    //
+    const note = item;
+    const starButtonText = i18n.t(note.starred ? 'buttonUnstarNote' : 'buttonStarNote');
+    //
     return (
       <View style={styles.rowBack}>
-        <View style={[styles.backRightBtn, styles.backRightBtnRight]}>
-          <Text style={styles.backTextWhite}>Delete</Text>
-        </View>
+        <View style={styles.grow} />
+        <TouchableOpacity
+          style={[styles.backRightBtn, styles.starButton]}
+          onPress={() => handleStarNote(item, rowMap)}
+        >
+          <Text style={styles.backTextWhite}>{starButtonText}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.backRightBtn, styles.deleteButton]}
+          onPress={() => handleDeleteNote(item, rowMap)}
+        >
+          <Text style={styles.backTextWhite}>{i18n.t('buttonDelete')}</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -172,7 +216,9 @@ const NoteList: () => React$Node = (props) => {
       renderHiddenItem={renderHiddenItem}
       onRefresh={handleRefresh}
       refreshing={isRefreshing}
-      rightOpenValue={-listWidth}
+      rightOpenValue={-140}
+      rightActivationValue={-200}
+      rightActionValue={-500}
       onSwipeValueChange={handleSwipeValueChange}
       useNativeDriver={false}
     />
@@ -211,6 +257,7 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   star: {
     color: 'rgb(253, 201, 46)',
+    paddingBottom: 24,
   },
   //
   rowFront: {
@@ -228,18 +275,29 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   backRightBtn: {
     alignItems: 'center',
-    bottom: 0,
+    // bottom: 0,
     justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    marginRight: 8,
+    // position: 'absolute',
+    // top: 0,
   },
   backTextWhite: {
     color: 'white',
   },
   backRightBtnRight: {
     backgroundColor: 'red',
-    right: 0,
+    // right: 0,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  starButton: {
+    width: 70,
+    backgroundColor: '#aaaaaa',
+    height: '100%',
+  },
+  deleteButton: {
+    width: 70,
+    height: '100%',
   },
 });
 

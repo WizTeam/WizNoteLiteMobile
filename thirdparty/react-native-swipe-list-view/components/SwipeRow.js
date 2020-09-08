@@ -519,8 +519,8 @@ class SwipeRow extends Component {
     /*
      * This method is called by SwipeListView
      */
-    closeRow() {
-        this.manuallySwipeRow(0);
+    closeRow(callback) {
+        this.manuallySwipeRow(0, callback);
     }
 
     deleteRow(callback) {

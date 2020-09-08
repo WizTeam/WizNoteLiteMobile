@@ -46,4 +46,7 @@ export default {
   bottomBarNotes: '笔记',
   bottomBarStarred: '星标',
   bottomBarSearch: '搜索',
+  buttonStarNote: '星标',
+  buttonUnstarNote: '取消星标',
+  buttonDelete: '删除',
 };
