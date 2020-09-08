@@ -256,6 +256,8 @@
       [regions addObject:[NSValue valueWithCGRect:rect]];
     }
     recognizer.excludeRegions = regions;
+  } else {
+    recognizer.excludeRegions = nil;
   }
 
   [recognizer updateHasCustomActivationCriteria];
