@@ -221,6 +221,7 @@ const NoteList: () => React$Node = (props) => {
       rightActionValue={-500}
       onSwipeValueChange={handleSwipeValueChange}
       useNativeDriver={false}
+      disableRightSwipe
     />
   );
 };

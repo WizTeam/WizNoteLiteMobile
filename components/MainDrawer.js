@@ -51,43 +51,7 @@ const MainDrawer: () => React$Node = (props) => {
 
   //
   const [showTrash, setShowTrash] = useState(false);
-  const [tags, setTags] = useState([]);
 
-  async function resetTags() {
-    //
-    function convertTags(tagsData, currentTag, object) {
-      for (const [key, value] of Object.entries(object)) {
-        if (key === 'wizName') {
-          if (!currentTag.name === value) {
-            console.error(`invalid tags data, invalid name: ${value}, data: ${JSON.stringify(tagsData)}`);
-          }
-          currentTag.name = value;
-        } else if (key === 'wizFull') {
-          currentTag.id = value;
-        } else {
-          const childTag = {
-            name: key,
-            children: [],
-          };
-          convertTags(tagsData, childTag, value);
-          if (!childTag.id) {
-            console.error(`invalid tags data, no tag path: ${key}, data: ${JSON.stringify(tagsData)}`);
-          }
-          currentTag.children.push(childTag);
-        }
-      }
-    }
-    try {
-      const tagsData = await api.getAllTags();
-      const root = {
-        children: [],
-      };
-      convertTags(tagsData, root, tagsData);
-      setTags(root.children);
-    } catch (err) {
-      console.error(err);
-    }
-  }
   //
   useEffect(() => {
     async function shouldShowTrash() {
@@ -95,7 +59,6 @@ const MainDrawer: () => React$Node = (props) => {
         const hasNotesInTrash = await api.hasNotesInTrash();
         setShowTrash(hasNotesInTrash);
         //
-        resetTags();
       } catch (err) {
         console.error(err);
       }
@@ -178,6 +141,8 @@ const MainDrawer: () => React$Node = (props) => {
       show: showTrash,
     },
   ], [styles, selectedType, showTrash]);
+  //
+  const tags = props.tags;
   //
   return (
     <View style={[styles.root, props.style]}>
@@ -347,7 +312,10 @@ const dynamicStyles = new DynamicStyleSheet({
   },
 });
 
-export default connect(KEYS.SELECTED_TYPE)(MainDrawer);
+export default connect([
+  KEYS.SELECTED_TYPE,
+  KEYS.TAGS,
+])(MainDrawer);
 
 export function showDrawer(parentComponentId) {
   RNNDrawer.showDrawer({

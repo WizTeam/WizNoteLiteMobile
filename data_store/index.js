@@ -1,6 +1,7 @@
 import store from '../simple_store';
 import api from '../api';
 import { updateCategoryNotes, getCategoryNotes } from './category_notes';
+import { getTags } from './tags';
 import { isTablet } from '../utils/device';
 
 export { connect } from '../simple_store';
@@ -11,6 +12,7 @@ export const KEYS = {
   SELECTED_TYPE: 'selectedType',
   CATEGORY_NOTES: 'categoryNotes',
   CURRENT_NOTE: 'currentNote',
+  TAGS: 'tags',
 };
 
 function compareNote(note1, note2) {
@@ -47,6 +49,11 @@ function handleModifyNote(kbGuid, note) {
   handleDownloadNotes(kbGuid, [note]);
 }
 
+async function handleTagsChanged() {
+  const tags = await getTags();
+  store.setData(KEYS.TAGS, tags);
+}
+
 function handleApiEvents(userGuid, eventName, ...args) {
   if (userGuid !== api.userGuid) {
     console.log(`ignore event, not current user: sender is ${userGuid}, current is ${api.userGuid}`);
@@ -64,6 +71,8 @@ function handleApiEvents(userGuid, eventName, ...args) {
   } else if (eventName === 'userInfoChanged') {
     const [userInfo] = args;
     store.setData(KEYS.USER_INFO, userInfo);
+  } else if (eventName === 'tagsChanged' || eventName === 'tagRenamed') {
+    handleTagsChanged();
   }
 }
 function getSelectedType() {
@@ -114,6 +123,9 @@ async function initUser() {
       }
     }
   }
+  //
+  const tags = await getTags();
+  store.setData(KEYS.TAGS, tags);
   //
   api.initEvents();
   api.registerListener(api.userGuid, handleApiEvents);
