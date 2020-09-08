@@ -39,7 +39,6 @@ const NoteList: () => React$Node = (props) => {
     const selected = note.guid === props.selectedNoteGuid;
     //
     const hideDivider = isTablet && (selected || index === selectedIndex - 1);
-    const showDivider = !hideDivider;
     //
     let title = note.title;
     let subTitle = formatDateString(note.modified);
@@ -61,9 +60,6 @@ const NoteList: () => React$Node = (props) => {
         <ListItem
           onPress={() => handlerPressItem(note)}
           key={note.guid}
-          rightIcon={props.showStar && note.starred && (
-            <Icon name="star" size={20} style={styles.star} />
-          )}
           containerStyle={[styles.itemContainer, selected && styles.selected]}
         >
           <ListItem.Content style={styles.itemContent}>
@@ -74,7 +70,7 @@ const NoteList: () => React$Node = (props) => {
             <Icon name="star" size={20} style={styles.star} />
           )}
         </ListItem>
-        {showDivider && <Divider style={styles.divider} />}
+        <Divider style={[styles.divider, hideDivider && styles.hideDivider]} />
       </View>
     );
   }
@@ -209,6 +205,9 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingLeft: 22,
     paddingRight: 16,
     backgroundColor: getDeviceDynamicColor('noteListDivider'),
+  },
+  hideDivider: {
+    backgroundColor: getDeviceDynamicColor('noteListBackground'),
   },
   star: {
     color: 'rgb(253, 201, 46)',

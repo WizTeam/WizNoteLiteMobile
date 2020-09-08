@@ -525,7 +525,7 @@ class SwipeRow extends Component {
 
     deleteRow(callback) {
       //
-      console.log('delete row');
+      this._deletingRow = true;
       //
       this.deleteRowAnimationValue = new Animated.Value(this.itemHeight);
       this.setState({}, () => {
@@ -575,6 +575,10 @@ class SwipeRow extends Component {
     }
 
     manuallySwipeRow(toValue, onAnimationEnd) {
+      if (this._deletingRow) {
+        console.log('deleting row, skip to close row');
+        return;
+      }
         Animated.spring(this._translateX, {
             toValue,
             friction: this.props.friction,
