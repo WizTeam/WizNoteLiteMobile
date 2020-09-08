@@ -47,7 +47,6 @@
     "react-native-final-tree-view": "^2.0.3",
     "react-native-flash-message": "^0.1.16",
     "react-native-fs": "^2.16.6",
-    "react-native-gesture-handler": "^1.7.0",
     "react-native-get-random-values": "^1.4.0",
     "react-native-iap": "^4.5.3",
     "react-native-localize": "^1.4.1",
