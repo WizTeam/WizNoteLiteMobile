@@ -100,7 +100,10 @@ async function initUser() {
   store.setData(KEYS.CURRENT_KB, kbGuid);
   console.log('set current kb', kbGuid);
   //
-  const selectedType = api.getUserSettings(api.userGuid, KEYS.SELECTED_TYPE, '#allNotes');
+  let selectedType = api.getUserSettings(api.userGuid, KEYS.SELECTED_TYPE, '#allNotes');
+  if (selectedType === '#searchResult') {
+    selectedType = '#allNotes';
+  }
   setSelectedType(selectedType);
   //
   if (isTablet) {
@@ -123,6 +126,9 @@ async function initUser() {
 
 async function initCategoryNotes() {
   const selectedType = store.getData(KEYS.SELECTED_TYPE) || '#allNotes';
+  //
+  if (selectedType === '#searchResult') return;
+  //
   const notes = await getCategoryNotes(selectedType);
   sortNotes(notes);
   store.setData(KEYS.CATEGORY_NOTES, notes);

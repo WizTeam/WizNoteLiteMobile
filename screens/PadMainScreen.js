@@ -1,8 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Dimensions } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
-import { Header } from 'react-native-elements';
+import { Header, Text, SearchBar } from 'react-native-elements';
+import i18n from 'i18n-js';
 
+import api from '../api';
 import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneLayout';
 import { gestureHandlerRootHOC } from '../thirdparty/react-native-gesture-handler';
 import MainDrawer from '../components/MainDrawer';
@@ -11,15 +13,18 @@ import NoteEditor from '../components/NoteEditor';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import { createNewNote } from '../services/new_note';
+import store, { KEYS, connect } from '../data_store';
 
 const useForceUpdate = () => useState()[1];
 
 // eslint-disable-next-line arrow-body-style
-const PadMainScreen: () => React$Node = () => {
+const PadMainScreen: () => React$Node = (props) => {
   //
   const layoutRef = useRef(null);
   //
   const styles = useDynamicValue(dynamicStyles);
+  //
+  const [searchText, setSearchText] = useState('');
   //
   const pane1Width = 288;
   const pane2Width = 368;
@@ -74,8 +79,46 @@ const PadMainScreen: () => React$Node = () => {
     return excludeRegions;
   }
 
+  function handleSearchChange(text) {
+    setSearchText(text);
+  }
+
+  function handleSearchCancel() {
+    store.setSelectedType('#allNotes');
+    store.initCategoryNotes();
+  }
+
+  async function handleSearchSubmit() {
+    try {
+      if (!searchText) {
+        return;
+      }
+      const notes = await api.searchNotes(null, searchText);
+      store.setSearchResult(notes);
+    } finally {
+      //
+    }
+  }
+
   //
   const forceUpdate = useForceUpdate();
+  //
+  const pane2Title = React.useMemo(() => {
+    const type = props.selectedType;
+    let title;
+    if (type === '#allNotes') {
+      title = i18n.t('itemAllNotes');
+    } else if (type === '#starredNotes') {
+      title = i18n.t('itemStarredNotes');
+    } else if (type === '#trash') {
+      title = i18n.t('itemTrash');
+    } else if (type === '#searchResult') {
+      title = i18n.t('itemSearchResult');
+    } else {
+      title = type;
+    }
+    return title;
+  }, [props.selectedType]);
 
   return (
     <ColorSchemeProvider>
@@ -104,6 +147,17 @@ const PadMainScreen: () => React$Node = () => {
                 color: getDeviceColor('noteListTitle'),
               }}
             />
+            <Text style={{ paddingLeft: 18 }} h4>{pane2Title}</Text>
+            <SearchBar
+              platform="ios"
+              showCancel
+              placeholder="Type Here..."
+              containerStyle={{ backgroundColor: getDeviceDynamicColor('noteListBackground') }}
+              onChangeText={handleSearchChange}
+              onCancel={handleSearchCancel}
+              onSubmitEditing={handleSearchSubmit}
+              value={searchText}
+            />
             <CategoryNoteList style={styles.noteList} />
           </View>
         )}
@@ -118,7 +172,7 @@ const PadMainScreen: () => React$Node = () => {
   );
 };
 
-const PadMainScreenImpl = gestureHandlerRootHOC(PadMainScreen);
+const PadMainScreenImpl = connect([KEYS.SELECTED_TYPE])(gestureHandlerRootHOC(PadMainScreen));
 
 PadMainScreenImpl.options = {
   topBar: {
