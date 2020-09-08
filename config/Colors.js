@@ -75,10 +75,10 @@ const dark = merge({}, light, {
   pad: {
     noteListBackground: '#2a2a2a',
     noteListSelectedBackground: '#333333',
-    noteListTitle: '#f0f0f0',
+    noteListTitle: '#d8d8d8',
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
-    drawerItemTitle: '#f0f0f0',
+    drawerItemTitle: '#d8d8d8',
     noteBackground: '#333333',
     drawerBackground: '#121212',
   },
