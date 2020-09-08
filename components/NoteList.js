@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Animated, Dimensions, TouchableHighlight } from 'react-native';
+import { View, Text, Dimensions, TouchableHighlight } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { SwipeListView } from 'react-native-swipe-list-view';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
 
@@ -13,8 +12,7 @@ import api from '../api';
 import { showTopBarMessage } from '../services/navigation';
 import { formatDateString } from '../utils/date';
 import HighlightText from './HighlightText';
-
-const LIST_HEIGHT_DEFAULT = 73;
+import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
 
 const NoteList: () => React$Node = (props) => {
   //
@@ -35,8 +33,6 @@ const NoteList: () => React$Node = (props) => {
       props.onPressNote(newNote);
     }
   }
-  //
-  const animationValueMapRef = useRef(new Map());
   //
   function renderItem({ item, index }) {
     const note = item;
@@ -59,44 +55,27 @@ const NoteList: () => React$Node = (props) => {
       }
     }
     //
-    const map = animationValueMapRef.current;
-    let animationValue = map.get(note.guid);
-    //
-    if (!animationValue) {
-      animationValue = new Animated.Value(LIST_HEIGHT_DEFAULT);
-      map.set(note.guid, animationValue);
-    }
     //
     return (
-      <Animated.View
-        style={{
-          height: animationValue,
-          backgroundColor: '#fff',
-        }}
-        key={note.guid}
-      >
-        <TouchableHighlight style={styles.rowFront}>
-          <View>
-            <ListItem
-              onPress={() => handlerPressItem(note)}
-              key={note.guid}
-              rightIcon={props.showStar && note.starred && (
-                <Icon name="star" size={20} style={styles.star} />
-              )}
-              containerStyle={[styles.itemContainer, selected && styles.selected]}
-            >
-              <ListItem.Content style={styles.itemContent}>
-                <ListItem.Title numberOfLines={1} ellipsizeMode="tail" style={styles.title}>{title}</ListItem.Title>
-                <ListItem.Subtitle style={styles.subtitle}>{subTitle}</ListItem.Subtitle>
-              </ListItem.Content>
-              {props.showStar && note.starred && (
-                <Icon name="star" size={20} style={styles.star} />
-              )}
-            </ListItem>
-            {showDivider && <Divider style={styles.divider} />}
-          </View>
-        </TouchableHighlight>
-      </Animated.View>
+      <View>
+        <ListItem
+          onPress={() => handlerPressItem(note)}
+          key={note.guid}
+          rightIcon={props.showStar && note.starred && (
+            <Icon name="star" size={20} style={styles.star} />
+          )}
+          containerStyle={[styles.itemContainer, selected && styles.selected]}
+        >
+          <ListItem.Content style={styles.itemContent}>
+            <ListItem.Title numberOfLines={2} ellipsizeMode="tail" style={styles.title}>{title}</ListItem.Title>
+            <ListItem.Subtitle style={styles.subtitle}>{subTitle}</ListItem.Subtitle>
+          </ListItem.Content>
+          {props.showStar && note.starred && (
+            <Icon name="star" size={20} style={styles.star} />
+          )}
+        </ListItem>
+        {showDivider && <Divider style={styles.divider} />}
+      </View>
     );
   }
   //
@@ -113,34 +92,25 @@ const NoteList: () => React$Node = (props) => {
 
   const animationIsRunningRef = useRef(false);
 
-  function handleSwipeValueChange(swipeData) {
-    const { key, value } = swipeData;
+  function handleSwipeValueChange(swipeData, rowMap) {
     //
+    const { key, value } = swipeData;
     const note = notes.find((item) => item.guid === key);
     if (!note) {
       return;
     }
-    const map = animationValueMapRef.current;
-    const animationValue = map.get(note.guid);
-    if (!animationValue) {
-      return;
-    }
-    //
     if (value < -listWidth
       && !animationIsRunningRef.current
     ) {
-      animationIsRunningRef.current = true;
-      //
-      setTimeout(() => {
-        Animated.timing(animationValue, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: false,
-        }).start(() => {
+      const row = rowMap[key];
+      if (!note._deletedInList) {
+        note._deletedInList = true;
+        animationIsRunningRef.current = true;
+        row.deleteRow(() => {
           animationIsRunningRef.current = false;
           api.deleteNote(note.kbGuid, note.guid);
         });
-      });
+      }
     }
   }
 
@@ -217,7 +187,6 @@ const dynamicStyles = new DynamicStyleSheet({
   list: {
   },
   itemContainer: {
-    height: LIST_HEIGHT_DEFAULT - 1,
     backgroundColor: getDeviceDynamicColor('noteListBackground'),
   },
   itemContent: {
@@ -252,10 +221,11 @@ const dynamicStyles = new DynamicStyleSheet({
   rowBack: {
     alignItems: 'center',
     backgroundColor: 'red',
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: 15,
+    height: '100%',
   },
   backRightBtn: {
     alignItems: 'center',
