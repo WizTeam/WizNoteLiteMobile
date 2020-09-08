@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
 import useStateWithCallback from 'use-state-with-callback';
@@ -14,8 +13,6 @@ import { showTopBarMessage } from '../services/navigation';
 import { formatDateString } from '../utils/date';
 import HighlightText from './HighlightText';
 import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
-
-const useForceUpdate = () => useState()[1];
 
 const NoteList: () => React$Node = (props) => {
   //
@@ -74,7 +71,9 @@ const NoteList: () => React$Node = (props) => {
           </ListItem.Content>
           {showStar && <ListItem.Chevron name="star" size={20} color="rgb(253, 201, 46)" style={styles.star} />}
         </ListItem>
-        <Divider style={[styles.divider, hideDivider && styles.hideDivider]} />
+        <View style={styles.dividerContainer}>
+          <Divider style={[styles.divider, hideDivider && styles.hideDivider]} />
+        </View>
       </View>
     );
   }
@@ -248,9 +247,12 @@ const dynamicStyles = new DynamicStyleSheet({
     fontSize: 14,
     color: getDeviceDynamicColor('noteListSubTitle'),
   },
+  dividerContainer: {
+    backgroundColor: getDeviceDynamicColor('noteListBackground'),
+  },
   divider: {
-    paddingLeft: 22,
-    paddingRight: 16,
+    marginLeft: 22,
+    marginRight: 16,
     backgroundColor: getDeviceDynamicColor('noteListDivider'),
   },
   hideDivider: {
