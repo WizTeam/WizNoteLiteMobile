@@ -252,6 +252,7 @@ export const PanGestureHandler = createHandler(
     minPointers: PropTypes.number,
     maxPointers: PropTypes.number,
     avgTouches: PropTypes.bool,
+    excludeRegions: PropTypes.arrayOf(PropTypes.object),
   },
   {},
   managePanProps,

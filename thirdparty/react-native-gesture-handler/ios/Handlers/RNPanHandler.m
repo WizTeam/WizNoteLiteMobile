@@ -24,6 +24,7 @@
 @property (nonatomic) CGFloat activeOffsetYEnd;
 @property (nonatomic) CGFloat failOffsetYStart;
 @property (nonatomic) CGFloat failOffsetYEnd;
+@property (nonatomic) NSArray* excludeRegions;
 
 
 - (id)initWithGestureHandler:(RNGestureHandler*)gestureHandler;
@@ -78,6 +79,25 @@
     super.minimumNumberOfTouches = _realMinimumNumberOfTouches;
   }
 #endif
+
+  if (self.excludeRegions) {
+    UITouch* touch = [[touches allObjects] objectAtIndex: 0];
+    CGPoint pt = [touch locationInView:self.view];
+    CGFloat x = pt.x;
+    CGFloat y = pt.y;
+    for (NSValue* value in self.excludeRegions) {
+      CGRect rect = value.CGRectValue;
+      if (x >= CGRectGetMinX(rect)
+        && x <= CGRectGetMaxX(rect)
+        && y >= CGRectGetMinY(rect)
+        && y <= CGRectGetMaxY(rect)) {
+        self.state = UIGestureRecognizerStateFailed;
+        return;
+      }
+    }
+  }
+
+
   [super touchesBegan:touches withEvent:event];
 }
 
@@ -222,6 +242,22 @@
     CGFloat velocity = [RCTConvert CGFloat:prop];
     recognizer.minVelocitySq = velocity * velocity;
   }
+
+  NSMutableArray* regions = [NSMutableArray new];
+  prop = config[@"excludeRegions"];
+  if (prop != nil) {
+    NSArray* array = [RCTConvert NSDictionaryArray:prop];
+    for (NSDictionary* elem in array) {
+      CGFloat x = [RCTConvert CGFloat:elem[@"x"]];
+      CGFloat y = [RCTConvert CGFloat:elem[@"y"]];
+      CGFloat width = [RCTConvert CGFloat:elem[@"width"]];
+      CGFloat height = [RCTConvert CGFloat:elem[@"height"]];
+      CGRect rect = CGRectMake(x, y, width, height);
+      [regions addObject:[NSValue valueWithCGRect:rect]];
+    }
+    recognizer.excludeRegions = regions;
+  }
+
   [recognizer updateHasCustomActivationCriteria];
 }
 

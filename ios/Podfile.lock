@@ -315,7 +315,7 @@ PODS:
     - React
   - RNFS (2.16.6):
     - React
-  - RNGestureHandler (1.7.0):
+  - RNGestureHandler (1.8.0):
     - React
   - RNIap (4.5.3):
     - React
@@ -382,7 +382,7 @@ DEPENDENCIES:
   - ReactNativeNavigation (from `../thirdparty/react-native-navigation`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFS (from `../node_modules/react-native-fs`)
-  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNGestureHandler (from `../thirdparty/react-native-gesture-handler`)
   - RNIap (from `../node_modules/react-native-iap`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -468,7 +468,7 @@ EXTERNAL SOURCES:
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
-    :path: "../node_modules/react-native-gesture-handler"
+    :path: "../thirdparty/react-native-gesture-handler"
   RNIap:
     :path: "../node_modules/react-native-iap"
   RNLocalize:
@@ -523,7 +523,7 @@ SPEC CHECKSUMS:
   ReactNativeNavigation: b38eca44d4d85e04757a2681bfc6e1b178c6c2d1
   RNCAsyncStorage: 3eea36d9460c5159b592f9ecbe5a77f8aca98006
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
-  RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
+  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNIap: 92eb5279409c675cbdd7d2ef8b3b1368d785e5dd
   RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
@@ -531,6 +531,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 4406609934b6310df78ddb41aff9ed2a1f8c14dc
+PODFILE CHECKSUM: a6625491e869357dce3c9003cc23b88fdcde054c
 
 COCOAPODS: 1.9.3
