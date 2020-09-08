@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { View, Dimensions } from 'react-native';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { Header } from 'react-native-elements';
 
 import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneLayout';
+import { gestureHandlerRootHOC } from '../thirdparty/react-native-gesture-handler';
 import MainDrawer from '../components/MainDrawer';
 import CategoryNoteList from '../components/CategoryNoteList';
 import NoteEditor from '../components/NoteEditor';
@@ -53,6 +53,27 @@ const PadMainScreen: () => React$Node = () => {
     }
   }
 
+  function handleGetExcludeRegions(state) {
+    //
+    let excludeRegions;
+    if (state === OPEN_STATE.open2) {
+      excludeRegions = [{
+        x: 0,
+        y: 60,
+        width: pane2Width,
+        height: screenHeight - 60,
+      }];
+    } else if (state === OPEN_STATE.openAll) {
+      excludeRegions = [{
+        x: pane1Width,
+        y: 60,
+        width: pane2Width,
+        height: screenHeight - 60,
+      }];
+    }
+    return excludeRegions;
+  }
+
   //
   const forceUpdate = useForceUpdate();
 
@@ -61,6 +82,7 @@ const PadMainScreen: () => React$Node = () => {
       <ThemedStatusBar />
       <TriplePaneLayout
         ref={layoutRef}
+        onGetExcludeRegions={handleGetExcludeRegions}
         onLayout={forceUpdate}
         pane1Width={pane1Width}
         pane2Width={pane2Width}

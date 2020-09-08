@@ -129,7 +129,6 @@ const NoteList: () => React$Node = (props) => {
     if (value < -listWidth
       && !animationIsRunningRef.current
     ) {
-      console.log('start animation');
       animationIsRunningRef.current = true;
       //
       setTimeout(() => {
@@ -138,7 +137,6 @@ const NoteList: () => React$Node = (props) => {
           duration: 300,
           useNativeDriver: false,
         }).start(() => {
-          console.log('end animation');
           animationIsRunningRef.current = false;
           api.deleteNote(note.kbGuid, note.guid);
         });
@@ -248,6 +246,8 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   //
   rowFront: {
+    height: '100%',
+    backgroundColor: getDeviceDynamicColor('noteListBackground'),
   },
   rowBack: {
     alignItems: 'center',

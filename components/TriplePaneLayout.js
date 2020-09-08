@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, StyleSheet, Keyboard, Easing } from 'react-native';
 
-import { PanGestureHandler, State } from 'react-native-gesture-handler/GestureHandler';
+import { PanGestureHandler, State } from '../thirdparty/react-native-gesture-handler/GestureHandler';
 
 export const STATE = {
   openAll: 0, // a | b | c
@@ -334,6 +334,9 @@ class TriplePaneLayout extends React.Component {
       activeOffsetX = [-100000, 0]; // disable left <- right
     }
     //
+    const getExcludeRegions = this.props.onGetExcludeRegions;
+    const excludeRegions = getExcludeRegions && getExcludeRegions(openState);
+    //
     return (
       <PanGestureHandler
         failOffsetY={[-15, 15]}
@@ -341,6 +344,7 @@ class TriplePaneLayout extends React.Component {
         onGestureEvent={this._onPanGestureEvent}
         onHandlerStateChange={this._openingHandlerStateChange}
         ref={this._setPanGestureRef}
+        excludeRegions={excludeRegions}
       >
         <Animated.View
           style={styles.root}
