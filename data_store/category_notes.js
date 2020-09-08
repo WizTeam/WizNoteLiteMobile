@@ -11,7 +11,7 @@ export function updateCategoryNotes(allNotes, note, selectedType) {
   } else if (selectedType === '#trash') {
     accept = note.trash && !note.deleted;
   } else {
-    accept = note.tags.toLowerCase().indexOf(selectedType) !== -1;
+    accept = !note.trash && note.tags.toLowerCase().indexOf(selectedType) !== -1;
   }
   //
   if (accept) {
