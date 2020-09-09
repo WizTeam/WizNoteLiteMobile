@@ -21,10 +21,6 @@ export function addWebViewEventHandler(event, handler) {
   WizSingletonWebViewModuleEventObject.addListener(event, handler);
 }
 
-export function endEditing(bool) {
-  WizSingletonWebViewModule.endEditing(bool);
-}
-
 export function injectJavaScript(js) {
   if (webViewLoaded) {
     return WizSingletonWebViewModule.injectJavaScript(js);
@@ -35,6 +31,10 @@ export function injectJavaScript(js) {
 
 export function loadRequest(url) {
   WizSingletonWebViewModule.loadRequest(url);
+}
+
+export function endEditing(force) {
+  WizSingletonWebViewModule.endEditing(!!force);
 }
 
 const NativeWizSingletonWebView = requireNativeComponent('WizSingletonWebView');

@@ -111,7 +111,6 @@ const NoteList: () => React$Node = (props) => {
   useEffect(() => {
     //
     function handleSyncStart() {
-      // setRefreshing(true);
     }
 
     function handleSyncFinish(userGuid, kbGuid, result) {
@@ -192,7 +191,6 @@ const dynamicStyles = new DynamicStyleSheet({
     color: 'rgb(253, 201, 46)',
     paddingBottom: 24,
   },
-  //
 });
 
 export default NoteList;
