@@ -7,6 +7,8 @@ export default {
   placeholderUserId: '邮件',
   placeholderUserPassword: '密码',
   placeholderPrivateServer: '私有服务器地址',
+  placeholderSearch: '搜索',
+  buttonCancelSearch: '取消',
   buttonForgotPassword: '忘记密码？',
   serverTypeDefault: '为知笔记服务',
   serverTypePrivate: '私有服务器/为知盒子',

@@ -8,6 +8,7 @@ export default {
   placeholderUserPassword: '密碼',
   placeholderPrivateServer: 'Private server address',
   placeholderSearch: '搜索',
+  buttonCancelSearch: '取消',
   buttonForgotPassword: '忘記密碼？',
   textOr: '或',
   serverTypeDefault: 'WizNote Server',

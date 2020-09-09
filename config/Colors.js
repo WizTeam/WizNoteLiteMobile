@@ -31,6 +31,7 @@ const light = {
     drawerItemTitle: '#333333',
     noteBackground: 'white',
     drawerBackground: '#f0f0f0',
+    searchBarBackground: '#d8d8d8',
   },
   pad: {
     noteListBackground: '#f0f0f0',
@@ -40,6 +41,7 @@ const light = {
     drawerItemTitle: '#333333',
     noteBackground: 'white',
     drawerBackground: '#d8d8d8',
+    searchBarBackground: '#d8d8d8',
   },
 };
 
@@ -71,6 +73,7 @@ const dark = merge({}, light, {
     drawerItemTitle: '#f0f0f0',
     noteBackground: '#2a2a2a',
     drawerBackground: '#333333',
+    searchBarBackground: '#404040',
   },
   pad: {
     noteListBackground: '#2a2a2a',
@@ -81,6 +84,7 @@ const dark = merge({}, light, {
     drawerItemTitle: '#d8d8d8',
     noteBackground: '#333333',
     drawerBackground: '#121212',
+    searchBarBackground: '#404040',
   },
 });
 

@@ -7,6 +7,8 @@ export default {
   placeholderUserId: 'Email',
   placeholderUserPassword: 'Password',
   placeholderPrivateServer: 'Private server address',
+  placeholderSearch: 'Search',
+  buttonCancelSearch: 'Cancel',
   buttonForgotPassword: 'Forgot password?',
   serverTypeDefault: 'WizNote Server',
   serverTypePrivate: 'Private Server',

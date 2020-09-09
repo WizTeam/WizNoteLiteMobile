@@ -147,12 +147,14 @@ const PadMainScreen: () => React$Node = (props) => {
                 color: getDeviceColor('noteListTitle'),
               }}
             />
-            <Text style={{ paddingLeft: 18 }} h4>{pane2Title}</Text>
+            <Text style={styles.title} h4>{pane2Title}</Text>
             <SearchBar
               platform="ios"
               showCancel
-              placeholder="Type Here..."
-              containerStyle={{ backgroundColor: getDeviceDynamicColor('noteListBackground') }}
+              placeholder={i18n.t('placeholderSearch')}
+              cancelButtonTitle={i18n.t('buttonCancelSearch')}
+              containerStyle={styles.searchBarContainerStyle}
+              inputContainerStyle={styles.searchBarInputContainerStyle}
               onChangeText={handleSearchChange}
               onCancel={handleSearchCancel}
               onSubmitEditing={handleSearchSubmit}
@@ -194,6 +196,10 @@ const dynamicStyles = new DynamicStyleSheet({
     flex: 1,
     height: '100%',
   },
+  title: {
+    paddingLeft: 18,
+    color: getDeviceDynamicColor('noteListTitle'),
+  },
   listHeader: {
     backgroundColor: 'transparent',
     borderBottomColor: 'transparent',
@@ -214,6 +220,13 @@ const dynamicStyles = new DynamicStyleSheet({
     alignSelf: 'center',
     height: '100%',
     backgroundColor: getDeviceDynamicColor('noteBackground'),
+  },
+  searchBarContainerStyle: {
+    backgroundColor: 'transparent',
+    paddingHorizontal: 8,
+  },
+  searchBarInputContainerStyle: {
+    backgroundColor: getDeviceDynamicColor('searchBarBackground'),
   },
 });
 
