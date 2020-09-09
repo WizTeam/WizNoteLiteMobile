@@ -21,6 +21,10 @@ export function addWebViewEventHandler(event, handler) {
   WizSingletonWebViewModuleEventObject.addListener(event, handler);
 }
 
+export function endEditing(bool) {
+  WizSingletonWebViewModule.endEditing(bool);
+}
+
 export function injectJavaScript(js) {
   if (webViewLoaded) {
     return WizSingletonWebViewModule.injectJavaScript(js);
