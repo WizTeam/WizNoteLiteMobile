@@ -6,7 +6,8 @@ import i18n from 'i18n-js';
 import { getDeviceDynamicColor } from '../config/Colors';
 import api from '../api';
 
-const BUTTON_WIDTH = 100;
+const BUTTON_MIN_WIDTH = 70;
+const BUTTON_MAX_WIDTH = 120;
 
 export default function NoteListHiddenItem(props) {
   //
@@ -37,9 +38,12 @@ export default function NoteListHiddenItem(props) {
   return (
     <Animated.View style={styles.rowBack}>
       <Animated.View style={[styles.backRightBtn, styles.starButton, {
-        width: Animated.multiply(swipeAnimatedValue, -0.5),
+        width: Animated.multiply(swipeAnimatedValue, -0.5).interpolate({
+          inputRange: [-10000, -BUTTON_MIN_WIDTH, 0],
+          outputRange: [10000, BUTTON_MIN_WIDTH, BUTTON_MIN_WIDTH],
+        }),
         transform: [{
-          translateX: Animated.multiply(swipeAnimatedValue, 0.5),
+          translateX: Animated.add(swipeAnimatedValue, BUTTON_MIN_WIDTH),
         }],
       }]}
       >
@@ -52,9 +56,12 @@ export default function NoteListHiddenItem(props) {
       </Animated.View>
       <Animated.View style={[styles.backRightBtn, styles.deleteButton, {
         width: Animated.multiply(swipeAnimatedValue, -0.5).interpolate({
-          inputRange: [0, BUTTON_WIDTH, BUTTON_WIDTH + 1, 10000],
-          outputRange: [0, BUTTON_WIDTH, BUTTON_WIDTH * 2, 20000],
+          inputRange: [0, BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH + 1, 10000],
+          outputRange: [BUTTON_MIN_WIDTH, BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH * 2, 20000],
         }),
+        transform: [{
+          translateX: Animated.add(Animated.multiply(swipeAnimatedValue, 0.5), BUTTON_MIN_WIDTH),
+        }],
       }]}
       >
         <TouchableOpacity
