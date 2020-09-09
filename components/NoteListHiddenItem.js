@@ -14,13 +14,26 @@ export default function NoteListHiddenItem(props) {
   const { note, swipeAnimatedValue, rowMap } = props;
   const styles = useDynamicValue(dynamicStyles);
   //
-  const starButtonText = i18n.t(note.starred ? 'buttonUnstarNote' : 'buttonStarNote');
+  const noteInTrash = note.trash;
+  let firstButtonText;
+  if (noteInTrash) {
+    firstButtonText = i18n.t('buttonPutBackNote');
+  } else {
+    firstButtonText = i18n.t(note.starred ? 'buttonUnstarNote' : 'buttonStarNote');
+  }
+  //
 
-  function handleStarNote() {
+  function handleFirstButtonPress() {
     const row = rowMap[note.guid];
-    row.closeRow(() => {
-      api.setNoteStarred(note.kbGuid, note.guid, !note.starred);
-    });
+    if (noteInTrash) {
+      row.deleteRow(() => {
+        api.putBackNote(note.kbGuid, note.guid);
+      });
+    } else {
+      row.closeRow(() => {
+        api.setNoteStarred(note.kbGuid, note.guid, !note.starred);
+      });
+    }
   }
 
   function handleDeleteNote() {
@@ -49,9 +62,9 @@ export default function NoteListHiddenItem(props) {
       >
         <TouchableOpacity
           style={styles.button}
-          onPress={handleStarNote}
+          onPress={handleFirstButtonPress}
         >
-          <Text numberOfLines={1} style={styles.backTextWhite}>{starButtonText}</Text>
+          <Text numberOfLines={1} style={styles.backTextWhite}>{firstButtonText}</Text>
         </TouchableOpacity>
       </Animated.View>
       <Animated.View style={[styles.backRightBtn, styles.deleteButton, {

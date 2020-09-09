@@ -51,4 +51,5 @@ export default {
   buttonStarNote: '星标',
   buttonUnstarNote: '取消星标',
   buttonDelete: '删除',
+  buttonPutBackNote: '恢复',
 };

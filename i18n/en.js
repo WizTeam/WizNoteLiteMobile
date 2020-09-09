@@ -50,4 +50,5 @@ export default {
   buttonStarNote: 'Star',
   buttonUnstarNote: 'Unstar',
   buttonDelete: 'Delete',
+  buttonPutBackNote: 'Undelete',
 };
