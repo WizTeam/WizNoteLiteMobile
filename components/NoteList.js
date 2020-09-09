@@ -111,7 +111,7 @@ const NoteList: () => React$Node = (props) => {
   useEffect(() => {
     //
     function handleSyncStart() {
-      setRefreshing(true);
+      // setRefreshing(true);
     }
 
     function handleSyncFinish(userGuid, kbGuid, result) {
