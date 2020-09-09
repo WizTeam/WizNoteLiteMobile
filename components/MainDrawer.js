@@ -214,8 +214,8 @@ const MainDrawer: () => React$Node = (props) => {
             ...styles.treeItemContainerStyle,
             marginHorizontal: isTablet ? 16 : 0,
           }}
-          selectedContainerStyle={isTablet && styles.itemSelect}
-          selectedItemTitleStyle={isTablet && styles.itemSelectTitle}
+          selectedContainerStyle={isTablet ? styles.itemSelect : null}
+          selectedItemTitleStyle={isTablet ? styles.itemSelectTitle : null}
           itemTitleStyle={styles.treeItemTitleStyle}
           itemContentContainerStyle={styles.treeItemContentContainerStyle}
           selected={selectedType}
