@@ -11,6 +11,7 @@
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-iconfont-cli": "^2.0.0",
     "react-scripts": "3.4.3",
     "wiz-react-markdown-editor": "git+https://github.com/WizTeam/wiz-react-markdown-editor.git"
   },
@@ -18,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "icon": "iconfont-h5"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -5,7 +5,8 @@ import MarkdownEditor from 'wiz-react-markdown-editor';
 
 import 'wiz-react-markdown-editor/lib/index.min.css';
 import './App.css';
-
+import ThemeSwitcher from './ThemeSwitch';
+import Toolbar from './Toolbar';
 const useStyles = makeStyles({
   editorWrapper: {
   },
@@ -88,18 +89,21 @@ function App() {
   //
   //
   return (
-    <div className="App" style={{
-      visibility: (data && data.contentId) ? 'visible' : 'hidden',
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-    }}>
-      <Editor
-        contentId={data?.contentId}
-        markdown={data?.markdown}
-        resourceUrl={data?.resourceUrl}  
-      />
-    </div>
+    <ThemeSwitcher>
+      <div className="App" style={{
+        visibility: (data && data.contentId) ? 'visible' : 'hidden',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
+        <Editor
+          contentId={data?.contentId}
+          markdown={data?.markdown}
+          resourceUrl={data?.resourceUrl}  
+        />
+        <Toolbar />
+      </div>
+    </ThemeSwitcher>
   );
 }
 
