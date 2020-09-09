@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { Dimensions } from 'react-native';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
-import useStateWithCallback from 'use-state-with-callback';
 
 import { getDeviceDynamicColor } from '../config/Colors';
 import { isTablet } from '../utils/device';
@@ -11,6 +10,7 @@ import api from '../api';
 import { showTopBarMessage } from '../services/navigation';
 import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
 import NoteListItem from './NoteListItem';
+import NoteListHiddenItem from './NoteListHiddenItem';
 
 const NoteList: () => React$Node = (props) => {
   //
@@ -48,55 +48,13 @@ const NoteList: () => React$Node = (props) => {
       />
     );
   }
-  //
-  function handleDeleteNote(note, rowMap) {
-    const row = rowMap[note.guid];
-    row.deleteRow(() => {
-      api.deleteNote(note.kbGuid, note.guid);
-    });
-  }
 
-  const [, setStarNote] = useStateWithCallback({}, ({ note, rowMap }) => {
-    if (note) {
-      setTimeout(() => {
-        const row = rowMap[note.guid];
-        row.closeRow(() => {
-          setTimeout(() => {
-            api.setNoteStarred(note.kbGuid, note.guid, note.starred);
-            setStarNote({});
-          });
-        });
-      });
-    }
-  });
-
-  function handleStarNote(note, rowMap) {
-    // eslint-disable-next-line no-param-reassign
-    note.starred = !note.starred;
-    setStarNote({ note, rowMap });
-  }
-  //
   function renderHiddenItem({ item }, rowMap) {
     //
     const note = item;
-    const starButtonText = i18n.t(note.starred ? 'buttonUnstarNote' : 'buttonStarNote');
     //
     return (
-      <View style={styles.rowBack}>
-        <View style={styles.grow} />
-        <TouchableOpacity
-          style={[styles.backRightBtn, styles.starButton]}
-          onPress={() => handleStarNote(item, rowMap)}
-        >
-          <Text style={styles.backTextWhite}>{starButtonText}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.backRightBtn, styles.deleteButton]}
-          onPress={() => handleDeleteNote(item, rowMap)}
-        >
-          <Text style={styles.backTextWhite}>{i18n.t('buttonDelete')}</Text>
-        </TouchableOpacity>
-      </View>
+      <NoteListHiddenItem note={note} rowMap={rowMap} />
     );
   }
 
@@ -153,6 +111,7 @@ const NoteList: () => React$Node = (props) => {
   useEffect(() => {
     //
     function handleSyncStart() {
+      setRefreshing(true);
     }
 
     function handleSyncFinish(userGuid, kbGuid, result) {
@@ -234,45 +193,6 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingBottom: 24,
   },
   //
-  rowFront: {
-    height: '100%',
-    backgroundColor: getDeviceDynamicColor('noteListBackground'),
-  },
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: 'red',
-    // flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-    height: '100%',
-  },
-  backRightBtn: {
-    alignItems: 'center',
-    // bottom: 0,
-    justifyContent: 'center',
-    // position: 'absolute',
-    // top: 0,
-  },
-  backTextWhite: {
-    color: 'white',
-  },
-  backRightBtnRight: {
-    backgroundColor: 'red',
-    // right: 0,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  starButton: {
-    width: 70,
-    backgroundColor: '#aaaaaa',
-    height: '100%',
-  },
-  deleteButton: {
-    width: 70,
-    height: '100%',
-  },
 });
 
 export default NoteList;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { View, Text } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
