@@ -8,6 +8,8 @@ import android.view.ViewParent;
 
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.views.view.ReactViewGroup;
@@ -60,6 +62,10 @@ public class RNGestureHandlerRootView extends ReactViewGroup {
 
   @Override
   public boolean dispatchTouchEvent(MotionEvent ev) {
+    RNGestureHandlerModule.ExcludeRegion excludeRegion = RNGestureHandlerModule.getExcludeRegion();
+    if (ev.getActionMasked() == MotionEvent.ACTION_DOWN && excludeRegion.in(ev, getResources())) {
+      return super.dispatchTouchEvent(ev);
+    }
     if (mEnabled && Assertions.assertNotNull(mRootHelper).dispatchTouchEvent(ev)) {
       return true;
     }

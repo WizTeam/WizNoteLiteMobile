@@ -1,5 +1,7 @@
 package com.wiznotelitemobile;
 
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +22,12 @@ public class WizSingletonWebViewManager extends SimpleViewManager<WebView> {
     @NonNull
     @Override
     protected WebView createViewInstance(@NonNull ThemedReactContext reactContext) {
-        return WizWebView.getInstance(reactContext);
+        WebView webView = WizWebView.getInstance(reactContext);
+        ViewParent parent = webView.getParent();
+        if (parent != null) {
+            ((ViewGroup) parent).removeView(webView);
+        }
+        return webView;
     }
 
     @NonNull

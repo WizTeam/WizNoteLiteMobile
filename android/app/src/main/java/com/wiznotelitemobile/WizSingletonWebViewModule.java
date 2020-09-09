@@ -48,4 +48,11 @@ public class WizSingletonWebViewModule extends ReactContextBaseJavaModule implem
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("onLoad", null);
     }
+
+    @Override
+    public void onMessage(String message) {
+        getReactApplicationContext()
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("onMessage", message);
+    }
 }

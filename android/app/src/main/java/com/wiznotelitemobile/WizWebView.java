@@ -3,6 +3,7 @@ package com.wiznotelitemobile;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,10 +23,17 @@ public class WizWebView extends WebView {
         return instance;
     }
 
+    @SuppressLint("JavascriptInterface")
     public WizWebView(Context context) {
         super(context);
         initSettings();
+        addJavascriptInterface(this, "WizWebView");
         init();
+    }
+
+    @JavascriptInterface
+    public void postMessage(String message) {
+        WizEvents.onMessage(message);
     }
 
     private void init() {

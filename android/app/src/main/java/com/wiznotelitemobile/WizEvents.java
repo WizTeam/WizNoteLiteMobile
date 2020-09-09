@@ -6,6 +6,7 @@ import java.util.Set;
 public class WizEvents {
     interface WebViewLoadListener {
         void onLoad();
+        void onMessage(String message);
     }
 
     private static Set<WebViewLoadListener> listeners = new HashSet<>();
@@ -18,6 +19,11 @@ public class WizEvents {
     public static void onLoad() {
         for (WebViewLoadListener listener : listeners) {
             listener.onLoad();
+        }
+    }
+    public static void onMessage(String message) {
+        for (WebViewLoadListener listener: listeners) {
+            listener.onMessage(message);
         }
     }
 }
