@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Dimensions } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
-import { Header, Text, SearchBar } from 'react-native-elements';
+import { Header, Text, SearchBar, Button } from 'react-native-elements';
 import i18n from 'i18n-js';
 
 import api from '../api';
@@ -9,7 +9,7 @@ import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneL
 import { gestureHandlerRootHOC } from '../thirdparty/react-native-gesture-handler';
 import MainDrawer from '../components/MainDrawer';
 import CategoryNoteList from '../components/CategoryNoteList';
-import NoteEditor from '../components/NoteEditor';
+import NoteEditor, { editorFocus } from '../components/NoteEditor';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import { createNewNote } from '../services/new_note';
@@ -147,6 +147,7 @@ const PadMainScreen: () => React$Node = (props) => {
                 color: getDeviceColor('noteListTitle'),
               }}
             />
+            <Button title="focus editor" onPress={editorFocus} />
             <Text style={styles.title} h4>{pane2Title}</Text>
             <SearchBar
               platform="ios"

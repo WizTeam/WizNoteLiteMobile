@@ -52,6 +52,11 @@ export function emptyEditor() {
   injectJavaScript(js);
 }
 
+export function editorFocus() {
+  const js = `window.editorFocus();true;`;
+  injectJavaScript(js);
+}
+
 export async function loadNote(kbGuid, note) {
   if (!note) {
     return;

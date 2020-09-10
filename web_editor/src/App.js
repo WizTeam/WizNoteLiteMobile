@@ -51,6 +51,7 @@ function Editor(props) {
       contentId={props.contentId}
       editorWrapperClassName={classes.editorWrapper}
       editorComponentClassName={classes.editorComponent}
+      editorFocus={(fn) => props.editorFocus(fn)}
     />
   );
 }
@@ -94,10 +95,12 @@ function App() {
       display: 'flex',
       flexDirection: 'column',
     }}>
+      <button onClick={() => window.editorFocus()}>focus</button>
       <Editor
         contentId={data?.contentId}
         markdown={data?.markdown}
-        resourceUrl={data?.resourceUrl}  
+        resourceUrl={data?.resourceUrl}
+        editorFocus={(fn) => window.editorFocus = fn}
       />
     </div>
   );
