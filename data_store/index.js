@@ -13,6 +13,7 @@ export const KEYS = {
   CATEGORY_NOTES: 'categoryNotes',
   CURRENT_NOTE: 'currentNote',
   TAGS: 'tags',
+  OPEN_STATE: 'openState',
 };
 
 function compareNote(note1, note2) {
@@ -151,6 +152,10 @@ function setSearchResult(notes) {
   store.setData(KEYS.CATEGORY_NOTES, notes);
 }
 
+function setOpenState(state) {
+  store.setData(KEYS.OPEN_STATE, state);
+}
+
 function logout() {
   api.logout();
 }
@@ -171,4 +176,6 @@ export default {
   initCategoryNotes,
   //
   setSearchResult,
+  //
+  setOpenState,
 };
