@@ -79,6 +79,7 @@ export function setMainAsRoot() {
   const resPath = app.getPath('res');
   // const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}`;
   const editorHtmlPath = `http://localhost:3000?theme=${theme}`;
+  // const editorHtmlPath = `http://localhost:3000/text.html`;
   // console.log(`load html: ${editorHtmlPath}`);
   loadRequest(editorHtmlPath);
   //

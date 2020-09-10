@@ -7,11 +7,6 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     backgroundColor: theme.panelBackgroundColor,
     height: '50px',
-    position: 'fixed',
-    left: 10,
-    right: 10,
-    bottom: 0,
-    zIndex: 9999,
     width: '100vw',
     overflowX: 'scroll',
     '&::-webkit-scrollbar': {
@@ -19,15 +14,12 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   container: {
-    height: 50,
-    display: 'flex',
-    minWidth: '100vw',
-    alignItems: 'center',
-    justifyContent: 'center',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+    padding: '5px 0',
   },
   iconBtn: {
-    flexBasis: '40px',
-    flexShrink: 0,
+    display: 'inline-block',
     width: 40,
     height: 40,
     backgroundColor: 'transparent',
@@ -100,6 +92,65 @@ const BaseBtnList = [
   }
 ];
 
+const TableBtnList = [
+  {
+    type: 'bold',
+    iconName: 'cuti'
+  },
+  {
+    type: 'italic',
+    iconName: 'xieti'
+  },
+  {
+    type: 'deletedLine',
+    iconName: 'shanchuxianstrikethrough2'
+  },
+  {
+    type: 'checkedBox',
+    iconName: 'xuanzekuang'
+  },
+  {
+    type: 'alignLeft',
+    iconName: 'duiqifangshi_zuo'
+  },
+  {
+    type: 'alignCenter',
+    iconName: 'duiqifangshi_zhong'
+  },
+  {
+    type: 'alignRight',
+    iconName: 'duiqifangshi_you'
+  },
+  {
+    type: 'insertRowBefore',
+    iconName: 'charuhang_shang'
+  },
+  {
+    type: 'insertRowAfter',
+    iconName: 'charuhang_xia'
+  },
+  {
+    type: 'insertColBefore',
+    iconName: 'charulie_zuo'
+  },
+  {
+    type: 'insertColAfter',
+    iconName: 'charulie_you'
+  },
+  {
+    type: 'deleteRow',
+    iconName: 'shanchuhang'
+  },
+  {
+    type: 'deleteCol',
+    iconName: 'shanchulie'
+  },
+  {
+    type: 'deleteTable',
+    iconName: 'shanchubiaoge'
+  },
+]
+
 export default function Toolbar() {
   const style = useStyles()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -109,7 +160,7 @@ export default function Toolbar() {
   }
   return (
     <div className={style.toolbar}>
-      <div className={style.container} style={{width: `${btnList.length * 40}px`}}>
+      <div className={style.container}>
         {btnList.map(item => (
           <button type="button" className={style.iconBtn} onClick={handleClick(item.type)} key={item.type}>
             <Icon name={item.iconName} size={20} color={prefersDarkMode ? '#fff' : undefined} />

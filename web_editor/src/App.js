@@ -9,6 +9,7 @@ import ThemeSwitcher from './ThemeSwitch';
 import Toolbar from './Toolbar';
 const useStyles = makeStyles({
   editorWrapper: {
+    overflowY: 'scroll'
   },
   editorComponent: {
     overflowX: 'hidden !important',
@@ -95,6 +96,11 @@ function App() {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
+        position: 'fixed',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
       }}>
         <Editor
           contentId={data?.contentId}
