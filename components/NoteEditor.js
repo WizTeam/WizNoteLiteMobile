@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useImperativeHandle } from 'react';
 import { View } from 'react-native';
 
 import { getResourceBaseUrl } from '../services/resources_loader';
-import { KEYS, connect } from '../data_store';
+import dataStore, { KEYS, connect } from '../data_store';
+import { STATE as OPEN_STATE } from './TriplePaneLayout';
 import api from '../api';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing } from './WizSingletonWebView';
 
@@ -97,6 +98,9 @@ const NoteEditor = React.forwardRef((props, ref) => {
     if (props.onBeginEditing) {
       props.onBeginEditing();
     }
+    if (props.openState === OPEN_STATE.openAll) {
+      dataStore.setOpenState(OPEN_STATE.open2);
+    }
   }
 
   function handleKeyboardHide() {
@@ -137,4 +141,5 @@ const NoteEditor = React.forwardRef((props, ref) => {
 export default connect([
   KEYS.CURRENT_KB,
   KEYS.CURRENT_NOTE,
+  KEYS.OPEN_STATE,
 ])(NoteEditor);

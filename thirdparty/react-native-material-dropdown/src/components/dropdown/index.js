@@ -11,12 +11,14 @@ import {
   Platform,
   ViewPropTypes,
   I18nManager,
+  Appearance,
+  StyleSheet,
 } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import { TextField } from '../../../../react-native-material-textfield';
 
 import DropdownItem from '../item';
-import styles from './styles';
+import defaultStyles, { dark } from './styles';
 
 export default class Dropdown extends PureComponent {
   static defaultProps = {
@@ -60,8 +62,8 @@ export default class Dropdown extends PureComponent {
 
     fontSize: 16,
 
-    textColor: 'rgba(0, 0, 0, .87)',
-    itemColor: 'rgba(0, 0, 0, .54)',
+    textColor: null,
+    itemColor: null,
     baseColor: 'rgba(0, 0, 0, .38)',
 
     itemCount: 4,
@@ -185,8 +187,24 @@ export default class Dropdown extends PureComponent {
       selected: -1,
       modal: false,
       value,
+      styles: {},
     };
   }
+
+  handler = {
+    appearanceChannge: (event) => {
+      const { colorScheme } = event;
+      if (colorScheme === 'dark') {
+        this.setState({
+          styles: StyleSheet.flatten([defaultStyles, dark]),
+        });
+      } else {
+        this.setState({
+          styles: defaultStyles,
+        });
+      }
+    },
+  };
 
   UNSAFE_componentWillReceiveProps({ value }) {
     if (value !== this.props.value) {
@@ -196,10 +214,16 @@ export default class Dropdown extends PureComponent {
 
   componentDidMount() {
     this.mounted = true;
+    //
+    const colorScheme = Appearance.getColorScheme();
+    this.handler.appearanceChannge({ colorScheme });
+    //
+    Appearance.addChangeListener(this.handler.appearanceChannge);
   }
 
   componentWillUnmount() {
     this.mounted = false;
+    Appearance.removeChangeListener(this.handler.appearanceChannge);
   }
 
   onPress(event) {
@@ -551,6 +575,7 @@ export default class Dropdown extends PureComponent {
   }
 
   renderAccessory() {
+    const { styles } = this.state;
     let { baseColor: backgroundColor } = this.props;
     let triangleStyle = { backgroundColor };
 
@@ -568,7 +593,7 @@ export default class Dropdown extends PureComponent {
       return null;
     }
 
-    let { selected, leftInset, rightInset } = this.state;
+    let { selected, leftInset, rightInset, styles } = this.state;
 
     let {
       valueExtractor,
@@ -610,13 +635,15 @@ export default class Dropdown extends PureComponent {
       value:
       label;
 
-    let color = disabled?
-      disabledItemColor:
-      ~selected?
-        index === selected?
-          selectedItemColor:
-          itemColor:
-        selectedItemColor;
+    let color = selectedItemColor || styles.selectedItemColor.color;
+
+    if (disabled) {
+      color = disabledItemColor;
+    } else if (~selected) {
+      if (index !== selected) {
+        color = itemColor || styles.itemColor.color;
+      }
+    }
 
     let textStyle = { color, fontSize };
 
@@ -670,7 +697,7 @@ export default class Dropdown extends PureComponent {
       dropdownPosition,
     } = props;
 
-    let { left, top, width, opacity, selected, modal } = this.state;
+    let { left, top, width, opacity, selected, modal, styles } = this.state;
 
     let itemCount = data.length;
     let visibleItemCount = this.visibleItemCount();
