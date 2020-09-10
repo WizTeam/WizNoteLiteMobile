@@ -75,6 +75,9 @@ NewNoteScreen.options = {
       waitForRender: true,
     },
   },
+  layout: {
+    orientation: ['portrait'],
+  },
 };
 
 const dynamicStyles = new DynamicStyleSheet({

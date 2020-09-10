@@ -57,6 +57,11 @@ async function writeFile(filePath, data, options) {
     await RNFetchBlob.fs.createFile(filePath, base64Data, 'base64');
     return 0;
   }
+  if (options && options.base64) {
+    const base64Data = data;
+    await RNFetchBlob.fs.createFile(filePath, base64Data, 'base64');
+    return 0;
+  }
   //
   const ret = await rnfs.writeFile(filePath, data, options);
   return ret;

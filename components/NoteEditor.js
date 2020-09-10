@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle } from 'react';
 import { View } from 'react-native';
 
 import { getResourceBaseUrl } from '../services/resources_loader';
@@ -67,7 +67,15 @@ export async function loadNote(kbGuid, note) {
   await injectJavaScript(js);
 }
 
-const NoteEditor: () => React$Node = (props) => {
+const NoteEditor = React.forwardRef((props, ref) => {
+  //
+  //
+  useImperativeHandle(ref, () => ({
+    injectJavaScript: async (js) => {
+      const result = await injectJavaScript(js);
+      return result;
+    },
+  }));
   //
   // 清空编辑器，可以强制进行保存
   useEffect(() => emptyEditor, []);
@@ -86,10 +94,16 @@ const NoteEditor: () => React$Node = (props) => {
   function handleKeyboardShow() {
     keyboardVisibleRef.current = true;
     keyboardVisibleTimeRef.current = new Date().valueOf();
+    if (props.onBeginEditing) {
+      props.onBeginEditing();
+    }
   }
 
   function handleKeyboardHide() {
     keyboardVisibleRef.current = false;
+    if (props.onEndEditing) {
+      props.onEndEditing();
+    }
   }
 
   function handleMessage({ nativeEvent }) {
@@ -118,7 +132,7 @@ const NoteEditor: () => React$Node = (props) => {
       />
     </View>
   );
-};
+});
 
 export default connect([
   KEYS.CURRENT_KB,

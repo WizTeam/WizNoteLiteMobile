@@ -171,6 +171,7 @@ NotesScreenImpl.options = {
   },
   layout: {
     componentBackgroundColor: getDeviceColor('noteListBackground'),
+    orientation: ['portrait'],
   },
 };
 

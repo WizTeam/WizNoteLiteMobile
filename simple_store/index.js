@@ -103,12 +103,17 @@ export function connect(keyOrKeys) {
       }
 
       render() {
+        const { forwardedRef, ...rest } = this.nextProps;
         return (
           // eslint-disable-next-line react/jsx-props-no-spreading
-          <WrappedComponent {...this.nextProps} {...this.state} />
+          <WrappedComponent ref={forwardedRef} {...rest} {...this.state} />
         );
       }
     }
-    return Connect;
+
+    return React.forwardRef((props, ref) => (
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      <Connect {...props} forwardedRef={ref} />
+    ));
   };
 }

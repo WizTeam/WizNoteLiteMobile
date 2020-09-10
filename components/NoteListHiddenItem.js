@@ -43,9 +43,27 @@ export default function NoteListHiddenItem(props) {
     });
   }
 
-  // function handlePutBackNote() {
-  //   //
-  // }
+  const offset = BUTTON_MAX_WIDTH - BUTTON_MIN_WIDTH;
+  //
+  const deletedButtonWidthValue = Animated.multiply(swipeAnimatedValue, -0.5).interpolate({
+    inputRange: [0, BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH, 10000],
+    outputRange: [BUTTON_MIN_WIDTH, BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH * 2, 20000],
+  });
+  const deletedButtonTranslateXValue = Animated.multiply(swipeAnimatedValue, -0.5).interpolate({
+    inputRange: [0, BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH, 10000],
+    outputRange: [0, -BUTTON_MIN_WIDTH, -BUTTON_MAX_WIDTH + offset, -BUTTON_MAX_WIDTH / 2],
+  });
+  //
+  swipeAnimatedValue.addListener(({ value }) => {
+    console.log(`org value: ${value}`);
+  });
+  //
+  deletedButtonWidthValue.addListener(({ value }) => {
+    console.log(`width: ${value}`);
+  });
+  deletedButtonTranslateXValue.addListener(({ value }) => {
+    console.log(`offsetX: ${value}`);
+  });
 
   //
   return (
@@ -68,12 +86,9 @@ export default function NoteListHiddenItem(props) {
         </TouchableOpacity>
       </Animated.View>
       <Animated.View style={[styles.backRightBtn, styles.deleteButton, {
-        width: Animated.multiply(swipeAnimatedValue, -0.5).interpolate({
-          inputRange: [0, BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH + 1, 10000],
-          outputRange: [BUTTON_MIN_WIDTH, BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH * 2, 20000],
-        }),
+        width: deletedButtonWidthValue,
         transform: [{
-          translateX: Animated.add(Animated.multiply(swipeAnimatedValue, 0.5), BUTTON_MIN_WIDTH),
+          translateX: deletedButtonTranslateXValue,
         }],
       }]}
       >
@@ -95,7 +110,6 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   rowBack: {
     alignItems: 'center',
-    backgroundColor: 'red',
     height: '100%',
     width: '100%',
   },
@@ -119,7 +133,7 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   deleteButton: {
     height: '100%',
-    right: 0,
+    right: -BUTTON_MIN_WIDTH,
     backgroundColor: 'red',
     zIndex: 2,
   },

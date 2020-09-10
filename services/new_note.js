@@ -26,10 +26,22 @@ export async function createNewNote() {
     stack: {
       children: [{
         component: {
-          name: 'NewNoteScreen',
+          // name: 'NewNoteScreen',
+          name: 'ViewNoteScreen',
+          passProps: {
+            isNewNote: true,
+          },
           options: {
             layout: {
               componentBackgroundColor: getDeviceColor('noteBackground'),
+            },
+            topBar: {
+              leftButtons: [{
+                id: 'DoneButton',
+                // eslint-disable-next-line import/no-unresolved
+                text: 'Done',
+                systemItem: 'done',
+              }],
             },
           },
         },

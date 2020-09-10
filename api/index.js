@@ -145,6 +145,20 @@ class Api extends EventEmitter {
     return newNote;
   }
 
+  async addImageFromUrl(kbGuid, noteGuid, url, options = {}) {
+    const result = await sdk.addImageFromUrl(
+      this.userGuid, kbGuid || this.kbGuid, noteGuid, url, options,
+    );
+    return result;
+  }
+
+  async addImageFromData(kbGuid, noteGuid, data, options = {}) {
+    const result = await sdk.addImageFromData(
+      this.userGuid, kbGuid || this.kbGuid, noteGuid, data, options,
+    );
+    return result;
+  }
+
   async getAllTags(kbGuid) {
     const ret = await sdk.getAllTags(this.userGuid, kbGuid || this.kbGuid);
     return ret;
