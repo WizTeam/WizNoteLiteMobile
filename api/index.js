@@ -56,6 +56,11 @@ class Api extends EventEmitter {
   }
 
   get userGuid() {
+    if (!this._user) {
+      console.error('fault error: this._user is null');
+      console.error(new Error().stack);
+      return null;
+    }
     return this._user.userGuid;
   }
 
