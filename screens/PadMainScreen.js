@@ -25,6 +25,7 @@ const PadMainScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles);
   //
   const [searchText, setSearchText] = useState('');
+  const [showSearchBarLoading, setShowSearchBarLoading] = useState(false);
   //
   const pane1Width = 288;
   const pane2Width = 368;
@@ -93,10 +94,13 @@ const PadMainScreen: () => React$Node = (props) => {
       if (!searchText) {
         return;
       }
+      setShowSearchBarLoading(true);
       const notes = await api.searchNotes(null, searchText);
       store.setSearchResult(notes);
+      setShowSearchBarLoading(false);
     } finally {
       //
+      setShowSearchBarLoading(false);
     }
   }
 
@@ -151,7 +155,8 @@ const PadMainScreen: () => React$Node = (props) => {
             <SearchBar
               platform="ios"
               showCancel
-              placeholder={i18n.t('placeholderSearch')}
+              showLoading={showSearchBarLoading}
+              placeholder={i18n.t('placeholderSearchAllNotes')}
               cancelButtonTitle={i18n.t('buttonCancelSearch')}
               containerStyle={styles.searchBarContainerStyle}
               inputContainerStyle={styles.searchBarInputContainerStyle}
