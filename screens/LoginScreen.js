@@ -296,9 +296,6 @@ const LoginScreen: () => React$Node = (props) => {
                 </View>
                 <Dropdown
                   containerStyle={styles.serverDropdown}
-                  pickerStyle={styles.serverPicker}
-                  itemColor={styles.serverPickerItem.color}
-                  selectedItemColor={styles.serverPickerItemSelected.color}
                   label="WizNote Server"
                   data={serverData}
                   value={isPrivateServer ? 'private' : 'official'}
@@ -451,15 +448,6 @@ const dynamicStyles = new DynamicStyleSheet({
     // flexGrow: 1,
     paddingHorizontal: 32,
     marginTop: 32,
-  },
-  serverPicker: {
-    backgroundColor: getDynamicColor('dropdownPickerBackground'),
-  },
-  serverPickerItem: {
-    color: getDynamicColor('dropdownPickerItemColor'),
-  },
-  serverPickerItemSelected: {
-    color: getDynamicColor('dropdownPickerItemSelectedColor'),
   },
   serverDropdownIcon: {
     color: getDynamicColor('loginBoxText'),
