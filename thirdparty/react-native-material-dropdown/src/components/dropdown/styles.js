@@ -77,7 +77,7 @@ export default StyleSheet.create({
 
 export const dark = StyleSheet.create({
   picker: {
-    backgroundColor: '#333333',
+    backgroundColor: '#000000',
   },
   itemColor: {
     color: 'rgba(255,255,255,0.38)',
