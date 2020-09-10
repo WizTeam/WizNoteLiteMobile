@@ -2,7 +2,6 @@ import React from 'react';
 import { Animated, StyleSheet, Keyboard, Easing } from 'react-native';
 
 import { PanGestureHandler, State } from '../thirdparty/react-native-gesture-handler/GestureHandler';
-import dataStore, { KEYS, connect } from '../data_store';
 
 export const STATE = {
   openAll: 0, // a | b | c
@@ -31,15 +30,6 @@ class TriplePaneLayout extends React.Component {
     } }], {
       useNativeDriver: false,
     });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.openState !== this.props.openState
-      && this.state.openState === prevProps.openState) {
-      this.toggleOpenState(this.props.openState);
-    } else if (this.state.openState !== this.props.openState) {
-      dataStore.setOpenState(this.state.openState);
-    }
   }
 
   _onContainerLayout = ({ nativeEvent }) => {
@@ -458,4 +448,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect([KEYS.OPEN_STATE])(TriplePaneLayout);
+export default TriplePaneLayout;
