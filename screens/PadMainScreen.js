@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Dimensions } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { Header, Text, SearchBar } from 'react-native-elements';
@@ -104,6 +104,21 @@ const PadMainScreen: () => React$Node = (props) => {
     }
   }
 
+  function handleBeginEditing() {
+    const layout = layoutRef.current;
+    const openState = layout.currentOpenState();
+    if (isLandscape) {
+      if (openState === OPEN_STATE.openAll) {
+        layoutRef.current.toggleOpenState(OPEN_STATE.open2);
+      }
+    } else {
+      // eslint-disable-next-line no-lonely-if
+      if (openState !== OPEN_STATE.closeAll) {
+        layoutRef.current.toggleOpenState(OPEN_STATE.closeAll);
+      }
+    }
+  }
+
   //
   const forceUpdate = useForceUpdate();
   //
@@ -172,6 +187,7 @@ const PadMainScreen: () => React$Node = (props) => {
           <NoteEditor
             containerStyle={styles.editorContainer}
             editorStyle={editorStyle}
+            onBeginEditing={handleBeginEditing}
           />
         )}
       />
