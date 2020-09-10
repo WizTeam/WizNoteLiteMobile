@@ -1,8 +1,10 @@
 package com.wiznotelitemobile;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 
@@ -37,6 +39,21 @@ public class WizSingletonWebViewModule extends ReactContextBaseJavaModule implem
         runOnMain(url);
     }
 
+    @SuppressWarnings("unused")
+    @ReactMethod
+    public void endEditing(boolean end) {
+        if (end) hideSoftKeyboard(getCurrentActivity());
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        if (activity == null) return;
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
     private void runOnMain(String url) {
         new Handler(Looper.getMainLooper())
                 .post(() -> WizWebView.getInstance(getReactApplicationContext()).loadUrl(url));
@@ -54,5 +71,20 @@ public class WizSingletonWebViewModule extends ReactContextBaseJavaModule implem
         getReactApplicationContext()
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("onMessage", message);
+    }
+
+    @Override
+    public void onScroll() {
+
+    }
+
+    @Override
+    public void onKeyboardShow() {
+
+    }
+
+    @Override
+    public void onKeyboardHide() {
+
     }
 }

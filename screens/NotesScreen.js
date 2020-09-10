@@ -15,7 +15,7 @@ import { createNewNote } from '../services/new_note';
 import api from '../api';
 import store, { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
-import { getDeviceDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import IapListener from '../components/IapListener';
 
 const NotesScreen: () => React$Node = (props) => {
@@ -168,6 +168,9 @@ NotesScreenImpl.options = {
     }],
     searchBar: true,
     searchBarHiddenWhenScrolling: true,
+  },
+  layout: {
+    componentBackgroundColor: getDeviceColor('noteListBackground'),
   },
 };
 
