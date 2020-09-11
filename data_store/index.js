@@ -49,8 +49,8 @@ function handleModifyNote(kbGuid, note) {
   handleDownloadNotes(kbGuid, [note]);
 }
 
-async function handleTagsChanged() {
-  const tags = await getTags();
+async function handleTagsChanged(kbGuid) {
+  const tags = await getTags(kbGuid);
   store.setData(KEYS.TAGS, tags);
 }
 
@@ -72,7 +72,8 @@ function handleApiEvents(userGuid, eventName, ...args) {
     const [userInfo] = args;
     store.setData(KEYS.USER_INFO, userInfo);
   } else if (eventName === 'tagsChanged' || eventName === 'tagRenamed') {
-    handleTagsChanged();
+    const [kbGuid] = args;
+    handleTagsChanged(kbGuid);
   }
 }
 function getSelectedType() {
@@ -104,7 +105,7 @@ function getCurrentKb() {
 
 async function initUser() {
   //
-  const kbGuid = api.user.kbGuid;
+  const kbGuid = api.personalKbGuid;
   store.setData(KEYS.USER_INFO, api.user);
   store.setData(KEYS.CURRENT_KB, kbGuid);
   console.log('set current kb', kbGuid);
@@ -119,7 +120,7 @@ async function initUser() {
     const currentNoteGuid = api.getUserSettings(api.userGuid, 'selectedNoteGuid', '');
     if (currentNoteGuid) {
       //
-      const note = await api.getNote(null, currentNoteGuid);
+      const note = await api.getNote(kbGuid, currentNoteGuid);
       if (note) {
         note.markdown = await api.getNoteMarkdown(kbGuid, note.guid);
         setCurrentNote(note);
@@ -127,21 +128,22 @@ async function initUser() {
     }
   }
   //
-  const tags = await getTags();
+  const tags = await getTags(kbGuid);
   store.setData(KEYS.TAGS, tags);
   //
   api.initEvents();
   api.registerListener(api.userGuid, handleApiEvents);
 
-  api.syncData();
+  api.syncData(kbGuid);
 }
 
 async function initCategoryNotes() {
   const selectedType = store.getData(KEYS.SELECTED_TYPE) || '#allNotes';
   //
   if (selectedType === '#searchResult') return;
+  const kbGuid = getCurrentKb();
   //
-  const notes = await getCategoryNotes(selectedType);
+  const notes = await getCategoryNotes(kbGuid, selectedType);
   sortNotes(notes);
   store.setData(KEYS.CATEGORY_NOTES, notes);
 }

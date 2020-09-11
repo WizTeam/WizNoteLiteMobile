@@ -14,7 +14,7 @@ const SearchNotesField: () => React$Node = () => {
   async function handleSearch() {
     setLoading(true);
     try {
-      const notes = await api.searchNotes(null, text);
+      const notes = await api.searchNotes(store.getCurrentKb(), text);
       store.setSearchResult(notes);
     } finally {
       setLoading(false);

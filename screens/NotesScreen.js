@@ -108,7 +108,7 @@ const NotesScreen: () => React$Node = (props) => {
       if (!searchTextRef.current) {
         return;
       }
-      const notes = await api.searchNotes(null, searchTextRef.current);
+      const notes = await api.searchNotes(store.getCurrentKb(), searchTextRef.current);
       store.setSearchResult(notes);
     } finally {
       //

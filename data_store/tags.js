@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import api from '../api';
 
-export async function getTags() {
+export async function getTags(kbGuid) {
   function convertTags(tagsData, currentTag, object) {
     for (const [key, value] of Object.entries(object)) {
       if (key === 'wizName') {
@@ -25,7 +25,7 @@ export async function getTags() {
     }
   }
   try {
-    const tagsData = await api.getAllTags();
+    const tagsData = await api.getAllTags(kbGuid);
     const root = {
       children: [],
     };

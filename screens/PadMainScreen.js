@@ -95,7 +95,7 @@ const PadMainScreen: () => React$Node = (props) => {
         return;
       }
       setShowSearchBarLoading(true);
-      const notes = await api.searchNotes(null, searchText);
+      const notes = await api.searchNotes(store.getCurrentKb(), searchText);
       store.setSearchResult(notes);
       setShowSearchBarLoading(false);
     } finally {
