@@ -114,7 +114,7 @@ const PadMainScreen: () => React$Node = (props) => {
     } else {
       // eslint-disable-next-line no-lonely-if
       if (openState !== OPEN_STATE.closeAll) {
-        layoutRef.current.toggleOpenState(OPEN_STATE.closeAll);
+        // layoutRef.current.toggleOpenState(OPEN_STATE.closeAll);
       }
     }
   }

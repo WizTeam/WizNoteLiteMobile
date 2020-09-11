@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
+import { isTablet } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing } from './WizSingletonWebView';
 
 addWebViewEventHandler('onMessage', (eventBody) => {
@@ -56,6 +57,11 @@ export async function loadNote(note) {
   if (!note) {
     return;
   }
+
+  if (isTablet) {
+    endEditing();
+  }
+
   console.log(`load note: ${note.kbGuid}/${note.guid}`);
   const data = {
     markdown: note.markdown,
