@@ -1,5 +1,3 @@
-/* eslint-disable import/no-unresolved */
-import i18n from 'i18n-js';
 import { showMessage } from 'react-native-flash-message';
 
 import { Navigation } from '../thirdparty/react-native-navigation';

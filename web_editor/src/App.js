@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import MarkdownEditor from 'wiz-react-markdown-editor';
+import { MarkdownEditor } from 'wiz-react-markdown-editor';
 
 import 'wiz-react-markdown-editor/lib/index.min.css';
 import './App.css';
