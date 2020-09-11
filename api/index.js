@@ -102,7 +102,7 @@ class Api extends EventEmitter {
   }
 
   async refreshUserInfo() {
-    sdk.refreshUserInfo(this.userGuid);
+    await sdk.refreshUserInfo(this.userGuid);
   }
 
   async syncKb(kbGuid, options) {

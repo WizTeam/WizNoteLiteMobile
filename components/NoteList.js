@@ -24,11 +24,19 @@ const NoteList: () => React$Node = (props) => {
   const selectedIndex = notes.findIndex((note) => note.guid === props.selectedNoteGuid);
   //
   async function handlerPressItem(note) {
-    const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
-    const newNote = { ...note, markdown };
-    dataStore.setCurrentNote(newNote);
+    //
+    if (isTablet) {
+      dataStore.setCurrentNote(note);
+    } else {
+      const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
+      const newNote = { ...note, markdown };
+      dataStore.setCurrentNote(newNote);
+      // eslint-disable-next-line no-param-reassign
+      note = newNote;
+    }
+    //
     if (props.onPressNote) {
-      props.onPressNote(newNote);
+      props.onPressNote(note);
     }
   }
   //
@@ -104,7 +112,7 @@ const NoteList: () => React$Node = (props) => {
       } else {
         showTopBarMessage({
           message: i18n.t('errorSync'),
-          description: i18n.t('errorSyncMessage', err.message),
+          description: i18n.t('errorSyncMessage', { message: err.message }),
           type: 'error',
         });
       }
@@ -123,7 +131,7 @@ const NoteList: () => React$Node = (props) => {
       if (error) {
         showTopBarMessage({
           message: i18n.t('errorSync'),
-          description: i18n.t('errorSyncMessage', error.message),
+          description: i18n.t('errorSyncMessage', { message: error.message }),
           type: 'error',
         });
       }

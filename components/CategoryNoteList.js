@@ -8,7 +8,7 @@ const CategoryNoteList: () => React$Node = (props) => {
     dataStore.initCategoryNotes();
   }, [props.selectedType]);
   //
-  const selectedType = props.selectedtype;
+  const selectedType = props.selectedType;
   const notes = props[KEYS.CATEGORY_NOTES] || [];
   const selectedNote = props[KEYS.CURRENT_NOTE] || {};
   //

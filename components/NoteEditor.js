@@ -7,7 +7,7 @@ import api from '../api';
 import { isTablet } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing } from './WizSingletonWebView';
 
-addWebViewEventHandler('onMessage', (eventBody) => {
+addWebViewEventHandler('onMessage', async (eventBody) => {
   const data = JSON.parse(eventBody);
   const name = data.event;
 
@@ -34,6 +34,12 @@ addWebViewEventHandler('onMessage', (eventBody) => {
       console.error('no noteGuid');
       return;
     }
+    //
+    // const old = await api.getNoteMarkdown(kbGuid, noteGuid);
+    // if (old !== markdown) {
+    //   console.log(old);
+    //   console.log(markdown);
+    // }
     //
     api.setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown);
   } else if (name === 'onKeyDown') {
@@ -62,9 +68,15 @@ export async function loadNote(note) {
     endEditing();
   }
 
+  //
+  let markdown = note.markdown;
+  if (!note.markdown) {
+    markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
+  }
+
   console.log(`load note: ${note.kbGuid}/${note.guid}`);
   const data = {
-    markdown: note.markdown,
+    markdown,
     resourceUrl: getResourceBaseUrl(api.userGuid, note.kbGuid, note.guid),
     contentId: `${api.userGuid}/${note.kbGuid}/${note.guid}`,
   };

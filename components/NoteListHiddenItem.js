@@ -6,8 +6,8 @@ import i18n from 'i18n-js';
 import { getDeviceDynamicColor } from '../config/Colors';
 import api from '../api';
 
-export const BUTTON_MIN_WIDTH = 100;
-export const BUTTON_MAX_WIDTH = 150;
+export const BUTTON_MIN_WIDTH = 90;
+export const BUTTON_MAX_WIDTH = 120;
 
 export default function NoteListHiddenItem(props) {
   //
@@ -76,12 +76,12 @@ export default function NoteListHiddenItem(props) {
       //
       if (rightToLeft === true) {
         if (value < position && position < old) {
-          Vibration.vibrate();
+          Vibration.vibrate(50);
         }
       } else if (rightToLeft === false) {
         // eslint-disable-next-line no-lonely-if
         if (value > position && position > old) {
-          Vibration.vibrate();
+          Vibration.vibrate(50);
         }
       }
       //
