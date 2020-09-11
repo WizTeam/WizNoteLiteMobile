@@ -20,7 +20,7 @@ export async function createNewNote() {
     return;
   }
   //
-  loadNote(kbGuid, note);
+  loadNote(note);
   //
   Navigation.showModal({
     stack: {

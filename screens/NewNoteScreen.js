@@ -27,16 +27,15 @@ const NewNoteScreen: () => React$Node = (props) => {
   const oldMarkdownRef = useRef('');
   useEffect(() => {
     //
-    const kbGuid = dataStore.getCurrentKb();
     const note = dataStore.getCurrentNote();
     (async () => {
-      oldMarkdownRef.current = await api.getNoteMarkdown(kbGuid, note.guid);
+      oldMarkdownRef.current = await api.getNoteMarkdown(note.kbGuid, note.guid);
     })();
     //
     return () => {
       (() => {
         setTimeout(async () => {
-          const markdown = await api.getNoteMarkdown(kbGuid, note.guid);
+          const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
           if (oldMarkdownRef.current === markdown) {
             enableNextAnimation();
             await api.deleteNote(note.kbGuid, note.guid);

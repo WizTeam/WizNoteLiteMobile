@@ -35,13 +35,12 @@ const ViewNoteScreen: () => React$Node = (props) => {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         //
-        const kbGuid = dataStore.getCurrentKb();
         const note = dataStore.getCurrentNote();
         let resourceUrl;
         if (response.uri) {
-          resourceUrl = await api.addImageFromUrl(kbGuid, note.guid, response.uri);
+          resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
         } else if (response.data) {
-          resourceUrl = await api.addImageFromData(kbGuid, note.guid, response.data, {
+          resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
             base64: true,
           });
         }
@@ -76,19 +75,18 @@ const ViewNoteScreen: () => React$Node = (props) => {
     if (!props.isNewNote) {
       return undefined;
     }
-    const kbGuid = dataStore.getCurrentKb();
     const note = dataStore.getCurrentNote();
     (async () => {
-      oldMarkdownRef.current = await api.getNoteMarkdown(kbGuid, note.guid);
+      oldMarkdownRef.current = await api.getNoteMarkdown(note.kbGuid, note.guid);
     })();
     //
     return () => {
       (() => {
         setTimeout(async () => {
-          const markdown = await api.getNoteMarkdown(kbGuid, note.guid);
+          const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
           if (oldMarkdownRef.current === markdown) {
             enableNextAnimation();
-            await api.deleteNote(kbGuid, note.guid);
+            await api.deleteNote(note.kbGuid, note.guid);
           }
         }, 500);
       })();

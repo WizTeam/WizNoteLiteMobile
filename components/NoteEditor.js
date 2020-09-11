@@ -52,15 +52,15 @@ export function emptyEditor() {
   injectJavaScript(js);
 }
 
-export async function loadNote(kbGuid, note) {
+export async function loadNote(note) {
   if (!note) {
     return;
   }
-  // console.log(`load note: ${note.markdown}`);
+  console.log(`load note: ${note.kbGuid}/${note.guid}`);
   const data = {
     markdown: note.markdown,
-    resourceUrl: getResourceBaseUrl(api.userGuid, kbGuid, note.guid),
-    contentId: `${api.userGuid}/${kbGuid}/${note.guid}`,
+    resourceUrl: getResourceBaseUrl(api.userGuid, note.kbGuid, note.guid),
+    contentId: `${api.userGuid}/${note.kbGuid}/${note.guid}`,
   };
   const dataText = JSON.stringify(data);
   const js = `window.loadMarkdown(${dataText});true;`;
@@ -114,11 +114,10 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
   }
 
-  const kbGuid = props[KEYS.CURRENT_KB];
   const note = props[KEYS.CURRENT_NOTE];
 
   useEffect(() => {
-    loadNote(kbGuid, note);
+    loadNote(note);
   }, [note]);
 
   return (

@@ -5,8 +5,7 @@ import { loadNote } from '../components/NoteEditor';
 
 export async function viewNote(parentComponentId) {
   const note = dataStore.getCurrentNote();
-  const kbGuid = dataStore.getCurrentKb();
-  loadNote(kbGuid, note);
+  loadNote(note);
   //
   Navigation.push(parentComponentId, {
     component: {
