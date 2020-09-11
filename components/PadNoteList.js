@@ -51,8 +51,7 @@ const PadNoteList: () => React$Node = (props) => {
   }
 
   function handleSearchCancel() {
-    store.setSelectedType('#allNotes');
-    store.initCategoryNotes();
+    store.initCategoryNotes('#allNotes');
   }
 
   async function handleSearchSubmit() {

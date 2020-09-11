@@ -137,15 +137,24 @@ async function initUser() {
   api.syncData(kbGuid);
 }
 
-async function initCategoryNotes() {
-  const selectedType = store.getData(KEYS.SELECTED_TYPE) || '#allNotes';
+async function initCategoryNotes(changeToSelectedType) {
+  let selectedType = store.getData(KEYS.SELECTED_TYPE) || '#allNotes';
+  if (changeToSelectedType !== undefined) {
+    selectedType = changeToSelectedType;
+  }
+  if (selectedType === '#searchResult') {
+    return;
+  }
   //
-  if (selectedType === '#searchResult') return;
   const kbGuid = getCurrentKb();
   //
   const notes = await getCategoryNotes(kbGuid, selectedType);
   sortNotes(notes);
   store.setData(KEYS.CATEGORY_NOTES, notes);
+  //
+  if (changeToSelectedType !== undefined) {
+    setSelectedType(changeToSelectedType);
+  }
 }
 
 function setSearchResult(notes) {
