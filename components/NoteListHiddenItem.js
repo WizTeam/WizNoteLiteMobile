@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, TouchableOpacity, Animated } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Text, TouchableOpacity, Animated, Vibration } from 'react-native';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
 
@@ -57,6 +57,43 @@ export default function NoteListHiddenItem(props) {
     outputRange: [0, -BUTTON_MIN_WIDTH, -BUTTON_MAX_WIDTH + offset, -BUTTON_MAX_WIDTH / 2],
   });
   //
+  const oldSwipeValueRef = useRef(0);
+  //
+  useEffect(() => {
+    function handleSwipeValueChanged({ value }) {
+      //
+      let rightToLeft;
+      const old = oldSwipeValueRef.current;
+      //
+      if (value < old) {
+        // right to left, <-
+        rightToLeft = true;
+      } else if (value > old) {
+        rightToLeft = false;
+      }
+      //
+      const position = -2 * BUTTON_MAX_WIDTH;
+      //
+      if (rightToLeft === true) {
+        if (value < position && position < old) {
+          Vibration.vibrate();
+        }
+      } else if (rightToLeft === false) {
+        // eslint-disable-next-line no-lonely-if
+        if (value > position && position > old) {
+          Vibration.vibrate();
+        }
+      }
+      //
+      oldSwipeValueRef.current = value;
+    }
+    //
+    swipeAnimatedValue.addListener(handleSwipeValueChanged);
+    //
+    return () => {
+      swipeAnimatedValue.removeListener(handleSwipeValueChanged);
+    };
+  })
   //
   return (
     <Animated.View style={styles.rowBack}>

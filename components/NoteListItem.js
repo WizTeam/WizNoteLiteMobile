@@ -56,7 +56,6 @@ export default function NoteListItem(props) {
       }
     }
     starEventObject.addListener('updateNoteStar', updateStar);
-    console.log(starEventObject.listenerCount('updateNoteStar'));
     return () => {
       starEventObject.removeListener('updateNoteStar', updateStar);
     };
