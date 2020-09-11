@@ -52,6 +52,7 @@ const NoteList: () => React$Node = (props) => {
         selected={selected}
         hideDivider={hideDivider}
         showStar={props.showStar}
+        showHighlight={props.showHighlight}
         onPressItem={handlerPressItem}
       />
     );

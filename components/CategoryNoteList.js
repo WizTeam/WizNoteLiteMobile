@@ -11,6 +11,7 @@ const CategoryNoteList: () => React$Node = (props) => {
   const selectedType = props.selectedType;
   const notes = props[KEYS.CATEGORY_NOTES] || [];
   const selectedNote = props[KEYS.CURRENT_NOTE] || {};
+  const showHighlight = selectedType === '#searchResult';
   //
   return (
     <NoteList
@@ -18,6 +19,7 @@ const CategoryNoteList: () => React$Node = (props) => {
       onPressNote={props.onPressNote}
       selectedNoteGuid={selectedNote?.guid}
       showStar={selectedType !== '#starredNotes'}
+      showHighlight={showHighlight}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
     />

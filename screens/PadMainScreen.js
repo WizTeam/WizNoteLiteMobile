@@ -104,6 +104,12 @@ const PadMainScreen: () => React$Node = (props) => {
     }
   }
 
+  async function handleSearchFocus() {
+    if (store.getSelectedType() !== '#searchResult') {
+      store.setSearchResult([]);
+    }
+  }
+
   function handleBeginEditing() {
     const layout = layoutRef.current;
     const openState = layout.currentOpenState();
@@ -138,7 +144,7 @@ const PadMainScreen: () => React$Node = (props) => {
     }
     return title;
   }, [props.selectedType]);
-
+  //
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar />
@@ -178,6 +184,7 @@ const PadMainScreen: () => React$Node = (props) => {
               onChangeText={handleSearchChange}
               onCancel={handleSearchCancel}
               onSubmitEditing={handleSearchSubmit}
+              onFocus={handleSearchFocus}
               value={searchText}
             />
             <CategoryNoteList style={styles.noteList} />
