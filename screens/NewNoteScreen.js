@@ -39,7 +39,7 @@ const NewNoteScreen: () => React$Node = (props) => {
           const markdown = await api.getNoteMarkdown(kbGuid, note.guid);
           if (oldMarkdownRef.current === markdown) {
             enableNextAnimation();
-            await api.deleteNote(kbGuid, note.guid);
+            await api.deleteNote(note.kbGuid, note.guid);
           }
         }, 500);
       })();

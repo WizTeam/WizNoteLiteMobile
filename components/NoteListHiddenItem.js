@@ -54,17 +54,6 @@ export default function NoteListHiddenItem(props) {
     outputRange: [0, -BUTTON_MIN_WIDTH, -BUTTON_MAX_WIDTH + offset, -BUTTON_MAX_WIDTH / 2],
   });
   //
-  swipeAnimatedValue.addListener(({ value }) => {
-    console.log(`org value: ${value}`);
-  });
-  //
-  deletedButtonWidthValue.addListener(({ value }) => {
-    console.log(`width: ${value}`);
-  });
-  deletedButtonTranslateXValue.addListener(({ value }) => {
-    console.log(`offsetX: ${value}`);
-  });
-
   //
   return (
     <Animated.View style={styles.rowBack}>
