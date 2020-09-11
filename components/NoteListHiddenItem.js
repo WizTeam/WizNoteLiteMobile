@@ -30,6 +30,9 @@ export default function NoteListHiddenItem(props) {
         api.putBackNote(note.kbGuid, note.guid);
       });
     } else {
+      if (props.onUpdateNoteStar) {
+        props.onUpdateNoteStar(note.kbGuid, note.guid, !note.starred);
+      }
       row.closeRow(() => {
         api.setNoteStarred(note.kbGuid, note.guid, !note.starred);
       });

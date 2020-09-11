@@ -1,11 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
+import { EventEmitter } from 'events';
 
 import { getDeviceDynamicColor } from '../config/Colors';
 import { formatDateString } from '../utils/date';
 import HighlightText from './HighlightText';
+
+const starEventObject = new EventEmitter();
+starEventObject.setMaxListeners(10000);
+
+export function updateNoteStar(kbGuid, noteGuid, starred) {
+  starEventObject.emit('updateNoteStar', kbGuid, noteGuid, starred);
+}
+
+const useForceUpdate = () => useState()[1];
 
 export default function NoteListItem(props) {
   //
@@ -26,7 +36,31 @@ export default function NoteListItem(props) {
     }
   }
   //
-  const showStar = !!(props.showStar && note.starred);
+  const forceUpdateStarRef = useRef();
+  //
+  let showStar = !!(props.showStar && note.starred);
+  if (forceUpdateStarRef.current !== undefined) {
+    showStar = props.showStar && forceUpdateStarRef.current;
+  }
+  //
+  const forceUpdate = useForceUpdate();
+  //
+  useEffect(() => {
+    function updateStar(kbGuid, noteGuid, starred) {
+      if (kbGuid === note.kbGuid && noteGuid === note.guid) {
+        forceUpdateStarRef.current = starred;
+        forceUpdate({ rand: new Date() });
+        setTimeout(() => {
+          forceUpdateStarRef.current = undefined;
+        }, 100);
+      }
+    }
+    starEventObject.addListener('updateNoteStar', updateStar);
+    console.log(starEventObject.listenerCount('updateNoteStar'));
+    return () => {
+      starEventObject.removeListener('updateNoteStar', updateStar);
+    };
+  }, []);
   //
   return (
     <View>

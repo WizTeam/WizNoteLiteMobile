@@ -9,7 +9,7 @@ import dataStore from '../data_store';
 import api from '../api';
 import { showTopBarMessage } from '../services/navigation';
 import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
-import NoteListItem from './NoteListItem';
+import NoteListItem, { updateNoteStar } from './NoteListItem';
 import NoteListHiddenItem, { BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH } from './NoteListHiddenItem';
 
 const NoteList: () => React$Node = (props) => {
@@ -54,7 +54,11 @@ const NoteList: () => React$Node = (props) => {
     const note = item;
     //
     return (
-      <NoteListHiddenItem note={note} rowMap={rowMap} />
+      <NoteListHiddenItem
+        note={note}
+        rowMap={rowMap}
+        onUpdateNoteStar={updateNoteStar}
+      />
     );
   }
 
