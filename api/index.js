@@ -18,6 +18,13 @@ class SdkEventListener {
   send(eventName, ...args) {
     this._handler(this._userGuid, eventName, ...args);
   }
+
+  static sendToAll(eventName, ...args) {
+    const handlers = SdkEventListener._listeners.keys();
+    Array.from(handlers).forEach((handler) => {
+      handler(eventName, ...args);
+    });
+  }
 }
 
 class Api extends EventEmitter {
@@ -97,7 +104,7 @@ class Api extends EventEmitter {
         noWait: true,
       });
     } catch (err) {
-      console.error(err);
+      SdkEventListener.sendToAll(this.userGuid, 'syncFinish', this.kbGuid, { error: err }, {});
     }
   }
 

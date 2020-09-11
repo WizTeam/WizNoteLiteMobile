@@ -99,7 +99,7 @@ const NoteList: () => React$Node = (props) => {
   async function handleRefresh() {
     setRefreshing(true);
     try {
-      await api.syncKb(null, {
+      await api.syncKb(dataStore.getCurrentKb(), {
         manual: true,
       });
     } catch (err) {
