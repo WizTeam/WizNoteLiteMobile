@@ -10,7 +10,7 @@ import api from '../api';
 import { showTopBarMessage } from '../services/navigation';
 import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
 import NoteListItem from './NoteListItem';
-import NoteListHiddenItem from './NoteListHiddenItem';
+import NoteListHiddenItem, { BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH } from './NoteListHiddenItem';
 
 const NoteList: () => React$Node = (props) => {
   //
@@ -144,8 +144,8 @@ const NoteList: () => React$Node = (props) => {
       renderHiddenItem={renderHiddenItem}
       onRefresh={handleRefresh}
       refreshing={isRefreshing}
-      rightOpenValue={-140}
-      rightActivationValue={-200}
+      rightOpenValue={-BUTTON_MIN_WIDTH * 2}
+      rightActivationValue={-BUTTON_MAX_WIDTH * 2}
       rightActionValue={-500}
       onSwipeValueChange={handleSwipeValueChange}
       useNativeDriver={false}

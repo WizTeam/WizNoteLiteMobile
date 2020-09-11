@@ -6,8 +6,8 @@ import i18n from 'i18n-js';
 import { getDeviceDynamicColor } from '../config/Colors';
 import api from '../api';
 
-const BUTTON_MIN_WIDTH = 70;
-const BUTTON_MAX_WIDTH = 120;
+export const BUTTON_MIN_WIDTH = 100;
+export const BUTTON_MAX_WIDTH = 150;
 
 export default function NoteListHiddenItem(props) {
   //
