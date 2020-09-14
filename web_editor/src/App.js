@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import queryString from 'query-string';
 
 import { MarkdownEditor } from 'wiz-react-markdown-editor';
 
@@ -9,8 +10,10 @@ import './App.css';
 const PhoneTheme = React.lazy(() => import('./PhoneTheme'));
 const PadTheme = React.lazy(() => import('./PadTheme'));
 
-const userAgent = navigator.userAgent.toLowerCase();
-const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+const params = queryString.parse(window.location.search);
+const isTablet = params.isTablet === 'true';
+
+console.log(isTablet);
 
 const useStyles = makeStyles({
   editorWrapper: {
