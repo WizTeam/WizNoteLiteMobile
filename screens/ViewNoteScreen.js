@@ -10,7 +10,7 @@ import { Navigation } from '../thirdparty/react-native-navigation';
 import NoteEditor from '../components/NoteEditor';
 
 import { enableNextAnimation } from '../services/animations';
-import { getDeviceDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, getColor } from '../config/Colors';
 import dataStore from '../data_store';
 import api from '../api';
 
@@ -122,9 +122,21 @@ const ViewNoteScreen: () => React$Node = (props) => {
     });
   }
 
+  function handleThemeChanged(themeName) {
+    // force update buttons color
+    console.log('update view note screen theme');
+    Navigation.mergeOptions(props.componentId, {
+      topBar: {
+        background: {
+          color: getColor('topBarBackground'),
+        },
+      },
+    });
+  }
+
   return (
     <ColorSchemeProvider>
-      <ThemedStatusBar />
+      <ThemedStatusBar onThemeChanged={handleThemeChanged} />
       <SafeAreaView style={styles.content}>
         <NoteEditor
           ref={editorRef}
