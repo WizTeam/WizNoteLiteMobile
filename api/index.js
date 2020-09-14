@@ -18,6 +18,13 @@ class SdkEventListener {
   send(eventName, ...args) {
     this._handler(this._userGuid, eventName, ...args);
   }
+
+  static sendToAll(eventName, ...args) {
+    const handlers = SdkEventListener._listeners.keys();
+    Array.from(handlers).forEach((handler) => {
+      handler(eventName, ...args);
+    });
+  }
 }
 
 class Api extends EventEmitter {
@@ -56,10 +63,15 @@ class Api extends EventEmitter {
   }
 
   get userGuid() {
+    if (!this._user) {
+      console.error('fault error: this._user is null');
+      console.error(new Error().stack);
+      return null;
+    }
     return this._user.userGuid;
   }
 
-  get kbGuid() {
+  get personalKbGuid() {
     return this._user.kbGuid;
   }
 
@@ -81,68 +93,101 @@ class Api extends EventEmitter {
     }
   }
 
-  async syncData() {
+  async syncData(kbGuid) {
+    assert(kbGuid, 'kbGuid is empty - syncData');
     try {
       if (this._user.isLocalUser) {
         return;
       }
       //
       await this.refreshUserInfo();
-      await this.syncKb(this.kbGuid, {
+      await this.syncKb(kbGuid, {
         noWait: true,
       });
     } catch (err) {
-      console.error(err);
+      SdkEventListener.sendToAll(this.userGuid, 'syncFinish', kbGuid, { error: err }, {});
     }
   }
 
   async refreshUserInfo() {
-    sdk.refreshUserInfo(this.userGuid);
+    await sdk.refreshUserInfo(this.userGuid);
   }
 
   async syncKb(kbGuid, options) {
-    await sdk.syncKb(this.userGuid, kbGuid || this.kbGuid, options);
+    assert(kbGuid, 'kbGuid is empty - syncKb');
+    await sdk.syncKb(this.userGuid, kbGuid, options);
   }
 
   async getAllNotes(kbGuid, options) {
-    const notes = await sdk.queryNotes(this.userGuid, kbGuid || this.kbGuid, 0, 10000, options);
+    assert(kbGuid, 'kbGuid is empty - getAllNotes');
+    const notes = await sdk.queryNotes(this.userGuid, kbGuid, 0, 10000, options);
     return notes;
   }
 
   async getNote(kbGuid, noteGuid) {
-    const note = await sdk.getNote(this.userGuid, kbGuid || this.kbGuid, noteGuid);
+    assert(kbGuid, 'kbGuid is empty - getNote');
+    const note = await sdk.getNote(this.userGuid, kbGuid, noteGuid);
     return note;
   }
 
   async getNoteMarkdown(kbGuid, noteGuid) {
-    const markdown = await sdk.getNoteMarkdown(this.userGuid, kbGuid || this.kbGuid, noteGuid);
+    assert(kbGuid, 'kbGuid is empty - getNoteMarkdown');
+    const markdown = await sdk.getNoteMarkdown(this.userGuid, kbGuid, noteGuid);
     return markdown;
   }
 
   async deleteNote(kbGuid, noteGuid) {
-    await sdk.deleteNote(this.userGuid, kbGuid || this.kbGuid, noteGuid);
+    assert(kbGuid, 'kbGuid is empty - deleteNote');
+    await sdk.deleteNote(this.userGuid, kbGuid, noteGuid);
+  }
+
+  async putBackNote(kbGuid, noteGuid) {
+    assert(kbGuid, 'kbGuid is empty - putBackNote');
+    await sdk.putBackNote(this.userGuid, kbGuid, noteGuid);
   }
 
   async setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown) {
-    await sdk.setNoteMarkdown(userGuid || this.userGuid, kbGuid || this.kbGuid, noteGuid, markdown);
+    assert(kbGuid, 'userGuid is empty - setNoteMarkdown');
+    assert(kbGuid, 'kbGuid is empty - setNoteMarkdown');
+    await sdk.setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown);
   }
 
   async setNoteStarred(kbGuid, noteGuid, starred) {
-    await sdk.setNoteStarred(this.userGuid, kbGuid || this.kbGuid, noteGuid, starred);
+    assert(kbGuid, 'kbGuid is empty - setNoteStarred');
+    await sdk.setNoteStarred(this.userGuid, kbGuid, noteGuid, starred);
   }
 
   async createNote(kbGuid, note = {}) {
-    const newNote = await sdk.createNote(this.userGuid, kbGuid || this.kbGuid, note);
+    assert(kbGuid, 'kbGuid is empty - kbGuid');
+    const newNote = await sdk.createNote(this.userGuid, kbGuid, note);
     return newNote;
   }
 
+  async addImageFromUrl(kbGuid, noteGuid, url, options = {}) {
+    assert(kbGuid, 'kbGuid is empty - addImageFromUrl');
+    const result = await sdk.addImageFromUrl(
+      this.userGuid, kbGuid, noteGuid, url, options,
+    );
+    return result;
+  }
+
+  async addImageFromData(kbGuid, noteGuid, data, options = {}) {
+    assert(kbGuid, 'kbGuid is empty - addImageFromData');
+    const result = await sdk.addImageFromData(
+      this.userGuid, kbGuid, noteGuid, data, options,
+    );
+    return result;
+  }
+
   async getAllTags(kbGuid) {
-    const ret = await sdk.getAllTags(this.userGuid, kbGuid || this.kbGuid);
+    assert(kbGuid, 'kbGuid is empty - getAllTags');
+    const ret = await sdk.getAllTags(this.userGuid, kbGuid);
     return ret;
   }
 
   async hasNotesInTrash(kbGuid) {
-    const ret = await sdk.hasNotesInTrash(this.userGuid, kbGuid || this.kbGuid);
+    assert(kbGuid, 'kbGuid is empty - hasNotesInTrash');
+    const ret = await sdk.hasNotesInTrash(this.userGuid, kbGuid);
     return ret;
   }
 
@@ -163,10 +208,11 @@ class Api extends EventEmitter {
   }
 
   async searchNotes(kbGuid, key) {
+    assert(kbGuid, 'kbGuid is empty - searchNotes');
     const options = {
       searchText: key,
     };
-    const notes = await sdk.queryNotes(this.userGuid, kbGuid || this.kbGuid, 0, 10000, options);
+    const notes = await sdk.queryNotes(this.userGuid, kbGuid, 0, 10000, options);
     return notes;
   }
 }

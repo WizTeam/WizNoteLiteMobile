@@ -21,7 +21,7 @@ export function updateCategoryNotes(allNotes, note, selectedType) {
   }
 }
 
-export async function getCategoryNotes(selectedType) {
+export async function getCategoryNotes(kbGuid, selectedType) {
   const options = {};
   if (selectedType === '#allNotes') {
     //
@@ -33,6 +33,6 @@ export async function getCategoryNotes(selectedType) {
     options.tags = selectedType;
   }
   //
-  const notes = await api.getAllNotes(null, options);
+  const notes = await api.getAllNotes(kbGuid, options);
   return notes;
 }

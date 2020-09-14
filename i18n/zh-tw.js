@@ -8,6 +8,7 @@ export default {
   placeholderUserPassword: '密碼',
   placeholderPrivateServer: 'Private server address',
   placeholderSearch: '搜索',
+  placeholderSearchAllNotes: '搜索全部筆記',
   buttonCancelSearch: '取消',
   buttonForgotPassword: '忘記密碼？',
   textOr: '或',
@@ -52,4 +53,5 @@ export default {
   buttonStarNote: '星標',
   buttonUnstarNote: '取消星標',
   buttonDelete: '删除',
+  buttonPutBackNote: '恢复',
 };

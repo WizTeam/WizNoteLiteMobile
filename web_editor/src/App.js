@@ -77,7 +77,12 @@ function App() {
         resourceUrl,
         contentId,
       });
-    }
+    };
+    //
+    window.addImage = (url) => {
+      // TODO: add image to editor
+      console.log(`request add image: ${url}`);
+    };
   }, []);
   //
   useEffect(() => {

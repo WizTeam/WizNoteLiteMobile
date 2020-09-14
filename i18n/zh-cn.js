@@ -8,6 +8,7 @@ export default {
   placeholderUserPassword: '密码',
   placeholderPrivateServer: '私有服务器地址',
   placeholderSearch: '搜索',
+  placeholderSearchAllNotes: '搜索全部笔记',
   buttonCancelSearch: '取消',
   buttonForgotPassword: '忘记密码？',
   serverTypeDefault: '为知笔记服务',
@@ -51,4 +52,5 @@ export default {
   buttonStarNote: '星标',
   buttonUnstarNote: '取消星标',
   buttonDelete: '删除',
+  buttonPutBackNote: '恢复',
 };

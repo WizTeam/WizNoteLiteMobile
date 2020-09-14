@@ -8,6 +8,7 @@ export default {
   placeholderUserPassword: 'Password',
   placeholderPrivateServer: 'Private server address',
   placeholderSearch: 'Search',
+  placeholderSearchAllNotes: 'Search all notes',
   buttonCancelSearch: 'Cancel',
   buttonForgotPassword: 'Forgot password?',
   serverTypeDefault: 'WizNote Server',
@@ -50,4 +51,5 @@ export default {
   buttonStarNote: 'Star',
   buttonUnstarNote: 'Unstar',
   buttonDelete: 'Delete',
+  buttonPutBackNote: 'Undelete',
 };

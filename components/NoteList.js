@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { Dimensions } from 'react-native';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
-import useStateWithCallback from 'use-state-with-callback';
 
 import { getDeviceDynamicColor } from '../config/Colors';
 import { isTablet } from '../utils/device';
@@ -10,7 +9,8 @@ import dataStore from '../data_store';
 import api from '../api';
 import { showTopBarMessage } from '../services/navigation';
 import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
-import NoteListItem from './NoteListItem';
+import NoteListItem, { updateNoteStar } from './NoteListItem';
+import NoteListHiddenItem, { BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH } from './NoteListHiddenItem';
 
 const NoteList: () => React$Node = (props) => {
   //
@@ -24,11 +24,19 @@ const NoteList: () => React$Node = (props) => {
   const selectedIndex = notes.findIndex((note) => note.guid === props.selectedNoteGuid);
   //
   async function handlerPressItem(note) {
-    const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
-    const newNote = { ...note, markdown };
-    dataStore.setCurrentNote(newNote);
+    //
+    if (isTablet) {
+      dataStore.setCurrentNote(note);
+    } else {
+      const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
+      const newNote = { ...note, markdown };
+      dataStore.setCurrentNote(newNote);
+      // eslint-disable-next-line no-param-reassign
+      note = newNote;
+    }
+    //
     if (props.onPressNote) {
-      props.onPressNote(newNote);
+      props.onPressNote(note);
     }
   }
   //
@@ -44,59 +52,22 @@ const NoteList: () => React$Node = (props) => {
         selected={selected}
         hideDivider={hideDivider}
         showStar={props.showStar}
+        showHighlight={props.showHighlight}
         onPressItem={handlerPressItem}
       />
     );
   }
-  //
-  function handleDeleteNote(note, rowMap) {
-    const row = rowMap[note.guid];
-    row.deleteRow(() => {
-      api.deleteNote(note.kbGuid, note.guid);
-    });
-  }
 
-  const [, setStarNote] = useStateWithCallback({}, ({ note, rowMap }) => {
-    if (note) {
-      setTimeout(() => {
-        const row = rowMap[note.guid];
-        row.closeRow(() => {
-          setTimeout(() => {
-            api.setNoteStarred(note.kbGuid, note.guid, note.starred);
-            setStarNote({});
-          });
-        });
-      });
-    }
-  });
-
-  function handleStarNote(note, rowMap) {
-    // eslint-disable-next-line no-param-reassign
-    note.starred = !note.starred;
-    setStarNote({ note, rowMap });
-  }
-  //
   function renderHiddenItem({ item }, rowMap) {
     //
     const note = item;
-    const starButtonText = i18n.t(note.starred ? 'buttonUnstarNote' : 'buttonStarNote');
     //
     return (
-      <View style={styles.rowBack}>
-        <View style={styles.grow} />
-        <TouchableOpacity
-          style={[styles.backRightBtn, styles.starButton]}
-          onPress={() => handleStarNote(item, rowMap)}
-        >
-          <Text style={styles.backTextWhite}>{starButtonText}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.backRightBtn, styles.deleteButton]}
-          onPress={() => handleDeleteNote(item, rowMap)}
-        >
-          <Text style={styles.backTextWhite}>{i18n.t('buttonDelete')}</Text>
-        </TouchableOpacity>
-      </View>
+      <NoteListHiddenItem
+        note={note}
+        rowMap={rowMap}
+        onUpdateNoteStar={updateNoteStar}
+      />
     );
   }
 
@@ -129,7 +100,7 @@ const NoteList: () => React$Node = (props) => {
   async function handleRefresh() {
     setRefreshing(true);
     try {
-      await api.syncKb(null, {
+      await api.syncKb(dataStore.getCurrentKb(), {
         manual: true,
       });
     } catch (err) {
@@ -142,7 +113,7 @@ const NoteList: () => React$Node = (props) => {
       } else {
         showTopBarMessage({
           message: i18n.t('errorSync'),
-          description: i18n.t('errorSyncMessage', err.message),
+          description: i18n.t('errorSyncMessage', { message: err.message }),
           type: 'error',
         });
       }
@@ -161,7 +132,7 @@ const NoteList: () => React$Node = (props) => {
       if (error) {
         showTopBarMessage({
           message: i18n.t('errorSync'),
-          description: i18n.t('errorSyncMessage', error.message),
+          description: i18n.t('errorSyncMessage', { message: error.message }),
           type: 'error',
         });
       }
@@ -186,8 +157,8 @@ const NoteList: () => React$Node = (props) => {
       renderHiddenItem={renderHiddenItem}
       onRefresh={handleRefresh}
       refreshing={isRefreshing}
-      rightOpenValue={-140}
-      rightActivationValue={-200}
+      rightOpenValue={-BUTTON_MIN_WIDTH * 2}
+      rightActivationValue={-BUTTON_MAX_WIDTH * 2}
       rightActionValue={-500}
       onSwipeValueChange={handleSwipeValueChange}
       useNativeDriver={false}
@@ -232,46 +203,6 @@ const dynamicStyles = new DynamicStyleSheet({
   star: {
     color: 'rgb(253, 201, 46)',
     paddingBottom: 24,
-  },
-  //
-  rowFront: {
-    height: '100%',
-    backgroundColor: getDeviceDynamicColor('noteListBackground'),
-  },
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: 'red',
-    // flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-    height: '100%',
-  },
-  backRightBtn: {
-    alignItems: 'center',
-    // bottom: 0,
-    justifyContent: 'center',
-    // position: 'absolute',
-    // top: 0,
-  },
-  backTextWhite: {
-    color: 'white',
-  },
-  backRightBtnRight: {
-    backgroundColor: 'red',
-    // right: 0,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  starButton: {
-    width: 70,
-    backgroundColor: '#aaaaaa',
-    height: '100%',
-  },
-  deleteButton: {
-    width: 70,
-    height: '100%',
   },
 });
 

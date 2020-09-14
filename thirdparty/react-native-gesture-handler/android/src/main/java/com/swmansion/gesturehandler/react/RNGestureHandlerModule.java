@@ -1,6 +1,8 @@
 package com.swmansion.gesturehandler.react;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableMap;
@@ -462,11 +465,54 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
     return MODULE_NAME;
   }
 
+  public static class ExcludeRegion {
+    public int x;
+    public int width;
+    public int y;
+    public int height;
+    public ExcludeRegion(ReadableMap props) {
+      if (props == null) return;
+      ReadableArray excludeRegions = props.getArray("excludeRegions");
+      Log.e("wiz_react", "......." + excludeRegions.size());
+      if (excludeRegions != null && excludeRegions.size() > 0) {
+        ReadableMap map = excludeRegions.getMap(0);
+        if (map != null) {
+          this.x = map.getInt("x");
+          this.width = map.getInt("width");
+          this.y = map.getInt("y");
+          this.height = map.getInt("height");
+        }
+      }
+    }
+
+    public boolean in(MotionEvent ev, Resources resources) {
+      float density = resources.getDisplayMetrics().density;
+      float touchX = ev.getX() / density;
+      float touchY = ev.getY() / density;
+      Log.e("wiz_react", String.format("x: %s, width: %s, touchX: %s", x, width, touchX));
+      return (touchX > x && touchX < x + width) && (touchY > y && touchY < y + height);
+    }
+  }
+
+  private static ReadableMap props = null;
+  private static ExcludeRegion excludeRegion = null;
+  private static void setProps(ReadableMap props) {
+    Log.e("wiz_react", "update propssssss");
+    excludeRegion = new ExcludeRegion(props);
+    RNGestureHandlerModule.props = props;
+  }
+  public static ReadableMap getProps() {
+    return props;
+  }
+  public static ExcludeRegion getExcludeRegion() {
+    return  excludeRegion;
+  }
   @ReactMethod
   public void createGestureHandler(
           String handlerName,
           int handlerTag,
           ReadableMap config) {
+    setProps(config);
     for (int i = 0; i < mHandlerFactories.length; i++) {
       HandlerFactory handlerFactory = mHandlerFactories[i];
       if (handlerFactory.getName().equals(handlerName)) {
@@ -495,6 +541,7 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
   public void updateGestureHandler(
           int handlerTag,
           ReadableMap config) {
+    setProps(config);
     GestureHandler handler = mRegistry.getHandler(handlerTag);
     if (handler != null) {
       HandlerFactory factory = findFactoryForHandler(handler);

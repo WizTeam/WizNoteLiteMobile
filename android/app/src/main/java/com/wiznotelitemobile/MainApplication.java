@@ -18,6 +18,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.reactnativenavigation.viewcontrollers.externalcomponent.ExternalComponent;
 import com.reactnativenavigation.viewcontrollers.externalcomponent.ExternalComponentCreator;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 
 import org.json.JSONObject;
 
@@ -51,6 +52,7 @@ public class MainApplication extends NavigationApplication {
             packages.add(new RNFetchBlobPackage());
             packages.add(new WizReactNativePackage());
             packages.add(new NavigationPackage(mReactNativeHost));
+            packages.add(new RNGestureHandlerPackage());
           return packages;
         }
 

@@ -240,6 +240,8 @@ PODS:
     - React-Core
   - react-native-get-random-values (1.5.0):
     - React
+  - react-native-image-picker (2.3.3):
+    - React
   - react-native-sqlite-storage (5.0.0):
     - React
   - React-RCTActionSheet (0.63.2):
@@ -368,6 +370,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-fetch-blob (from `../thirdparty/react-native-fetch-blob`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-sqlite-storage (from `../thirdparty/react-native-sqlite-storage`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -439,6 +442,8 @@ EXTERNAL SOURCES:
     :path: "../thirdparty/react-native-fetch-blob"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-sqlite-storage:
     :path: "../thirdparty/react-native-sqlite-storage"
   React-RCTActionSheet:
@@ -509,6 +514,7 @@ SPEC CHECKSUMS:
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
   react-native-fetch-blob: 0cbdf9764c75d9438c162427395f4bc35a857d5a
   react-native-get-random-values: 1404bd5cc0ab0e287f75ee1c489555688fc65f89
+  react-native-image-picker: a6c3d644751a388b0fc8b56822ff7cbd398a3008
   react-native-sqlite-storage: 07e2d6678c29a20a6fe7adc13ef06630331d7820
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
   React-RCTAnimation: 9a883bbe1e9d2e158d4fb53765ed64c8dc2200c6

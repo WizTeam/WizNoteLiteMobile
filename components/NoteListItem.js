@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
+import { EventEmitter } from 'events';
 
 import { getDeviceDynamicColor } from '../config/Colors';
 import { formatDateString } from '../utils/date';
 import HighlightText from './HighlightText';
+
+const starEventObject = new EventEmitter();
+starEventObject.setMaxListeners(10000);
+
+export function updateNoteStar(kbGuid, noteGuid, starred) {
+  starEventObject.emit('updateNoteStar', kbGuid, noteGuid, starred);
+}
+
+const useForceUpdate = () => useState()[1];
 
 export default function NoteListItem(props) {
   //
@@ -26,7 +36,30 @@ export default function NoteListItem(props) {
     }
   }
   //
-  const showStar = !!(props.showStar && note.starred);
+  const forceUpdateStarRef = useRef();
+  //
+  let showStar = !!(props.showStar && note.starred);
+  if (forceUpdateStarRef.current !== undefined) {
+    showStar = props.showStar && forceUpdateStarRef.current;
+  }
+  //
+  const forceUpdate = useForceUpdate();
+  //
+  useEffect(() => {
+    function updateStar(kbGuid, noteGuid, starred) {
+      if (kbGuid === note.kbGuid && noteGuid === note.guid) {
+        forceUpdateStarRef.current = starred;
+        forceUpdate({ rand: new Date() });
+        setTimeout(() => {
+          forceUpdateStarRef.current = undefined;
+        }, 100);
+      }
+    }
+    starEventObject.addListener('updateNoteStar', updateStar);
+    return () => {
+      starEventObject.removeListener('updateNoteStar', updateStar);
+    };
+  }, []);
   //
   return (
     <View>
@@ -86,45 +119,5 @@ const dynamicStyles = new DynamicStyleSheet({
   star: {
     color: 'rgb(253, 201, 46)',
     paddingBottom: 24,
-  },
-  //
-  rowFront: {
-    height: '100%',
-    backgroundColor: getDeviceDynamicColor('noteListBackground'),
-  },
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: 'red',
-    // flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-    height: '100%',
-  },
-  backRightBtn: {
-    alignItems: 'center',
-    // bottom: 0,
-    justifyContent: 'center',
-    // position: 'absolute',
-    // top: 0,
-  },
-  backTextWhite: {
-    color: 'white',
-  },
-  backRightBtnRight: {
-    backgroundColor: 'red',
-    // right: 0,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  starButton: {
-    width: 70,
-    backgroundColor: '#aaaaaa',
-    height: '100%',
-  },
-  deleteButton: {
-    width: 70,
-    height: '100%',
   },
 });

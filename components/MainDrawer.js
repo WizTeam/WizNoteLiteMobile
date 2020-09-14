@@ -56,7 +56,7 @@ const MainDrawer: () => React$Node = (props) => {
   useEffect(() => {
     async function shouldShowTrash() {
       try {
-        const hasNotesInTrash = await api.hasNotesInTrash();
+        const hasNotesInTrash = await api.hasNotesInTrash(dataStore.getCurrentKb());
         setShowTrash(hasNotesInTrash);
         //
       } catch (err) {

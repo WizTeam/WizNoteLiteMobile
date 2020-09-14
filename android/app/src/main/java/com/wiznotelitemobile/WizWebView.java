@@ -3,12 +3,14 @@ package com.wiznotelitemobile;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
-public class WizWebView extends WebView {
+public class WizWebView extends WebView implements View.OnScrollChangeListener {
     private static WizWebView instance = null;
     //
     public static WizWebView getInstance(Context activity) {
@@ -22,10 +24,18 @@ public class WizWebView extends WebView {
         return instance;
     }
 
+    @SuppressLint("JavascriptInterface")
     public WizWebView(Context context) {
         super(context);
         initSettings();
+        addJavascriptInterface(this, "WizWebView");
+        setOnScrollChangeListener(this);
         init();
+    }
+
+    @JavascriptInterface
+    public void postMessage(String message) {
+        WizEvents.onMessage(message);
     }
 
     private void init() {
@@ -71,5 +81,10 @@ public class WizWebView extends WebView {
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        WizEvents.onScroll();
     }
 }

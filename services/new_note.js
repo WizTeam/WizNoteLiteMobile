@@ -20,16 +20,28 @@ export async function createNewNote() {
     return;
   }
   //
-  loadNote(kbGuid, note);
+  loadNote(note);
   //
   Navigation.showModal({
     stack: {
       children: [{
         component: {
-          name: 'NewNoteScreen',
+          // name: 'NewNoteScreen',
+          name: 'ViewNoteScreen',
+          passProps: {
+            isNewNote: true,
+          },
           options: {
             layout: {
               componentBackgroundColor: getDeviceColor('noteBackground'),
+            },
+            topBar: {
+              leftButtons: [{
+                id: 'DoneButton',
+                // eslint-disable-next-line import/no-unresolved
+                text: 'Done',
+                systemItem: 'done',
+              }],
             },
           },
         },

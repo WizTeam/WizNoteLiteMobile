@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle } from 'react';
 import { View } from 'react-native';
 
 import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
+import { isTablet } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing } from './WizSingletonWebView';
 
-addWebViewEventHandler('onMessage', (eventBody) => {
+addWebViewEventHandler('onMessage', async (eventBody) => {
   const data = JSON.parse(eventBody);
   const name = data.event;
 
@@ -34,6 +35,12 @@ addWebViewEventHandler('onMessage', (eventBody) => {
       return;
     }
     //
+    // const old = await api.getNoteMarkdown(kbGuid, noteGuid);
+    // if (old !== markdown) {
+    //   console.log(old);
+    //   console.log(markdown);
+    // }
+    //
     api.setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown);
   } else if (name === 'onKeyDown') {
     // do nothing
@@ -52,22 +59,41 @@ export function emptyEditor() {
   injectJavaScript(js);
 }
 
-export async function loadNote(kbGuid, note) {
+export async function loadNote(note) {
   if (!note) {
     return;
   }
-  // console.log(`load note: ${note.markdown}`);
+
+  if (isTablet) {
+    endEditing();
+  }
+
+  //
+  let markdown = note.markdown;
+  if (!note.markdown) {
+    markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
+  }
+
+  console.log(`load note: ${note.kbGuid}/${note.guid}`);
   const data = {
-    markdown: note.markdown,
-    resourceUrl: getResourceBaseUrl(api.userGuid, kbGuid, note.guid),
-    contentId: `${api.userGuid}/${kbGuid}/${note.guid}`,
+    markdown,
+    resourceUrl: getResourceBaseUrl(api.userGuid, note.kbGuid, note.guid),
+    contentId: `${api.userGuid}/${note.kbGuid}/${note.guid}`,
   };
   const dataText = JSON.stringify(data);
   const js = `window.loadMarkdown(${dataText});true;`;
   await injectJavaScript(js);
 }
 
-const NoteEditor: () => React$Node = (props) => {
+const NoteEditor = React.forwardRef((props, ref) => {
+  //
+  //
+  useImperativeHandle(ref, () => ({
+    injectJavaScript: async (js) => {
+      const result = await injectJavaScript(js);
+      return result;
+    },
+  }));
   //
   // 清空编辑器，可以强制进行保存
   useEffect(() => emptyEditor, []);
@@ -86,10 +112,16 @@ const NoteEditor: () => React$Node = (props) => {
   function handleKeyboardShow() {
     keyboardVisibleRef.current = true;
     keyboardVisibleTimeRef.current = new Date().valueOf();
+    if (props.onBeginEditing) {
+      props.onBeginEditing();
+    }
   }
 
   function handleKeyboardHide() {
     keyboardVisibleRef.current = false;
+    if (props.onEndEditing) {
+      props.onEndEditing();
+    }
   }
 
   function handleMessage({ nativeEvent }) {
@@ -100,11 +132,10 @@ const NoteEditor: () => React$Node = (props) => {
     }
   }
 
-  const kbGuid = props[KEYS.CURRENT_KB];
   const note = props[KEYS.CURRENT_NOTE];
 
   useEffect(() => {
-    loadNote(kbGuid, note);
+    loadNote(note);
   }, [note]);
 
   return (
@@ -118,7 +149,7 @@ const NoteEditor: () => React$Node = (props) => {
       />
     </View>
   );
-};
+});
 
 export default connect([
   KEYS.CURRENT_KB,
