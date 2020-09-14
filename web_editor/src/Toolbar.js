@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef , useState} from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles } from '@material-ui/core/styles';
 import Icon from './icon';
+import queryString from 'query-string';
 
-const userAgent = navigator.userAgent.toLowerCase();
-const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+const params = queryString.parse(window.location.search);
+const isTablet = params.isTablet === 'true';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -15,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
     position: 'fixed',
     left: 0,
-    bottom: '30vh',
     '&::-webkit-scrollbar': {
       display: 'none'
     }
@@ -41,10 +41,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Toolbar({isCursorInTable, editor, isShow}) {
+export default function Toolbar({isCursorInTable, editor }) {
   const style = useStyles()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  console.log('isTablet', isTablet);
+  const [toolbarHeight, setToolbarHeight] = useState(0);
   const BaseBtnListRef = useRef([
     {
       type: 'tag',
@@ -180,6 +180,16 @@ export default function Toolbar({isCursorInTable, editor, isShow}) {
       },
       true
     );
+    window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
+      setToolbarHeight(keyboardHeight);
+      return true;
+    };
+    //
+    window.onKeyboardHide = () => {
+      console.log('onKeyboardHide');
+      setToolbarHeight(0);
+      return true;
+    };
   }, []);
   function handleClick(type, e) {
     switch (type) {
@@ -265,8 +275,9 @@ export default function Toolbar({isCursorInTable, editor, isShow}) {
     }
     e.preventDefault();
   }
+  
   return (
-    <div className={style.toolbar + (isShow ? ` ${style.active}` : '')}>
+    <div className={style.toolbar + (toolbarHeight ? ` ${style.active}` : '')} style={{bottom: `${toolbarHeight}px`}}>
       <div className={style.container}>
         {(isCursorInTable ? TableBtnListRef : BaseBtnListRef).current.map(item => (
           <button type="button" className={style.iconBtn + (item.marginRight && isTablet ? ` ${style.marginRight}` : '')} onMouseDown={(e) => handleClick(item.type, e)} key={item.type}>

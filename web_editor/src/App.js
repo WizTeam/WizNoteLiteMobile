@@ -94,22 +94,11 @@ function App() {
       return true;
     };
     //
-    window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
-      console.log('onKeyboardShow');
-      return true;
-    };
-    //
-    window.onKeyboardHide = () => {
-      console.log('onKeyboardHide');
-      setShowToolbar(false);
-      return true;
-    };
-    //
     window.addImage = (url) => {
       // TODO: add image to editor
       console.log(`request add image: ${url}`);
       editorRef.current.resetCursor();
-      editorRef.current.insertImage(url);
+      editorRef.current.insertImage({src: url});
       return true;
     };
   }, []);
@@ -151,7 +140,7 @@ function App() {
           markdown={data?.markdown}
           resourceUrl={data?.resourceUrl}  
         />
-        <Toolbar isCursorInTable={isCursorInTable} editor={editorRef.current} isShow={showToolbar} />
+        <Toolbar isCursorInTable={isCursorInTable} editor={editorRef.current} />
       </div>
     </ThemeSwitcher>
   );
