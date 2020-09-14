@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import i18n from 'i18n-js';
 
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { SearchBar } from 'react-native-elements';
 
 import { SideMenuView } from '../thirdparty/react-native-navigation-drawer-extension';
 import { Navigation } from '../thirdparty/react-native-navigation';
@@ -17,9 +18,42 @@ import store, { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
 import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import IapListener from '../components/IapListener';
+import { isPhone, isAndroid } from '../utils/device';
 
 const NotesScreen: () => React$Node = (props) => {
   //
+  const [searchText, setSearchText] = useState('');
+  const [showSearchBarLoading, setShowSearchBarLoading] = useState(false);
+
+  function handleSearchChange(text) {
+    setSearchText(text);
+  }
+
+  function handleSearchCancel() {
+    store.initCategoryNotes('#allNotes');
+  }
+
+  async function handleSearchSubmit() {
+    try {
+      if (!searchText) {
+        return;
+      }
+      setShowSearchBarLoading(true);
+      const notes = await api.searchNotes(store.getCurrentKb(), searchText);
+      store.setSearchResult(notes);
+      setShowSearchBarLoading(false);
+    } finally {
+      //
+      setShowSearchBarLoading(false);
+    }
+  }
+
+  async function handleSearchFocus() {
+    if (store.getSelectedType() !== '#searchResult') {
+      store.setSearchResult([]);
+    }
+  }
+
   useEffect(() => {
     const type = props.selectedType;
     let title;
@@ -139,6 +173,24 @@ const NotesScreen: () => React$Node = (props) => {
           left={showDrawer}
           sideMargin={32}
         >
+          {
+            isAndroid && isPhone
+            && (
+              <SearchBar
+                platform="android"
+                showLoading={showSearchBarLoading}
+                placeholder={i18n.t('placeholderSearchAllNotes')}
+                cancelButtonTitle={i18n.t('buttonCancelSearch')}
+                containerStyle={styles.searchBarContainerStyle}
+                inputContainerStyle={styles.searchBarInputContainerStyle}
+                onChangeText={handleSearchChange}
+                onCancel={handleSearchCancel}
+                onSubmitEditing={handleSearchSubmit}
+                onFocus={handleSearchFocus}
+                value={searchText}
+              />
+            )
+          }
           <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
         </SideMenuView>
       </SafeAreaView>
@@ -188,6 +240,13 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   hiddenEditor: {
     display: 'none',
+  },
+  searchBarContainerStyle: {
+    backgroundColor: 'transparent',
+    paddingHorizontal: 8,
+  },
+  searchBarInputContainerStyle: {
+    backgroundColor: getDeviceDynamicColor('searchBarBackground'),
   },
 });
 
