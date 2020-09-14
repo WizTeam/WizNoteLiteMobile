@@ -295,7 +295,8 @@ RCT_EXPORT_METHOD(injectJavaScript:(NSString*)script resolver: (RCTPromiseResolv
       if (web.URL && web.URL.absoluteString && web.URL.absoluteString.length) {
         [web evaluateJavaScript:script completionHandler:^(id _Nullable result, NSError * _Nullable error) {
           if (error) {
-            reject(@"-1", @"Failed to execute JavaScript", error);
+            NSString* message = [NSString stringWithFormat:@"Failed to execute JavaScript: %@", error.localizedDescription];
+            reject(@"-1", message, error);
           } else {
             @try {
               resolve(result);

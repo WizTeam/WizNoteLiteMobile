@@ -6,6 +6,12 @@ import { MarkdownEditor } from 'wiz-react-markdown-editor';
 import 'wiz-react-markdown-editor/lib/index.min.css';
 import './App.css';
 
+const PhoneTheme = React.lazy(() => import('./PhoneTheme'));
+const PadTheme = React.lazy(() => import('./PadTheme'));
+
+const userAgent = navigator.userAgent.toLowerCase();
+const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+
 const useStyles = makeStyles({
   editorWrapper: {
   },
@@ -67,11 +73,28 @@ function App() {
         resourceUrl,
         contentId,
       });
+      return true;
+    };
+    //
+    window.onBeforeInsert = () => {
+      console.log('onBeforeInsert');
+      return true;
+    };
+    //
+    window.onKeyboardShow = () => {
+      console.log('onKeyboardShow');
+      return true;
+    };
+    //
+    window.onKeyboardHide = () => {
+      console.log('onKeyboardHide');
+      return true;
     };
     //
     window.addImage = (url) => {
       // TODO: add image to editor
       console.log(`request add image: ${url}`);
+      return true;
     };
   }, []);
   //
@@ -99,6 +122,10 @@ function App() {
       display: 'flex',
       flexDirection: 'column',
     }}>
+      <React.Suspense fallback={<></>}>
+        {(isTablet) && <PadTheme />}
+        {(!isTablet) && <PhoneTheme />}
+      </React.Suspense>
       <Editor
         contentId={data?.contentId}
         markdown={data?.markdown}
