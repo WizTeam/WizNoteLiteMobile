@@ -84,7 +84,7 @@ function App() {
       return true;
     };
     //
-    window.onKeyboardShow = () => {
+    window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
       console.log('onKeyboardShow');
       return true;
     };
