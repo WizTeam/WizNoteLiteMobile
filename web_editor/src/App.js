@@ -11,8 +11,6 @@ import Toolbar from './Toolbar';
 const PhoneTheme = React.lazy(() => import('./PhoneTheme'));
 const PadTheme = React.lazy(() => import('./PadTheme'));
 
-const userAgent = navigator.userAgent.toLowerCase();
-const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
 
 const useStyles = makeStyles({
   editorWrapper: {
@@ -87,23 +85,27 @@ function App() {
     //
     window.onBeforeInsert = () => {
       console.log('onBeforeInsert');
+      editorRef.current.saveCursor();
       return true;
     };
     //
-    window.onKeyboardShow = () => {
-      console.log('onKeyboardShow');
+    window.onKeyboardShow = (e) => {
+      console.log('onKeyboardShow', e);
+      setShowToolbar(true);
       return true;
     };
     //
     window.onKeyboardHide = () => {
       console.log('onKeyboardHide');
+      setShowToolbar(false);
       return true;
     };
     //
     window.addImage = (url) => {
       // TODO: add image to editor
       console.log(`request add image: ${url}`);
-      // editorRef.current.insertImage(url);
+      editorRef.current.resetCursor();
+      editorRef.current.insertImage(url);
       return true;
     };
   }, []);
@@ -118,14 +120,7 @@ function App() {
     }
     //
     document.body.addEventListener('keydown', handleKeyDown);
-    window.onKeyboardShow = () => {
-      setShowToolbar(true);
-      console.log('KeyboardShow')
-    }
-    window.onKeyboardHide = () => {
-      setShowToolbar(false);
-      console.log('KeyboardHide');
-    }
+
     return () => {
       document.body.removeEventListener('keydown', handleKeyDown);
     }
@@ -152,7 +147,7 @@ function App() {
           markdown={data?.markdown}
           resourceUrl={data?.resourceUrl}  
         />
-        <Toolbar isCursorInTable={isCursorInTable} editor={editorRef.current} isShow />
+        <Toolbar isCursorInTable={isCursorInTable} editor={editorRef.current} isShow={showToolbar} />
       </div>
     </ThemeSwitcher>
   );

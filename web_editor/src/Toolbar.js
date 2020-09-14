@@ -3,6 +3,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles } from '@material-ui/core/styles';
 import Icon from './icon';
 
+const userAgent = navigator.userAgent.toLowerCase();
+const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+
 const useStyles = makeStyles((theme) => ({
   toolbar: {
     backgroundColor: theme.panelBackgroundColor,
@@ -10,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100vw',
     overflowX: 'scroll',
     display: 'none',
+    position: 'fixed',
+    left: 0,
+    bottom: '30vh',
     '&::-webkit-scrollbar': {
       display: 'none'
     }
@@ -30,11 +36,15 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
     border: 'none',
   },
+  marginRight: {
+    marginRight: 50
+  }
 }));
 
 export default function Toolbar({isCursorInTable, editor, isShow}) {
   const style = useStyles()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  console.log('isTablet', isTablet);
   const BaseBtnListRef = useRef([
     {
       type: 'tag',
@@ -113,7 +123,8 @@ export default function Toolbar({isCursorInTable, editor, isShow}) {
     },
     {
       type: 'checkedBox',
-      iconName: 'xuanzekuang'
+      iconName: 'xuanzekuang',
+      marginRight: true,
     },
     {
       type: 'alignLeft',
@@ -258,7 +269,7 @@ export default function Toolbar({isCursorInTable, editor, isShow}) {
     <div className={style.toolbar + (isShow ? ` ${style.active}` : '')}>
       <div className={style.container}>
         {(isCursorInTable ? TableBtnListRef : BaseBtnListRef).current.map(item => (
-          <button type="button" className={style.iconBtn} onMouseDown={(e) => handleClick(item.type, e)} key={item.type}>
+          <button type="button" className={style.iconBtn + (item.marginRight && isTablet ? ` ${style.marginRight}` : '')} onMouseDown={(e) => handleClick(item.type, e)} key={item.type}>
             <Icon name={item.iconName} size={20} color={prefersDarkMode ? '#fff' : undefined} />
           </button>
         ))}
