@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import MarkdownEditor from 'wiz-react-markdown-editor';
+import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
 
 import 'wiz-react-markdown-editor/lib/index.min.css';
 import './App.css';
@@ -27,9 +27,11 @@ function postMessage(messageData) {
   }
 }
 
-function Editor(props) {
+const Editor = (props) => {
   //
   const classes = useStyles();
+  const editorRef = useRef(null);
+  // 
   //
   function handleSave({contentId, markdown}) {
     //
@@ -46,6 +48,7 @@ function Editor(props) {
 
   return (
     <MarkdownEditor
+      ref={props.editorRef}
       style={props.style}
       onSave={handleSave}
       markdown={markdown}
@@ -60,6 +63,11 @@ function Editor(props) {
 function App() {
   //
   const [data, setData] = useState(null);
+
+  const editorRef = useRef(null);
+  const { isCursorInTable } = useEditor(editorRef);
+
+  const [showToolbar, setShowToolbar] = useState(false);
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
@@ -82,6 +90,14 @@ function App() {
     }
     //
     document.body.addEventListener('keydown', handleKeyDown);
+    window.onKeyboardShow = () => {
+      setShowToolbar(true);
+      console.log('KeyboardShow')
+    }
+    window.onKeyboardHide = () => {
+      setShowToolbar(false);
+      console.log('KeyboardHide');
+    }
     return () => {
       document.body.removeEventListener('keydown', handleKeyDown);
     }
@@ -103,11 +119,12 @@ function App() {
         bottom: 0
       }}>
         <Editor
+          editorRef={editorRef}
           contentId={data?.contentId}
           markdown={data?.markdown}
           resourceUrl={data?.resourceUrl}  
         />
-        <Toolbar />
+        <Toolbar isCursorInTable={isCursorInTable} editor={editorRef.current} isShow={showToolbar} />
       </div>
     </ThemeSwitcher>
   );
