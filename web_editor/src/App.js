@@ -30,8 +30,6 @@ function postMessage(messageData) {
 const Editor = (props) => {
   //
   const classes = useStyles();
-  const editorRef = useRef(null);
-  // 
   //
   function handleSave({contentId, markdown}) {
     //
@@ -82,6 +80,7 @@ function App() {
     window.addImage = (url) => {
       // TODO: add image to editor
       console.log(`request add image: ${url}`);
+      // editorRef.current.insertImage(url);
     };
   }, []);
   //
@@ -129,7 +128,7 @@ function App() {
           markdown={data?.markdown}
           resourceUrl={data?.resourceUrl}  
         />
-        <Toolbar isCursorInTable={isCursorInTable} editor={editorRef.current} isShow={showToolbar} />
+        <Toolbar isCursorInTable={isCursorInTable} editor={editorRef.current} isShow />
       </div>
     </ThemeSwitcher>
   );
