@@ -77,9 +77,9 @@ export function setMainAsRoot() {
   const darkMode = isDarkMode();
   const theme = darkMode ? 'dark' : 'lite';
   const resPath = app.getPath('res');
-  // const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}`;
-  const editorHtmlPath = `http://localhost:3000?theme=${theme}`;
-  // const editorHtmlPath = `http://localhost:3000/text.html`;
+  const tablet = isTablet ? 'true' : 'false';
+  // const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}&isTablet=${tablet}`;
+  const editorHtmlPath = `http://localhost:3000?theme=${theme}&isTablet=${tablet}`;
   // console.log(`load html: ${editorHtmlPath}`);
   loadRequest(editorHtmlPath);
   //

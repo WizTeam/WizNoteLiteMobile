@@ -158,7 +158,7 @@ static WizSingletonWebView* _webView;
     name:UIKeyboardWillHideNotification object:nil];
   [[NSNotificationCenter defaultCenter]
     addObserver:self
-    selector:@selector(keyboardWillShow)
+    selector:@selector(keyboardWillShow:)
     name:UIKeyboardWillShowNotification object:nil];
   return self;
 }
@@ -224,12 +224,20 @@ static WizSingletonWebView* _webView;
   }
 }
 
--(void)keyboardWillShow {
+-(void)keyboardWillShow:(NSNotification*)note {
+  NSDictionary *userInfo = note.userInfo;
+  CGRect keyboardFrameEnd = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+  CGFloat keyboardHeight = keyboardFrameEnd.size.height;
+  CGFloat keyboardWidth = keyboardFrameEnd.size.width;
+  
   if (keyboardTimer != nil) {
     [keyboardTimer invalidate];
   }
   if (_onKeyboardShow) {
-    _onKeyboardShow(@{});
+    _onKeyboardShow(@{
+      @"keyboardWidth": @(keyboardWidth),
+      @"keyboardHeight": @(keyboardHeight),
+    });
   }
 }
 

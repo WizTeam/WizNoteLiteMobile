@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import queryString from 'query-string';
 
 import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
 
@@ -11,6 +12,10 @@ import Toolbar from './Toolbar';
 const PhoneTheme = React.lazy(() => import('./PhoneTheme'));
 const PadTheme = React.lazy(() => import('./PadTheme'));
 
+const params = queryString.parse(window.location.search);
+const isTablet = params.isTablet === 'true';
+
+console.log(isTablet);
 
 const useStyles = makeStyles({
   editorWrapper: {
@@ -89,9 +94,8 @@ function App() {
       return true;
     };
     //
-    window.onKeyboardShow = (e) => {
-      console.log('onKeyboardShow', e);
-      setShowToolbar(true);
+    window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
+      console.log('onKeyboardShow');
       return true;
     };
     //
