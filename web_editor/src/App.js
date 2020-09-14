@@ -7,6 +7,13 @@ import 'wiz-react-markdown-editor/lib/index.min.css';
 import './App.css';
 import ThemeSwitcher from './ThemeSwitch';
 import Toolbar from './Toolbar';
+
+const PhoneTheme = React.lazy(() => import('./PhoneTheme'));
+const PadTheme = React.lazy(() => import('./PadTheme'));
+
+const userAgent = navigator.userAgent.toLowerCase();
+const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+
 const useStyles = makeStyles({
   editorWrapper: {
     overflowY: 'scroll'
@@ -75,12 +82,29 @@ function App() {
         resourceUrl,
         contentId,
       });
+      return true;
+    };
+    //
+    window.onBeforeInsert = () => {
+      console.log('onBeforeInsert');
+      return true;
+    };
+    //
+    window.onKeyboardShow = () => {
+      console.log('onKeyboardShow');
+      return true;
+    };
+    //
+    window.onKeyboardHide = () => {
+      console.log('onKeyboardHide');
+      return true;
     };
     //
     window.addImage = (url) => {
       // TODO: add image to editor
       console.log(`request add image: ${url}`);
       // editorRef.current.insertImage(url);
+      return true;
     };
   }, []);
   //
@@ -115,12 +139,12 @@ function App() {
         visibility: (data && data.contentId) ? 'visible' : 'hidden',
         minHeight: '100vh',
         display: 'flex',
-        flexDirection: 'column',
-        position: 'fixed',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0
+        flexDirection: 'column'
+        // position: 'fixed',
+        // left: 0,
+        // right: 0,
+        // top: 0,
+        // bottom: 0
       }}>
         <Editor
           editorRef={editorRef}

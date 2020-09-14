@@ -109,7 +109,12 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
   }
 
-  function handleKeyboardShow() {
+  async function handleKeyboardShow() {
+    try {
+      await injectJavaScript('window.onKeyboardShow();true;');
+    } catch (err) {
+      console.log(err);
+    }
     keyboardVisibleRef.current = true;
     keyboardVisibleTimeRef.current = new Date().valueOf();
     if (props.onBeginEditing) {
@@ -117,7 +122,12 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
   }
 
-  function handleKeyboardHide() {
+  async function handleKeyboardHide() {
+    try {
+      await injectJavaScript('window.onKeyboardHide();true;');
+    } catch (err) {
+      console.log(err);
+    }
     keyboardVisibleRef.current = false;
     if (props.onEndEditing) {
       props.onEndEditing();
