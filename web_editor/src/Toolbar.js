@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Toolbar({isCursorInTable, editor }) {
+export default function Toolbar({isCursorInTable, editor, isShow }) {
   const style = useStyles()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [toolbarHeight, setToolbarHeight] = useState(0);
@@ -277,7 +277,7 @@ export default function Toolbar({isCursorInTable, editor }) {
   }
   
   return (
-    <div className={style.toolbar + (toolbarHeight ? ` ${style.active}` : '')} style={{bottom: `${toolbarHeight}px`}}>
+    <div className={style.toolbar + (isShow ? ` ${style.active}` : '')} style={{bottom: `${toolbarHeight}px`}}>
       <div className={style.container}>
         {(isCursorInTable ? TableBtnListRef : BaseBtnListRef).current.map(item => (
           <button type="button" className={style.iconBtn + (item.marginRight && isTablet ? ` ${style.marginRight}` : '')} onMouseDown={(e) => handleClick(item.type, e)} key={item.type}>

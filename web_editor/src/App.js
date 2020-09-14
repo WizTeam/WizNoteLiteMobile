@@ -73,9 +73,8 @@ function App() {
   const [data, setData] = useState(null);
 
   const editorRef = useRef(null);
-  const { isCursorInTable } = useEditor(editorRef);
+  const { isCursorInTable, isFocus } = useEditor(editorRef);
 
-  const [showToolbar, setShowToolbar] = useState(false);
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
@@ -140,7 +139,7 @@ function App() {
           markdown={data?.markdown}
           resourceUrl={data?.resourceUrl}  
         />
-        <Toolbar isCursorInTable={isCursorInTable} editor={editorRef.current} />
+        <Toolbar isCursorInTable={isCursorInTable} editor={editorRef.current} isShow={isFocus} />
       </div>
     </ThemeSwitcher>
   );
