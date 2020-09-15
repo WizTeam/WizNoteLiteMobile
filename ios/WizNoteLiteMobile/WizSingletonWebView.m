@@ -77,6 +77,7 @@ WKScriptMessageHandler>
   self = [super initWithFrame:frame configuration:config];
   self.navigationDelegate = self;
   [self setOpaque:NO];
+  //
   return self;
 }
 
@@ -98,7 +99,6 @@ WKScriptMessageHandler>
     }
   }
 }
-
 
 -(void)hideKeyboardAccessoryView
 {
@@ -292,7 +292,7 @@ RCT_EXPORT_METHOD(loadRequest:(NSString*)urlString) {
   NSURLRequest *request = [RCTConvert NSURLRequest:urlString];
   WizSingletonWebView* web = [WizSingletonWebViewContainer webView];
   if (web) {
-    [_webView loadRequest:request];
+    [web loadRequest:request];
   }
 }
 
@@ -321,7 +321,7 @@ RCT_EXPORT_METHOD(injectJavaScript:(NSString*)script resolver: (RCTPromiseResolv
 RCT_EXPORT_METHOD(endEditing:(BOOL)force) {
   WizSingletonWebView* web = [WizSingletonWebViewContainer webView];
   if (web) {
-    [_webView endEditing:force];
+    [web endEditing:force];
   }
 }
 

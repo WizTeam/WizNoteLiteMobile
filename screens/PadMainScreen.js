@@ -48,20 +48,22 @@ const PadMainScreen: () => React$Node = () => {
 
   function handleGetExcludeRegions(state) {
     //
+    const topHeight = 180;
+    //
     let excludeRegions;
     if (state === OPEN_STATE.open2) {
       excludeRegions = [{
         x: 0,
-        y: 60,
+        y: topHeight,
         width: pane2Width,
-        height: screenHeight - 60,
+        height: screenHeight - topHeight,
       }];
     } else if (state === OPEN_STATE.openAll) {
       excludeRegions = [{
         x: pane1Width,
-        y: 60,
+        y: topHeight,
         width: pane2Width,
-        height: screenHeight - 60,
+        height: screenHeight - topHeight,
       }];
     }
     return excludeRegions;

@@ -14,7 +14,9 @@ export default {
   serverTypeDefault: '为知笔记服务',
   serverTypePrivate: '私有服务器/为知盒子',
   //
-  registerDeclare: '注册即表示您已阅读并同意<a target="_blank" href="https://wiz.cn/pages/go?blogName=share-termsofuse&lang=zh-cn">服务条款</a>与<a target="_blank" href="https://wiz.cn/pages/go?blogName=wiz-privacy&lang=zh-cn">隐私政策</a>',
+  registerDeclare: '注册即表示您已阅读并同意 https://wiz.cn/pages/go?blogName=share-termsofuse&lang=zh-cn 与 https://wiz.cn/pages/go?blogName=wiz-privacy&lang=zh-cn',
+  textTermsOfUse: '服务条款',
+  textPrivacy: '隐私政策',
   //
   // error
   errorDisableRegister: '注册已禁用',

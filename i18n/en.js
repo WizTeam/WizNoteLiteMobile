@@ -14,7 +14,9 @@ export default {
   serverTypeDefault: 'WizNote Server',
   serverTypePrivate: 'Private Server',
   //
-  registerDeclare: 'By registering, you have read and agreed to the <a target="_blank" href="https://wiz.cn/pages/go?blogName=share-termsofuse&lang=en">Terms of Service</a> and <a target="_blank" href="https://wiz.cn/pages/go?blogName=wiz-privacy&lang=en">Privacy Policy</a>',
+  registerDeclare: 'By registering, you have read and agreed to the https://wiz.cn/pages/go?blogName=share-termsofuse&lang=en and https://wiz.cn/pages/go?blogName=wiz-privacy&lang=en',
+  textTermsOfUse: 'Terms of Service',
+  textPrivacy: 'Privacy Policy',
   //
   errorDisableRegister: 'Disable register',
   errorMaxTimesForIP: 'Your IP sign up too much, please retry later...',

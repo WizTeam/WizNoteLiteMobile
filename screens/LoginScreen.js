@@ -13,6 +13,7 @@ import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useDynamicValue, DynamicStyleSheet, useDarkMode } from 'react-native-dynamic';
+import Hyperlink from 'react-native-hyperlink';
 
 import { Navigation } from '../thirdparty/react-native-navigation';
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
@@ -246,6 +247,19 @@ const LoginScreen: () => React$Node = (props) => {
     );
   }
 
+  function handleParseLinkText(url) {
+    if (url.indexOf('share-termsofuse') !== -1) {
+      return i18n.t('textTermsOfUse');
+    } else if (url.indexOf('wiz-privacy') !== -1) {
+      return i18n.t('textPrivacy');
+    }
+    return '';
+  }
+
+  function handlePressLink(url) {
+    Linking.openURL(url);
+  }
+
   const serverData = [{
     label: i18n.t('serverTypeDefault'),
     value: 'official',
@@ -347,9 +361,9 @@ const LoginScreen: () => React$Node = (props) => {
                   {isLogin && <Button titleStyle={styles.forgotButton} type="clear" title={i18n.t('buttonForgotPassword')} onPress={handleForgotPassword} />}
                 </View>
               </View>
-              <Text style={styles.declare}>
-                By Signing in, you agree the Terms of Service and Privacy Policy
-              </Text>
+              <Hyperlink linkText={handleParseLinkText} onPress={handlePressLink}>
+                <Text style={styles.declare}>{i18n.t('registerDeclare')}</Text>
+              </Hyperlink>
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -378,7 +392,8 @@ const dynamicStyles = new DynamicStyleSheet({
     justifyContent: 'center',
   },
   body: {
-    maxWidth: 350,
+    maxWidth: isTablet ? 400 : '100%',
+    paddingHorizontal: 8,
     minHeight: '100%',
   },
   title: {
@@ -391,9 +406,9 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   shadowBox: {
     marginTop: 40,
-    marginHorizontal: 12,
+    // marginHorizontal: 12,
     paddingBottom: 55,
-    borderRadius: 10,
+    borderRadius: 20,
     backgroundColor: getDynamicColor('loginBoxBackground'),
     shadowColor: 'rgba(0, 0, 0, 0.2)',
     shadowOffset: {
@@ -467,7 +482,7 @@ const dynamicStyles = new DynamicStyleSheet({
     lineHeight: 22,
     color: getDynamicColor('loginBoxText2'),
     textAlign: 'center',
-    paddingHorizontal: 68,
+    paddingHorizontal: 8,
   },
   button: {
     backgroundColor: getDynamicColor('loginBoxButtonBackground'),
