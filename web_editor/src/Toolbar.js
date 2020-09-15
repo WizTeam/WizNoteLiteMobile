@@ -3,6 +3,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles } from '@material-ui/core/styles';
 import Icon from './icon';
 import queryString from 'query-string';
+import { useKeyboard } from './useKeyboard';
 
 const params = queryString.parse(window.location.search);
 const isTablet = params.isTablet === 'true';
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Toolbar({isCursorInTable, editor, isShow }) {
   const style = useStyles()
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const [toolbarHeight, setToolbarHeight] = useState(0);
+  const { keyboardHeight: toolbarHeight } = useKeyboard()
   const BaseBtnListRef = useRef([
     {
       type: 'tag',
@@ -180,16 +181,6 @@ export default function Toolbar({isCursorInTable, editor, isShow }) {
       },
       true
     );
-    window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
-      setToolbarHeight(keyboardHeight);
-      return true;
-    };
-    //
-    window.onKeyboardHide = () => {
-      console.log('onKeyboardHide');
-      setToolbarHeight(0);
-      return true;
-    };
   }, []);
   function handleClick(type, e) {
     switch (type) {
