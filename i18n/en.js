@@ -17,6 +17,8 @@ export default {
   registerDeclare: 'By registering, you have read and agreed to the https://wiz.cn/pages/go?blogName=share-termsofuse&lang=en and https://wiz.cn/pages/go?blogName=wiz-privacy&lang=en',
   textTermsOfUse: 'Terms of Service',
   textPrivacy: 'Privacy Policy',
+  errorVipExpiredSync: 'The VIP service has expired and cannot upload notes.\nPress this message to Renewal VIP.',
+  errorUpgradeVipSync: 'The free trial period has ended and cannot upload notes\nPress this message to Upgrade VIP.',
   //
   errorDisableRegister: 'Disable register',
   errorMaxTimesForIP: 'Your IP sign up too much, please retry later...',

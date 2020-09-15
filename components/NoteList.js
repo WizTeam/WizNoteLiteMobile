@@ -126,13 +126,44 @@ const NoteList: () => React$Node = (props) => {
     function handleSyncStart() {
     }
 
+    function handleVip() {
+      //
+      console.log('upgrade to vip');
+    }
+
+    function showUpgradeVipMessage(isVipExpired) {
+      const messageId = isVipExpired ? 'errorVipExpiredSync' : 'errorUpgradeVipSync';
+      const message = i18n.t(messageId);
+      //
+      showTopBarMessage({
+        message: i18n.t('errorSync'),
+        description: message,
+        type: 'error',
+        onPress: handleVip,
+      });
+    }
+
     function handleSyncFinish(userGuid, kbGuid, result) {
       setRefreshing(false);
       const error = result.error;
       if (error) {
+        //
+        let errorMessage = error.message;
+        //
+        if (error.code === 'WizErrorInvalidPassword') {
+          errorMessage = i18n.t('errorInvalidPassword');
+          return;
+        } else if (error.externCode === 'WizErrorPayedPersonalExpired') {
+          showUpgradeVipMessage(true);
+          return;
+        } else if (error.externCode === 'WizErrorFreePersonalExpired') {
+          showUpgradeVipMessage(false);
+          return;
+        }
+        //
         showTopBarMessage({
           message: i18n.t('errorSync'),
-          description: i18n.t('errorSyncMessage', { message: error.message }),
+          description: i18n.t('errorSyncMessage', { message: errorMessage }),
           type: 'error',
         });
       }

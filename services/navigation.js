@@ -7,7 +7,7 @@ import { loadRequest } from '../components/WizSingletonWebView';
 import app from '../wrapper/app';
 import { isDarkMode } from '../config/Colors';
 
-export async function showTopBarMessage({ message, description, type }) {
+export async function showTopBarMessage({ message, description, type, onPress }) {
   const componentId = await Navigation.showOverlay({
     component: {
       name: 'TopBarFlashMessages',
@@ -24,10 +24,16 @@ export async function showTopBarMessage({ message, description, type }) {
     },
   });
   //
+  if (type === 'error') {
+    // eslint-disable-next-line no-param-reassign
+    type = 'danger';
+  }
+  //
   showMessage({
     message,
     description,
     type,
+    onPress,
   });
   //
   setTimeout(() => {
