@@ -100,28 +100,6 @@ WKScriptMessageHandler>
   }
 }
 
-- (void) traitCollectionDidChange: (UITraitCollection *) previousTraitCollection {
-  [super traitCollectionDidChange: previousTraitCollection];
-  //
-  //
-  if (@available(iOS 12.0, *)) {
-    if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle) {
-      //
-      BOOL dark = UIUserInterfaceStyleDark == self.traitCollection.userInterfaceStyle;
-      NSString* themeName = dark ? @"dark" : @"light";
-      NSString* js = [NSString stringWithFormat:@"window.onThemeChanged('%@')", themeName];
-      //
-      [self evaluateJavaScript:js completionHandler:nil];
-    }
-  } else {
-    // Fallback on earlier versions
-  }
-}
-- (void) darkModeChanged:(NSNotification*)note {
-  
-}
-
-
 -(void)hideKeyboardAccessoryView
 {
     UIView* subview;

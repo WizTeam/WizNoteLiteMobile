@@ -79,21 +79,6 @@ function App() {
       return true;
     };
     //
-    window.onThemeChanged = (themeName) => {
-      console.log(`switch to theme: ${themeName}`);
-      setTimeout(() => {
-        let currentTheme;
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          currentTheme = 'dark';
-        } else {
-          currentTheme = 'light';
-        }
-        if (currentTheme !== themeName) {
-          alert('theme not changed, should switch theme manually');
-        }  
-      });
-    };
-    //
     window.onBeforeInsert = () => {
       console.log('onBeforeInsert');
       return true;
