@@ -79,6 +79,10 @@ function App() {
       return true;
     };
     //
+    window.onThemeChanged = (themeName) => {
+      console.log(`switch to theme: ${themeName}`);
+    };
+    //
     window.onBeforeInsert = () => {
       console.log('onBeforeInsert');
       return true;

@@ -77,6 +77,7 @@ WKScriptMessageHandler>
   self = [super initWithFrame:frame configuration:config];
   self.navigationDelegate = self;
   [self setOpaque:NO];
+  //
   return self;
 }
 
@@ -97,6 +98,27 @@ WKScriptMessageHandler>
       }
     }
   }
+}
+
+- (void) traitCollectionDidChange: (UITraitCollection *) previousTraitCollection {
+  [super traitCollectionDidChange: previousTraitCollection];
+  //
+  //
+  if (@available(iOS 12.0, *)) {
+    if (self.traitCollection.userInterfaceStyle != previousTraitCollection.userInterfaceStyle) {
+      //
+      BOOL dark = UIUserInterfaceStyleDark == self.traitCollection.userInterfaceStyle;
+      NSString* themeName = dark ? @"dark" : @"light";
+      NSString* js = [NSString stringWithFormat:@"window.onThemeChanged('%@')", themeName];
+      //
+      [self evaluateJavaScript:js completionHandler:nil];
+    }
+  } else {
+    // Fallback on earlier versions
+  }
+}
+- (void) darkModeChanged:(NSNotification*)note {
+  
 }
 
 
@@ -187,6 +209,11 @@ static WizSingletonWebView* _webView;
   if (_webView.superview == self) {
     [_webView hideKeyboardAccessoryView];
   }
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+  // disable zoom
+  return nil;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -292,7 +319,7 @@ RCT_EXPORT_METHOD(loadRequest:(NSString*)urlString) {
   NSURLRequest *request = [RCTConvert NSURLRequest:urlString];
   WizSingletonWebView* web = [WizSingletonWebViewContainer webView];
   if (web) {
-    [_webView loadRequest:request];
+    [web loadRequest:request];
   }
 }
 
@@ -321,7 +348,7 @@ RCT_EXPORT_METHOD(injectJavaScript:(NSString*)script resolver: (RCTPromiseResolv
 RCT_EXPORT_METHOD(endEditing:(BOOL)force) {
   WizSingletonWebView* web = [WizSingletonWebViewContainer webView];
   if (web) {
-    [_webView endEditing:force];
+    [web endEditing:force];
   }
 }
 
