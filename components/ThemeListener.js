@@ -24,6 +24,7 @@ function getNavigationOptions(isDarkMode) {
       largeTitle: {
         color: colors.topBarTitle, // rnn bug, not working
       },
+      noBorder: true,
     },
     bottomTabs: {
       titleDisplayMode: 'alwaysShow',

@@ -211,11 +211,6 @@ static WizSingletonWebView* _webView;
   }
 }
 
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-  // disable zoom
-  return nil;
-}
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
   if (_onScroll != nil) {
     NSDictionary *event = @{
