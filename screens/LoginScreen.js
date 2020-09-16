@@ -333,6 +333,7 @@ const LoginScreen: () => React$Node = (props) => {
                     containerStyle={styles.inputContainer}
                     inputContainerStyle={styles.input}
                     inputStyle={styles.inputElement}
+                    errorStyle={styles.inputErrorStyle}
                     disabled={isWorking}
                     textContentType="emailAddress"
                     autoCapitalize="none"
@@ -344,6 +345,7 @@ const LoginScreen: () => React$Node = (props) => {
                     containerStyle={styles.inputContainer}
                     inputContainerStyle={styles.input}
                     inputStyle={styles.inputElement}
+                    errorStyle={styles.inputErrorStyle}
                     disabled={isWorking}
                     textContentType="password"
                     placeholder={i18n.t('placeholderUserPassword')}
@@ -357,6 +359,7 @@ const LoginScreen: () => React$Node = (props) => {
                       containerStyle={styles.inputContainer}
                       inputContainerStyle={styles.input}
                       inputStyle={styles.inputElement}
+                      errorStyle={styles.inputErrorStyle}
                       disabled={isWorking}
                       placeholder={i18n.t('placeholderPrivateServer')}
                       errorMessage={serverErrorMessage}
@@ -458,7 +461,11 @@ const dynamicStyles = new DynamicStyleSheet({
     fontSize: 16,
   },
   inputContainer: {
+    minWidth: 288,
     paddingHorizontal: 0,
+  },
+  inputErrorStyle: {
+    maxHeight: 16,
   },
   input: {
     backgroundColor: getDynamicColor('loginBoxInputBackground'),
