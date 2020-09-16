@@ -76,6 +76,19 @@ export function showLoginDialog(options) {
   });
 }
 
+export function showUpgradeDialog(options) {
+  Navigation.showModal({
+    stack: {
+      children: [{
+        component: {
+          name: 'UpgradeToVipScreen',
+          passProps: options,
+        },
+      }],
+    },
+  });
+}
+
 export function setMainAsRoot() {
   //
   const darkMode = isDarkMode();

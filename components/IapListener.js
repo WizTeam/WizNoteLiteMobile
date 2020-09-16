@@ -10,12 +10,10 @@ const IapListener: () => React$Node = () => {
       console.log('purchaseUpdatedListener', purchase);
       const receipt = purchase.transactionReceipt;
       if (receipt) {
-        // From react-native-iap@4.1.0 you can simplify above `method`.
-        // Try to wrap the statement with `try` and `catch` to also grab the `error` message.
-        // If consumable (can be purchased again)
+        // 消耗品（可再次购买）
         await RNIap.finishTransaction(purchase, true);
-        // If not consumable
-        await RNIap.finishTransaction(purchase, false);
+        // 非消耗品
+        // await RNIap.finishTransaction(purchase, false);
       }
     });
 
