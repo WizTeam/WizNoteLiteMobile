@@ -18,7 +18,6 @@ import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
 import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
 import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
-import CrownIcon from './svg/CrownIcon';
 import NotesIcon from './svg/NotesIcon';
 import StarredIcon from './svg/StarredIcon';
 import TrashIcon from './svg/TrashIcon';
@@ -310,7 +309,7 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingTop: 32,
     paddingLeft: 16,
     paddingBottom: 64,
-    marginLeft: 32,
+    marginLeft: isTablet ? 16 : 32,
   },
 });
 

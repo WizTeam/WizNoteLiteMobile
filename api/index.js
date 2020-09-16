@@ -75,6 +75,22 @@ class Api extends EventEmitter {
     return this._user.kbGuid;
   }
 
+  get displayName() {
+    return this._user.displayName;
+  }
+
+  get avatarUrl() {
+    if (!this._user) {
+      return null;
+    }
+    const version = this._user.avatarVersion;
+    const userGuid = this.userGuid;
+    const userData = sdk.getUserData(userGuid);
+    const as = userData.accountServer;
+    const server = as.server;
+    return `${server}/as/user/avatar/${userGuid}?version=${version}`;
+  }
+
   initEvents() {
     this.registerListener(this.userGuid, (userGuid, eventName, ...args) => {
       this.emit(eventName, userGuid, ...args);
