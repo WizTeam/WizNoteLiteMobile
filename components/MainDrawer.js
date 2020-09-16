@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   View,
-  Text,
-  TouchableHighlight,
   ScrollView,
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
@@ -18,7 +16,7 @@ import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extensio
 import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
-import { setLoginAsRoot, showLoginDialog, showUpgradeDialog } from '../services/navigation';
+import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
 import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import CrownIcon from './svg/CrownIcon';
 import NotesIcon from './svg/NotesIcon';
@@ -31,11 +29,6 @@ const MainDrawer: () => React$Node = (props) => {
   //
   function handleCloseDrawer() {
     RNNDrawer.dismissDrawer();
-  }
-
-  function handleShowUpgradeDialog() {
-    handleCloseDrawer();
-    showUpgradeDialog();
   }
 
   function handleLogin() {
@@ -160,16 +153,6 @@ const MainDrawer: () => React$Node = (props) => {
         containerStyle={{
           borderBottomColor: 'transparent',
         }}
-        leftComponent={(
-          <View style={{ marginLeft: 8 }}>
-            <TouchableHighlight onPress={handleShowUpgradeDialog}>
-              <View style={styles.vip}>
-                <CrownIcon width="16" height="16" fill="#000" />
-                <Text style={{ fontSize: 12 }}>VIP</Text>
-              </View>
-            </TouchableHighlight>
-          </View>
-        )}
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -256,14 +239,6 @@ const dynamicStyles = new DynamicStyleSheet({
   root: {
     flex: 1,
   },
-  vip: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgb(254, 213, 53)',
-    borderRadius: 2,
-    paddingHorizontal: 3,
-  },
   icon: {
     color: getDynamicColor('closeDrawerButton'),
     flexDirection: 'column',
@@ -335,10 +310,7 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingTop: 32,
     paddingLeft: 16,
     paddingBottom: 64,
-    // position: 'absolute',
-    // bottom: 0,
-    // left: 0,
-    // right: 0,
+    marginLeft: 32,
   },
 });
 

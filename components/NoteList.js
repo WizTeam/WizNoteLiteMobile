@@ -7,7 +7,7 @@ import { getDeviceDynamicColor } from '../config/Colors';
 import { isTablet } from '../utils/device';
 import dataStore from '../data_store';
 import api from '../api';
-import { showTopBarMessage } from '../services/navigation';
+import { showTopBarMessage, showUpgradeDialog } from '../services/navigation';
 import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
 import NoteListItem, { updateNoteStar } from './NoteListItem';
 import NoteListHiddenItem, { BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH } from './NoteListHiddenItem';
@@ -128,6 +128,7 @@ const NoteList: () => React$Node = (props) => {
 
     function handleVip() {
       //
+      showUpgradeDialog();
       console.log('upgrade to vip');
     }
 
