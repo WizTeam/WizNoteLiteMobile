@@ -361,7 +361,11 @@ const LoginScreen: () => React$Node = (props) => {
                   {isLogin && <Button titleStyle={styles.forgotButton} type="clear" title={i18n.t('buttonForgotPassword')} onPress={handleForgotPassword} />}
                 </View>
               </View>
-              <Hyperlink linkText={handleParseLinkText} onPress={handlePressLink}>
+              <Hyperlink
+                linkStyle={styles.link}
+                linkText={handleParseLinkText}
+                onPress={handlePressLink}
+              >
                 <Text style={styles.declare}>{i18n.t('registerDeclare')}</Text>
               </Hyperlink>
             </View>
@@ -490,6 +494,9 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   forgotButton: {
     color: getDynamicColor('loginBoxText2'),
+  },
+  link: {
+    color: '#2980b9',
   },
 });
 
