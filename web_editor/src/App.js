@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import queryString from 'query-string';
 import { makeStyles } from '@material-ui/core/styles';
+import queryString from 'query-string';
 
-import MarkdownEditor from 'wiz-react-markdown-editor';
+import { MarkdownEditor } from 'wiz-react-markdown-editor';
 
-import 'wiz-react-markdown-editor/lib/index.min.css';
 import './App.css';
 
+const PhoneTheme = React.lazy(() => import('./PhoneTheme'));
+const PadTheme = React.lazy(() => import('./PadTheme'));
+
 const params = queryString.parse(window.location.search);
+const isTablet = params.isTablet === 'true';
+
+console.log(isTablet);
 
 const useStyles = makeStyles({
   editorWrapper: {
@@ -18,31 +23,29 @@ const useStyles = makeStyles({
   },
 });
 
+function postMessage(messageData) {
+  if (window.WizWebView) {
+    window.WizWebView.postMessage(messageData);
+  } else if (window.ReactNativeWebView) {
+    window.ReactNativeWebView.postMessage(messageData);
+  } else {
+    console.error('unknown browser');
+  }
+}
+
 function Editor(props) {
   //
   const classes = useStyles();
   //
   function handleSave({contentId, markdown}) {
     //
+    // console.log('request save data')
     const messageData = JSON.stringify({
       event: 'saveData',
       contentId,
       markdown,
     });
-    if (window.WizWebView) {
-      window.WizWebView.postMessage(messageData);
-    } else if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(messageData);
-    } else {
-      console.error('unknown browser');
-    }
-  }
-  //
-  let theme = props.theme || params.theme;
-  if (!theme) {
-    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)')?.matches ?? false;
-    const defaultTheme = isDarkMode ? 'dark' : 'light';
-    theme = defaultTheme;
+    postMessage(messageData);
   }
   //
   let markdown = props.markdown || '';
@@ -50,7 +53,6 @@ function Editor(props) {
   return (
     <MarkdownEditor
       style={props.style}
-      theme={theme}
       onSave={handleSave}
       markdown={markdown}
       resourceUrl={props.resourceUrl}
@@ -67,27 +69,69 @@ function App() {
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
-      const {markdown, resourceUrl, contentId, theme} = options;
+      const {markdown, resourceUrl, contentId} = options;
       setData({
         markdown,
         resourceUrl,
         contentId,
-        theme,
       });
+      return true;
+    };
+    //
+    window.onBeforeInsert = () => {
+      console.log('onBeforeInsert');
+      return true;
+    };
+    //
+    window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
+      console.log('onKeyboardShow');
+      return true;
+    };
+    //
+    window.onKeyboardHide = () => {
+      console.log('onKeyboardHide');
+      return true;
+    };
+    //
+    window.addImage = (url) => {
+      // TODO: add image to editor
+      console.log(`request add image: ${url}`);
+      return true;
+    };
+  }, []);
+  //
+  useEffect(() => {
+    //
+    function handleKeyDown() {
+      const messageData = {
+        event: 'onKeyDown',
+      }
+      postMessage(JSON.stringify(messageData));
     }
-  });
+    //
+    document.body.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.removeEventListener('keydown', handleKeyDown);
+    }
+
+  }, []);
   //
   //
   return (
     <div className="App" style={{
-      height: '100vh',
       visibility: (data && data.contentId) ? 'visible' : 'hidden',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
     }}>
+      <React.Suspense fallback={<></>}>
+        {(isTablet) && <PadTheme />}
+        {(!isTablet) && <PhoneTheme />}
+      </React.Suspense>
       <Editor
         contentId={data?.contentId}
         markdown={data?.markdown}
         resourceUrl={data?.resourceUrl}  
-        theme={data?.theme}
       />
     </div>
   );

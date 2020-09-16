@@ -12,9 +12,10 @@ import {
 import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { DynamicValue, useDynamicValue, DynamicStyleSheet, useDarkMode } from 'react-native-dynamic';
-import { Navigation } from 'react-native-navigation';
+import { useDynamicValue, DynamicStyleSheet, useDarkMode } from 'react-native-dynamic';
+import Hyperlink from 'react-native-hyperlink';
 
+import { Navigation } from '../thirdparty/react-native-navigation';
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
 import { setMainAsRoot } from '../services/navigation';
 import { getDynamicColor } from '../config/Colors';
@@ -23,15 +24,11 @@ import dataStore from '../data_store';
 import { isTablet } from '../utils/device';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
-import LoginBannerLight from '../components/svg/LoginBannerLight';
-import LoginBannerDark from '../components/svg/LoginBannerDark';
-
-const loginBanner = new DynamicValue(LoginBannerLight, LoginBannerDark);
+import LoginBannerIcon from '../components/svg/LoginBannerIcon';
 
 const LoginScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles);
   const isDarkMode = useDarkMode();
-  const Banner = useDynamicValue(loginBanner);
 
   const [isLogin, setLogin] = useState(true);
   const [isPrivateServer, setUsePrivateServer] = useState(false);
@@ -250,6 +247,19 @@ const LoginScreen: () => React$Node = (props) => {
     );
   }
 
+  function handleParseLinkText(url) {
+    if (url.indexOf('share-termsofuse') !== -1) {
+      return i18n.t('textTermsOfUse');
+    } else if (url.indexOf('wiz-privacy') !== -1) {
+      return i18n.t('textPrivacy');
+    }
+    return '';
+  }
+
+  function handlePressLink(url) {
+    Linking.openURL(url);
+  }
+
   const serverData = [{
     label: i18n.t('serverTypeDefault'),
     value: 'official',
@@ -257,6 +267,8 @@ const LoginScreen: () => React$Node = (props) => {
     label: i18n.t('serverTypePrivate'),
     value: 'private',
   }];
+
+  const bannerHeight = isTablet ? '48' : '24';
 
   const backgroundSource = isDarkMode
     // eslint-disable-next-line import/no-unresolved
@@ -283,9 +295,14 @@ const LoginScreen: () => React$Node = (props) => {
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}
+            contentContainerStyle={styles.contentContainerStyle}
           >
             <View style={styles.body}>
-              <Banner style={styles.title} />
+              <LoginBannerIcon
+                fill={styles.title.color}
+                height={bannerHeight}
+                style={styles.title}
+              />
               <View style={styles.shadowBox}>
                 <View style={styles.tab}>
                   <Button disabled={isWorking} type="clear" titleStyle={isLogin ? styles.selectedButton : styles.normalButton} title={i18n.t('tabLogin')} onPress={handleSwitchLogin} />
@@ -293,16 +310,13 @@ const LoginScreen: () => React$Node = (props) => {
                 </View>
                 <Dropdown
                   containerStyle={styles.serverDropdown}
-                  pickerStyle={styles.serverPicker}
-                  itemColor={styles.serverPickerItem.color}
-                  selectedItemColor={styles.serverPickerItemSelected.color}
                   label="WizNote Server"
                   data={serverData}
                   value={isPrivateServer ? 'private' : 'official'}
                   renderBase={handleRenderDropdownBase}
                   onChangeText={handleChangeServerType}
                   disabled={isWorking}
-                  useNativeDriver
+                  useNativeDriver={false}
                 />
                 <View style={styles.sectionContainer}>
                   <Input
@@ -347,9 +361,13 @@ const LoginScreen: () => React$Node = (props) => {
                   {isLogin && <Button titleStyle={styles.forgotButton} type="clear" title={i18n.t('buttonForgotPassword')} onPress={handleForgotPassword} />}
                 </View>
               </View>
-              <Text style={styles.declare}>
-                By Signing in, you agree the Terms of Service and Privacy Policy
-              </Text>
+              <Hyperlink
+                linkStyle={styles.link}
+                linkText={handleParseLinkText}
+                onPress={handlePressLink}
+              >
+                <Text style={styles.declare}>{i18n.t('registerDeclare')}</Text>
+              </Hyperlink>
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -365,16 +383,26 @@ LoginScreen.options = {
 };
 
 const dynamicStyles = new DynamicStyleSheet({
+  image: {
+    flex: 1,
+    width: null,
+    height: null,
+  },
   scrollView: {
-    // backgroundColor: Colors.lighter,
     minHeight: '100%',
   },
+  contentContainerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   body: {
-    // backgroundColor: Colors.white,
+    maxWidth: isTablet ? 400 : '100%',
+    paddingHorizontal: 8,
     minHeight: '100%',
   },
   title: {
     marginTop: 35,
+    color: getDynamicColor('loginBannerColor'),
   },
   closeTouchable: {
     padding: 8,
@@ -382,9 +410,9 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   shadowBox: {
     marginTop: 40,
-    marginHorizontal: 12,
+    // marginHorizontal: 12,
     paddingBottom: 55,
-    borderRadius: 10,
+    borderRadius: 20,
     backgroundColor: getDynamicColor('loginBoxBackground'),
     shadowColor: 'rgba(0, 0, 0, 0.2)',
     shadowOffset: {
@@ -393,11 +421,6 @@ const dynamicStyles = new DynamicStyleSheet({
     },
     shadowRadius: 4,
     shadowOpacity: 1,
-  },
-  image: {
-    flex: 1,
-    width: null,
-    height: null,
   },
   sectionContainer: {
     marginTop: 32,
@@ -445,15 +468,6 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingHorizontal: 32,
     marginTop: 32,
   },
-  serverPicker: {
-    backgroundColor: getDynamicColor('dropdownPickerBackground'),
-  },
-  serverPickerItem: {
-    color: getDynamicColor('dropdownPickerItemColor'),
-  },
-  serverPickerItemSelected: {
-    color: getDynamicColor('dropdownPickerItemSelectedColor'),
-  },
   serverDropdownIcon: {
     color: getDynamicColor('loginBoxText'),
   },
@@ -472,7 +486,7 @@ const dynamicStyles = new DynamicStyleSheet({
     lineHeight: 22,
     color: getDynamicColor('loginBoxText2'),
     textAlign: 'center',
-    paddingHorizontal: 68,
+    paddingHorizontal: 8,
   },
   button: {
     backgroundColor: getDynamicColor('loginBoxButtonBackground'),
@@ -480,6 +494,9 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   forgotButton: {
     color: getDynamicColor('loginBoxText2'),
+  },
+  link: {
+    color: '#2980b9',
   },
 });
 

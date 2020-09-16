@@ -9,9 +9,9 @@ const light = {
   topBarBackground: 'white',
   topBarTitle: '#333333',
   bottomTabBackground: 'white',
-  drawerBackground: 'white',
   closeDrawerButton: '#333333',
   loginBoxBackground: '#ffffff',
+  loginBannerColor: '#ffffff',
   loginBoxText: '#333333',
   loginBoxText2: '#333333',
   loginBoxInputBackground: '#f0f0f0',
@@ -36,13 +36,18 @@ const light = {
     noteListDivider: '#d8d8d8',
     drawerItemTitle: '#333333',
     noteBackground: 'white',
+    drawerBackground: '#f0f0f0',
+    searchBarBackground: '#d8d8d8',
   },
   pad: {
     noteListBackground: '#f0f0f0',
     noteListSelectedBackground: 'white',
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#d8d8d8',
+    drawerItemTitle: '#333333',
     noteBackground: 'white',
+    drawerBackground: '#d8d8d8',
+    searchBarBackground: '#d8d8d8',
   },
 };
 
@@ -52,9 +57,9 @@ const dark = merge({}, light, {
   topBarTitle: '#d8d8d8',
   topBarBackground: '#2a2a2a',
   bottomTabBackground: '#2a2a2a',
-  drawerBackground: '#333333',
   closeDrawerButton: '#f0f0f0',
   loginBoxBackground: '#606266',
+  loginBannerColor: '#b4b7bb',
   loginBoxText: '#ffffff',
   loginBoxText2: '#aaaaaa',
   loginBoxInputBackground: '#53565c',
@@ -78,16 +83,20 @@ const dark = merge({}, light, {
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
     drawerItemTitle: '#f0f0f0',
-    noteBackground: '#282828',
+    noteBackground: '#2a2a2a',
+    drawerBackground: '#333333',
+    searchBarBackground: '#404040',
   },
   pad: {
     noteListBackground: '#2a2a2a',
     noteListSelectedBackground: '#333333',
-    noteListTitle: '#f0f0f0',
+    noteListTitle: '#d8d8d8',
     noteListSubTitle: '#aaaaaa',
     noteListDivider: '#404040',
-    drawerItemTitle: '#f0f0f0',
-    noteBackground: '#282828',
+    drawerItemTitle: '#d8d8d8',
+    noteBackground: '#333333',
+    drawerBackground: '#121212',
+    searchBarBackground: '#404040',
   },
 });
 
@@ -117,4 +126,9 @@ export function getDeviceColor(name) {
   const theme = Appearance.getColorScheme();
   const deviceName = isTablet ? 'pad' : 'phone';
   return Colors[theme][deviceName][name];
+}
+
+export function isDarkMode() {
+  const theme = Appearance.getColorScheme();
+  return theme === 'dark';
 }

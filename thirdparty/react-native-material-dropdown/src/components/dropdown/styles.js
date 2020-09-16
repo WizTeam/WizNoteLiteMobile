@@ -66,4 +66,23 @@ export default StyleSheet.create({
   scrollContainer: {
     paddingVertical: 8,
   },
+
+  itemColor: {
+    color: 'rgba(0,0,0,0.38)',
+  },
+  selectedItemColor: {
+    color: 'rgba(0,0,0,0.87)',
+  },
+});
+
+export const dark = StyleSheet.create({
+  picker: {
+    backgroundColor: '#000000',
+  },
+  itemColor: {
+    color: 'rgba(255,255,255,0.38)',
+  },
+  selectedItemColor: {
+    color: 'rgba(255,255,255,0.87)',
+  },
 });

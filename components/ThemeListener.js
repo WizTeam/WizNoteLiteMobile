@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Appearance } from 'react-native';
 import { useDarkMode } from 'react-native-dynamic';
-import { Navigation } from 'react-native-navigation';
+import { Navigation } from '../thirdparty/react-native-navigation';
 import Colors from '../config/Colors';
 
 function getNavigationOptions(isDarkMode) {
@@ -24,6 +24,7 @@ function getNavigationOptions(isDarkMode) {
       largeTitle: {
         color: colors.topBarTitle, // rnn bug, not working
       },
+      noBorder: true,
     },
     bottomTabs: {
       titleDisplayMode: 'alwaysShow',

@@ -41,6 +41,7 @@
     "react/destructuring-assignment": ["off", "always"],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}],
     "import/prefer-default-export": ["off"],
+    "import/extensions":["off"],    
     "no-use-before-define": ["off"],
     "global-require": ["off"],
     "object-curly-newline": ["error", {

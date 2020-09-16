@@ -26,8 +26,9 @@ export function iniI18nConfig() {
   // fallback if no available language fits
   const fallback = { languageTag: 'en', isRTL: false };
 
-  const { languageTag, isRTL } =
-  RNLocalize.findBestAvailableLanguage(Object.keys(languageTagMap)) || fallback;
+  const { languageTag, isRTL } = RNLocalize.findBestAvailableLanguage(
+    Object.keys(languageTagMap),
+  ) || fallback;
 
   // clear translation cache
   translate.cache.clear();

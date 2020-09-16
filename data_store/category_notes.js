@@ -6,10 +6,12 @@ export function updateCategoryNotes(allNotes, note, selectedType) {
   //
   if (selectedType === '#allNotes') {
     accept = !note.trash;
+  } else if (selectedType === '#starredNotes') {
+    accept = !note.trash && note.starred;
   } else if (selectedType === '#trash') {
-    accept = note.trash;
+    accept = note.trash && !note.deleted;
   } else {
-    accept = note.tags.toLowerCase().indexOf(selectedType) !== -1;
+    accept = !note.trash && note.tags.toLowerCase().indexOf(selectedType) !== -1;
   }
   //
   if (accept) {
@@ -19,16 +21,18 @@ export function updateCategoryNotes(allNotes, note, selectedType) {
   }
 }
 
-export async function getCategoryNotes(selectedType) {
+export async function getCategoryNotes(kbGuid, selectedType) {
   const options = {};
   if (selectedType === '#allNotes') {
     //
+  } else if (selectedType === '#starredNotes') {
+    options.starred = true;
   } else if (selectedType === '#trash') {
     options.trash = true;
   } else {
     options.tags = selectedType;
   }
   //
-  const allNotes = await api.getAllNotes(null, options);
-  return allNotes;
+  const notes = await api.getAllNotes(kbGuid, options);
+  return notes;
 }

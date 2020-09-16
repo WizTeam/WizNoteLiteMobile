@@ -1,5 +1,5 @@
 {
-  "name": "web_editor",
+  "name": "markdown_editor",
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

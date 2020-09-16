@@ -7,11 +7,18 @@ export default {
   placeholderUserId: '邮件',
   placeholderUserPassword: '密码',
   placeholderPrivateServer: '私有服务器地址',
+  placeholderSearch: '搜索',
+  placeholderSearchAllNotes: '搜索全部笔记',
+  buttonCancelSearch: '取消',
   buttonForgotPassword: '忘记密码？',
   serverTypeDefault: '为知笔记服务',
   serverTypePrivate: '私有服务器/为知盒子',
   //
-  registerDeclare: '注册即表示您已阅读并同意<a target="_blank" href="https://wiz.cn/pages/go?blogName=share-termsofuse&lang=zh-cn">服务条款</a>与<a target="_blank" href="https://wiz.cn/pages/go?blogName=wiz-privacy&lang=zh-cn">隐私政策</a>',
+  registerDeclare: '注册即表示您已阅读并同意 https://wiz.cn/pages/go?blogName=share-termsofuse&lang=zh-cn 与 https://wiz.cn/pages/go?blogName=wiz-privacy&lang=zh-cn',
+  textTermsOfUse: '服务条款',
+  textPrivacy: '隐私政策',
+  errorVipExpiredSync: 'VIP服务已到期，无法上传笔记。\n点击当前消息进行续费',
+  errorUpgradeVipSync: '试用期已结束，无法上传笔记。\n点击当前消息升级到VIP',
   //
   // error
   errorDisableRegister: '注册已禁用',
@@ -39,7 +46,9 @@ export default {
   menuLogout: 'Logout',
 
   itemAllNotes: '全部笔记',
+  itemStarredNotes: '星标笔记',
   itemTrash: '回收站',
+  itemSearchResult: '搜索结果',
   titleStarredNotes: '星标笔记',
   bottomBarNotes: '笔记',
   bottomBarStarred: '星标',
@@ -53,4 +62,8 @@ export default {
   buttonRestorePurchases: '恢复购买',
   messageVipServiceDate: 'VIP 到期时间 %{date}.',
   messageVipServiceEndedDate: 'VIP 已经在 %{date} 到期.',
+  buttonStarNote: '星标',
+  buttonUnstarNote: '取消星标',
+  buttonDelete: '删除',
+  buttonPutBackNote: '恢复',
 };

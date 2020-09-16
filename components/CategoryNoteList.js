@@ -8,15 +8,18 @@ const CategoryNoteList: () => React$Node = (props) => {
     dataStore.initCategoryNotes();
   }, [props.selectedType]);
   //
+  const selectedType = props.selectedType;
   const notes = props[KEYS.CATEGORY_NOTES] || [];
   const selectedNote = props[KEYS.CURRENT_NOTE] || {};
-
+  const showHighlight = selectedType === '#searchResult';
   //
   return (
     <NoteList
       notes={notes}
       onPressNote={props.onPressNote}
       selectedNoteGuid={selectedNote?.guid}
+      showStar={selectedType !== '#starredNotes'}
+      showHighlight={showHighlight}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
     />

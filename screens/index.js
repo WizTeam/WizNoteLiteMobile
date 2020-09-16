@@ -1,6 +1,5 @@
-import { Navigation } from 'react-native-navigation';
-import { RNNDrawer } from 'react-native-navigation-drawer-extension';
-
+import { Navigation } from '../thirdparty/react-native-navigation';
+import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
 import MainDrawer from '../components/MainDrawer';
 
 export function registerScreens() {
@@ -9,9 +8,9 @@ export function registerScreens() {
   Navigation.registerComponent('MainDrawer', () => RNNDrawer.create(MainDrawer));
   Navigation.registerComponent('LoginScreen', () => require('./LoginScreen').default);
   Navigation.registerComponent('NotesScreen', () => require('./NotesScreen').default);
-  Navigation.registerComponent('NoteScreen', () => require('./NoteScreen').default);
-  Navigation.registerComponent('StarredNotesScreen', () => require('./StarredNotesScreen').default);
+  Navigation.registerComponent('ViewNoteScreen', () => require('./ViewNoteScreen').default);
+  Navigation.registerComponent('NewNoteScreen', () => require('./NewNoteScreen').default);
   Navigation.registerComponent('SearchNotesScreen', () => require('./SearchNotesScreen').default);
   Navigation.registerComponent('PadMainScreen', () => require('./PadMainScreen').default);
-  Navigation.registerComponent('UpgradeToVIP', () => require('./UpgradeToVIP').default);
+  Navigation.registerComponent('UpgradeToVipScreen', () => require('./UpgradeToVipScreen').default);
 }

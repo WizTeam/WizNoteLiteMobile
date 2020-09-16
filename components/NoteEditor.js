@@ -1,96 +1,167 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle } from 'react';
 import { View } from 'react-native';
-import { useDarkMode } from 'react-native-dynamic';
 
-import { PORT } from '../services/resources_loader';
+import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
-import app from '../wrapper/app';
-import { handleEditorEvent } from '../services/view_note';
-import WizWebView from './WizWebView';
+import { isTablet } from '../utils/device';
+import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing } from './WizSingletonWebView';
 
-const NoteEditor: () => React$Node = (props) => {
-  const webViewRef = useRef(null);
-  const isLoadedRef = useRef(false);
-  //
-  function loadNote(note) {
-    if (!note) {
+addWebViewEventHandler('onMessage', async (eventBody) => {
+  const data = JSON.parse(eventBody);
+  const name = data.event;
+
+  if (name === 'saveData') {
+    const contentId = data.contentId;
+    const markdown = data.markdown;
+    if (!contentId) {
+      console.error('no content id');
       return;
     }
-    // console.log(`load note: ${note.markdown}`);
-    const data = {
-      markdown: note.markdown,
-      resourceUrl: `http://localhost:${PORT}/${api.userGuid}/${kbGuid}/${note.guid}`,
-      contentId: `${api.userGuid}/${kbGuid}/${note.guid}`,
-    };
-    const dataText = JSON.stringify(data);
-    const js = `window.loadMarkdown(${dataText});true;`;
-    webViewRef.current.injectJavaScript(js);
+    const parts = contentId.split('/');
+    // eslint-disable-next-line no-shadow
+    const [userGuid, kbGuid, noteGuid] = parts;
+    console.log(parts);
+    if (!userGuid) {
+      console.error('no userGuid');
+      return;
+    }
+    if (!kbGuid) {
+      console.error('no kbGuid');
+      return;
+    }
+    if (!noteGuid) {
+      console.error('no noteGuid');
+      return;
+    }
+    //
+    // const old = await api.getNoteMarkdown(kbGuid, noteGuid);
+    // if (old !== markdown) {
+    //   console.log(old);
+    //   console.log(markdown);
+    // }
+    //
+    api.setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown);
+  } else if (name === 'onKeyDown') {
+    // do nothing
+  } else {
+    console.error(`unknown browser event: ${eventBody}`);
   }
+});
+
+export function emptyEditor() {
+  const dataText = JSON.stringify({
+    contentId: '',
+    markdown: '',
+    resourceUrl: '',
+  });
+  const js = `window.loadMarkdown(${dataText});true;`;
+  injectJavaScript(js);
+}
+
+export async function loadNote(note) {
+  if (!note) {
+    return;
+  }
+
+  if (isTablet) {
+    endEditing();
+  }
+
   //
+  let markdown = note.markdown;
+  if (!note.markdown) {
+    markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
+  }
+
+  console.log(`load note: ${note.kbGuid}/${note.guid}`);
+  const data = {
+    markdown,
+    resourceUrl: getResourceBaseUrl(api.userGuid, note.kbGuid, note.guid),
+    contentId: `${api.userGuid}/${note.kbGuid}/${note.guid}`,
+  };
+  const dataText = JSON.stringify(data);
+  const js = `window.loadMarkdown(${dataText});true;`;
+  await injectJavaScript(js);
+}
+
+const NoteEditor = React.forwardRef((props, ref) => {
+  //
+  //
+  useImperativeHandle(ref, () => ({
+    injectJavaScript: async (js) => {
+      const result = await injectJavaScript(js);
+      return result;
+    },
+  }));
+  //
+  // 清空编辑器，可以强制进行保存
+  useEffect(() => emptyEditor, []);
+  const keyboardVisibleTimeRef = useRef(0);
+  const keyboardVisibleRef = useRef(false);
+
+  function handleScroll() {
+    if (keyboardVisibleRef.current) {
+      const now = new Date().valueOf();
+      if (now - keyboardVisibleTimeRef.current > 1000) {
+        endEditing(true);
+      }
+    }
+  }
+
+  async function handleKeyboardShow({ nativeEvent }) {
+    try {
+      const { keyboardWidth, keyboardHeight } = nativeEvent;
+      const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight});true;`;
+      await injectJavaScript(js);
+    } catch (err) {
+      console.log(err);
+    }
+    keyboardVisibleRef.current = true;
+    keyboardVisibleTimeRef.current = new Date().valueOf();
+    if (props.onBeginEditing) {
+      props.onBeginEditing();
+    }
+  }
+
+  async function handleKeyboardHide() {
+    try {
+      await injectJavaScript('window.onKeyboardHide();true;');
+    } catch (err) {
+      console.log(err);
+    }
+    keyboardVisibleRef.current = false;
+    if (props.onEndEditing) {
+      props.onEndEditing();
+    }
+  }
+
+  function handleMessage({ nativeEvent }) {
+    const data = JSON.parse(nativeEvent.body);
+    const name = data.event;
+    if (name === 'onKeyDown') {
+      keyboardVisibleTimeRef.current = new Date().valueOf();
+    }
+  }
+
   const note = props[KEYS.CURRENT_NOTE];
-  const kbGuid = props[KEYS.CURRENT_KB];
-  //
+
   useEffect(() => {
-    //
-    if (!isLoadedRef.current) {
-      console.log('web is not loaded');
-      return;
-    }
-    //
     loadNote(note);
-    //
-  }, [note, kbGuid]);
+  }, [note]);
 
-  useEffect(() => (
-    () => {
-      const dataText = JSON.stringify({
-        contentId: '',
-        markdown: '',
-        resourceUrl: '',
-      });
-      const js = `window.loadMarkdown(${dataText});true;`;
-      webViewRef.current.injectJavaScript(js);
-    }
-  ), []);
-
-  function handleLoaded() {
-    if (!isLoadedRef.current) {
-      isLoadedRef.current = true;
-      setTimeout(() => {
-        loadNote(note);
-      });
-    }
-  }
-
-  function handleMessage(event) {
-    const body = event.nativeEvent.data;
-    if (body) {
-      handleEditorEvent(body);
-    }
-  }
-  //
-  const isDarkMode = useDarkMode();
-  const theme = isDarkMode ? 'dark' : 'lite';
-  //
-  const resPath = app.getPath('res');
-  const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}`;
-  // const editorHtmlPath = `http://localhost:3000?theme=${theme}`;
-  // console.log(`load html: ${editorHtmlPath}`);
-  //
   return (
     <View style={props.containerStyle}>
-      <WizWebView
-        ref={(r) => { webViewRef.current = r; }}
-        style={props.style}
-        // originWhitelist={['*']}
-        url={editorHtmlPath}
-        onLoad={handleLoaded}
+      <WizSingletonWebView
+        onScroll={handleScroll}
+        onKeyboardShow={handleKeyboardShow}
+        onKeyboardHide={handleKeyboardHide}
         onMessage={handleMessage}
+        style={props.editorStyle}
       />
     </View>
   );
-};
+});
 
 export default connect([
   KEYS.CURRENT_KB,

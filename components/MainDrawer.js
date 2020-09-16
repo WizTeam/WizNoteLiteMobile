@@ -8,19 +8,22 @@ import {
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 
-import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import i18n from 'i18n-js';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { isTablet } from '../utils/device';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
+import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
 import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
 import { setLoginAsRoot, showLoginDialog, showUpgradeDialog } from '../services/navigation';
-import Colors, { getColor, getDynamicColor, getDeviceDynamicColor } from '../config/Colors';
+import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import CrownIcon from './svg/CrownIcon';
+import NotesIcon from './svg/NotesIcon';
+import StarredIcon from './svg/StarredIcon';
+import TrashIcon from './svg/TrashIcon';
 
 const MainDrawer: () => React$Node = (props) => {
   //
@@ -57,51 +60,14 @@ const MainDrawer: () => React$Node = (props) => {
 
   //
   const [showTrash, setShowTrash] = useState(false);
-  const [tags, setTags] = useState([]);
 
-  async function resetTags() {
-    //
-    function convertTags(tagsData, currentTag, object) {
-      for (const [key, value] of Object.entries(object)) {
-        if (key === 'wizName') {
-          if (!currentTag.name === value) {
-            console.error(`invalid tags data, invalid name: ${value}, data: ${JSON.stringify(tagsData)}`);
-          }
-          currentTag.name = value;
-        } else if (key === 'wizFull') {
-          currentTag.id = value;
-        } else {
-          const childTag = {
-            name: key,
-            children: [],
-          };
-          convertTags(tagsData, childTag, value);
-          if (!childTag.id) {
-            console.error(`invalid tags data, no tag path: ${key}, data: ${JSON.stringify(tagsData)}`);
-          }
-          currentTag.children.push(childTag);
-        }
-      }
-    }
-    try {
-      const tagsData = await api.getAllTags();
-      const root = {
-        children: [],
-      };
-      convertTags(tagsData, root, tagsData);
-      setTags(root.children);
-    } catch (err) {
-      console.error(err);
-    }
-  }
   //
   useEffect(() => {
     async function shouldShowTrash() {
       try {
-        const hasNotesInTrash = await api.hasNotesInTrash();
+        const hasNotesInTrash = await api.hasNotesInTrash(dataStore.getCurrentKb());
         setShowTrash(hasNotesInTrash);
         //
-        resetTags();
       } catch (err) {
         console.error(err);
       }
@@ -109,14 +75,19 @@ const MainDrawer: () => React$Node = (props) => {
     shouldShowTrash();
   }, []);
 
-  function handleRenderExpandButton({ isExpanded, hasChildrenNodes }) {
+  function handleRenderExpandButton({ isExpanded, hasChildrenNodes, isSelected }) {
+    let style = styles.itemTitle;
+    if (isTablet && isSelected) {
+      style = { color: '#fff' };
+    }
+    //
     if (!hasChildrenNodes) {
       return null;
     } else if (isExpanded) {
-      return <Icon name="keyboard-arrow-down" size={24} style={styles.itemTitle} />;
+      return <Icon name="keyboard-arrow-down" size={24} style={style} />;
     }
 
-    return <Icon name="keyboard-arrow-right" size={24} style={styles.itemTitle} />;
+    return <Icon name="keyboard-arrow-right" size={24} style={style} />;
   }
 
   function handleRenderSelectedMarker() {
@@ -124,26 +95,67 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleGotoAllNotes() {
-    dataStore.setSelectedType('#allNotes');
     handleCloseDrawer();
+    setTimeout(() => {
+      dataStore.setSelectedType('#allNotes');
+    }, 300);
+  }
+
+  function handleGotoStarredNotes() {
+    handleCloseDrawer();
+    setTimeout(() => {
+      dataStore.setSelectedType('#starredNotes');
+    }, 300);
   }
 
   function handleGotoTrash() {
-    dataStore.setSelectedType('#trash');
     handleCloseDrawer();
+    setTimeout(() => {
+      dataStore.setSelectedType('#trash');
+    }, 300);
   }
 
   function handleClickTreeItem({ node }) {
-    dataStore.setSelectedType(node.id);
     handleCloseDrawer();
+    setTimeout(() => {
+      dataStore.setSelectedType(node.id);
+    }, 300);
   }
 
   const selectedType = props.selectedType || '#allNotes';
   //
+  const list = React.useMemo(() => [
+    {
+      title: i18n.t('itemAllNotes'),
+      selectedType: '#allNotes',
+      leftIcon: NotesIcon,
+      onPress: () => { handleGotoAllNotes(); },
+      isSelected: selectedType === '#allNotes',
+      show: true,
+    },
+    {
+      title: i18n.t('itemStarredNotes'),
+      selectedType: '#starredNotes',
+      leftIcon: StarredIcon,
+      onPress: () => { handleGotoStarredNotes(); },
+      isSelected: selectedType === '#starredNotes',
+      show: true,
+    },
+    {
+      title: i18n.t('itemTrash'),
+      selectedType: '#trash',
+      leftIcon: TrashIcon,
+      onPress: () => { handleGotoTrash(); },
+      isSelected: selectedType === '#trash',
+      show: showTrash,
+    },
+  ], [styles, selectedType, showTrash]);
+  //
+  const tags = props.tags;
+  //
   return (
     <View style={[styles.root, props.style]}>
       <Header
-        barStyle="light-content"
         backgroundColor="transparent"
         containerStyle={{
           borderBottomColor: 'transparent',
@@ -158,53 +170,54 @@ const MainDrawer: () => React$Node = (props) => {
             </TouchableHighlight>
           </View>
         )}
-        rightComponent={!isTablet && (
-          <View style={{ marginRight: 8 }}>
-            <TouchableHighlight onPress={handleCloseDrawer}>
-              <View
-                style={{
-                  padding: 8,
-                  paddingTop: 10,
-                }}
-              >
-                <Icon name="close" style={styles.icon} size={24} />
-              </View>
-            </TouchableHighlight>
-          </View>
-        )}
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}
       >
         {isTablet && (
-          <UserButton style={styles.padLoginButton} />
-        )}
-
-        <ListItem
-          title={i18n.t('itemAllNotes')}
-          containerStyle={styles.item}
-          titleStyle={styles.itemTitle}
-          onPress={handleGotoAllNotes}
-          rightElement={selectedType === '#allNotes' && (
-            <View style={styles.itemRightElement}>
-              {handleRenderSelectedMarker()}
-            </View>
-          )}
-        />
-        {showTrash && (
-          <ListItem
-            title={i18n.t('itemTrash')}
-            containerStyle={styles.item}
-            titleStyle={styles.itemTitle}
-            onPress={handleGotoTrash}
-            rightElement={selectedType === '#trash' && (
-              <View style={styles.itemRightElement}>
-                {handleRenderSelectedMarker()}
-              </View>
-            )}
+          <UserButton
+            onLogin={handleLogin}
+            onPressUser={handleViewUserInfo}
+            style={styles.padLoginButton}
           />
         )}
+
+        {
+          list.map((item) => {
+            if (!item.show) return <React.Fragment key={item.selectedType} />;
+            return (
+              <ListItem
+                key={item.selectedType}
+                containerStyle={[
+                  styles.item,
+                  isTablet && styles.tabletItem,
+                  isTablet && item.isSelected && styles.itemSelect,
+                ]}
+                onPress={item.onPress}
+              >
+                {isTablet && <item.leftIcon fill={item.isSelected ? '#fff' : styles.itemTitle.color} />}
+                <ListItem.Content
+                  style={!isTablet && styles.itemContent}
+                >
+                  <ListItem.Title
+                    style={[
+                      styles.itemTitle,
+                      (isTablet && item.isSelected) && styles.itemSelectTitle,
+                    ]}
+                  >
+                    {item.title}
+                  </ListItem.Title>
+                </ListItem.Content>
+                {!isTablet && item.isSelected && (
+                  <View style={styles.itemRightElement}>
+                    {handleRenderSelectedMarker()}
+                  </View>
+                )}
+              </ListItem>
+            );
+          })
+        }
 
         <TreeView
           containerStyle={{
@@ -213,10 +226,15 @@ const MainDrawer: () => React$Node = (props) => {
           }}
           data={tags}
           renderExpandButton={handleRenderExpandButton}
-          renderSelectedMarker={handleRenderSelectedMarker}
+          renderSelectedMarker={isTablet ? null : handleRenderSelectedMarker}
           getCollapsedNodeHeight={() => 44}
           onNodePress={handleClickTreeItem}
-          itemContainerStyle={styles.treeItemContainerStyle}
+          itemContainerStyle={{
+            ...styles.treeItemContainerStyle,
+            marginHorizontal: isTablet ? 16 : 0,
+          }}
+          selectedContainerStyle={isTablet ? styles.itemSelect : null}
+          selectedItemTitleStyle={isTablet ? styles.itemSelectTitle : null}
           itemTitleStyle={styles.treeItemTitleStyle}
           itemContentContainerStyle={styles.treeItemContentContainerStyle}
           selected={selectedType}
@@ -248,22 +266,37 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   icon: {
     color: getDynamicColor('closeDrawerButton'),
+    flexDirection: 'column',
   },
   scrollView: {
-    backgroundColor: 'transparent',
-    minHeight: '100%',
+    backgroundColor: getDeviceDynamicColor('drawerBackground'),
+    width: '100%',
     display: 'flex',
     flex: 1,
   },
   item: {
-    backgroundColor: 'transparent',
-    paddingLeft: 44,
+    paddingHorizontal: 16,
+    backgroundColor: getDeviceDynamicColor('drawerBackground'),
+  },
+  tabletItem: {
+    marginHorizontal: 16,
+  },
+  itemContent: {
+    paddingLeft: 28,
+  },
+  itemSelect: {
+    marginHorizontal: 16,
+    backgroundColor: '#333333',
+    borderRadius: 8,
   },
   itemTitle: {
     color: getDeviceDynamicColor('drawerItemTitle'),
   },
+  itemSelectTitle: {
+    color: '#ffffff',
+  },
   treeItem: {
-    backgroundColor: 'transparent',
+    backgroundColor: getDeviceDynamicColor('drawerBackground'),
     marginLeft: 0,
     paddingLeft: 0,
   },
@@ -271,7 +304,7 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingTop: 0,
     paddingBottom: 0,
     paddingHorizontal: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: getDeviceDynamicColor('drawerBackground'),
   },
   treeItemTitleStyle: {
     paddingTop: 0,
@@ -296,20 +329,23 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   padLoginButton: {
     paddingBottom: 32,
-    paddingLeft: 16,
+    paddingLeft: 32,
   },
   phoneLoginButton: {
     paddingTop: 32,
     paddingLeft: 16,
     paddingBottom: 64,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
+    // position: 'absolute',
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
   },
 });
 
-export default connect(KEYS.SELECTED_TYPE)(MainDrawer);
+export default connect([
+  KEYS.SELECTED_TYPE,
+  KEYS.TAGS,
+])(MainDrawer);
 
 export function showDrawer(parentComponentId) {
   RNNDrawer.showDrawer({
@@ -321,10 +357,10 @@ export function showDrawer(parentComponentId) {
         direction: 'left',
         dismissWhenTouchOutside: true,
         fadeOpacity: 0.6,
-        drawerScreenWidth: '100%' || 445, // Use relative to screen '%' or absolute
+        drawerScreenWidth: '80%' || 445, // Use relative to screen '%' or absolute
         drawerScreenHeight: '100%' || 700,
         style: { // Styles the drawer container, supports any react-native style
-          backgroundColor: getColor('drawerBackground'),
+          backgroundColor: getDeviceColor('drawerBackground'),
         },
         // Custom prop, will be available in your custom drawer component props
         // eslint-disable-next-line react/prop-types

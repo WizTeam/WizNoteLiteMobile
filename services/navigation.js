@@ -1,12 +1,13 @@
-/* eslint-disable import/no-unresolved */
-import i18n from 'i18n-js';
-import { Navigation } from 'react-native-navigation';
-import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import { showMessage } from 'react-native-flash-message';
 
+import { Navigation } from '../thirdparty/react-native-navigation';
+import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
 import { isTablet } from '../utils/device';
+import { loadRequest } from '../components/WizSingletonWebView';
+import app from '../wrapper/app';
+import { isDarkMode } from '../config/Colors';
 
-export async function showTopBarMessage({ message, description, type }) {
+export async function showTopBarMessage({ message, description, type, onPress }) {
   const componentId = await Navigation.showOverlay({
     component: {
       name: 'TopBarFlashMessages',
@@ -23,10 +24,16 @@ export async function showTopBarMessage({ message, description, type }) {
     },
   });
   //
+  if (type === 'error') {
+    // eslint-disable-next-line no-param-reassign
+    type = 'danger';
+  }
+  //
   showMessage({
     message,
     description,
     type,
+    onPress,
   });
   //
   setTimeout(() => {
@@ -74,7 +81,7 @@ export function showUpgradeDialog(options) {
     stack: {
       children: [{
         component: {
-          name: 'UpgradeToVIP',
+          name: 'UpgradeToVipScreen',
           passProps: options,
         },
       }],
@@ -83,6 +90,16 @@ export function showUpgradeDialog(options) {
 }
 
 export function setMainAsRoot() {
+  //
+  const darkMode = isDarkMode();
+  const theme = darkMode ? 'dark' : 'lite';
+  const resPath = app.getPath('res');
+  const tablet = isTablet ? 'true' : 'false';
+  const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}&isTablet=${tablet}`;
+  // const editorHtmlPath = `http://localhost:3000?theme=${theme}&isTablet=${tablet}`;
+  // console.log(`load html: ${editorHtmlPath}`);
+  loadRequest(editorHtmlPath);
+  //
   if (isTablet) {
     Navigation.setRoot({
       root: {
@@ -102,75 +119,21 @@ export function setMainAsRoot() {
   } else {
     Navigation.setRoot({
       root: {
-        bottomTabs: {
+        stack: {
           children: [
             {
-              stack: {
-                children: [
-                  {
-                    component: {
-                      name: 'NotesScreen',
-                    },
-                  },
-                ],
-                options: {
-                  bottomTab: {
-                    text: i18n.t('bottomBarNotes'),
-                    icon: require('../images/icons/notes.png'),
-                  },
-                  topBar: {
-                    title: {
-                      text: 'WizNote Lite',
-                    },
-                  },
-                },
-              },
-            },
-            {
-              stack: {
-                children: [
-                  {
-                    component: {
-                      name: 'StarredNotesScreen',
-                    },
-                  },
-                ],
-                options: {
-                  topBar: {
-                    title: {
-                      text: 'Starred',
-                    },
-                  },
-                  bottomTab: {
-                    text: i18n.t('bottomBarStarred'),
-                    icon: require('../images/icons/starred.png'),
-                  },
-                },
-              },
-            },
-            {
-              stack: {
-                children: [
-                  {
-                    component: {
-                      name: 'SearchNotesScreen',
-                    },
-                  },
-                ],
-                options: {
-                  topBar: {
-                    title: {
-                      text: 'Default Title',
-                    },
-                  },
-                  bottomTab: {
-                    text: i18n.t('bottomBarSearch'),
-                    icon: require('../images/icons/search.png'),
-                  },
-                },
+              component: {
+                name: 'NotesScreen',
               },
             },
           ],
+          options: {
+            topBar: {
+              title: {
+                text: 'WizNote Lite',
+              },
+            },
+          },
         },
       },
     });

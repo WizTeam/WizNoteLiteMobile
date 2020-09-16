@@ -1,17 +1,17 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 pod 'react-native-sqlite-storage', :path => '../thirdparty/react-native-sqlite-storage'
-pod 'react-native-http-bridge', :path => '../thirdparty/react-native-http-bridge'
 pod 'react-native-fetch-blob', :path => '../thirdparty/react-native-fetch-blob'
+pod 'ReactNativeNavigation', :path => '../thirdparty/react-native-navigation'
+pod 'RNGestureHandler', :path => '../thirdparty/react-native-gesture-handler'
 
 target 'WizNoteLiteMobile' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
-
 
   target 'WizNoteLiteMobileTests' do
     inherit! :complete

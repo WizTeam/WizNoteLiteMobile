@@ -1,31 +1,70 @@
-import React, { useEffect } from 'react';
-import { SafeAreaView, View } from 'react-native';
-import { Navigation } from 'react-native-navigation';
+import React, { useEffect, useRef, useState } from 'react';
+import { View } from 'react-native';
 import i18n from 'i18n-js';
 
-import { SideMenuView } from 'react-native-navigation-drawer-extension';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { SearchBar } from 'react-native-elements';
 
+import { SideMenuView } from '../thirdparty/react-native-navigation-drawer-extension';
+import { Navigation } from '../thirdparty/react-native-navigation';
 import { showDrawer } from '../components/MainDrawer';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { updateNavigationTheme } from '../components/ThemeListener';
 import { viewNote } from '../services/view_note';
+import { createNewNote } from '../services/new_note';
 
-import { KEYS, connect } from '../data_store';
+import api from '../api';
+import store, { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
-import { getDeviceDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import IapListener from '../components/IapListener';
-import NoteEditor from '../components/NoteEditor';
+import { isPhone, isAndroid } from '../utils/device';
 
 const NotesScreen: () => React$Node = (props) => {
   //
+  const [searchText, setSearchText] = useState('');
+  const [showSearchBarLoading, setShowSearchBarLoading] = useState(false);
+
+  function handleSearchChange(text) {
+    setSearchText(text);
+  }
+
+  function handleSearchCancel() {
+    store.initCategoryNotes('#allNotes');
+  }
+
+  async function handleSearchSubmit() {
+    try {
+      if (!searchText) {
+        return;
+      }
+      setShowSearchBarLoading(true);
+      const notes = await api.searchNotes(store.getCurrentKb(), searchText);
+      store.setSearchResult(notes);
+      setShowSearchBarLoading(false);
+    } finally {
+      //
+      setShowSearchBarLoading(false);
+    }
+  }
+
+  async function handleSearchFocus() {
+    if (store.getSelectedType() !== '#searchResult') {
+      store.setSearchResult([]);
+    }
+  }
+
   useEffect(() => {
     const type = props.selectedType;
     let title;
     if (type === '#allNotes') {
       title = i18n.t('itemAllNotes');
+    } else if (type === '#starredNotes') {
+      title = i18n.t('itemStarredNotes');
     } else if (type === '#trash') {
       title = i18n.t('itemTrash');
+    } else if (type === '#searchResult') {
+      title = i18n.t('itemSearchResult');
     } else {
       title = type;
     }
@@ -42,6 +81,8 @@ const NotesScreen: () => React$Node = (props) => {
     const listener = Navigation.events().registerNavigationButtonPressedListener(({ buttonId }) => {
       if (buttonId === 'MainMenuButton') {
         showDrawer(props.componentId);
+      } else if (buttonId === 'NewNoteButton') {
+        createNewNote(props.componentId);
       }
     });
     return () => listener.remove();
@@ -63,6 +104,11 @@ const NotesScreen: () => React$Node = (props) => {
           // eslint-disable-next-line import/no-unresolved
           icon: require('../images/icons/menu.png'),
         }],
+        rightButtons: [{
+          id: 'NewNoteButton',
+          // eslint-disable-next-line import/no-unresolved
+          icon: require('../images/icons/new_note.png'),
+        }],
       },
     });
   }
@@ -71,23 +117,83 @@ const NotesScreen: () => React$Node = (props) => {
     viewNote(props.componentId);
   }
 
+  const searchTextRef = useRef('');
+  const cancelClickTime = useRef(0);
+
+  function handleSearchBarUpdate({ text, isFocused }) {
+    searchTextRef.current = text;
+    if (!text) {
+      if (isFocused) {
+        const now = new Date().valueOf();
+        if (now - cancelClickTime.current > 100) {
+          store.setSearchResult([]);
+        }
+      }
+    }
+  }
+
+  function handleSearchBarCancel() {
+    cancelClickTime.current = new Date().valueOf();
+    store.setSelectedType('#allNotes');
+    store.initCategoryNotes();
+  }
+  async function handleSearchBarSearch() {
+    try {
+      if (!searchTextRef.current) {
+        return;
+      }
+      const notes = await api.searchNotes(store.getCurrentKb(), searchTextRef.current);
+      store.setSearchResult(notes);
+    } finally {
+      //
+    }
+  }
+
+  useEffect(() => {
+    const events = Navigation.events();
+    const listener1 = events.registerSearchBarUpdatedListener(handleSearchBarUpdate);
+    const listener2 = events.registerSearchBarCancelPressedListener(handleSearchBarCancel);
+    const listener3 = events.registerSearchBarSearchPressedListener(handleSearchBarSearch);
+    return () => {
+      listener1.remove();
+      listener2.remove();
+      listener3.remove();
+    };
+  }, []);
+
   const styles = useDynamicValue(dynamicStyles);
 
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar onThemeChanged={handleThemeChanged} />
       <IapListener />
-      <SafeAreaView style={styles.content}>
+      <View style={styles.content}>
         <SideMenuView
           style={styles.root}
           left={showDrawer}
+          sideMargin={32}
         >
-          <View>
-            <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
-            <NoteEditor style={styles.hiddenEditor} />
-          </View>
+          {
+            isAndroid && isPhone
+            && (
+              <SearchBar
+                platform="android"
+                showLoading={showSearchBarLoading}
+                placeholder={i18n.t('placeholderSearchAllNotes')}
+                cancelButtonTitle={i18n.t('buttonCancelSearch')}
+                containerStyle={styles.searchBarContainerStyle}
+                inputContainerStyle={styles.searchBarInputContainerStyle}
+                onChangeText={handleSearchChange}
+                onCancel={handleSearchCancel}
+                onSubmitEditing={handleSearchSubmit}
+                onFocus={handleSearchFocus}
+                value={searchText}
+              />
+            )
+          }
+          <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
         </SideMenuView>
-      </SafeAreaView>
+      </View>
     </ColorSchemeProvider>
   );
 };
@@ -98,7 +204,6 @@ NotesScreenImpl.options = {
   topBar: {
     largeTitle: {
       visible: true,
-      color: 'red',
     },
     title: {
       text: i18n.t('itemAllNotes'),
@@ -108,9 +213,17 @@ NotesScreenImpl.options = {
       // eslint-disable-next-line import/no-unresolved
       icon: require('../images/icons/menu.png'),
     }],
+    rightButtons: [{
+      id: 'NewNoteButton',
+      // eslint-disable-next-line import/no-unresolved
+      icon: require('../images/icons/new_note.png'),
+    }],
+    searchBar: true,
+    searchBarHiddenWhenScrolling: true,
   },
-  sideMenu: {
-    openGestureMode: 'entireScreen',
+  layout: {
+    componentBackgroundColor: getDeviceColor('noteListBackground'),
+    orientation: ['portrait'],
   },
 };
 
@@ -127,6 +240,13 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   hiddenEditor: {
     display: 'none',
+  },
+  searchBarContainerStyle: {
+    backgroundColor: 'transparent',
+    paddingHorizontal: 8,
+  },
+  searchBarInputContainerStyle: {
+    backgroundColor: getDeviceDynamicColor('searchBarBackground'),
   },
 });
 

@@ -1,0 +1,48 @@
+{
+  "name": "react-native-navigation-drawer-extension",
+  "version": "3.0.0",
+  "description": "Drawer API built on top of wix react-native-navigation for iOS and Android.",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\"",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukebrandonfarrell/wix-react-native-navigation-drawer.git"
+  },
+  "keywords": [
+    "wix",
+    "react-native-navigation",
+    "navigation",
+    "react-native",
+    "drawer",
+    "side-menu",
+    "ios",
+    "android",
+    "native",
+    "typescript"
+  ],
+  "peerDependencies": {
+    "react-native-navigation": ">= 3.x"
+  },
+  "author": "Luke Brandon Farrell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lukebrandonfarrell/wix-react-native-navigation-drawer/issues"
+  },
+  "homepage": "https://github.com/lukebrandonfarrell/wix-react-native-navigation-drawer#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^16.9.1",
+    "@types/react-native": "^0.60.4",
+    "prettier": "2.0.4",
+    "react": "^16.9.0",
+    "react-native": "^0.60.4",
+    "react-native-navigation": "^6.4.0",
+    "typescript": "^3.8.3"
+  }
+}

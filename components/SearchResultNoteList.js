@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import dataStore, { KEYS, connect } from '../data_store';
+import { KEYS, connect } from '../data_store';
 import NoteList from './NoteList';
 
 const SearchResultNoteList: () => React$Node = (props) => {
-  useEffect(() => {
-    dataStore.initStarredNotes();
-  }, []);
-
   //
   const notes = props[KEYS.SEARCH_RESULT_NOTES] || [];
   const selectedNote = props[KEYS.CURRENT_NOTE] || {};

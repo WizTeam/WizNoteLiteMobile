@@ -12,12 +12,7 @@ import { getDynamicColor } from '../config/Colors';
 const UserButton: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles);
 
-  useEffect(() => {
-    dataStore.initStarredNotes();
-  }, []);
-
   const userInfo = props[KEYS.USER_INFO] || {};
-  // console.log('userInfo', userInfo);
 
   function handleClick() {
     if (userInfo.isLocalUser) {
@@ -67,7 +62,7 @@ const UserButton: () => React$Node = (props) => {
           data={userActionsData}
           renderBase={handleRenderDropdownBase}
           onChangeText={handleUserAction}
-          useNativeDriver
+          useNativeDriver={false}
         />
       )}
 

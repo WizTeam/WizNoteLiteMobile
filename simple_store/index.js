@@ -10,10 +10,12 @@ class SimpleStore {
   }
 
   subscribe(key, listener) {
+    console.info(`subscribe ${key}`);
     this._listener.on(key, listener);
   }
 
   unsubscribe(key, listener) {
+    console.info(`unsubscribe ${key}`);
     this._listener.off(key, listener);
   }
 
@@ -101,12 +103,13 @@ export function connect(keyOrKeys) {
       }
 
       render() {
-        return (
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          <WrappedComponent {...this.nextProps} {...this.state} />
-        );
+        const { forwardedRef, ...rest } = this.nextProps;
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        return <WrappedComponent ref={forwardedRef} {...rest} {...this.state} />;
       }
     }
-    return Connect;
+
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return React.forwardRef((props, ref) => (<Connect {...props} forwardedRef={ref} />));
   };
 }

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FlatList } from 'react-native';
-import { ListItem, Divider } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, { useState, useEffect, useRef } from 'react';
+import { Dimensions } from 'react-native';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
 
@@ -10,10 +8,13 @@ import { isTablet } from '../utils/device';
 import dataStore from '../data_store';
 import api from '../api';
 import { showTopBarMessage } from '../services/navigation';
-import { formatDateString } from '../utils/date';
-import HighlightText from './HighlightText';
+import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
+import NoteListItem, { updateNoteStar } from './NoteListItem';
+import NoteListHiddenItem, { BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH } from './NoteListHiddenItem';
 
 const NoteList: () => React$Node = (props) => {
+  //
+  const listWidth = isTablet ? 368 : Dimensions.get('window').width;
   //
   const styles = useDynamicValue(dynamicStyles);
   //
@@ -23,11 +24,19 @@ const NoteList: () => React$Node = (props) => {
   const selectedIndex = notes.findIndex((note) => note.guid === props.selectedNoteGuid);
   //
   async function handlerPressItem(note) {
-    const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
-    const newNote = { ...note, markdown };
-    dataStore.setCurrentNote(newNote);
+    //
+    if (isTablet) {
+      dataStore.setCurrentNote(note);
+    } else {
+      const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
+      const newNote = { ...note, markdown };
+      dataStore.setCurrentNote(newNote);
+      // eslint-disable-next-line no-param-reassign
+      note = newNote;
+    }
+    //
     if (props.onPressNote) {
-      props.onPressNote(newNote);
+      props.onPressNote(note);
     }
   }
   //
@@ -36,53 +45,62 @@ const NoteList: () => React$Node = (props) => {
     const selected = note.guid === props.selectedNoteGuid;
     //
     const hideDivider = isTablet && (selected || index === selectedIndex - 1);
-    const showDivider = !hideDivider;
-    //
-    let title = note.title;
-    let subTitle = formatDateString(note.modified);
-    if (props.showHighlight && note.highlight) {
-      if (note.highlight.title) {
-        const highlightText = note.highlight.title.join(' ');
-        title = <HighlightText text={highlightText} style={styles.title} />;
-      }
-      if (note.highlight.text) {
-        const allText = note.highlight.text.join(' ');
-        const highlightText = `${allText}\n\n${subTitle}`;
-        subTitle = <HighlightText text={highlightText} style={styles.subtitle} />;
-      }
-    }
     //
     return (
-      <>
-        <ListItem
-          onPress={() => handlerPressItem(note)}
-          key={note.guid}
-          title={title}
-          subtitle={subTitle}
-          rightIcon={props.showStar && note.starred && (
-            <Icon name="star" size={20} style={styles.star} />
-          )}
-          containerStyle={[styles.itemContainer, selected && styles.selected]}
-          titleStyle={styles.title}
-          subtitleStyle={styles.subtitle}
-          titleProps={{
-            numberOfLines: 2,
-            ellipsizeMode: 'tail',
-          }}
-        />
-        {showDivider && <Divider style={styles.divider} />}
-      </>
+      <NoteListItem
+        note={note}
+        selected={selected}
+        hideDivider={hideDivider}
+        showStar={props.showStar}
+        showHighlight={props.showHighlight}
+        onPressItem={handlerPressItem}
+      />
     );
   }
-  //
-  //
+
+  function renderHiddenItem({ item }, rowMap) {
+    //
+    const note = item;
+    //
+    return (
+      <NoteListHiddenItem
+        note={note}
+        rowMap={rowMap}
+        onUpdateNoteStar={updateNoteStar}
+      />
+    );
+  }
+
+  const animationIsRunningRef = useRef(false);
+
+  function handleSwipeValueChange(swipeData, rowMap) {
+    //
+    const { key, value } = swipeData;
+    const note = notes.find((item) => item.guid === key);
+    if (!note) {
+      return;
+    }
+    if (value < -listWidth
+      && !animationIsRunningRef.current
+    ) {
+      const row = rowMap[key];
+      if (!note._deletedInList) {
+        note._deletedInList = true;
+        animationIsRunningRef.current = true;
+        row.deleteRow(() => {
+          animationIsRunningRef.current = false;
+          api.deleteNote(note.kbGuid, note.guid);
+        });
+      }
+    }
+  }
 
   const [isRefreshing, setRefreshing] = useState(false);
   //
   async function handleRefresh() {
     setRefreshing(true);
     try {
-      await api.syncKb(null, {
+      await api.syncKb(dataStore.getCurrentKb(), {
         manual: true,
       });
     } catch (err) {
@@ -95,7 +113,7 @@ const NoteList: () => React$Node = (props) => {
       } else {
         showTopBarMessage({
           message: i18n.t('errorSync'),
-          description: i18n.t('errorSyncMessage', err.message),
+          description: i18n.t('errorSyncMessage', { message: err.message }),
           type: 'error',
         });
       }
@@ -108,13 +126,44 @@ const NoteList: () => React$Node = (props) => {
     function handleSyncStart() {
     }
 
+    function handleVip() {
+      //
+      console.log('upgrade to vip');
+    }
+
+    function showUpgradeVipMessage(isVipExpired) {
+      const messageId = isVipExpired ? 'errorVipExpiredSync' : 'errorUpgradeVipSync';
+      const message = i18n.t(messageId);
+      //
+      showTopBarMessage({
+        message: i18n.t('errorSync'),
+        description: message,
+        type: 'error',
+        onPress: handleVip,
+      });
+    }
+
     function handleSyncFinish(userGuid, kbGuid, result) {
       setRefreshing(false);
       const error = result.error;
       if (error) {
+        //
+        let errorMessage = error.message;
+        //
+        if (error.code === 'WizErrorInvalidPassword') {
+          errorMessage = i18n.t('errorInvalidPassword');
+          return;
+        } else if (error.externCode === 'WizErrorPayedPersonalExpired') {
+          showUpgradeVipMessage(true);
+          return;
+        } else if (error.externCode === 'WizErrorFreePersonalExpired') {
+          showUpgradeVipMessage(false);
+          return;
+        }
+        //
         showTopBarMessage({
           message: i18n.t('errorSync'),
-          description: i18n.t('errorSyncMessage', error.message),
+          description: i18n.t('errorSyncMessage', { message: errorMessage }),
           type: 'error',
         });
       }
@@ -131,13 +180,20 @@ const NoteList: () => React$Node = (props) => {
 
   //
   return (
-    <FlatList
+    <SwipeListView
       style={[styles.list, props.style]}
       keyExtractor={keyExtractor}
       data={notes}
       renderItem={renderItem}
+      renderHiddenItem={renderHiddenItem}
       onRefresh={handleRefresh}
       refreshing={isRefreshing}
+      rightOpenValue={-BUTTON_MIN_WIDTH * 2}
+      rightActivationValue={-BUTTON_MAX_WIDTH * 2}
+      rightActionValue={-500}
+      onSwipeValueChange={handleSwipeValueChange}
+      useNativeDriver={false}
+      disableRightSwipe
     />
   );
 };
@@ -146,8 +202,10 @@ const dynamicStyles = new DynamicStyleSheet({
   list: {
   },
   itemContainer: {
-    paddingLeft: 22,
     backgroundColor: getDeviceDynamicColor('noteListBackground'),
+  },
+  itemContent: {
+    paddingLeft: 8,
   },
   selected: {
     backgroundColor: getDeviceDynamicColor('noteListSelectedBackground'),
@@ -162,14 +220,20 @@ const dynamicStyles = new DynamicStyleSheet({
     fontSize: 14,
     color: getDeviceDynamicColor('noteListSubTitle'),
   },
+  dividerContainer: {
+    backgroundColor: getDeviceDynamicColor('noteListBackground'),
+  },
   divider: {
     marginLeft: 22,
     marginRight: 16,
     backgroundColor: getDeviceDynamicColor('noteListDivider'),
-    // color: 'red',
+  },
+  hideDivider: {
+    backgroundColor: getDeviceDynamicColor('noteListBackground'),
   },
   star: {
     color: 'rgb(253, 201, 46)',
+    paddingBottom: 24,
   },
 });
 

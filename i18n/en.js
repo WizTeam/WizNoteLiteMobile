@@ -7,11 +7,18 @@ export default {
   placeholderUserId: 'Email',
   placeholderUserPassword: 'Password',
   placeholderPrivateServer: 'Private server address',
+  placeholderSearch: 'Search',
+  placeholderSearchAllNotes: 'Search all notes',
+  buttonCancelSearch: 'Cancel',
   buttonForgotPassword: 'Forgot password?',
   serverTypeDefault: 'WizNote Server',
   serverTypePrivate: 'Private Server',
   //
-  registerDeclare: 'By registering, you have read and agreed to the <a target="_blank" href="https://wiz.cn/pages/go?blogName=share-termsofuse&lang=en">Terms of Service</a> and <a target="_blank" href="https://wiz.cn/pages/go?blogName=wiz-privacy&lang=en">Privacy Policy</a>',
+  registerDeclare: 'By registering, you have read and agreed to the https://wiz.cn/pages/go?blogName=share-termsofuse&lang=en and https://wiz.cn/pages/go?blogName=wiz-privacy&lang=en',
+  textTermsOfUse: 'Terms of Service',
+  textPrivacy: 'Privacy Policy',
+  errorVipExpiredSync: 'The VIP service has expired and cannot upload notes.\nPress this message to Renewal VIP.',
+  errorUpgradeVipSync: 'The free trial period has ended and cannot upload notes\nPress this message to Upgrade VIP.',
   //
   errorDisableRegister: 'Disable register',
   errorMaxTimesForIP: 'Your IP sign up too much, please retry later...',
@@ -38,7 +45,9 @@ export default {
   menuLogout: 'Logout',
 
   itemAllNotes: 'All Notes',
+  itemStarredNotes: 'Starred Notes',
   itemTrash: 'Trash',
+  itemSearchResult: 'Search Result',
   titleStarredNotes: 'Starred Notes',
   bottomBarNotes: 'Notes',
   bottomBarStarred: 'Starred',
@@ -52,4 +61,8 @@ export default {
   buttonRestorePurchases: 'Restore Purchase',
   messageVipServiceDate: 'Your WizNote VIP service will expire on %{date}.',
   messageVipServiceEndedDate: 'Your WizNote VIP service has expired on %{date}.',
+  buttonStarNote: 'Star',
+  buttonUnstarNote: 'Unstar',
+  buttonDelete: 'Delete',
+  buttonPutBackNote: 'Undelete',
 };

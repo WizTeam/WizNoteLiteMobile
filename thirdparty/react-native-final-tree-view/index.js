@@ -16,7 +16,9 @@ class TreeView extends React.Component {
     onNodePress: PropTypes.func,
     onNodeLongPress: PropTypes.func,
     isNodeExpanded: PropTypes.func,
-    shouldDisableTouchOnLeaf: PropTypes.func
+    shouldDisableTouchOnLeaf: PropTypes.func,
+    selectedContainerStyle: PropTypes.object,
+    selectedItemTitleStyle: PropTypes.object,
   }
 
   static defaultProps = {
@@ -27,7 +29,9 @@ class TreeView extends React.Component {
     onNodePress: null,
     onNodeLongPress: null,
     isNodeExpanded: null,
-    shouldDisableTouchOnLeaf: () => false
+    shouldDisableTouchOnLeaf: () => false,
+    selectedContainerStyle: {},
+    selectedItemTitleStyle: {},
   }
 
   constructor(props) {
@@ -115,38 +119,47 @@ class TreeView extends React.Component {
           }}
         >
           <ListItem
-            title={node.name}
             pad={0}
-            containerStyle={{
-              ...this.props.itemContainerStyle,
-              paddingLeft: 22 * level,
-              paddingRight: 8,
-            }}
-            titleStyle={this.props.itemTitleStyle}
-            contentContainerStyle={this.props.itemContentContainerStyle}
+            containerStyle={[
+              {
+                ...this.props.itemContainerStyle,
+                paddingLeft: 22 * level,
+                paddingRight: 8,
+              },
+              this.props.selected === node.id && this.props.selectedContainerStyle,
+            ]}
             onPress={() => this.handleNodePressed({ node, level })}
-            leftElement={(
-              <View style={{
-                width: 44,
-                height: 44,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+          >
+            <View style={{
+              width: 44,
+              height: 44,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            >
+              <TouchableOpacity
+                onPress={() => this.handleButtonPressed({ node, level })}
               >
-                <TouchableOpacity
-                  onPress={() => this.handleButtonPressed({ node, level })}
-                >
-                  {React.createElement(this.props.renderExpandButton, {
-                    node,
-                    level,
-                    isExpanded,
-                    hasChildrenNodes,
-                  })}
-                </TouchableOpacity>
-              </View>
-            )}
-            rightElement={
+                {React.createElement(this.props.renderExpandButton, {
+                  node,
+                  level,
+                  isExpanded,
+                  hasChildrenNodes,
+                  isSelected: this.props.selected === node.id,
+                })}
+              </TouchableOpacity>
+            </View>
+            <ListItem.Content style={this.props.itemContentContainerStyle}>
+              <ListItem.Title style={[
+                this.props.itemTitleStyle,
+                this.props.selected === node.id && this.props.selectedItemTitleStyle,
+              ]}
+              >
+                {node.name}
+              </ListItem.Title>
+            </ListItem.Content>
+            {
               this.props.selected === node.id
               && this.props.renderSelectedMarker
               && (
@@ -162,7 +175,7 @@ class TreeView extends React.Component {
                 </View>
               )
             }
-          />
+          </ListItem>
           {shouldRenderLevel && (
             <NodeComponent
               nodes={node[this.props.childrenKey]}
