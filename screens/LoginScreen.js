@@ -327,6 +327,12 @@ const LoginScreen: () => React$Node = (props) => {
                   onChangeText={handleChangeServerType}
                   disabled={isWorking}
                   useNativeDriver={false}
+                  pickerStyle={styles.picker}
+                  itemContainerStyle={styles.dropdownItem}
+                  dropdownOffset={{
+                    top: 48,
+                    left: 48,
+                  }}
                 />
                 <View style={styles.sectionContainer}>
                   <Input
@@ -411,8 +417,8 @@ const dynamicStyles = new DynamicStyleSheet({
     justifyContent: 'center',
   },
   body: {
-    maxWidth: isTablet ? 400 : '100%',
-    paddingHorizontal: 8,
+    width: isTablet ? 400 : '100%',
+    paddingHorizontal: 12,
     minHeight: '100%',
   },
   title: {
@@ -481,11 +487,19 @@ const dynamicStyles = new DynamicStyleSheet({
     fontWeight: '600',
     color: getDynamicColor('loginBoxText'),
   },
+  picker: {
+    backgroundColor: getDynamicColor('dropdownPickerBackground'),
+    borderRadius: 4,
+    maxWidth: 240,
+  },
   serverDropdown: {
     // minWidth: 200,
     // flexGrow: 1,
     paddingHorizontal: 32,
     marginTop: 32,
+  },
+  dropdownItem: {
+    paddingLeft: 24,
   },
   serverDropdownIcon: {
     color: getDynamicColor('loginBoxText'),
