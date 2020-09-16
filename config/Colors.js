@@ -66,7 +66,7 @@ const dark = merge({}, light, {
   loginBoxButtonBackground: '#000000',
   searchFieldBackground: '#333333',
   searchField: '#f0f0f0',
-  dropdownPickerBackground: '#333333',
+  dropdownPickerBackground: '#555555',
   dropdownPickerItemColor: 'rgba(255,255,255,0.38)',
   dropdownPickerItemSelectedColor: 'rgba(255,255,255,0.87)',
   upgradeBackgroundColor: '#2a2a2a',

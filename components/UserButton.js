@@ -77,11 +77,17 @@ const UserButton: () => React$Node = (props) => {
       {!isLocalUser && (
         <Dropdown
           containerStyle={styles.userNameDropdown}
+          itemContainerStyle={styles.dropdownItem}
+          pickerStyle={styles.picker}
           label={userInfo.displayName}
           data={userActionsData}
           renderBase={handleRenderDropdownBase}
           onChangeText={handleUserAction}
           useNativeDriver={false}
+          dropdownOffset={{
+            top: 64,
+            left: 12,
+          }}
         />
       )}
 
@@ -98,6 +104,14 @@ const dynamicStyles = new DynamicStyleSheet({
   userNameDropdown: {
     flexGrow: 1,
     // backgroundColor: 'red',
+  },
+  picker: {
+    backgroundColor: getDynamicColor('dropdownPickerBackground'),
+    borderRadius: 4,
+    maxWidth: 200,
+  },
+  dropdownItem: {
+    paddingLeft: 32,
   },
   userActionDropdownBase: {
     paddingTop: 4,

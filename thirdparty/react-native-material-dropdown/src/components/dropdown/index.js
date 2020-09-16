@@ -304,6 +304,13 @@ export default class Dropdown extends PureComponent {
       let top = y
         + dropdownOffset.top
         - itemPadding;
+      //
+      console.log(`top=${top}, top + containerHeight=${top + containerHeight}, height=${dimensions.height}`);
+      if (top + containerHeight > dimensions.height - 24) {
+        //
+        top = y - containerHeight - itemPadding;
+        //
+      }
 
       this.setState({
         modal: true,
@@ -606,6 +613,7 @@ export default class Dropdown extends PureComponent {
       disabledItemColor = baseColor,
       fontSize,
       itemTextStyle,
+      itemContainerStyle,
       rippleOpacity,
       rippleDuration,
       shadeOpacity,
@@ -657,7 +665,7 @@ export default class Dropdown extends PureComponent {
     ];
 
     return (
-      <DropdownItem index={index} {...props}>
+      <DropdownItem index={index} containerStyle={itemContainerStyle} {...props}>
         <Text style={[styles.item, itemTextStyle, textStyle]} numberOfLines={1}>
           {title}
         </Text>
