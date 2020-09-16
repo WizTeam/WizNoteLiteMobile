@@ -231,6 +231,16 @@ const LoginScreen: () => React$Node = (props) => {
     }
   }
 
+  function handleInputSubmit(event, key) {
+    if (isLogin) {
+      if ((!isPrivateServer && key === 'password') || (isPrivateServer && key === 'privateServer')) {
+        handleLogin();
+      }
+    } else if ((!isPrivateServer && key === 'password') || (isPrivateServer && key === 'privateServer')) {
+      handleSignUp();
+    }
+  }
+
   function handleForgotPassword() {
     Linking.openURL('https://www.wiz.cn/login#forgot');
   }
@@ -340,6 +350,7 @@ const LoginScreen: () => React$Node = (props) => {
                     errorMessage={passwordErrorMessage}
                     secureTextEntry
                     onChangeText={handleChangePassword}
+                    onSubmitEditing={(event) => handleInputSubmit(event, 'password')}
                   />
                   {isPrivateServer && (
                     <Input
@@ -350,6 +361,7 @@ const LoginScreen: () => React$Node = (props) => {
                       placeholder={i18n.t('placeholderPrivateServer')}
                       errorMessage={serverErrorMessage}
                       onChangeText={handleChangeServerUrl}
+                      onSubmitEditing={(event) => handleInputSubmit(event, 'privateServer')}
                     />
                   )}
                 </View>

@@ -85,8 +85,8 @@ class Api extends EventEmitter {
     }
     const version = this._user.avatarVersion;
     const userGuid = this.userGuid;
-    const userData = sdk.getUserData(userGuid);
-    const as = userData.accountServer;
+    const userData = sdk.getUserData(userGuid) ?? {};
+    const as = userData.accountServer ?? {};
     const server = as.server;
     return `${server}/as/user/avatar/${userGuid}?version=${version}`;
   }
