@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
-  TouchableHighlight,
+  TouchableOpacity,
   SafeAreaView,
-  ScrollView,
   Text,
   View,
 } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
-import { Navigation } from 'react-native-navigation';
+import { Navigation } from '../thirdparty/react-native-navigation';
 
 import api from '../api';
 
@@ -20,7 +19,7 @@ import { getProducts, requestPurchase, restorePurchases } from '../utils/iap';
 import UploadCloudIcon from '../components/svg/UploadCloudIcon';
 import CrownIcon from '../components/svg/CrownIcon';
 
-const UpgradeToVIP: () => React$Node = (props) => {
+const UpgradeToVipScreen: () => React$Node = (props) => {
   //
   const styles = useDynamicValue(dynamicStyles);
   const [loading, setLoading] = useState(false);
@@ -30,9 +29,13 @@ const UpgradeToVIP: () => React$Node = (props) => {
   //
   async function handlePurchase() {
     setLoading(true);
-    const result = await requestPurchase('cn.wiz.note.lite.year');
-    // console.log('handlePurchase result', result);
-    setLoading(false);
+    try {
+      const result = await requestPurchase('cn.wiz.note.lite.year');
+      console.log('handlePurchase result', result);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   }
 
   function handleRestorePurchases() {
@@ -80,14 +83,13 @@ const UpgradeToVIP: () => React$Node = (props) => {
       <ThemedStatusBar />
       <IapListener />
       <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
+        <View
           style={styles.scrollView}
         >
           <View style={styles.closeBox}>
-            <TouchableHighlight style={styles.closeTouchable} onPress={handleCloseUpgrade}>
+            <TouchableOpacity style={styles.closeTouchable} onPress={handleCloseUpgrade}>
               <Icon name="close" color={styles.serverDropdownIcon.color} size={24} />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
           <View style={styles.banner}>
             <Text style={[styles.bannerText, styles.upgradeToVip]}>{i18n.t('labelUpgradeToVip')}</Text>
@@ -119,13 +121,13 @@ const UpgradeToVIP: () => React$Node = (props) => {
               title={i18n.t('buttonRestorePurchases')}
             />
           </View>
-        </ScrollView>
+        </View>
       </SafeAreaView>
     </>
   );
 };
 
-UpgradeToVIP.options = {
+UpgradeToVipScreen.options = {
   topBar: {
     visible: false,
   },
@@ -195,4 +197,4 @@ const dynamicStyles = new DynamicStyleSheet({
   },
 });
 
-export default UpgradeToVIP;
+export default UpgradeToVipScreen;
