@@ -305,7 +305,6 @@ export default class Dropdown extends PureComponent {
         + dropdownOffset.top
         - itemPadding;
       //
-      console.log(`top=${top}, top + containerHeight=${top + containerHeight}, height=${dimensions.height}`);
       if (top + containerHeight > dimensions.height - 24) {
         //
         top = y - containerHeight - itemPadding;
