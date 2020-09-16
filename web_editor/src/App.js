@@ -4,7 +4,6 @@ import queryString from 'query-string';
 
 import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
 
-import 'wiz-react-markdown-editor/lib/index.min.css';
 import './App.css';
 import ThemeSwitcher from './ThemeSwitch';
 import Toolbar from './Toolbar';

@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { Text, TouchableOpacity, Animated, Vibration } from 'react-native';
+import { Text, TouchableOpacity, Animated } from 'react-native';
 import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 import { getDeviceDynamicColor } from '../config/Colors';
 import api from '../api';
@@ -60,6 +61,14 @@ export default function NoteListHiddenItem(props) {
   const oldSwipeValueRef = useRef(0);
   //
   useEffect(() => {
+    function shortVibrate() {
+      const options = {
+        enableVibrateFallback: true,
+        ignoreAndroidSystemSettings: false,
+      };
+      ReactNativeHapticFeedback.trigger('impactLight', options);
+    }
+
     function handleSwipeValueChanged({ value }) {
       //
       let rightToLeft;
@@ -76,12 +85,12 @@ export default function NoteListHiddenItem(props) {
       //
       if (rightToLeft === true) {
         if (value < position && position < old) {
-          Vibration.vibrate(50);
+          shortVibrate();
         }
       } else if (rightToLeft === false) {
         // eslint-disable-next-line no-lonely-if
         if (value > position && position > old) {
-          Vibration.vibrate(50);
+          shortVibrate();
         }
       }
       //
@@ -93,7 +102,7 @@ export default function NoteListHiddenItem(props) {
     return () => {
       swipeAnimatedValue.removeListener(handleSwipeValueChanged);
     };
-  })
+  });
   //
   return (
     <Animated.View style={styles.rowBack}>

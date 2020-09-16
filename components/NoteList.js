@@ -7,7 +7,7 @@ import { getDeviceDynamicColor } from '../config/Colors';
 import { isTablet } from '../utils/device';
 import dataStore from '../data_store';
 import api from '../api';
-import { showTopBarMessage } from '../services/navigation';
+import { showTopBarMessage, showUpgradeDialog } from '../services/navigation';
 import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
 import NoteListItem, { updateNoteStar } from './NoteListItem';
 import NoteListHiddenItem, { BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH } from './NoteListHiddenItem';
@@ -126,13 +126,45 @@ const NoteList: () => React$Node = (props) => {
     function handleSyncStart() {
     }
 
+    function handleVip() {
+      //
+      showUpgradeDialog();
+      console.log('upgrade to vip');
+    }
+
+    function showUpgradeVipMessage(isVipExpired) {
+      const messageId = isVipExpired ? 'errorVipExpiredSync' : 'errorUpgradeVipSync';
+      const message = i18n.t(messageId);
+      //
+      showTopBarMessage({
+        message: i18n.t('errorSync'),
+        description: message,
+        type: 'error',
+        onPress: handleVip,
+      });
+    }
+
     function handleSyncFinish(userGuid, kbGuid, result) {
       setRefreshing(false);
       const error = result.error;
       if (error) {
+        //
+        let errorMessage = error.message;
+        //
+        if (error.code === 'WizErrorInvalidPassword') {
+          errorMessage = i18n.t('errorInvalidPassword');
+          return;
+        } else if (error.externCode === 'WizErrorPayedPersonalExpired') {
+          showUpgradeVipMessage(true);
+          return;
+        } else if (error.externCode === 'WizErrorFreePersonalExpired') {
+          showUpgradeVipMessage(false);
+          return;
+        }
+        //
         showTopBarMessage({
           message: i18n.t('errorSync'),
-          description: i18n.t('errorSyncMessage', { message: error.message }),
+          description: i18n.t('errorSyncMessage', { message: errorMessage }),
           type: 'error',
         });
       }

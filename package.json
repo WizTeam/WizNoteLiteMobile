@@ -48,6 +48,7 @@
     "react-native-flash-message": "^0.1.16",
     "react-native-fs": "^2.16.6",
     "react-native-get-random-values": "^1.4.0",
+    "react-native-haptic-feedback": "^1.10.0",
     "react-native-hyperlink": "0.0.19",
     "react-native-iap": "^4.5.3",
     "react-native-image-picker": "^2.3.3",
@@ -62,7 +63,7 @@
     "use-state-with-callback": "^2.0.2",
     "uuid": "^8.3.0",
     "wiz-react-markdown-editor": "git+https://github.com/WizTeam/wiz-react-markdown-editor.git",
-    "wiznote-sdk-js": "^1.2.5",
+    "wiznote-sdk-js": "^1.2.6",
     "wiznote-sdk-js-share": "^1.0.2",
     "xregexp": "^4.3.0"
   },

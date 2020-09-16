@@ -323,6 +323,8 @@ PODS:
     - React
   - RNLocalize (1.4.1):
     - React
+  - RNReactNativeHapticFeedback (1.10.0):
+    - React
   - RNSVG (12.1.0):
     - React
   - RNVectorIcons (7.0.0):
@@ -388,6 +390,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../thirdparty/react-native-gesture-handler`)
   - RNIap (from `../node_modules/react-native-iap`)
   - RNLocalize (from `../node_modules/react-native-localize`)
+  - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -478,6 +481,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-iap"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
+  RNReactNativeHapticFeedback:
+    :path: "../node_modules/react-native-haptic-feedback"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -532,6 +537,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNIap: 92eb5279409c675cbdd7d2ef8b3b1368d785e5dd
   RNLocalize: c388679af021ddd6069c215f7fdd2acf4e77ede5
+  RNReactNativeHapticFeedback: 22c5ecf474428766c6b148f96f2ff6155cd7225e
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598

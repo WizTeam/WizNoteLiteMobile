@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 import React, { useEffect, useState } from 'react';
 import {
-  View, ScrollView,
+  View,
+  ScrollView,
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 
@@ -16,7 +17,7 @@ import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
 import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
-import Colors, { getDeviceColor, getDeviceDynamicColor } from '../config/Colors';
+import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import NotesIcon from './svg/NotesIcon';
 import StarredIcon from './svg/StarredIcon';
 import TrashIcon from './svg/TrashIcon';
@@ -236,6 +237,9 @@ const MainDrawer: () => React$Node = (props) => {
 const dynamicStyles = new DynamicStyleSheet({
   root: {
     flex: 1,
+  },
+  icon: {
+    color: getDynamicColor('closeDrawerButton'),
     flexDirection: 'column',
   },
   scrollView: {
@@ -305,10 +309,7 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingTop: 32,
     paddingLeft: 16,
     paddingBottom: 64,
-    // position: 'absolute',
-    // bottom: 0,
-    // left: 0,
-    // right: 0,
+    marginLeft: isTablet ? 16 : 32,
   },
 });
 
