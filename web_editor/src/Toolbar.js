@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     whiteSpace: 'nowrap',
     textAlign: 'center',
-    padding: '5px 0',
+    padding: '5px 30px',
   },
   iconBtn: {
     display: 'inline-block',
@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     outline: 'none',
     border: 'none',
+    '&:not(:nth-last-child(1))': {
+      marginRight: 10
+    }
   },
   marginRight: {
     marginRight: 50
@@ -70,7 +73,6 @@ export default function Toolbar({isCursorInTable, editor, isShow }) {
     {
       type: 'bulletList',
       iconName: 'wuxuliebiao',
-      marginRight: true,
     },
     {
       type: 'link',
@@ -125,7 +127,6 @@ export default function Toolbar({isCursorInTable, editor, isShow }) {
     {
       type: 'checkedBox',
       iconName: 'xuanzekuang',
-      marginRight: true,
     },
     {
       type: 'alignLeft',
