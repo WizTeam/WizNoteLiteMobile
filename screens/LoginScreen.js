@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   ImageBackground,
   TouchableHighlight,
   Linking,
+  Keyboard,
 } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
@@ -42,6 +43,9 @@ const LoginScreen: () => React$Node = (props) => {
   const [userIdErrorMessage, setUserIdErrorMessage] = useState('');
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [serverErrorMessage, setServerErrorMessage] = useState('');
+
+  const [keyboardHeight, setKetboardHeight] = useState(0);
+  const scrollViewRef = React.useRef(null);
 
   function handleSwitchLogin() {
     setLogin(true);
@@ -270,6 +274,41 @@ const LoginScreen: () => React$Node = (props) => {
     Linking.openURL(url);
   }
 
+  useEffect(() => {
+    function handleKeyboardWillShow(event) {
+      const { endCoordinates } = event;
+      const bannerHeight = isTablet ? 48 : 24;
+      setKetboardHeight(endCoordinates.height);
+      setTimeout(() => {
+        scrollViewRef.current.scrollTo({
+          x: 0,
+          y: bannerHeight + styles.title.marginTop + styles.shadowBox.marginTop,
+          animated: true,
+          duration: event.duration,
+        });
+      }, 0);
+    }
+    //
+    function handleKeyboardWillHide(event) {
+      scrollViewRef.current.scrollTo({
+        x: 0,
+        y: 0,
+        animated: true,
+        duration: event.duration,
+      });
+      setTimeout(() => {
+        setKetboardHeight(0);
+      }, event.duration);
+    }
+    //
+    Keyboard.addListener('keyboardWillShow', handleKeyboardWillShow);
+    Keyboard.addListener('keyboardWillHide', handleKeyboardWillHide);
+    return () => {
+      Keyboard.removeListener('keyboardWillShow', handleKeyboardWillShow);
+      Keyboard.removeListener('keyboardWillHide', handleKeyboardWillHide);
+    };
+  }, []);
+
   const serverData = [{
     label: i18n.t('serverTypeDefault'),
     value: 'official',
@@ -303,11 +342,15 @@ const LoginScreen: () => React$Node = (props) => {
             )}
           </View>
           <ScrollView
+            ref={scrollViewRef}
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}
             contentContainerStyle={styles.contentContainerStyle}
           >
-            <View style={styles.body}>
+            <View style={[styles.body, keyboardHeight && {
+              paddingBottom: keyboardHeight,
+            }]}
+            >
               <LoginBannerIcon
                 fill={styles.title.color}
                 height={bannerHeight}
