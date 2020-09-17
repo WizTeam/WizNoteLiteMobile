@@ -104,7 +104,9 @@ const NoteEditor = React.forwardRef((props, ref) => {
     if (keyboardVisibleRef.current) {
       const now = new Date().valueOf();
       if (now - keyboardVisibleTimeRef.current > 1000) {
-        endEditing(true);
+        // 使用endEditing。在点击页面的时候可能会不正常跳动
+        // endEditing(true);
+        injectJavaScript('document.activeElement.blur();true;');
       }
     }
   }
