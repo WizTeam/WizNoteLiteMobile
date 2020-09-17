@@ -69,6 +69,7 @@ function handleApiEvents(userGuid, eventName, ...args) {
     const [kbGuid, notes] = args;
     handleDownloadNotes(kbGuid, notes);
   } else if (eventName === 'userInfoChanged') {
+    console.log('user info changed');
     const [userInfo] = args;
     store.setData(KEYS.USER_INFO, userInfo);
   } else if (eventName === 'tagsChanged' || eventName === 'tagRenamed') {

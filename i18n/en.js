@@ -33,6 +33,13 @@ export default {
   errorSync: 'Sync Error',
   errorNoAccount: 'No WizNote Account, please login or sign up.',
   errorSyncMessage: '{{message}}',
+  titlePurchaseFailed: 'Purchase failed',
+  messageFailedToPurchase: 'Failed to purchase product: {{message}}',
+  errorVerifyPurchase: 'Failed to verify purchase: {{message}}',
+  titlePurchaseSuccess: 'Purchase success',
+  messagePurchaseSuccess: 'Your vip expire date: {{vipDate}}',
+  titlePurchasing: 'Purchasing',
+  messageVerifyingPurchase: 'Verifying your transaction receipt, please wait...',
 
   errorInvalidUserId: 'User not exists (invalid email).',
   errorLicenseUserLimit: 'License error: too many active users.',

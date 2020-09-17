@@ -10,14 +10,12 @@ import i18n from 'i18n-js';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { Navigation } from '../thirdparty/react-native-navigation';
 
-import api from '../api';
-
 import ThemedStatusBar from '../components/ThemedStatusBar';
-import IapListener from '../components/IapListener';
-import { getDynamicColor } from '../config/Colors';
+import { getDynamicColor, getColor } from '../config/Colors';
 import { getProducts, requestPurchase, restorePurchases } from '../utils/iap';
 import UploadCloudIcon from '../components/svg/UploadCloudIcon';
 import CrownIcon from '../components/svg/CrownIcon';
+import { KEYS, connect } from '../data_store';
 
 const UpgradeToVipScreen: () => React$Node = (props) => {
   //
@@ -25,13 +23,12 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
   const [loading, setLoading] = useState(false);
   const [available, setAvailable] = useState(false);
   //
-  const { user } = api;
+  const user = props[KEYS.USER_INFO];
   //
   async function handlePurchase() {
     setLoading(true);
     try {
-      const result = await requestPurchase('cn.wiz.note.lite.year');
-      console.log('handlePurchase result', result);
+      await requestPurchase('cn.wiz.note.lite.year');
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -81,7 +78,6 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
   return (
     <>
       <ThemedStatusBar />
-      <IapListener />
       <SafeAreaView>
         <View
           style={styles.scrollView}
@@ -113,6 +109,9 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
               title={buttonText}
               loading={loading}
               disabled={!available}
+              loadingProps={{
+                color: getColor('upgradeButtonColor'),
+              }}
             />
             <Button
               onPress={handleRestorePurchases}
@@ -125,12 +124,6 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
       </SafeAreaView>
     </>
   );
-};
-
-UpgradeToVipScreen.options = {
-  topBar: {
-    visible: false,
-  },
 };
 
 const dynamicStyles = new DynamicStyleSheet({
@@ -197,4 +190,12 @@ const dynamicStyles = new DynamicStyleSheet({
   },
 });
 
-export default UpgradeToVipScreen;
+const UpgradeToVipScreenImpl = connect([KEYS.USER_INFO])(UpgradeToVipScreen);
+
+UpgradeToVipScreenImpl.options = {
+  topBar: {
+    visible: false,
+  },
+};
+
+export default UpgradeToVipScreenImpl;

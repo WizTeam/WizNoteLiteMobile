@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   ImageBackground,
   TouchableHighlight,
   Linking,
+  Keyboard,
 } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
@@ -42,6 +43,9 @@ const LoginScreen: () => React$Node = (props) => {
   const [userIdErrorMessage, setUserIdErrorMessage] = useState('');
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [serverErrorMessage, setServerErrorMessage] = useState('');
+
+  const [keyboardHeight, setKetboardHeight] = useState(0);
+  const scrollViewRef = React.useRef(null);
 
   function handleSwitchLogin() {
     setLogin(true);
@@ -231,8 +235,18 @@ const LoginScreen: () => React$Node = (props) => {
     }
   }
 
+  function handleInputSubmit(event, key) {
+    if (isLogin) {
+      if ((!isPrivateServer && key === 'password') || (isPrivateServer && key === 'privateServer')) {
+        handleLogin();
+      }
+    } else if ((!isPrivateServer && key === 'password') || (isPrivateServer && key === 'privateServer')) {
+      handleSignUp();
+    }
+  }
+
   function handleForgotPassword() {
-    Linking.openURL('https://www.wiz.cn/login#forgot');
+    // showForgotWebView();
   }
 
   // eslint-disable-next-line react/prop-types
@@ -259,6 +273,41 @@ const LoginScreen: () => React$Node = (props) => {
   function handlePressLink(url) {
     Linking.openURL(url);
   }
+
+  useEffect(() => {
+    function handleKeyboardWillShow(event) {
+      const { endCoordinates } = event;
+      const bannerHeight = isTablet ? 48 : 24;
+      setKetboardHeight(endCoordinates.height);
+      setTimeout(() => {
+        scrollViewRef.current.scrollTo({
+          x: 0,
+          y: bannerHeight + styles.title.marginTop + styles.shadowBox.marginTop,
+          animated: true,
+          duration: event.duration,
+        });
+      }, 0);
+    }
+    //
+    function handleKeyboardWillHide(event) {
+      scrollViewRef.current.scrollTo({
+        x: 0,
+        y: 0,
+        animated: true,
+        duration: event.duration,
+      });
+      setTimeout(() => {
+        setKetboardHeight(0);
+      }, event.duration);
+    }
+    //
+    Keyboard.addListener('keyboardWillShow', handleKeyboardWillShow);
+    Keyboard.addListener('keyboardWillHide', handleKeyboardWillHide);
+    return () => {
+      Keyboard.removeListener('keyboardWillShow', handleKeyboardWillShow);
+      Keyboard.removeListener('keyboardWillHide', handleKeyboardWillHide);
+    };
+  }, []);
 
   const serverData = [{
     label: i18n.t('serverTypeDefault'),
@@ -293,11 +342,15 @@ const LoginScreen: () => React$Node = (props) => {
             )}
           </View>
           <ScrollView
+            ref={scrollViewRef}
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}
             contentContainerStyle={styles.contentContainerStyle}
           >
-            <View style={styles.body}>
+            <View style={[styles.body, keyboardHeight && {
+              paddingBottom: keyboardHeight,
+            }]}
+            >
               <LoginBannerIcon
                 fill={styles.title.color}
                 height={bannerHeight}
@@ -317,12 +370,19 @@ const LoginScreen: () => React$Node = (props) => {
                   onChangeText={handleChangeServerType}
                   disabled={isWorking}
                   useNativeDriver={false}
+                  pickerStyle={styles.picker}
+                  itemContainerStyle={styles.dropdownItem}
+                  dropdownOffset={{
+                    top: 48,
+                    left: 48,
+                  }}
                 />
                 <View style={styles.sectionContainer}>
                   <Input
                     containerStyle={styles.inputContainer}
                     inputContainerStyle={styles.input}
                     inputStyle={styles.inputElement}
+                    errorStyle={styles.inputErrorStyle}
                     disabled={isWorking}
                     textContentType="emailAddress"
                     autoCapitalize="none"
@@ -334,22 +394,26 @@ const LoginScreen: () => React$Node = (props) => {
                     containerStyle={styles.inputContainer}
                     inputContainerStyle={styles.input}
                     inputStyle={styles.inputElement}
+                    errorStyle={styles.inputErrorStyle}
                     disabled={isWorking}
                     textContentType="password"
                     placeholder={i18n.t('placeholderUserPassword')}
                     errorMessage={passwordErrorMessage}
                     secureTextEntry
                     onChangeText={handleChangePassword}
+                    onSubmitEditing={(event) => handleInputSubmit(event, 'password')}
                   />
                   {isPrivateServer && (
                     <Input
                       containerStyle={styles.inputContainer}
                       inputContainerStyle={styles.input}
                       inputStyle={styles.inputElement}
+                      errorStyle={styles.inputErrorStyle}
                       disabled={isWorking}
                       placeholder={i18n.t('placeholderPrivateServer')}
                       errorMessage={serverErrorMessage}
                       onChangeText={handleChangeServerUrl}
+                      onSubmitEditing={(event) => handleInputSubmit(event, 'privateServer')}
                     />
                   )}
                 </View>
@@ -396,8 +460,8 @@ const dynamicStyles = new DynamicStyleSheet({
     justifyContent: 'center',
   },
   body: {
-    maxWidth: isTablet ? 400 : '100%',
-    paddingHorizontal: 8,
+    width: isTablet ? 400 : '100%',
+    paddingHorizontal: 12,
     minHeight: '100%',
   },
   title: {
@@ -446,7 +510,11 @@ const dynamicStyles = new DynamicStyleSheet({
     fontSize: 16,
   },
   inputContainer: {
+    minWidth: 288,
     paddingHorizontal: 0,
+  },
+  inputErrorStyle: {
+    maxHeight: 16,
   },
   input: {
     backgroundColor: getDynamicColor('loginBoxInputBackground'),
@@ -462,11 +530,19 @@ const dynamicStyles = new DynamicStyleSheet({
     fontWeight: '600',
     color: getDynamicColor('loginBoxText'),
   },
+  picker: {
+    backgroundColor: getDynamicColor('dropdownPickerBackground'),
+    borderRadius: 4,
+    maxWidth: 240,
+  },
   serverDropdown: {
     // minWidth: 200,
     // flexGrow: 1,
     paddingHorizontal: 32,
     marginTop: 32,
+  },
+  dropdownItem: {
+    paddingLeft: 24,
   },
   serverDropdownIcon: {
     color: getDynamicColor('loginBoxText'),
