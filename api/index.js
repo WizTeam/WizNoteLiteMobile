@@ -91,6 +91,10 @@ class Api extends EventEmitter {
     return `${server}/as/user/avatar/${userGuid}?version=${version}`;
   }
 
+  getUserData(userGuid) {
+    return sdk.getUserData(userGuid);
+  }
+
   initEvents() {
     this.registerListener(this.userGuid, (userGuid, eventName, ...args) => {
       this.emit(eventName, userGuid, ...args);
@@ -126,7 +130,8 @@ class Api extends EventEmitter {
   }
 
   async refreshUserInfo() {
-    await sdk.refreshUserInfo(this.userGuid);
+    const user = await sdk.refreshUserInfo(this.userGuid);
+    return user;
   }
 
   async syncKb(kbGuid, options) {
@@ -230,6 +235,10 @@ class Api extends EventEmitter {
     };
     const notes = await sdk.queryNotes(this.userGuid, kbGuid, 0, 10000, options);
     return notes;
+  }
+
+  get core() {
+    return sdk.core;
   }
 }
 

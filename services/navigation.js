@@ -1,4 +1,4 @@
-import { showMessage } from 'react-native-flash-message';
+import { showMessage, hideMessage } from 'react-native-flash-message';
 
 import { Navigation } from '../thirdparty/react-native-navigation';
 import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
@@ -7,7 +7,9 @@ import { loadRequest } from '../components/WizSingletonWebView';
 import app from '../wrapper/app';
 import { isDarkMode } from '../config/Colors';
 
-export async function showTopBarMessage({ message, description, type, onPress }) {
+export async function showTopBarMessage(options = {}) {
+  const { message, description, onPress, closeTimeout = 3000, autoHide } = options;
+  //
   const componentId = await Navigation.showOverlay({
     component: {
       name: 'TopBarFlashMessages',
@@ -24,6 +26,7 @@ export async function showTopBarMessage({ message, description, type, onPress })
     },
   });
   //
+  let type = options.type;
   if (type === 'error') {
     // eslint-disable-next-line no-param-reassign
     type = 'danger';
@@ -34,11 +37,21 @@ export async function showTopBarMessage({ message, description, type, onPress })
     description,
     type,
     onPress,
+    autoHide,
   });
   //
   setTimeout(() => {
     Navigation.dismissOverlay(componentId);
-  }, 3000);
+  }, closeTimeout);
+  //
+  return componentId;
+}
+
+export function hideTopBarMessage(componentId) {
+  hideMessage();
+  if (componentId) {
+    Navigation.dismissOverlay(componentId);
+  }
 }
 
 export function closeDrawer() {
@@ -89,7 +102,7 @@ export function showForgotWebView(options) {
   });
 }
 
-export function showUpgradeDialog(options) {
+export function showUpgradeViDialog(options) {
   Navigation.showModal({
     stack: {
       children: [{
@@ -98,6 +111,9 @@ export function showUpgradeDialog(options) {
           passProps: options,
         },
       }],
+      topBar: {
+        visible: false,
+      },
     },
   });
 }
