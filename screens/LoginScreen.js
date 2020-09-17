@@ -18,7 +18,7 @@ import Hyperlink from 'react-native-hyperlink';
 
 import { Navigation } from '../thirdparty/react-native-navigation';
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
-import { setMainAsRoot, showForgotWebView } from '../services/navigation';
+import { setMainAsRoot } from '../services/navigation';
 import { getDynamicColor } from '../config/Colors';
 import api from '../api';
 import dataStore from '../data_store';
@@ -246,7 +246,7 @@ const LoginScreen: () => React$Node = (props) => {
   }
 
   function handleForgotPassword() {
-    showForgotWebView();
+    // showForgotWebView();
   }
 
   // eslint-disable-next-line react/prop-types
