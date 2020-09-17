@@ -246,7 +246,7 @@ const LoginScreen: () => React$Node = (props) => {
   }
 
   function handleForgotPassword() {
-    // showForgotWebView();
+    handlePressLink('https://www.wiz.cn/login#forgot');
   }
 
   // eslint-disable-next-line react/prop-types
