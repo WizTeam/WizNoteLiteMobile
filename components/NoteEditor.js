@@ -104,7 +104,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
     if (keyboardVisibleRef.current) {
       const now = new Date().valueOf();
       if (now - keyboardVisibleTimeRef.current > 1000) {
-        endEditing(true);
+        // endEditing(true);
       }
     }
   }
