@@ -87,31 +87,47 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleGotoAllNotes() {
-    handleCloseDrawer();
-    setTimeout(() => {
+    if (isTablet) {
       dataStore.setSelectedType('#allNotes');
-    }, 300);
+    } else {
+      handleCloseDrawer();
+      setTimeout(() => {
+        dataStore.setSelectedType('#allNotes');
+      }, 300);
+    }
   }
 
   function handleGotoStarredNotes() {
-    handleCloseDrawer();
-    setTimeout(() => {
+    if (isTablet) {
       dataStore.setSelectedType('#starredNotes');
-    }, 300);
+    } else {
+      handleCloseDrawer();
+      setTimeout(() => {
+        dataStore.setSelectedType('#starredNotes');
+      }, 300);
+    }
   }
 
   function handleGotoTrash() {
-    handleCloseDrawer();
-    setTimeout(() => {
+    if (isTablet) {
       dataStore.setSelectedType('#trash');
-    }, 300);
+    } else {
+      handleCloseDrawer();
+      setTimeout(() => {
+        dataStore.setSelectedType('#trash');
+      }, 300);
+    }
   }
 
   function handleClickTreeItem({ node }) {
-    handleCloseDrawer();
-    setTimeout(() => {
+    if (isTablet) {
       dataStore.setSelectedType(node.id);
-    }, 300);
+    } else {
+      handleCloseDrawer();
+      setTimeout(() => {
+        dataStore.setSelectedType(node.id);
+      }, 300);
+    }
   }
 
   const selectedType = props.selectedType || '#allNotes';
