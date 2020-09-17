@@ -8,7 +8,7 @@ public class WizEvents {
         void onLoad();
         void onMessage(String message);
         void onScroll();
-        void onKeyboardShow();
+        void onKeyboardShow(int keyboardWidth, int keyboardHeight);
         void onKeyboardHide();
     }
 
@@ -34,9 +34,9 @@ public class WizEvents {
             listener.onScroll();
         }
     }
-    public static void onKeyboardShow() {
+    public static void onKeyboardShow(int keyboardWidth, int keyboardHeight) {
         for (WebViewLoadListener listener: listeners) {
-            listener.onKeyboardShow();
+            listener.onKeyboardShow(keyboardWidth, keyboardHeight);
         }
     }
     public static void onKeyboardHide() {

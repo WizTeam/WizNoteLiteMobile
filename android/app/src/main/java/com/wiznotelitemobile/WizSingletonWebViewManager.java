@@ -7,14 +7,11 @@ import android.webkit.WebView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.facebook.react.bridge.JavaOnlyMap;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.common.MapBuilder;
-import com.facebook.react.uimanager.ReactStylesDiffMap;
 import com.facebook.react.uimanager.SimpleViewManager;
-import com.facebook.react.uimanager.StateWrapper;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 
@@ -83,8 +80,11 @@ public class WizSingletonWebViewManager extends SimpleViewManager<WebView>
     }
 
     @Override
-    public void onKeyboardShow() {
-        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(webView.getId(), EVENT_KEYBOARD_SHOW, null);
+    public void onKeyboardShow(int keyboardWidth, int keyboardHeight) {
+        WritableMap data = new WritableNativeMap();
+        data.putInt("keyboardWidth", keyboardWidth);
+        data.putInt("keyboardHeight", keyboardHeight);
+        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(webView.getId(), EVENT_KEYBOARD_SHOW, data);
     }
 
     @Override

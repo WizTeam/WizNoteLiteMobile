@@ -472,9 +472,9 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
     public int height;
     public ExcludeRegion(ReadableMap props) {
       if (props == null) return;
+      if (!props.hasKey("excludeRegions")) return;
       ReadableArray excludeRegions = props.getArray("excludeRegions");
-      Log.e("wiz_react", "......." + excludeRegions.size());
-      if (excludeRegions != null && excludeRegions.size() > 0) {
+      if (excludeRegions.size() > 0) {
         ReadableMap map = excludeRegions.getMap(0);
         if (map != null) {
           this.x = map.getInt("x");
