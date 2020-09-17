@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import i18n from 'i18n-js';
 
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
@@ -165,7 +165,7 @@ const NotesScreen: () => React$Node = (props) => {
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar onThemeChanged={handleThemeChanged} />
-      <View style={styles.content}>
+      <SafeAreaView style={styles.content}>
         <SideMenuView
           style={styles.root}
           left={showDrawer}
@@ -191,7 +191,7 @@ const NotesScreen: () => React$Node = (props) => {
           }
           <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
         </SideMenuView>
-      </View>
+      </SafeAreaView>
     </ColorSchemeProvider>
   );
 };

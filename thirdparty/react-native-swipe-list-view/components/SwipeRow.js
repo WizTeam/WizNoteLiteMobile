@@ -287,14 +287,18 @@ class SwipeRow extends Component {
 
     handleOnMoveShouldSetPanResponder(e, gs) {
         const { dx } = gs;
-        return Math.abs(dx) > this.props.directionalDistanceChangeThreshold;
+        const ret = Math.abs(dx) > this.props.directionalDistanceChangeThreshold;
+        console.log('should pan', ret)
+        return ret;
     }
 
     handlePanResponderMove(e, gestureState) {
         /* If the view is force closing, then ignore Moves. Return */
         if (this.isForceClosing) {
+          console.log('force closed');
             return;
         }
+        console.log('moved');
 
         /* Else, do normal job */
         const { dx, dy } = gestureState;
@@ -310,6 +314,7 @@ class SwipeRow extends Component {
             // we have enough to determine direction
             if (absDy > absDx && !this.horizontalSwipeGestureBegan) {
                 // user is moving vertically, do nothing, listView will handle
+                console.log('a');
                 return;
             }
 
@@ -360,6 +365,7 @@ class SwipeRow extends Component {
     };
 
     handlePanResponderRelease(e, gestureState) {
+      console.log('released');
         this.props.swipeGestureEnded &&
             this.props.swipeGestureEnded(this.props.swipeKey, {
                 translateX: this.currentTranslateX,
@@ -375,6 +381,8 @@ class SwipeRow extends Component {
     }
 
     handlePanResponderEnd(e, gestureState) {
+      console.log('terminated');
+      console.log(new Error().stack);
         /* PanEnd will reset the force-closing state when it's true. */
         if (this.isForceClosing) {
             setTimeout(() => {
