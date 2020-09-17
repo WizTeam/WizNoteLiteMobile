@@ -76,6 +76,19 @@ export function showLoginDialog(options) {
   });
 }
 
+export function showForgotWebView(options) {
+  Navigation.showModal({
+    stack: {
+      children: [{
+        component: {
+          name: 'ForgotWebView',
+          passProps: options,
+        },
+      }],
+    },
+  });
+}
+
 export function showUpgradeDialog(options) {
   Navigation.showModal({
     stack: {

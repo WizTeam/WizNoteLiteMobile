@@ -244,6 +244,8 @@ PODS:
     - React
   - react-native-sqlite-storage (5.0.0):
     - React
+  - react-native-webview (10.9.0):
+    - React
   - React-RCTActionSheet (0.63.2):
     - React-Core/RCTActionSheetHeaders (= 0.63.2)
   - React-RCTAnimation (0.63.2):
@@ -374,6 +376,7 @@ DEPENDENCIES:
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-sqlite-storage (from `../thirdparty/react-native-sqlite-storage`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -449,6 +452,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-sqlite-storage:
     :path: "../thirdparty/react-native-sqlite-storage"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -521,6 +526,7 @@ SPEC CHECKSUMS:
   react-native-get-random-values: 1404bd5cc0ab0e287f75ee1c489555688fc65f89
   react-native-image-picker: a6c3d644751a388b0fc8b56822ff7cbd398a3008
   react-native-sqlite-storage: 07e2d6678c29a20a6fe7adc13ef06630331d7820
+  react-native-webview: 6ee7868ca8eba635dbf7963986d1ab7959da0391
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
   React-RCTAnimation: 9a883bbe1e9d2e158d4fb53765ed64c8dc2200c6
   React-RCTBlob: 39cf0ece1927996c4466510e25d2105f67010e13

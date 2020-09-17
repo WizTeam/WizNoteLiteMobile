@@ -57,6 +57,7 @@
     "react-native-path": "0.0.5",
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^7.0.0",
+    "react-native-webview": "^10.9.0",
     "remove-markdown": "^0.3.0",
     "sync-storage": "^0.4.2",
     "url": "^0.11.0",
