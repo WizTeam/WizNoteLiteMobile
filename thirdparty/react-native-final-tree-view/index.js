@@ -129,6 +129,7 @@ class TreeView extends React.Component {
               this.props.selected === node.id && this.props.selectedContainerStyle,
             ]}
             onPress={() => this.handleNodePressed({ node, level })}
+            underlayColor={this.props.underlayColor}
           >
             <View style={{
               width: 44,
