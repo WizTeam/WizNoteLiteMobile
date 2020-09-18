@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { Header, Text, SearchBar } from 'react-native-elements';
 import i18n from 'i18n-js';
@@ -131,6 +131,10 @@ const dynamicStyles = new DynamicStyleSheet({
   listHeader: {
     backgroundColor: 'transparent',
     borderBottomColor: 'transparent',
+    height: Platform.select({
+      android: 56,
+      default: 44,
+    }),
   },
   headerButton: {
     paddingVertical: 4,

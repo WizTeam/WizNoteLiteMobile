@@ -470,6 +470,7 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
     public int width;
     public int y;
     public int height;
+    public ArrayList<Object> exceptionClassNames;
     public ExcludeRegion(ReadableMap props) {
       if (props == null) return;
       if (!props.hasKey("excludeRegions")) return;
@@ -481,6 +482,8 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
           this.width = map.getInt("width");
           this.y = map.getInt("y");
           this.height = map.getInt("height");
+          ReadableArray exceptionClassNames = map.getArray("exceptionClassNames");
+          this.exceptionClassNames = exceptionClassNames.toArrayList();
         }
       }
     }

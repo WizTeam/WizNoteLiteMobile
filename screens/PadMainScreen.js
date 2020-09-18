@@ -57,7 +57,7 @@ const PadMainScreen: () => React$Node = () => {
         y: topHeight,
         width: pane2Width,
         height: screenHeight - topHeight,
-        exceptionClassNames: Platform.OS === 'ios' ? ['RCTCustomScrollView'] : [],
+        exceptionClassNames: Platform.OS === 'ios' ? ['RCTCustomScrollView'] : ['ReactScrollView'],
       }];
     } else if (state === OPEN_STATE.openAll) {
       excludeRegions = [{
@@ -65,7 +65,7 @@ const PadMainScreen: () => React$Node = () => {
         y: topHeight,
         width: pane2Width,
         height: screenHeight - topHeight,
-        exceptionClassNames: Platform.OS === 'ios' ? ['RCTCustomScrollView'] : [],
+        exceptionClassNames: Platform.OS === 'ios' ? ['RCTCustomScrollView'] : ['ReactScrollView'],
       }];
     }
     return excludeRegions;

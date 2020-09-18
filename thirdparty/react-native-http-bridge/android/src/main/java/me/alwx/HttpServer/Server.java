@@ -81,6 +81,10 @@ public class Server extends NanoHTTPD {
         }
     }
 
+    public void respondWithError(String requestId, String message) {
+        responses.put(requestId, NanoHTTPD.newFixedLengthResponse(Status.BAD_REQUEST, "text/plain", message));
+    }
+
     private WritableMap fillRequestMap(IHTTPSession session, String requestId) throws Exception {
         Method method = session.getMethod();
         WritableMap request = Arguments.createMap();

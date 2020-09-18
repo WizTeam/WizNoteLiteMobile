@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 
@@ -169,6 +170,10 @@ const MainDrawer: () => React$Node = (props) => {
         backgroundColor="transparent"
         containerStyle={{
           borderBottomColor: 'transparent',
+          height: Platform.select({
+            android: 56,
+            default: 44,
+          }),
         }}
       />
       <ScrollView
