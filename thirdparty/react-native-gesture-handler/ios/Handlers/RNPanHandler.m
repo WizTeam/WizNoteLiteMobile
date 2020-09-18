@@ -10,6 +10,16 @@
 
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
+@interface RNExcludeRegion : NSObject
+@property (nonatomic, assign) CGRect rect;
+@property (nonatomic, strong) NSArray* exceptionClassNames;
+@end
+
+@implementation RNExcludeRegion
+@synthesize rect;
+@synthesize exceptionClassNames;
+@end
+
 @interface RNBetterPanGestureRecognizer : UIPanGestureRecognizer
 
 @property (nonatomic) CGFloat minDistSq;
@@ -80,25 +90,37 @@
   }
 #endif
 
+  [super touchesBegan:touches withEvent:event];
+
   if (self.excludeRegions) {
     UITouch* touch = [[touches allObjects] objectAtIndex: 0];
     CGPoint pt = [touch locationInView:self.view];
     CGFloat x = pt.x;
     CGFloat y = pt.y;
-    for (NSValue* value in self.excludeRegions) {
-      CGRect rect = value.CGRectValue;
+    for (RNExcludeRegion* region in self.excludeRegions) {
+      CGRect rect = region.rect;
       if (x >= CGRectGetMinX(rect)
         && x <= CGRectGetMaxX(rect)
         && y >= CGRectGetMinY(rect)
         && y <= CGRectGetMaxY(rect)) {
+        //
+        if (region.exceptionClassNames) {
+          UIView* view = [self.view.window hitTest:pt withEvent:nil];
+          if (view) {
+            NSString* className = NSStringFromClass(view.class);
+            for (NSString* name in region.exceptionClassNames) {
+              if ([name isEqualToString:className]) {
+                return;
+              }
+            }
+          }
+        }
+        //
         self.state = UIGestureRecognizerStateFailed;
         return;
       }
     }
   }
-
-
-  [super touchesBegan:touches withEvent:event];
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -252,8 +274,11 @@
       CGFloat y = [RCTConvert CGFloat:elem[@"y"]];
       CGFloat width = [RCTConvert CGFloat:elem[@"width"]];
       CGFloat height = [RCTConvert CGFloat:elem[@"height"]];
-      CGRect rect = CGRectMake(x, y, width, height);
-      [regions addObject:[NSValue valueWithCGRect:rect]];
+      NSArray* classNames = [RCTConvert NSStringArray:elem[@"exceptionClassNames"]];
+      RNExcludeRegion* region = [RNExcludeRegion new];
+      region.rect = CGRectMake(x, y, width, height);
+      region.exceptionClassNames = classNames;
+      [regions addObject:region];
     }
     recognizer.excludeRegions = regions;
   } else {

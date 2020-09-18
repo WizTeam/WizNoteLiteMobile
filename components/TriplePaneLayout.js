@@ -339,7 +339,7 @@ class TriplePaneLayout extends React.Component {
     //
     return (
       <PanGestureHandler
-        failOffsetY={[-15, 15]}
+        failOffsetY={[-10, 10]}
         activeOffsetX={activeOffsetX}
         onGestureEvent={this._onPanGestureEvent}
         onHandlerStateChange={this._openingHandlerStateChange}
