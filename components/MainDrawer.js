@@ -323,7 +323,7 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   padLoginButton: {
     paddingBottom: 32,
-    paddingLeft: 32,
+    paddingLeft: 28,
   },
   phoneLoginButton: {
     paddingTop: 32,
