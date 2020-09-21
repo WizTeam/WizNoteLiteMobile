@@ -29,7 +29,7 @@ const NotesScreen: () => React$Node = (props) => {
   }
 
   function handleSearchCancel() {
-    store.initCategoryNotes('#allNotes');
+    store.resetCategoryNotes('#allNotes');
   }
 
   async function handleSearchSubmit() {
@@ -133,8 +133,7 @@ const NotesScreen: () => React$Node = (props) => {
 
   function handleSearchBarCancel() {
     cancelClickTime.current = new Date().valueOf();
-    store.setSelectedType('#allNotes');
-    store.initCategoryNotes();
+    store.resetCategoryNotes('#allNotes');
   }
   async function handleSearchBarSearch() {
     try {

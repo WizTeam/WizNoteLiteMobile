@@ -138,7 +138,7 @@ async function initUser() {
   api.syncData(kbGuid);
 }
 
-async function initCategoryNotes(changeToSelectedType) {
+async function resetCategoryNotes(changeToSelectedType, callback) {
   let selectedType = store.getData(KEYS.SELECTED_TYPE) || '#allNotes';
   if (changeToSelectedType !== undefined) {
     selectedType = changeToSelectedType;
@@ -151,7 +151,7 @@ async function initCategoryNotes(changeToSelectedType) {
   //
   const notes = await getCategoryNotes(kbGuid, selectedType);
   sortNotes(notes);
-  store.setData(KEYS.CATEGORY_NOTES, notes);
+  store.setData(KEYS.CATEGORY_NOTES, notes, callback);
   //
   if (changeToSelectedType !== undefined) {
     setSelectedType(changeToSelectedType);
@@ -180,7 +180,7 @@ export default {
   setCurrentNote,
   getCurrentNote,
   //
-  initCategoryNotes,
+  resetCategoryNotes,
   //
   setSearchResult,
 };

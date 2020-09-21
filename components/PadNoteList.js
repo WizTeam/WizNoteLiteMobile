@@ -51,7 +51,7 @@ const PadNoteList: () => React$Node = (props) => {
   }
 
   function handleSearchCancel() {
-    store.initCategoryNotes('#allNotes');
+    store.resetCategoryNotes('#allNotes');
   }
 
   async function handleSearchSubmit() {
@@ -125,15 +125,18 @@ const dynamicStyles = new DynamicStyleSheet({
     height: '100%',
   },
   title: {
+    marginTop: 8,
+    // backgroundColor: 'green',
     paddingLeft: 18,
     color: getDeviceDynamicColor('noteListTitle'),
   },
   listHeader: {
     backgroundColor: 'transparent',
+    // backgroundColor: 'red',
     borderBottomColor: 'transparent',
     height: Platform.select({
       android: 56,
-      default: 44,
+      // default: 44,
     }),
   },
   headerButton: {
