@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { Header, Text, SearchBar } from 'react-native-elements';
 import i18n from 'i18n-js';
 
 import api from '../api';
 import CategoryNoteList from './CategoryNoteList';
-import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
+import { getDeviceDynamicColor, getDeviceColor, getDynamicColor } from '../config/Colors';
 import { createNewNote } from '../services/new_note';
 import store, { KEYS, connect } from '../data_store';
 
@@ -51,7 +51,7 @@ const PadNoteList: () => React$Node = (props) => {
   }
 
   function handleSearchCancel() {
-    store.initCategoryNotes('#allNotes');
+    store.resetCategoryNotes('#allNotes');
   }
 
   async function handleSearchSubmit() {
@@ -101,6 +101,7 @@ const PadNoteList: () => React$Node = (props) => {
         cancelButtonTitle={i18n.t('buttonCancelSearch')}
         containerStyle={styles.searchBarContainerStyle}
         inputContainerStyle={styles.searchBarInputContainerStyle}
+        inputStyle={styles.searchBarInput}
         onChangeText={handleSearchChange}
         onCancel={handleSearchCancel}
         onSubmitEditing={handleSearchSubmit}
@@ -125,12 +126,19 @@ const dynamicStyles = new DynamicStyleSheet({
     height: '100%',
   },
   title: {
+    marginTop: 8,
+    // backgroundColor: 'green',
     paddingLeft: 18,
     color: getDeviceDynamicColor('noteListTitle'),
   },
   listHeader: {
     backgroundColor: 'transparent',
+    // backgroundColor: 'red',
     borderBottomColor: 'transparent',
+    height: Platform.select({
+      android: 56,
+      // default: 44,
+    }),
   },
   headerButton: {
     paddingVertical: 4,
@@ -142,5 +150,8 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   searchBarInputContainerStyle: {
     backgroundColor: getDeviceDynamicColor('searchBarBackground'),
+  },
+  searchBarInput: {
+    color: getDeviceDynamicColor('noteListTitle'),
   },
 });

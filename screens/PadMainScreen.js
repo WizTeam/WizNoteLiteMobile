@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneLayout';
@@ -57,6 +57,7 @@ const PadMainScreen: () => React$Node = () => {
         y: topHeight,
         width: pane2Width,
         height: screenHeight - topHeight,
+        exceptionClassNames: Platform.OS === 'ios' ? ['RCTCustomScrollView'] : ['ReactScrollView'],
       }];
     } else if (state === OPEN_STATE.openAll) {
       excludeRegions = [{
@@ -64,6 +65,7 @@ const PadMainScreen: () => React$Node = () => {
         y: topHeight,
         width: pane2Width,
         height: screenHeight - topHeight,
+        exceptionClassNames: Platform.OS === 'ios' ? ['RCTCustomScrollView'] : ['ReactScrollView'],
       }];
     }
     return excludeRegions;

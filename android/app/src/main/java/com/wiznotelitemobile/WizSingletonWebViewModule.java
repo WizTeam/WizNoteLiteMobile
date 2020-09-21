@@ -79,7 +79,7 @@ public class WizSingletonWebViewModule extends ReactContextBaseJavaModule implem
     }
 
     @Override
-    public void onKeyboardShow() {
+    public void onKeyboardShow(int keyboardWidth, int keyboardHeight) {
 
     }
 

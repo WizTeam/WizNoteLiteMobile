@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.reactnativenavigation.NavigationActivity;
+import com.reactnativenavigation.utils.DeviceScreen;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 public class MainActivity extends NavigationActivity {
@@ -23,8 +24,8 @@ public class MainActivity extends NavigationActivity {
         KeyboardStateObserver.getKeyboardStateObserver(this)
                 .setKeyboardVisibilityListener(new KeyboardStateObserver.OnKeyboardVisibilityListener() {
                     @Override
-                    public void onKeyboardShow() {
-                        WizEvents.onKeyboardShow();
+                    public void onKeyboardShow(int keyboardWidth, int keyboardHeight) {
+                        WizEvents.onKeyboardShow(keyboardWidth, keyboardHeight);
                     }
 
                     @Override
@@ -65,8 +66,10 @@ public class MainActivity extends NavigationActivity {
             this.listener = listener;
         }
 
+        private Activity activity;
         private KeyboardStateObserver(Activity activity) {
 //            FrameLayout content = (FrameLayout) activity.findViewById(android.R.id.content);
+            this.activity = activity;
             mChildOfContent = WizWebView.getInstance(activity);
             mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 public void onGlobalLayout() {
@@ -82,7 +85,7 @@ public class MainActivity extends NavigationActivity {
                 int heightDifference = usableHeightSansKeyboard - usableHeightNow;
                 if (heightDifference > (usableHeightSansKeyboard / 4)) {
                     if (listener != null) {
-                        listener.onKeyboardShow();
+                        listener.onKeyboardShow(DeviceScreen.width(activity.getResources()), heightDifference);
                     }
                 } else {
                     if (listener != null) {
@@ -103,7 +106,7 @@ public class MainActivity extends NavigationActivity {
         }
 
         public interface OnKeyboardVisibilityListener {
-            void onKeyboardShow();
+            void onKeyboardShow(int keyboardWidth, int keyboardHeight);
 
             void onKeyboardHide();
         }

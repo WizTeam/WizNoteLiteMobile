@@ -19,12 +19,15 @@ class SimpleStore {
     this._listener.off(key, listener);
   }
 
-  setData(key, data) {
+  setData(key, data, callback) {
     const old = this._data[key];
     if (isEqual(data, old)) {
       return;
     }
     this._data[key] = data;
+    if (callback) {
+      callback(key, data);
+    }
     this._listener.emit(key, key, data);
   }
 

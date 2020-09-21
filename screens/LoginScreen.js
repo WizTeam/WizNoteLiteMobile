@@ -23,6 +23,7 @@ import { getDynamicColor } from '../config/Colors';
 import api from '../api';
 import dataStore from '../data_store';
 import { isTablet } from '../utils/device';
+import app from '../wrapper/app';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import LoginBannerIcon from '../components/svg/LoginBannerIcon';
@@ -246,7 +247,8 @@ const LoginScreen: () => React$Node = (props) => {
   }
 
   function handleForgotPassword() {
-    handlePressLink('https://www.wiz.cn/login#forgot');
+    const version = app.getVersion();
+    handlePressLink(`https://api.wiz.cn/?p=wiz&v=${version}&c=forgot_password&plat=ios&debug=false&l=zh-cn&cn=`);
   }
 
   // eslint-disable-next-line react/prop-types
