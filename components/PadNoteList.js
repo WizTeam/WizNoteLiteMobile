@@ -6,7 +6,7 @@ import i18n from 'i18n-js';
 
 import api from '../api';
 import CategoryNoteList from './CategoryNoteList';
-import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
+import { getDeviceDynamicColor, getDeviceColor, getDynamicColor } from '../config/Colors';
 import { createNewNote } from '../services/new_note';
 import store, { KEYS, connect } from '../data_store';
 
@@ -101,6 +101,7 @@ const PadNoteList: () => React$Node = (props) => {
         cancelButtonTitle={i18n.t('buttonCancelSearch')}
         containerStyle={styles.searchBarContainerStyle}
         inputContainerStyle={styles.searchBarInputContainerStyle}
+        inputStyle={styles.searchBarInput}
         onChangeText={handleSearchChange}
         onCancel={handleSearchCancel}
         onSubmitEditing={handleSearchSubmit}
@@ -149,5 +150,8 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   searchBarInputContainerStyle: {
     backgroundColor: getDeviceDynamicColor('searchBarBackground'),
+  },
+  searchBarInput: {
+    color: getDeviceDynamicColor('noteListTitle'),
   },
 });
