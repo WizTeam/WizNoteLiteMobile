@@ -74,10 +74,15 @@ async function doStandardPost(options) {
 
 const appName = pkg.productName;
 
+function getLogFileName() {
+  return path.join(rnfs.DocumentDirectoryPath, 'wiznote.txt');
+}
+
 export default {
   getVersion,
   getPath,
   getLocale,
   doStandardPost,
   name: appName,
+  getLogFileName,
 };

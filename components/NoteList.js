@@ -7,7 +7,7 @@ import { getDeviceDynamicColor } from '../config/Colors';
 import { isTablet } from '../utils/device';
 import dataStore from '../data_store';
 import api from '../api';
-import { showTopBarMessage, showUpgradeViDialog } from '../services/navigation';
+import { showTopBarMessage, showUpgradeViDialog, showLoginDialog, showLogsDialog } from '../services/navigation';
 import { SwipeListView } from '../thirdparty/react-native-swipe-list-view';
 import NoteListItem, { updateNoteStar } from './NoteListItem';
 import NoteListHiddenItem, { BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH } from './NoteListHiddenItem';
@@ -95,6 +95,16 @@ const NoteList: () => React$Node = (props) => {
     }
   }
 
+  function handleViewLogs() {
+    showLogsDialog();
+  }
+
+  function handleLogin() {
+    showLoginDialog({
+      closable: true,
+    });
+  }
+
   const [isRefreshing, setRefreshing] = useState(false);
   //
   async function handleRefresh() {
@@ -109,12 +119,14 @@ const NoteList: () => React$Node = (props) => {
           message: i18n.t('errorSync'),
           description: i18n.t('errorNoAccount'),
           type: 'warning',
+          onPress: handleLogin,
         });
       } else {
         showTopBarMessage({
           message: i18n.t('errorSync'),
           description: i18n.t('errorSyncMessage', { message: err.message }),
           type: 'error',
+          onPress: handleViewLogs,
         });
       }
       setRefreshing(false);
@@ -166,6 +178,7 @@ const NoteList: () => React$Node = (props) => {
           message: i18n.t('errorSync'),
           description: i18n.t('errorSyncMessage', { message: errorMessage }),
           type: 'error',
+          onPress: handleViewLogs,
         });
       }
     }

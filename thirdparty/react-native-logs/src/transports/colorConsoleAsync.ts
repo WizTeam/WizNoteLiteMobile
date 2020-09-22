@@ -8,6 +8,8 @@ const clientColors: Array<string> = [
   'color: indianred;font-weight:bold;',
 ];
 
+const originConsoleLog = console.log;
+
 const log: transportFunctionType = (msg, level, options) => {
   /**
    * Control msg type
@@ -37,7 +39,7 @@ const log: transportFunctionType = (msg, level, options) => {
   if (options && options.hideLevel) levelTxt = '';
 
   let output = `%c${dateTxt}${levelTxt}${stringMsg}`;
-  console.log(output, clientColors[level.severity] || '');
+  originConsoleLog(output, clientColors[level.severity] || '');
 };
 
 const colorConsoleAsync: transportFunctionType = (msg, level, options) => {

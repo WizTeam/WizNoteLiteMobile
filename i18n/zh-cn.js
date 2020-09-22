@@ -52,6 +52,9 @@ export default {
   error31013: '手机号已经被注册，请更换手机号！',
   menuLogout: 'Logout',
 
+  titleLogs: 'Logs',
+  buttonClose: 'Close',
+
   itemAllNotes: '全部笔记',
   itemStarredNotes: '星标笔记',
   itemTrash: '回收站',

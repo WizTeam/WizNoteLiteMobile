@@ -4,6 +4,8 @@ declare var require: any;
 
 const RNFS = require('react-native-fs');
 
+const originConsoleLog = console.log;
+
 const rnFsFileAsync: transportFunctionType = (msg, level, options) => {
   if (!RNFS) return false;
 
@@ -30,7 +32,7 @@ const rnFsFileAsync: transportFunctionType = (msg, level, options) => {
   }
   
   let levelTxt = `${level.text.toUpperCase()} | `;
-  let loggerName = 'rnlogs';
+  let loggerName = 'wiznote';
   let loggerPath = RNFS.DocumentDirectoryPath;
 
   if (options && options.hideDate) dateTxt = '';
@@ -44,7 +46,7 @@ const rnFsFileAsync: transportFunctionType = (msg, level, options) => {
   RNFS.appendFile(path, output, 'utf8')
     .then(() => {})
     .catch((err: any) => {
-      console.error(err);
+      originConsoleLog(err);
     });
 };
 

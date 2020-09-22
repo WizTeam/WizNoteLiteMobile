@@ -3,6 +3,8 @@ import * as RNIap from 'react-native-iap';
 
 import { Navigation } from './thirdparty/react-native-navigation';
 import { logger } from './thirdparty/react-native-logs';
+import { rnFsFileAsync } from './thirdparty/react-native-logs/src/transports/rnFsFileAsync.ts';
+import { colorConsoleSync } from './thirdparty/react-native-logs/src/transports/colorConsoleSync.ts';
 import { registerScreens } from './screens';
 import { setLoginAsRoot, setMainAsRoot } from './services/navigation';
 import { startResourceLoader } from './services/resources_loader';
@@ -13,6 +15,10 @@ import { setDefaultNavigationOptions } from './components/ThemeListener';
 
 const defaultConfig = {
   severity: 'debug',
+  transport: (msg, level, options) => {
+    colorConsoleSync(msg, level, options);
+    rnFsFileAsync(msg, level, options);
+  },
   levels: {
     debug: 0,
     info: 1,
@@ -25,6 +31,7 @@ console.debug = customLog.debug;
 console.info = customLog.info;
 console.error = customLog.error;
 console.warn = customLog.warn;
+console.log = customLog.info;
 
 const SyncStorage = require('sync-storage').default;
 

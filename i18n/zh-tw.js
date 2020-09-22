@@ -53,6 +53,9 @@ export default {
   error31013: '手機號已經被註冊，請更換手機號！',
   menuLogout: 'Logout',
 
+  titleLogs: 'Logs',
+  buttonClose: 'Close',
+
   itemAllNotes: '全部筆記',
   itemStarredNotes: 'Starred Notes',
   itemTrash: '回收站',
