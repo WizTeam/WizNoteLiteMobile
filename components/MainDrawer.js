@@ -26,6 +26,7 @@ import TrashIcon from './svg/TrashIcon';
 const MainDrawer: () => React$Node = (props) => {
   //
   const styles = useDynamicValue(dynamicStyles);
+  const [tagsState, setTagsStae] = useState(() => api.getSettings('tagsState', []));
   //
   function handleCloseDrawer() {
     RNNDrawer.dismissDrawer();
@@ -129,6 +130,18 @@ const MainDrawer: () => React$Node = (props) => {
         dataStore.setSelectedType(node.id);
       }, 300);
     }
+  }
+
+  function handleBeforeExpandNode({ node, isExpanded }) {
+    const set = new Set(tagsState);
+    if (isExpanded) {
+      set.delete(node.id);
+    } else {
+      set.add(node.id);
+    }
+    setTagsStae([...set]);
+    api.setSettings('tagsState', [...set]);
+    return true;
   }
 
   const selectedType = props.selectedType || '#allNotes';
@@ -244,6 +257,8 @@ const MainDrawer: () => React$Node = (props) => {
           itemTitleStyle={styles.treeItemTitleStyle}
           itemContentContainerStyle={styles.treeItemContentContainerStyle}
           selected={selectedType}
+          expandedNodeKeys={tagsState}
+          onBeforeExpandNode={handleBeforeExpandNode}
           underlayColor={underlayColor}
         />
       </ScrollView>
