@@ -60,6 +60,7 @@ function Editor(props) {
       contentId={props.contentId}
       editorWrapperClassName={classes.editorWrapper}
       editorComponentClassName={classes.editorComponent}
+      bottomHeight={props.bottomHeight}
     />
   );
 }
@@ -67,6 +68,7 @@ function Editor(props) {
 function App() {
   //
   const [data, setData] = useState(null);
+  const [bottomHeight, setBottomHeight] = useState(100);
   // 
   const editorRef = useRef(null);
   //
@@ -88,7 +90,8 @@ function App() {
     };
     //
     window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
-      console.log('onKeyboardShow');
+      setBottomHeight(isTablet ? keyboardHeight + 30 : keyboardHeight)
+      // console.log('onKeyboardShow', keyboardHeight);
       return true;
     };
     //
@@ -139,6 +142,7 @@ function App() {
         contentId={data?.contentId}
         markdown={data?.markdown}
         resourceUrl={data?.resourceUrl}  
+        bottomHeight={bottomHeight}
       />
     </div>
   );
