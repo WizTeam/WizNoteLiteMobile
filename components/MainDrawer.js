@@ -134,8 +134,18 @@ const MainDrawer: () => React$Node = (props) => {
 
   function handleBeforeExpandNode({ node, isExpanded }) {
     const set = new Set(tagsState);
+    let targetNodeId = node.id;
     if (isExpanded) {
-      set.delete(node.id);
+      // 关闭父级标签时，子级标签也关闭
+      if (!node.id.includes('/')) {
+        targetNodeId += '/';
+        set.delete(node.id);
+      }
+      tagsState.forEach((id) => {
+        if (id.includes(targetNodeId)) {
+          set.delete(id);
+        }
+      });
     } else {
       set.add(node.id);
     }
