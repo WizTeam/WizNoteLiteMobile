@@ -2,6 +2,7 @@ import React from 'react';
 import { Animated, StyleSheet, Keyboard, Easing } from 'react-native';
 
 import { PanGestureHandler, State } from '../thirdparty/react-native-gesture-handler/GestureHandler';
+import api from '../api';
 
 export const STATE = {
   openAll: 0, // a | b | c
@@ -17,7 +18,7 @@ class TriplePaneLayout extends React.Component {
       containerWidth: 0,
       // containerHeight: 0,
       isLandscape: false,
-      openState: props.openState || STATE.open2,
+      openState: props.openState || api.getSettings('sidebarOpenState', STATE.open2),
     };
     //
     this._draggedXValue = new Animated.Value(0);
@@ -107,6 +108,12 @@ class TriplePaneLayout extends React.Component {
       const pane3OriginLeft = this._getPane3X(this.state.openState);
       const pane3Left = this._getPane3X(nextState);
       const toValue = pane3Left - pane3OriginLeft;
+      // update setting
+      if (nextState === STATE.openAll) {
+        api.setSettings('sidebarOpenState', STATE.openAll);
+      } else {
+        api.setSettings('sidebarOpenState', STATE.open2);
+      }
       //
       let nextFramePosition = moved;
       let { velocityX } = nativeEvent;

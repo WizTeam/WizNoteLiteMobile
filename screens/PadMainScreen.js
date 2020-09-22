@@ -9,6 +9,7 @@ import PadNoteList from '../components/PadNoteList';
 import NoteEditor from '../components/NoteEditor';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { getDeviceDynamicColor } from '../config/Colors';
+import api from '../api';
 
 const useForceUpdate = () => useState()[1];
 
@@ -41,8 +42,10 @@ const PadMainScreen: () => React$Node = () => {
     const openState = layoutRef.current.currentOpenState();
     if (openState === OPEN_STATE.openAll) {
       layoutRef.current.toggleOpenState(OPEN_STATE.open2);
+      api.setSettings('sidebarOpenState', OPEN_STATE.open2);
     } else {
       layoutRef.current.toggleOpenState(OPEN_STATE.openAll);
+      api.setSettings('sidebarOpenState', OPEN_STATE.openAll);
     }
   }
 
