@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 
@@ -52,6 +52,7 @@ function Editor(props) {
 
   return (
     <MarkdownEditor
+      ref={props.editorRef}
       style={props.style}
       onSave={handleSave}
       markdown={markdown}
@@ -66,6 +67,8 @@ function Editor(props) {
 function App() {
   //
   const [data, setData] = useState(null);
+  // 
+  const editorRef = useRef(null);
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
@@ -80,6 +83,7 @@ function App() {
     //
     window.onBeforeInsert = () => {
       console.log('onBeforeInsert');
+      editorRef.current.saveCursor();
       return true;
     };
     //
@@ -96,6 +100,8 @@ function App() {
     window.addImage = (url) => {
       // TODO: add image to editor
       console.log(`request add image: ${url}`);
+      editorRef.current.resetCursor();
+      editorRef.current.insertImage({src: url});
       return true;
     };
   }, []);
@@ -129,6 +135,7 @@ function App() {
         {(!isTablet) && <PhoneTheme />}
       </React.Suspense>
       <Editor
+        editorRef={editorRef}
         contentId={data?.contentId}
         markdown={data?.markdown}
         resourceUrl={data?.resourceUrl}  
