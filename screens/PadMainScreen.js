@@ -42,10 +42,10 @@ const PadMainScreen: () => React$Node = () => {
     const openState = layoutRef.current.currentOpenState();
     if (openState === OPEN_STATE.openAll) {
       layoutRef.current.toggleOpenState(OPEN_STATE.open2);
-      api.setSettings('sidebarOpenState', OPEN_STATE.open2);
+      api.setSettings('triplePaneOpenState', OPEN_STATE.open2);
     } else {
       layoutRef.current.toggleOpenState(OPEN_STATE.openAll);
-      api.setSettings('sidebarOpenState', OPEN_STATE.openAll);
+      api.setSettings('triplePaneOpenState', OPEN_STATE.openAll);
     }
   }
 

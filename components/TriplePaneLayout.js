@@ -18,7 +18,7 @@ class TriplePaneLayout extends React.Component {
       containerWidth: 0,
       // containerHeight: 0,
       isLandscape: false,
-      openState: props.openState || api.getSettings('sidebarOpenState', STATE.open2),
+      openState: props.openState || api.getSettings('triplePaneOpenState', STATE.open2),
     };
     //
     this._draggedXValue = new Animated.Value(0);
@@ -110,9 +110,9 @@ class TriplePaneLayout extends React.Component {
       const toValue = pane3Left - pane3OriginLeft;
       // update setting
       if (nextState === STATE.openAll) {
-        api.setSettings('sidebarOpenState', STATE.openAll);
+        api.setSettings('triplePaneOpenState', STATE.openAll);
       } else {
-        api.setSettings('sidebarOpenState', STATE.open2);
+        api.setSettings('triplePaneOpenState', STATE.open2);
       }
       //
       let nextFramePosition = moved;
