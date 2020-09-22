@@ -63,7 +63,7 @@
     "use-state-with-callback": "^2.0.2",
     "uuid": "^8.3.0",
     "wiz-react-markdown-editor": "git+https://github.com/WizTeam/wiz-react-markdown-editor.git",
-    "wiznote-sdk-js": "^1.2.6",
+    "wiznote-sdk-js": "^1.2.7",
     "wiznote-sdk-js-share": "^1.0.2",
     "xregexp": "^4.3.0"
   },

@@ -89,6 +89,20 @@ export function showLoginDialog(options) {
   });
 }
 
+export function showLogsDialog(options) {
+  console.log('view log');
+  Navigation.showModal({
+    stack: {
+      children: [{
+        component: {
+          name: 'ViewLogsScreen',
+          passProps: options,
+        },
+      }],
+    },
+  });
+}
+
 export function showUpgradeViDialog(options) {
   Navigation.showModal({
     stack: {

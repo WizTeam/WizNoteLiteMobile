@@ -40,9 +40,17 @@ class TreeView extends React.Component {
     this.state = this.getInitialState()
   }
 
-  getInitialState = () => ({
-    expandedNodeKeys: {},
-  })
+  getInitialState = () => {
+    const expandedNodeKeys = {};
+    //
+    if (this.props.expandedNodeKeys) {
+      this.props.expandedNodeKeys.forEach((id) => {
+        expandedNodeKeys[id] = true;
+      });
+    }
+    //
+    return { expandedNodeKeys };
+  };
 
   componentDidUpdate(prevProps) {
     const hasDataUpdated = prevProps.data !== this.props.data
@@ -86,9 +94,10 @@ class TreeView extends React.Component {
     }
   }
 
-  handleButtonPressed = async ({ node, level }) => {
+  handleButtonPressed = async ({ node }) => {
     if (this.props.onBeforeExpandNode) {
-      const ret = await this.props.onBeforeExpandNode({ node, level });
+      const isExpanded = this.isExpanded(node.id);
+      const ret = await this.props.onBeforeExpandNode({ node, isExpanded });
       if (!ret) return
     }
     if (this.hasChildrenNodes(node)) {

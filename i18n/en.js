@@ -51,6 +51,9 @@ export default {
   error31013: 'This phone number has been used for registration, please change another one.',
   menuLogout: 'Logout',
 
+  titleLogs: 'Logs',
+  buttonClose: 'Close',
+
   itemAllNotes: 'All Notes',
   itemStarredNotes: 'Starred Notes',
   itemTrash: 'Trash',
