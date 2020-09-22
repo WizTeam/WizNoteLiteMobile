@@ -121,6 +121,8 @@ const NoteEditor = React.forwardRef((props, ref) => {
           // endEditing(true);
           injectJavaScript('document.activeElement.blur();true;');
         }
+      } else {
+        scrollDownRef.current = false;
       }
     }
   }
