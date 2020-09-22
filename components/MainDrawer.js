@@ -26,7 +26,7 @@ import TrashIcon from './svg/TrashIcon';
 const MainDrawer: () => React$Node = (props) => {
   //
   const styles = useDynamicValue(dynamicStyles);
-  const [tagsState, setTagsStae] = useState(() => api.getSettings('tagsState', []));
+  const [tagsState, setTagsState] = useState(() => api.getSettings('tagsState', []));
   //
   function handleCloseDrawer() {
     RNNDrawer.dismissDrawer();
@@ -139,7 +139,7 @@ const MainDrawer: () => React$Node = (props) => {
     } else {
       set.add(node.id);
     }
-    setTagsStae([...set]);
+    setTagsState([...set]);
     api.setSettings('tagsState', [...set]);
     return true;
   }
