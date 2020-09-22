@@ -1,0 +1,67 @@
+{
+  "_from": "react-native-logs",
+  "_id": "react-native-logs@2.2.1",
+  "_inBundle": false,
+  "_integrity": "sha512-yWS2sPy3ZksYBt9C6Ga7YkBWOFT3E/onLluyci42iv29MWcQim0i59vUmZgIFgg2NwC04IQi04xfK5GiSZvyrQ==",
+  "_location": "/react-native-logs",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "react-native-logs",
+    "name": "react-native-logs",
+    "escapedName": "react-native-logs",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-logs/-/react-native-logs-2.2.1.tgz",
+  "_shasum": "ede856bae603957d6796e805e130a288e11b749d",
+  "_spec": "react-native-logs",
+  "_where": "/Users/weishijun/WizTeam/WizNoteLiteMobile",
+  "author": {
+    "name": "Onubo s.r.l.",
+    "email": "www.onubo.com"
+  },
+  "bugs": {
+    "url": "https://github.com/onubo/react-native-logs/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Performance-aware simple logger for React-Native with custom levels and transports (colored console, file writing, etc.)",
+  "devDependencies": {
+    "jest": "^25.2.7",
+    "typescript": "^3.8.3"
+  },
+  "homepage": "https://github.com/onubo/react-native-logs#readme",
+  "keywords": [
+    "log",
+    "logs",
+    "logger",
+    "react-native",
+    "file",
+    "custom",
+    "levels",
+    "console",
+    "debug"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "name": "react-native-logs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onubo/react-native-logs.git"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "precommit": "rm -rf dist && tsc && jest --verbose",
+    "test": "jest",
+    "test:verbose": "jest --verbose"
+  },
+  "types": "dist/index.d.ts",
+  "version": "2.2.1"
+}

@@ -18,7 +18,7 @@ import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
 import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
-import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor, getColor } from '../config/Colors';
+import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import NotesIcon from './svg/NotesIcon';
 import StarredIcon from './svg/StarredIcon';
 import TrashIcon from './svg/TrashIcon';
@@ -70,9 +70,9 @@ const MainDrawer: () => React$Node = (props) => {
   }, []);
 
   function handleRenderExpandButton({ isExpanded, hasChildrenNodes, isSelected }) {
-    let style = styles.itemTitle;
+    let style = styles.itemButton;
     if (isTablet && isSelected) {
-      style = { color: '#fff' };
+      style = [styles.itemButton, styles.itemTabletButton];
     }
     //
     if (!hasChildrenNodes) {
@@ -306,6 +306,13 @@ const dynamicStyles = new DynamicStyleSheet({
   itemTitle: {
     color: getDeviceDynamicColor('drawerItemTitle'),
   },
+  itemButton: {
+    paddingLeft: 16,
+    color: getDeviceDynamicColor('drawerItemTitle'),
+  },
+  itemTabletButton: {
+    color: '#ffffff',
+  },
   itemSelectTitle: {
     color: '#ffffff',
   },
@@ -323,7 +330,7 @@ const dynamicStyles = new DynamicStyleSheet({
   treeItemTitleStyle: {
     paddingTop: 0,
     paddingBottom: 0,
-    paddingLeft: 0,
+    paddingLeft: 12,
     color: getDeviceDynamicColor('drawerItemTitle'),
     paddingHorizontal: 0,
   },
