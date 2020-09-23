@@ -8,6 +8,7 @@ const originConsoleLog = console.log;
 
 const rnFsFileAsync: transportFunctionType = (msg, level, options) => {
   if (!RNFS) return false;
+  if (level.severity <= 0) return true;
 
   /**
    * Control msg type
@@ -16,6 +17,9 @@ const rnFsFileAsync: transportFunctionType = (msg, level, options) => {
   let stringMsg: string;
   if (typeof msg === 'string') {
     stringMsg = msg;
+  } else if (msg instanceof Error) {
+    const error: any = msg;
+    stringMsg = `code=${error['code']}, message=${msg.message}`;
   } else if (typeof msg === 'function') {
     stringMsg = '[function]';
   } else {

@@ -1,0 +1,83 @@
+{
+  "_from": "react-native-flash-message@^0.1.16",
+  "_id": "react-native-flash-message@0.1.16",
+  "_inBundle": false,
+  "_integrity": "sha512-d+c6zWQDNvnZ5S0BDa10yB/0/rLMXTtYYjIOyad0Y+/G6h289qB1Hyc9twgvrpv/fEaKW+m5vxCBGHustII+rA==",
+  "_location": "/react-native-flash-message",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "react-native-flash-message@^0.1.16",
+    "name": "react-native-flash-message",
+    "escapedName": "react-native-flash-message",
+    "rawSpec": "^0.1.16",
+    "saveSpec": null,
+    "fetchSpec": "^0.1.16"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-flash-message/-/react-native-flash-message-0.1.16.tgz",
+  "_shasum": "4f23c8c60927ed3c325d90f1a4c1bbe0923a4ba6",
+  "_spec": "react-native-flash-message@^0.1.16",
+  "_where": "/Users/weishijun/WizTeam/WizNoteLiteMobile",
+  "author": {
+    "name": "Lucas Ferreira",
+    "email": "contato@lucasferreira.com"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasferreira/react-native-flash-message/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react-native-iphone-x-helper": "^1.2.1"
+  },
+  "deprecated": false,
+  "description": "React Native flashbar and top notification alert utility",
+  "devDependencies": {
+    "prettier": "^1.18.2",
+    "react": "16.8.3",
+    "react-native": "0.59.8"
+  },
+  "files": [
+    "src"
+  ],
+  "homepage": "https://github.com/lucasferreira/react-native-flash-message#readme",
+  "keywords": [
+    "react",
+    "react-native",
+    "react-component",
+    "native",
+    "component",
+    "flash",
+    "flashbar",
+    "flashmessage",
+    "message",
+    "alert",
+    "notification",
+    "topbar",
+    "iphonex",
+    "ipad",
+    "android",
+    "utility"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "name": "react-native-flash-message",
+  "peerDependencies": {
+    "prop-types": "^15.0 || ^16.0",
+    "react": "*",
+    "react-native": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasferreira/react-native-flash-message.git"
+  },
+  "scripts": {
+    "upd": "yarn upgrade-interactive --latest"
+  },
+  "types": "src/index.d.ts",
+  "version": "0.1.16"
+}
