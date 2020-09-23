@@ -4,6 +4,7 @@ export default {
   tabRegister: 'Register',
   buttonLogin: 'Login',
   buttonSignUp: 'Sign Up',
+  buttonLoginOrSignUp: 'Login / Sign Up',
   placeholderUserId: 'Email',
   placeholderUserPassword: 'Password',
   placeholderPrivateServer: 'Private server address',
@@ -53,6 +54,9 @@ export default {
 
   titleLogs: 'Logs',
   buttonClose: 'Close',
+  buttonViewLog: 'View Logs',
+  buttonUpgradeVIP: 'Upgrade VIP',
+  buttonRenewVIP: 'Renew VIP',
 
   itemAllNotes: 'All Notes',
   itemStarredNotes: 'Starred Notes',

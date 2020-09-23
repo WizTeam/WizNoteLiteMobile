@@ -1,5 +1,21 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable react/sort-comp */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-shadow */
+/* eslint-disable indent */
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-extra-boolean-cast */
+/* eslint-disable arrow-parens */
+/* eslint-disable react/static-property-placement */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable max-len */
+/* eslint-disable react/require-default-props */
+/* eslint-disable lines-between-class-members */
+/* eslint-disable quotes */
+/* eslint-disable react/jsx-closing-bracket-location */
 import React, { Component } from "react";
-import { StyleSheet, TouchableWithoutFeedback, Platform, StatusBar, Animated, Image, Text, View } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, Platform, StatusBar, Animated, Image, Text, View, Button } from "react-native";
 import { isIphoneX, getStatusBarHeight } from "react-native-iphone-x-helper";
 import PropTypes from "prop-types";
 
@@ -179,6 +195,7 @@ export const DefaultFlash = ({
   floating = false,
   icon,
   hideStatusBar = false,
+  buttons,
   ...props
 }) => {
   const hasDescription = !!message.description && message.description !== "";
@@ -232,6 +249,27 @@ export const DefaultFlash = ({
               <Text style={[styles.flashText, !!message.color && { color: message.color }, textStyle]}>
                 {message.description}
               </Text>
+            )}
+            {buttons && (
+              <View style={{
+                display: 'flex',
+                flexDirection: 'row-reverse',
+              }}>
+                {
+                  buttons.map((button) => (
+                    <Button
+                      key={button.title}
+                      title={button.title}
+                      color={button.color || FlashMessage.ButtonColorTheme[message.type]}
+                      style={button.style}
+                      onPress={() => {
+                        hideMessage();
+                        setTimeout(button.onPress, 250);
+                      }}
+                    />
+                  ))
+                }
+              </View>
             )}
           </View>
           {hasIcon && icon.position === "right" && iconView}
@@ -360,8 +398,17 @@ export default class FlashMessage extends Component {
     warning: "#f0ad4e",
     danger: "#d9534f",
   };
-  static setColorTheme = theme => {
+
+  static ButtonColorTheme = {
+    success: "#5bc0de",
+    info: "#5cb85c",
+    warning: "#d9534f",
+    danger: "#f0ad4e",
+  };
+
+  static setColorTheme = (theme, buttonTheme) => {
     FlashMessage.ColorTheme = Object.assign(FlashMessage.ColorTheme, theme);
+    FlashMessage.ButtonColorTheme = Object.assign(FlashMessage.ButtonColorTheme, buttonTheme);
   };
   constructor(props) {
     super(props);
@@ -565,6 +612,7 @@ export default class FlashMessage extends Component {
     const transitionConfig = this.prop(message, "transitionConfig");
     const animated = this.isAnimated(message);
     const animStyle = animated ? transitionConfig(visibleValue, position) : {};
+    const buttons = this.prop(message, "buttons");
 
     return (
       <Animated.View
@@ -587,6 +635,7 @@ export default class FlashMessage extends Component {
               textStyle={textStyle}
               titleStyle={titleStyle}
               titleProps={titleProps}
+              buttons={buttons}
             />
           </TouchableWithoutFeedback>
         )}

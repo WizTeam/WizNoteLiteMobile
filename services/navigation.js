@@ -1,5 +1,4 @@
-import { showMessage, hideMessage } from 'react-native-flash-message';
-
+import { showMessage, hideMessage } from '../thirdparty/react-native-flash-message';
 import { Navigation } from '../thirdparty/react-native-navigation';
 import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
 import { isTablet } from '../utils/device';
@@ -8,7 +7,7 @@ import app from '../wrapper/app';
 import { isDarkMode } from '../config/Colors';
 
 export async function showTopBarMessage(options = {}) {
-  const { message, description, onPress, closeTimeout = 3000, autoHide } = options;
+  const { message, description, onPress, closeTimeout = 3000, autoHide, buttons } = options;
   //
   const componentId = await Navigation.showOverlay({
     component: {
@@ -38,6 +37,7 @@ export async function showTopBarMessage(options = {}) {
     type,
     onPress,
     autoHide,
+    buttons,
   });
   //
   setTimeout(() => {

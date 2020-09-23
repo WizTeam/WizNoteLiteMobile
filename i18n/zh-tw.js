@@ -4,6 +4,7 @@ export default {
   tabRegister: '註冊',
   buttonLogin: '登录',
   buttonSignUp: '注册',
+  buttonLoginOrSignUp: 'Login / Sign Up',
   placeholderUserId: '郵件',
   placeholderUserPassword: '密碼',
   placeholderPrivateServer: 'Private server address',
@@ -55,6 +56,9 @@ export default {
 
   titleLogs: 'Logs',
   buttonClose: 'Close',
+  buttonViewLog: 'View Logs',
+  buttonUpgradeVIP: 'Upgrade VIP',
+  buttonRenewVIP: 'Renew VIP',
 
   itemAllNotes: '全部筆記',
   itemStarredNotes: 'Starred Notes',
