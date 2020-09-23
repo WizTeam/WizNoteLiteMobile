@@ -89,7 +89,7 @@ function App() {
     //
     window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
       setBottomHeight(keyboardHeight);
-      setBottomHeight(312);
+      // setBottomHeight(312);
       return true;
     };
     //
