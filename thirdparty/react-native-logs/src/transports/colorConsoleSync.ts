@@ -20,6 +20,9 @@ const colorConsoleSync: transportFunctionType = (msg, level, options) => {
     stringMsg = msg;
   } else if (typeof msg === 'function') {
     stringMsg = '[function]';
+  } else if (msg instanceof Error) {
+    const error: any = msg;
+    stringMsg = `code=${error['code']}, message=${msg.message}`;
   } else {
     stringMsg = JSON.stringify(msg);
   }

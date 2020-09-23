@@ -4,11 +4,15 @@ import {
   SafeAreaView,
   Text,
   View,
+  Linking,
 } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { Navigation } from '../thirdparty/react-native-navigation';
+
+import api from '../api';
+import { isIos } from '../utils/device';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { getDynamicColor, getColor } from '../config/Colors';
@@ -22,16 +26,24 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles);
   const [loading, setLoading] = useState(false);
   const [available, setAvailable] = useState(false);
+  const [purchasing, setPurchasing] = useState(false);
+  const [purchaseState, setPurchaseState] = useState('');
+  const [yearProduct, setYearProduct] = useState(undefined);
   //
   const user = props[KEYS.USER_INFO];
   //
   async function handlePurchase() {
-    setLoading(true);
     try {
-      await requestPurchase('cn.wiz.note.lite.year');
-      setLoading(false);
+      if (isIos) {
+        setPurchasing(true);
+        const result = await requestPurchase('cn.wiz.note.lite.year');
+        console.log('handlePurchase result', result);
+        setPurchasing(false);
+      } else {
+        Linking.openURL(api.purchaseUrl);
+      }
     } catch (err) {
-      setLoading(false);
+      setPurchasing(false);
     }
   }
 
@@ -45,9 +57,18 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
 
   useEffect(() => {
     async function handleGetProducts() {
-      const res = await getProducts();
-      if (res) {
-        setAvailable(true);
+      try {
+        if (isIos) {
+          const res = await getProducts();
+          const item = res.find((product) => product.productId === 'cn.wiz.note.lite.year');
+          setAvailable(true);
+          setYearProduct(item);
+        } else {
+          setAvailable(true);
+        }
+      } catch (err) {
+        setYearProduct(null);
+        setAvailable(false);
       }
     }
 
@@ -62,6 +83,24 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
     buttonText = i18n.t('buttonRenewVIPWithPrice');
   } else {
     buttonText = i18n.t('buttonUpgradeVIPWithPrice');
+  }
+
+  if (isIos) {
+    if (purchasing) {
+      if (purchaseState === 'verifying') {
+        buttonText = i18n.t('buttonVerifying');
+      } else {
+        buttonText = i18n.t('buttonPurchasing');
+      }
+    } else if (yearProduct) {
+      if (user && (user.vip || user.vipDate)) {
+        buttonText = i18n.t('buttonRenewVIPPrice', { price: yearProduct.localizedPrice });
+      } else {
+        buttonText = i18n.t('buttonUpgradeVIPPrice', { price: yearProduct.localizedPrice });
+      }
+    } else {
+      buttonText = i18n.t('buttonPurchaseLoading');
+    }
   }
 
   let userVipMessage = '';
@@ -107,18 +146,20 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
               titleStyle={styles.upgradeTitle}
               icon={<CrownIcon fill={styles.upgradeTitle.color} />}
               title={buttonText}
-              loading={loading}
+              loading={loading || purchasing}
               disabled={!available}
               loadingProps={{
                 color: getColor('upgradeButtonColor'),
               }}
             />
-            <Button
-              onPress={handleRestorePurchases}
-              type="clear"
-              titleStyle={{ fontSize: 14 }}
-              title={i18n.t('buttonRestorePurchases')}
-            />
+            {isIos && (
+              <Button
+                onPress={handleRestorePurchases}
+                type="clear"
+                titleStyle={{ fontSize: 14 }}
+                title={i18n.t('buttonRestorePurchases')}
+              />
+            )}
           </View>
         </View>
       </SafeAreaView>

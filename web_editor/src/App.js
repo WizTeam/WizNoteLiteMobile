@@ -12,8 +12,6 @@ const PadTheme = React.lazy(() => import('./PadTheme'));
 const params = queryString.parse(window.location.search);
 const isTablet = params.isTablet === 'true';
 
-console.log(isTablet);
-
 const useStyles = makeStyles({
   editorWrapper: {
   },
@@ -102,7 +100,6 @@ function App() {
     };
     //
     window.addImage = (url) => {
-      // TODO: add image to editor
       console.log(`request add image: ${url}`);
       editorRef.current.resetCursor();
       editorRef.current.insertImage({src: url});

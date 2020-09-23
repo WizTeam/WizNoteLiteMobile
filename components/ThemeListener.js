@@ -49,7 +49,7 @@ export function setDefaultNavigationOptions(isDarkMode) {
 }
 
 export function updateNavigationTheme(componentId, themeName) {
-  console.log(`switch bottom tab theme to: ${themeName}`);
+  console.debug(`switch bottom tab theme to: ${themeName}`);
   Navigation.mergeOptions(componentId, getNavigationOptions(themeName === 'dark'));
 }
 
@@ -59,9 +59,9 @@ const ThemeListener: () => React$Node = (props) => {
   if (currentThemeRef.current === null || currentThemeRef.current !== isDarkMode) {
     const themeName = isDarkMode ? 'dark' : 'light';
     if (currentThemeRef.current) {
-      console.log(`init theme: ${themeName}`);
+      console.debug(`init theme: ${themeName}`);
     } else {
-      console.log(`switch theme to: ${themeName}`);
+      console.debug(`switch theme to: ${themeName}`);
     }
     currentThemeRef.current = isDarkMode;
     setDefaultNavigationOptions(isDarkMode);

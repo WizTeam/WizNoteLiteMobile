@@ -6,8 +6,9 @@ const RNFS = require('react-native-fs');
 
 const originConsoleLog = console.log;
 
-const rnFsFileAsync: transportFunctionType = (msg, level, options) => {
+const rnFsFileAsync: transportFunctionType = async (msg, level, options) => {
   if (!RNFS) return false;
+  if (level.severity <= 0) return true;
 
   /**
    * Control msg type
@@ -16,6 +17,9 @@ const rnFsFileAsync: transportFunctionType = (msg, level, options) => {
   let stringMsg: string;
   if (typeof msg === 'string') {
     stringMsg = msg;
+  } else if (msg instanceof Error) {
+    const error: any = msg;
+    stringMsg = `code=${error['code']}, message=${msg.message}`;
   } else if (typeof msg === 'function') {
     stringMsg = '[function]';
   } else {
@@ -42,7 +46,16 @@ const rnFsFileAsync: transportFunctionType = (msg, level, options) => {
 
   let output = `${dateTxt}${levelTxt}${stringMsg}\n`;
   var path = loggerPath + '/' + loggerName + '.txt';
-
+  //
+  try {
+    const statResult = await RNFS.stat(path);
+    if (statResult.size > 50 * 1024) {
+      await RNFS.unlink(path);
+    }
+  } catch(err) {
+    originConsoleLog(err);
+  }
+  //
   RNFS.appendFile(path, output, 'utf8')
     .then(() => {})
     .catch((err: any) => {

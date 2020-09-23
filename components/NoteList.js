@@ -119,14 +119,20 @@ const NoteList: () => React$Node = (props) => {
           message: i18n.t('errorSync'),
           description: i18n.t('errorNoAccount'),
           type: 'warning',
-          onPress: handleLogin,
+          buttons: [{
+            title: i18n.t('buttonLoginOrSignUp'),
+            onPress: handleLogin,
+          }],
         });
       } else {
         showTopBarMessage({
           message: i18n.t('errorSync'),
           description: i18n.t('errorSyncMessage', { message: err.message }),
           type: 'error',
-          onPress: handleViewLogs,
+          buttons: [{
+            title: i18n.t('buttonViewLog'),
+            onPress: handleViewLogs,
+          }],
         });
       }
       setRefreshing(false);
@@ -141,18 +147,22 @@ const NoteList: () => React$Node = (props) => {
     function handleVip() {
       //
       showUpgradeViDialog();
-      console.log('upgrade to vip');
+      console.debug('upgrade to vip');
     }
 
     function showUpgradeVipMessage(isVipExpired) {
       const messageId = isVipExpired ? 'errorVipExpiredSync' : 'errorUpgradeVipSync';
       const message = i18n.t(messageId);
+      const buttonTitle = i18n.t(isVipExpired ? 'buttonRenewVip' : 'buttonUpgradeVip');
       //
       showTopBarMessage({
         message: i18n.t('errorSync'),
         description: message,
         type: 'error',
-        onPress: handleVip,
+        buttons: [{
+          title: buttonTitle,
+          onPress: handleVip,
+        }],
       });
     }
 
@@ -178,7 +188,10 @@ const NoteList: () => React$Node = (props) => {
           message: i18n.t('errorSync'),
           description: i18n.t('errorSyncMessage', { message: errorMessage }),
           type: 'error',
-          onPress: handleViewLogs,
+          buttons: [{
+            title: i18n.t('buttonViewLog'),
+            onPress: handleViewLogs,
+          }],
         });
       }
     }

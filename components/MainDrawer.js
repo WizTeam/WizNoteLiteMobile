@@ -197,6 +197,7 @@ const MainDrawer: () => React$Node = (props) => {
             android: 56,
             default: 44,
           }),
+          marginBottom: isTablet ? 0 : 32,
         }}
       />
       <ScrollView
@@ -299,10 +300,13 @@ const dynamicStyles = new DynamicStyleSheet({
     flex: 1,
   },
   item: {
-    paddingHorizontal: 16,
+    paddingLeft: 28,
+    paddingRight: 16,
     backgroundColor: getDeviceDynamicColor('drawerBackground'),
   },
   tabletItem: {
+    paddingLeft: 16,
+    paddingRight: 16,
     marginHorizontal: 16,
   },
   itemContent: {

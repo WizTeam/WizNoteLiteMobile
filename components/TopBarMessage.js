@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import FlashMessage from "react-native-flash-message";
+import FlashMessage from '../thirdparty/react-native-flash-message';
 
 const TopFlashMessages = () => (
   <View style={styles.container}>

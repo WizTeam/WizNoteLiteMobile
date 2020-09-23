@@ -13,18 +13,18 @@ class Store {
   }
 
   set(key, value) {
-    console.log(`set ${key}=${value}`);
+    console.debug(`set ${key}=${value}`);
     SyncStorage.set(this._getKey(key), value);
   }
 
   get(key) {
     const value = SyncStorage.get(this._getKey(key));
-    console.log(`get ${key}=${value}`);
+    console.debug(`get ${key}=${value}`);
     return value;
   }
 
   delete(key) {
-    console.log(`delete ${key}`);
+    console.debug(`delete ${key}`);
     SyncStorage.remove(this._getKey(key));
   }
 }
