@@ -90,13 +90,14 @@ function App() {
     };
     //
     window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
-      setBottomHeight(isTablet ? keyboardHeight + 30 : keyboardHeight)
-      // console.log('onKeyboardShow', keyboardHeight);
+      setBottomHeight(keyboardHeight);
+      setBottomHeight(312);
       return true;
     };
     //
     window.onKeyboardHide = () => {
       console.log('onKeyboardHide');
+      setBottomHeight(0)
       return true;
     };
     //
