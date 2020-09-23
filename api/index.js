@@ -75,6 +75,19 @@ class Api extends EventEmitter {
     return this._user.kbGuid;
   }
 
+  get purchaseUrl() {
+    if (!this._user) {
+      return null;
+    }
+    const version = this._user.avatarVersion;
+    const userGuid = this.userGuid;
+    const userData = sdk.getUserData(userGuid) ?? {};
+    const token = userData.token;
+    const as = userData.accountServer ?? {};
+    const server = as.server;
+    return `${server}/?p=wiz&c=vip_lite&token=${token}&clientType=lite&clientVersion=${version}`;
+  }
+
   initEvents() {
     this.registerListener(this.userGuid, (userGuid, eventName, ...args) => {
       this.emit(eventName, userGuid, ...args);
