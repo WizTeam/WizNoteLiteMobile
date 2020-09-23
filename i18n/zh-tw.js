@@ -19,8 +19,8 @@ export default {
   registerDeclare: '註冊即表示您已閱讀並同意https://wiz.cn/pages/go?blogName=share-termsofuse&lang=zh-cn 與https://wiz.cn/pages/go?blogName=wiz-privacy&lang =zh-cn',
   textTermsOfUse: '服務條款',
   textPrivacy: '隱私政策',
-  errorVipExpiredSync: 'VIP服務已到期，無法上傳筆記。 \n點擊當前消息進行續費',
-  errorUpgradeVipSync: '試用期已結束，無法上傳筆記。 \n點擊當前消息升級到VIP',
+  errorVipExpiredSync: 'VIP服務已到期，無法上傳筆記。',
+  errorUpgradeVipSync: '試用期已結束，無法上傳筆記。',
   //
   // error
   errorDisableRegister: '註冊已被禁用',
