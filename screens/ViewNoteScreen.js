@@ -152,6 +152,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
 
 ViewNoteScreen.options = {
   topBar: {
+    noBorder: true,
     title: {
     },
   },

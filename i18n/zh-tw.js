@@ -59,6 +59,7 @@ export default {
   buttonViewLog: 'View Logs',
   buttonUpgradeVIP: 'Upgrade VIP',
   buttonRenewVIP: 'Renew VIP',
+  buttonDone: 'Done',
 
   itemAllNotes: '全部筆記',
   itemStarredNotes: 'Starred Notes',

@@ -57,6 +57,7 @@ export default {
   buttonViewLog: 'View Logs',
   buttonUpgradeVIP: 'Upgrade VIP',
   buttonRenewVIP: 'Renew VIP',
+  buttonDone: 'Done',
 
   itemAllNotes: 'All Notes',
   itemStarredNotes: 'Starred Notes',

@@ -400,10 +400,10 @@ export default class FlashMessage extends Component {
   };
 
   static ButtonColorTheme = {
-    success: "#5bc0de",
-    info: "#5cb85c",
-    warning: "#d9534f",
-    danger: "#f0ad4e",
+    success: "#ffffff",
+    info: "#ffffff",
+    warning: "#ffffff",
+    danger: "#ffffff",
   };
 
   static setColorTheme = (theme, buttonTheme) => {

@@ -58,6 +58,7 @@ export default {
   buttonViewLog: 'View Logs',
   buttonUpgradeVIP: 'Upgrade VIP',
   buttonRenewVIP: 'Renew VIP',
+  buttonDone: 'Done',
 
   itemAllNotes: '全部笔记',
   itemStarredNotes: '星标笔记',
