@@ -2,9 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import {
   View,
-  Text,
-  TouchableHighlight,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { Header, ListItem } from 'react-native-elements';
 
@@ -18,9 +17,8 @@ import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extensio
 import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
-import { setLoginAsRoot, showLoginDialog, showUpgradeDialog } from '../services/navigation';
+import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
 import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
-import CrownIcon from './svg/CrownIcon';
 import NotesIcon from './svg/NotesIcon';
 import StarredIcon from './svg/StarredIcon';
 import TrashIcon from './svg/TrashIcon';
@@ -28,14 +26,10 @@ import TrashIcon from './svg/TrashIcon';
 const MainDrawer: () => React$Node = (props) => {
   //
   const styles = useDynamicValue(dynamicStyles);
+  const [tagsState, setTagsState] = useState(() => api.getSettings('tagsState', []));
   //
   function handleCloseDrawer() {
     RNNDrawer.dismissDrawer();
-  }
-
-  function handleShowUpgradeDialog() {
-    handleCloseDrawer();
-    showUpgradeDialog();
   }
 
   function handleLogin() {
@@ -76,9 +70,9 @@ const MainDrawer: () => React$Node = (props) => {
   }, []);
 
   function handleRenderExpandButton({ isExpanded, hasChildrenNodes, isSelected }) {
-    let style = styles.itemTitle;
+    let style = styles.itemButton;
     if (isTablet && isSelected) {
-      style = { color: '#fff' };
+      style = [styles.itemButton, styles.itemTabletButton];
     }
     //
     if (!hasChildrenNodes) {
@@ -95,31 +89,69 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleGotoAllNotes() {
-    handleCloseDrawer();
-    setTimeout(() => {
+    if (isTablet) {
       dataStore.setSelectedType('#allNotes');
-    }, 300);
+    } else {
+      handleCloseDrawer();
+      setTimeout(() => {
+        dataStore.setSelectedType('#allNotes');
+      }, 300);
+    }
   }
 
   function handleGotoStarredNotes() {
-    handleCloseDrawer();
-    setTimeout(() => {
+    if (isTablet) {
       dataStore.setSelectedType('#starredNotes');
-    }, 300);
+    } else {
+      handleCloseDrawer();
+      setTimeout(() => {
+        dataStore.setSelectedType('#starredNotes');
+      }, 300);
+    }
   }
 
   function handleGotoTrash() {
-    handleCloseDrawer();
-    setTimeout(() => {
+    if (isTablet) {
       dataStore.setSelectedType('#trash');
-    }, 300);
+    } else {
+      handleCloseDrawer();
+      setTimeout(() => {
+        dataStore.setSelectedType('#trash');
+      }, 300);
+    }
   }
 
   function handleClickTreeItem({ node }) {
-    handleCloseDrawer();
-    setTimeout(() => {
+    if (isTablet) {
       dataStore.setSelectedType(node.id);
-    }, 300);
+    } else {
+      handleCloseDrawer();
+      setTimeout(() => {
+        dataStore.setSelectedType(node.id);
+      }, 300);
+    }
+  }
+
+  function handleBeforeExpandNode({ node, isExpanded }) {
+    const set = new Set(tagsState);
+    let targetNodeId = node.id;
+    if (isExpanded) {
+      // 关闭父级标签时，子级标签也关闭
+      if (!node.id.includes('/')) {
+        targetNodeId += '/';
+        set.delete(node.id);
+      }
+      tagsState.forEach((id) => {
+        if (id.includes(targetNodeId)) {
+          set.delete(id);
+        }
+      });
+    } else {
+      set.add(node.id);
+    }
+    setTagsState([...set]);
+    api.setSettings('tagsState', [...set]);
+    return true;
   }
 
   const selectedType = props.selectedType || '#allNotes';
@@ -153,23 +185,20 @@ const MainDrawer: () => React$Node = (props) => {
   //
   const tags = props.tags;
   //
+  const underlayColor = isTablet ? getDeviceColor('drawerBackground') : undefined;
+  //
   return (
     <View style={[styles.root, props.style]}>
       <Header
         backgroundColor="transparent"
         containerStyle={{
           borderBottomColor: 'transparent',
+          height: Platform.select({
+            android: 56,
+            default: 44,
+          }),
+          marginBottom: isTablet ? 0 : 32,
         }}
-        leftComponent={(
-          <View style={{ marginLeft: 8 }}>
-            <TouchableHighlight onPress={handleShowUpgradeDialog}>
-              <View style={styles.vip}>
-                <CrownIcon width="16" height="16" fill="#000" />
-                <Text style={{ fontSize: 12 }}>VIP</Text>
-              </View>
-            </TouchableHighlight>
-          </View>
-        )}
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -195,6 +224,7 @@ const MainDrawer: () => React$Node = (props) => {
                   isTablet && item.isSelected && styles.itemSelect,
                 ]}
                 onPress={item.onPress}
+                underlayColor={underlayColor}
               >
                 {isTablet && <item.leftIcon fill={item.isSelected ? '#fff' : styles.itemTitle.color} />}
                 <ListItem.Content
@@ -238,6 +268,9 @@ const MainDrawer: () => React$Node = (props) => {
           itemTitleStyle={styles.treeItemTitleStyle}
           itemContentContainerStyle={styles.treeItemContentContainerStyle}
           selected={selectedType}
+          expandedNodeKeys={tagsState}
+          onBeforeExpandNode={handleBeforeExpandNode}
+          underlayColor={underlayColor}
         />
       </ScrollView>
 
@@ -256,14 +289,6 @@ const dynamicStyles = new DynamicStyleSheet({
   root: {
     flex: 1,
   },
-  vip: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgb(254, 213, 53)',
-    borderRadius: 2,
-    paddingHorizontal: 3,
-  },
   icon: {
     color: getDynamicColor('closeDrawerButton'),
     flexDirection: 'column',
@@ -275,10 +300,13 @@ const dynamicStyles = new DynamicStyleSheet({
     flex: 1,
   },
   item: {
-    paddingHorizontal: 16,
+    paddingLeft: 28,
+    paddingRight: 16,
     backgroundColor: getDeviceDynamicColor('drawerBackground'),
   },
   tabletItem: {
+    paddingLeft: 16,
+    paddingRight: 16,
     marginHorizontal: 16,
   },
   itemContent: {
@@ -291,6 +319,13 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   itemTitle: {
     color: getDeviceDynamicColor('drawerItemTitle'),
+  },
+  itemButton: {
+    paddingLeft: 16,
+    color: getDeviceDynamicColor('drawerItemTitle'),
+  },
+  itemTabletButton: {
+    color: '#ffffff',
   },
   itemSelectTitle: {
     color: '#ffffff',
@@ -309,7 +344,7 @@ const dynamicStyles = new DynamicStyleSheet({
   treeItemTitleStyle: {
     paddingTop: 0,
     paddingBottom: 0,
-    paddingLeft: 0,
+    paddingLeft: 12,
     color: getDeviceDynamicColor('drawerItemTitle'),
     paddingHorizontal: 0,
   },
@@ -329,16 +364,13 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   padLoginButton: {
     paddingBottom: 32,
-    paddingLeft: 32,
+    paddingLeft: 28,
   },
   phoneLoginButton: {
     paddingTop: 32,
     paddingLeft: 16,
     paddingBottom: 64,
-    // position: 'absolute',
-    // bottom: 0,
-    // left: 0,
-    // right: 0,
+    marginLeft: isTablet ? 16 : 32,
   },
 });
 

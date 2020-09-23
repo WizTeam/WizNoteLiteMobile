@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneLayout';
@@ -9,6 +9,7 @@ import PadNoteList from '../components/PadNoteList';
 import NoteEditor from '../components/NoteEditor';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { getDeviceDynamicColor } from '../config/Colors';
+import api from '../api';
 
 const useForceUpdate = () => useState()[1];
 
@@ -41,8 +42,10 @@ const PadMainScreen: () => React$Node = () => {
     const openState = layoutRef.current.currentOpenState();
     if (openState === OPEN_STATE.openAll) {
       layoutRef.current.toggleOpenState(OPEN_STATE.open2);
+      api.setSettings('triplePaneOpenState', OPEN_STATE.open2);
     } else {
       layoutRef.current.toggleOpenState(OPEN_STATE.openAll);
+      api.setSettings('triplePaneOpenState', OPEN_STATE.openAll);
     }
   }
 
@@ -57,6 +60,7 @@ const PadMainScreen: () => React$Node = () => {
         y: topHeight,
         width: pane2Width,
         height: screenHeight - topHeight,
+        exceptionClassNames: Platform.OS === 'ios' ? ['RCTCustomScrollView'] : ['ReactScrollView'],
       }];
     } else if (state === OPEN_STATE.openAll) {
       excludeRegions = [{
@@ -64,6 +68,7 @@ const PadMainScreen: () => React$Node = () => {
         y: topHeight,
         width: pane2Width,
         height: screenHeight - topHeight,
+        exceptionClassNames: Platform.OS === 'ios' ? ['RCTCustomScrollView'] : ['ReactScrollView'],
       }];
     }
     return excludeRegions;

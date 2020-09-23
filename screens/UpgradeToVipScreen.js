@@ -15,11 +15,11 @@ import api from '../api';
 import { isIos } from '../utils/device';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
-import IapListener from '../components/IapListener';
-import { getDynamicColor } from '../config/Colors';
+import { getDynamicColor, getColor } from '../config/Colors';
 import { getProducts, requestPurchase, restorePurchases } from '../utils/iap';
 import UploadCloudIcon from '../components/svg/UploadCloudIcon';
 import CrownIcon from '../components/svg/CrownIcon';
+import { KEYS, connect } from '../data_store';
 
 const UpgradeToVipScreen: () => React$Node = (props) => {
   //
@@ -30,7 +30,7 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
   const [purchaseState, setPurchaseState] = useState('');
   const [yearProduct, setYearProduct] = useState(undefined);
   //
-  const { user } = api;
+  const user = props[KEYS.USER_INFO];
   //
   async function handlePurchase() {
     try {
@@ -113,7 +113,6 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
   return (
     <>
       <ThemedStatusBar />
-      <IapListener />
       <SafeAreaView>
         <View
           style={styles.scrollView}
@@ -145,6 +144,9 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
               title={buttonText}
               loading={loading || purchasing}
               disabled={!available}
+              loadingProps={{
+                color: getColor('upgradeButtonColor'),
+              }}
             />
             {isIos && (
               <Button
@@ -159,12 +161,6 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
       </SafeAreaView>
     </>
   );
-};
-
-UpgradeToVipScreen.options = {
-  topBar: {
-    visible: false,
-  },
 };
 
 const dynamicStyles = new DynamicStyleSheet({
@@ -231,4 +227,12 @@ const dynamicStyles = new DynamicStyleSheet({
   },
 });
 
-export default UpgradeToVipScreen;
+const UpgradeToVipScreenImpl = connect([KEYS.USER_INFO])(UpgradeToVipScreen);
+
+UpgradeToVipScreenImpl.options = {
+  topBar: {
+    visible: false,
+  },
+};
+
+export default UpgradeToVipScreenImpl;

@@ -13,7 +13,7 @@ let responseNativeModule;
 async function handleRequest(request) {
   const u = url.parse(request.url);
   let p = u.path;
-  console.log(`handle path: ${p}`);
+  console.debug(`handle path: ${p}`);
   while (p.startsWith('/')) {
     p = p.substr(1);
   }
@@ -56,7 +56,7 @@ export function startResourceLoader() {
     eventObject.addListener('httpServerResponseReceived', handleRequest);
     //
   } else {
-    console.log('start http server');
+    console.debug('start http server');
     const httpBridge = require('../thirdparty/react-native-http-bridge');
     responseNativeModule = httpBridge;
     //

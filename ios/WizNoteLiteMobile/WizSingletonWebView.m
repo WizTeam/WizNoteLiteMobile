@@ -50,6 +50,7 @@ WKScriptMessageHandler>
 
 // webview container
 @interface WizSingletonWebViewContainer : RCTView<UIScrollViewDelegate>
+@property (nonatomic, copy) RCTDirectEventBlock onBeginScroll;
 @property (nonatomic, copy) RCTDirectEventBlock onScroll;
 @property (nonatomic, copy) RCTDirectEventBlock onKeyboardShow;
 @property (nonatomic, copy) RCTDirectEventBlock onKeyboardHide;
@@ -189,6 +190,33 @@ static WizSingletonWebView* _webView;
   }
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+  if (_onBeginScroll) {
+    NSDictionary *event = @{
+      @"contentOffset": @{
+          @"x": @(scrollView.contentOffset.x),
+          @"y": @(scrollView.contentOffset.y)
+          },
+      @"contentInset": @{
+          @"top": @(scrollView.contentInset.top),
+          @"left": @(scrollView.contentInset.left),
+          @"bottom": @(scrollView.contentInset.bottom),
+          @"right": @(scrollView.contentInset.right)
+          },
+      @"contentSize": @{
+          @"width": @(scrollView.contentSize.width),
+          @"height": @(scrollView.contentSize.height)
+          },
+      @"layoutMeasurement": @{
+          @"width": @(scrollView.frame.size.width),
+          @"height": @(scrollView.frame.size.height)
+          },
+      @"zoomScale": @(scrollView.zoomScale ?: 1),
+      };
+    _onBeginScroll(event);
+  }
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
   if (_onScroll != nil) {
     NSDictionary *event = @{
@@ -263,6 +291,7 @@ static WizSingletonWebView* _webView;
 @implementation WizSingletonWebViewManager
 
 RCT_EXPORT_MODULE(WizSingletonWebView)
+RCT_EXPORT_VIEW_PROPERTY(onBeginScroll, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onScroll, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onKeyboardShow, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onKeyboardHide, RCTDirectEventBlock)

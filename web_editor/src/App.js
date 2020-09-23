@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 
@@ -11,8 +11,6 @@ const PadTheme = React.lazy(() => import('./PadTheme'));
 
 const params = queryString.parse(window.location.search);
 const isTablet = params.isTablet === 'true';
-
-console.log(isTablet);
 
 const useStyles = makeStyles({
   editorWrapper: {
@@ -52,6 +50,7 @@ function Editor(props) {
 
   return (
     <MarkdownEditor
+      ref={props.editorRef}
       style={props.style}
       onSave={handleSave}
       markdown={markdown}
@@ -59,6 +58,7 @@ function Editor(props) {
       contentId={props.contentId}
       editorWrapperClassName={classes.editorWrapper}
       editorComponentClassName={classes.editorComponent}
+      bottomHeight={props.bottomHeight}
     />
   );
 }
@@ -66,6 +66,9 @@ function Editor(props) {
 function App() {
   //
   const [data, setData] = useState(null);
+  const [bottomHeight, setBottomHeight] = useState(100);
+  // 
+  const editorRef = useRef(null);
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
@@ -80,11 +83,13 @@ function App() {
     //
     window.onBeforeInsert = () => {
       console.log('onBeforeInsert');
+      editorRef.current.saveCursor();
       return true;
     };
     //
     window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
-      console.log('onKeyboardShow');
+      setBottomHeight(isTablet ? keyboardHeight + 30 : keyboardHeight)
+      // console.log('onKeyboardShow', keyboardHeight);
       return true;
     };
     //
@@ -94,8 +99,9 @@ function App() {
     };
     //
     window.addImage = (url) => {
-      // TODO: add image to editor
       console.log(`request add image: ${url}`);
+      editorRef.current.resetCursor();
+      editorRef.current.insertImage({src: url});
       return true;
     };
   }, []);
@@ -129,9 +135,11 @@ function App() {
         {(!isTablet) && <PhoneTheme />}
       </React.Suspense>
       <Editor
+        editorRef={editorRef}
         contentId={data?.contentId}
         markdown={data?.markdown}
         resourceUrl={data?.resourceUrl}  
+        bottomHeight={bottomHeight}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import i18n from 'i18n-js';
 
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
@@ -17,7 +17,6 @@ import api from '../api';
 import store, { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
 import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
-import IapListener from '../components/IapListener';
 import { isPhone, isAndroid } from '../utils/device';
 
 const NotesScreen: () => React$Node = (props) => {
@@ -30,7 +29,7 @@ const NotesScreen: () => React$Node = (props) => {
   }
 
   function handleSearchCancel() {
-    store.initCategoryNotes('#allNotes');
+    store.resetCategoryNotes('#allNotes');
   }
 
   async function handleSearchSubmit() {
@@ -134,8 +133,7 @@ const NotesScreen: () => React$Node = (props) => {
 
   function handleSearchBarCancel() {
     cancelClickTime.current = new Date().valueOf();
-    store.setSelectedType('#allNotes');
-    store.initCategoryNotes();
+    store.resetCategoryNotes('#allNotes');
   }
   async function handleSearchBarSearch() {
     try {
@@ -166,8 +164,7 @@ const NotesScreen: () => React$Node = (props) => {
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar onThemeChanged={handleThemeChanged} />
-      <IapListener />
-      <View style={styles.content}>
+      <SafeAreaView style={styles.content}>
         <SideMenuView
           style={styles.root}
           left={showDrawer}
@@ -193,7 +190,7 @@ const NotesScreen: () => React$Node = (props) => {
           }
           <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
         </SideMenuView>
-      </View>
+      </SafeAreaView>
     </ColorSchemeProvider>
   );
 };

@@ -75,6 +75,22 @@ class Api extends EventEmitter {
     return this._user.kbGuid;
   }
 
+  get displayName() {
+    return this._user.displayName;
+  }
+
+  get avatarUrl() {
+    if (!this._user) {
+      return null;
+    }
+    const version = this._user.avatarVersion;
+    const userGuid = this.userGuid;
+    const userData = sdk.getUserData(userGuid) ?? {};
+    const as = userData.accountServer ?? {};
+    const server = as.server;
+    return `${server}/as/user/avatar/${userGuid}?version=${version}`;
+  }
+
   get purchaseUrl() {
     if (!this._user) {
       return null;
@@ -86,6 +102,10 @@ class Api extends EventEmitter {
     const as = userData.accountServer ?? {};
     const apiServer = as.apiServer;
     return `${apiServer}/?p=wiz&c=vip_lite&token=${token}&clientType=lite_mobile&clientVersion=${version}`;
+  }
+
+  getUserData(userGuid) {
+    return sdk.getUserData(userGuid);
   }
 
   initEvents() {
@@ -123,7 +143,8 @@ class Api extends EventEmitter {
   }
 
   async refreshUserInfo() {
-    await sdk.refreshUserInfo(this.userGuid);
+    const user = await sdk.refreshUserInfo(this.userGuid);
+    return user;
   }
 
   async syncKb(kbGuid, options) {
@@ -227,6 +248,10 @@ class Api extends EventEmitter {
     };
     const notes = await sdk.queryNotes(this.userGuid, kbGuid, 0, 10000, options);
     return notes;
+  }
+
+  get core() {
+    return sdk.core;
   }
 }
 

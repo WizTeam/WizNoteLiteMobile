@@ -1,3 +1,5 @@
+import i18n from 'i18n-js';
+
 import { Navigation } from '../thirdparty/react-native-navigation';
 import dataStore from '../data_store';
 import api from '../api';
@@ -36,10 +38,11 @@ export async function createNewNote() {
               componentBackgroundColor: getDeviceColor('noteBackground'),
             },
             topBar: {
+              noBorder: true,
               leftButtons: [{
                 id: 'DoneButton',
                 // eslint-disable-next-line import/no-unresolved
-                text: 'Done',
+                text: i18n.t('buttonDone'),
                 systemItem: 'done',
               }],
             },

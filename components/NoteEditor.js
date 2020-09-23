@@ -21,7 +21,7 @@ addWebViewEventHandler('onMessage', async (eventBody) => {
     const parts = contentId.split('/');
     // eslint-disable-next-line no-shadow
     const [userGuid, kbGuid, noteGuid] = parts;
-    console.log(parts);
+    console.debug(parts);
     if (!userGuid) {
       console.error('no userGuid');
       return;
@@ -99,12 +99,30 @@ const NoteEditor = React.forwardRef((props, ref) => {
   useEffect(() => emptyEditor, []);
   const keyboardVisibleTimeRef = useRef(0);
   const keyboardVisibleRef = useRef(false);
+  const contentOffsetYRef = useRef(0);
+  const scrollDownRef = useRef();
 
-  function handleScroll() {
-    if (keyboardVisibleRef.current) {
-      const now = new Date().valueOf();
-      if (now - keyboardVisibleTimeRef.current > 1000) {
-        endEditing(true);
+  function handleBeginScroll({ nativeEvent }) {
+    const contentOffsetY = nativeEvent.contentOffset.y;
+    contentOffsetYRef.current = contentOffsetY;
+    scrollDownRef.current = undefined;
+  }
+
+  function handleScroll({ nativeEvent }) {
+    const oldContentOffsetY = contentOffsetYRef.current;
+    const contentOffsetY = nativeEvent.contentOffset.y;
+    contentOffsetYRef.current = contentOffsetY;
+    if (keyboardVisibleRef.current && scrollDownRef.current === undefined) {
+      if (contentOffsetY < oldContentOffsetY) {
+        scrollDownRef.current = true;
+        const now = new Date().valueOf();
+        if (now - keyboardVisibleTimeRef.current > 1000) {
+          // 使用endEditing。在点击页面的时候可能会不正常跳动
+          // endEditing(true);
+          injectJavaScript('document.activeElement.blur();true;');
+        }
+      } else {
+        scrollDownRef.current = false;
       }
     }
   }
@@ -153,6 +171,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
   return (
     <View style={props.containerStyle}>
       <WizSingletonWebView
+        onBeginScroll={handleBeginScroll}
         onScroll={handleScroll}
         onKeyboardShow={handleKeyboardShow}
         onKeyboardHide={handleKeyboardHide}

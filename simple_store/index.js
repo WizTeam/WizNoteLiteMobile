@@ -10,21 +10,24 @@ class SimpleStore {
   }
 
   subscribe(key, listener) {
-    console.info(`subscribe ${key}`);
+    console.debug(`subscribe ${key}`);
     this._listener.on(key, listener);
   }
 
   unsubscribe(key, listener) {
-    console.info(`unsubscribe ${key}`);
+    console.debug(`unsubscribe ${key}`);
     this._listener.off(key, listener);
   }
 
-  setData(key, data) {
+  setData(key, data, callback) {
     const old = this._data[key];
     if (isEqual(data, old)) {
       return;
     }
     this._data[key] = data;
+    if (callback) {
+      callback(key, data);
+    }
     this._listener.emit(key, key, data);
   }
 

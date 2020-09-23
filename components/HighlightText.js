@@ -14,7 +14,7 @@ export default function HighlightText({
   const parts = ` ${text} `.replace(new RegExp('</em>', 'g'), '<em>').split('<em>');
   parts[0] = parts[0].trimStart();
   parts[parts.length - 1] = parts[parts.length - 1].trimEnd();
-  console.log(parts);
+  console.debug(parts);
   //
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading

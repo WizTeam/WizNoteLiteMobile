@@ -1,6 +1,6 @@
 import { Navigation } from '../thirdparty/react-native-navigation';
 import dataStore from '../data_store';
-import { getColor, getDeviceColor } from '../config/Colors';
+import { getDeviceColor } from '../config/Colors';
 import { loadNote } from '../components/NoteEditor';
 
 export async function viewNote(parentComponentId) {
@@ -14,8 +14,8 @@ export async function viewNote(parentComponentId) {
         layout: {
           componentBackgroundColor: getDeviceColor('noteBackground'),
         },
-        bottomTabs: {
-          backgroundColor: getColor('bottomTabBackground'),
+        topBar: {
+          noBorder: true,
         },
       },
     },

@@ -2,6 +2,7 @@ import React from 'react';
 import { Animated, StyleSheet, Keyboard, Easing } from 'react-native';
 
 import { PanGestureHandler, State } from '../thirdparty/react-native-gesture-handler/GestureHandler';
+import api from '../api';
 
 export const STATE = {
   openAll: 0, // a | b | c
@@ -17,7 +18,7 @@ class TriplePaneLayout extends React.Component {
       containerWidth: 0,
       // containerHeight: 0,
       isLandscape: false,
-      openState: props.openState || STATE.open2,
+      openState: props.openState || api.getSettings('triplePaneOpenState', STATE.open2),
     };
     //
     this._draggedXValue = new Animated.Value(0);
@@ -107,6 +108,12 @@ class TriplePaneLayout extends React.Component {
       const pane3OriginLeft = this._getPane3X(this.state.openState);
       const pane3Left = this._getPane3X(nextState);
       const toValue = pane3Left - pane3OriginLeft;
+      // update setting
+      if (nextState === STATE.openAll) {
+        api.setSettings('triplePaneOpenState', STATE.openAll);
+      } else {
+        api.setSettings('triplePaneOpenState', STATE.open2);
+      }
       //
       let nextFramePosition = moved;
       let { velocityX } = nativeEvent;
@@ -121,18 +128,32 @@ class TriplePaneLayout extends React.Component {
         nextFramePosition = Math.max(fromValue + velocity / 60.0, toValue);
       }
       //
+      // console.log(`from: ${moved}, nextFramePosition: ${nextFramePosition}`);
+      //
       if (toValue > 0 && nextFramePosition > toValue) {
         // nextFramePosition = toValue;
         this._draggedXValue.setValue(0);
-        setTimeout(() => {
-          this.setState({ openState: nextState });
-        });
+        this.setState({ openState: nextState });
+        // console.log('no animation 1');
         return;
       } else if (toValue < 0 && nextFramePosition < toValue) {
         // nextFramePosition = toValue;
         this._draggedXValue.setValue(0);
+        this.setState({ openState: nextState });
+        // console.log('no animation 2');
+        return;
+      } else if (STATE.openAll === nextState && toValue === 0 && fromValue > 0) {
+        // move from left to right
+        this._draggedXValue.setValue(0);
+        this.setState({ openState: nextState });
+        // console.log('no animation 3');
+        return;
+      } else if (STATE.closeAll === nextState && toValue === 0 && fromValue < 0) {
+        this._draggedXValue.setValue(0);
+        this.setState({ openState: nextState });
+        // force update pan32 width
         setTimeout(() => {
-          this.setState({ openState: nextState });
+          this._draggedXValue.setValue(0);
         });
         return;
       }
@@ -142,6 +163,8 @@ class TriplePaneLayout extends React.Component {
       this._panGestureHandler.current.setNativeProps({
         enabled: false,
       });
+      //
+      // console.log(`toValue: ${toValue}`);
       //
       this._animating = true;
       Animated.timing(this._draggedXValue, {
@@ -158,18 +181,21 @@ class TriplePaneLayout extends React.Component {
             enabled: true,
           });
           this._draggedXValue.setValue(0);
-          if (nextState !== this.state.openState) {
-            this.setState({ openState: nextState });
-          }
+          this.setState({ openState: nextState });
+          // if (nextState !== this.state.openState) {
+          // }
         }
       });
     };
+
+    // console.log('-------');
 
     const rollback = () => {
       gotoNextState(this.state.openState, moved);
     };
 
     if (Math.abs(moved) < 30) {
+      // console.log(`rollback 1: ${moved}`);
       rollback(moved);
       return;
     }
@@ -178,6 +204,7 @@ class TriplePaneLayout extends React.Component {
     if (moved < 0) {
       // <-
       if (oldState === STATE.closeAll) {
+        // console.log(`rollback 2: ${moved}`);
         rollback(moved);
         return;
       }
@@ -186,6 +213,7 @@ class TriplePaneLayout extends React.Component {
     } else {
       // ->
       if (oldState === STATE.openAll) {
+        // console.log(`rollback 3: ${moved}`);
         rollback(moved);
         return;
       }
@@ -291,14 +319,16 @@ class TriplePaneLayout extends React.Component {
         });
       } else if (openState === STATE.closeAll) {
         // drag range: [0, pane2width]
+        // console.log('create dynamic width');
         const widthRange = [width, this._getPane3Width(STATE.open2)];
-        return Animated.diffClamp(
+        const dynamicWidth = Animated.diffClamp(
           this._draggedXValue,
           dragRange[0], dragRange[dragRange.length - 1],
         ).interpolate({
           inputRange: dragRange,
           outputRange: widthRange,
         });
+        return dynamicWidth;
       }
     }
     //
@@ -321,7 +351,9 @@ class TriplePaneLayout extends React.Component {
     const pane2MoveRange = this._getPane2MoveRange(openState);
     const pane3MoveRange = this._getPane3MoveRange(openState);
     //
+    // console.log('before render');
     const pane3DynamicWidth = this._getPane3DynamicWidth(openState, dragRange);
+    // console.log(`render: ${pane3DynamicWidth}`);
     //
     let activeOffsetX;
     if (openState === STATE.openAll) {
@@ -337,9 +369,10 @@ class TriplePaneLayout extends React.Component {
     const getExcludeRegions = this.props.onGetExcludeRegions;
     const excludeRegions = getExcludeRegions && getExcludeRegions(openState);
     //
+    //
     return (
       <PanGestureHandler
-        failOffsetY={[-15, 15]}
+        failOffsetY={[-10, 10]}
         activeOffsetX={activeOffsetX}
         onGestureEvent={this._onPanGestureEvent}
         onHandlerStateChange={this._openingHandlerStateChange}

@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Button, Text } from 'react-native';
 import i18n from 'i18n-js';
-import { Icon } from 'react-native-elements';
+import { Avatar, Icon } from 'react-native-elements';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
 import dataStore, { KEYS, connect } from '../data_store';
 import { setLoginAsRoot, closeDrawer } from '../services/navigation';
 import { getDynamicColor } from '../config/Colors';
+import api from '../api';
 
 const UserButton: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles);
@@ -30,8 +31,17 @@ const UserButton: () => React$Node = (props) => {
 
   // eslint-disable-next-line react/prop-types
   function handleRenderDropdownBase() {
+    const avatarUrl = api.avatarUrl;
+    const name = api.displayName;
     return (
       <View style={styles.userActionDropdownBase}>
+        <Avatar
+          rounded
+          source={{
+            uri: avatarUrl,
+          }}
+          title={name}
+        />
         <Text type="clear" style={styles.userActionDropdownText}>{userInfo.displayName}</Text>
         <Icon name="keyboard-arrow-down" color={styles.userActionDropdownIcon.color} />
       </View>
@@ -53,16 +63,31 @@ const UserButton: () => React$Node = (props) => {
   return (
     <View style={[styles.container, props.style]}>
       {isLocalUser && (
-        <Button title={i18n.t('buttonLogin')} onPress={handleClick} />
+        <View style={styles.userActionDropdownBase}>
+          <Avatar
+            icon={{ name: 'user', type: 'font-awesome' }}
+            rounded
+            containerStyle={{
+              backgroundColor: '#d8d8d8',
+            }}
+          />
+          <Button title={i18n.t('buttonLogin')} onPress={handleClick} />
+        </View>
       )}
       {!isLocalUser && (
         <Dropdown
           containerStyle={styles.userNameDropdown}
+          itemContainerStyle={styles.dropdownItem}
+          pickerStyle={styles.picker}
           label={userInfo.displayName}
           data={userActionsData}
           renderBase={handleRenderDropdownBase}
           onChangeText={handleUserAction}
           useNativeDriver={false}
+          dropdownOffset={{
+            top: 64,
+            left: 12,
+          }}
         />
       )}
 
@@ -80,12 +105,22 @@ const dynamicStyles = new DynamicStyleSheet({
     flexGrow: 1,
     // backgroundColor: 'red',
   },
+  picker: {
+    backgroundColor: getDynamicColor('dropdownPickerBackground'),
+    borderRadius: 4,
+    maxWidth: 200,
+  },
+  dropdownItem: {
+    paddingLeft: 32,
+  },
   userActionDropdownBase: {
     paddingTop: 4,
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   userActionDropdownText: {
+    paddingLeft: 8,
     fontSize: 18,
     color: getDynamicColor('loginBoxText'),
   },

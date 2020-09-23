@@ -44,8 +44,6 @@
     "react-native-device-detection": "^0.2.1",
     "react-native-dynamic": "^1.0.0",
     "react-native-elements": "^2.2.0",
-    "react-native-final-tree-view": "^2.0.3",
-    "react-native-flash-message": "^0.1.16",
     "react-native-fs": "^2.16.6",
     "react-native-get-random-values": "^1.4.0",
     "react-native-haptic-feedback": "^1.10.0",
@@ -63,7 +61,7 @@
     "use-state-with-callback": "^2.0.2",
     "uuid": "^8.3.0",
     "wiz-react-markdown-editor": "git+https://github.com/WizTeam/wiz-react-markdown-editor.git",
-    "wiznote-sdk-js": "^1.2.5",
+    "wiznote-sdk-js": "^1.2.7",
     "wiznote-sdk-js-share": "^1.0.2",
     "xregexp": "^4.3.0"
   },

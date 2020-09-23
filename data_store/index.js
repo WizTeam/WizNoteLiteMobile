@@ -69,6 +69,7 @@ function handleApiEvents(userGuid, eventName, ...args) {
     const [kbGuid, notes] = args;
     handleDownloadNotes(kbGuid, notes);
   } else if (eventName === 'userInfoChanged') {
+    console.log('user info changed');
     const [userInfo] = args;
     store.setData(KEYS.USER_INFO, userInfo);
   } else if (eventName === 'tagsChanged' || eventName === 'tagRenamed') {
@@ -96,7 +97,7 @@ function getCurrentNote() {
 
 function setCurrentKb(kbGuid) {
   store.setData(KEYS.CURRENT_KB, kbGuid);
-  console.log('set current kb', kbGuid);
+  console.debug('set current kb', kbGuid);
 }
 
 function getCurrentKb() {
@@ -108,7 +109,7 @@ async function initUser() {
   const kbGuid = api.personalKbGuid;
   store.setData(KEYS.USER_INFO, api.user);
   store.setData(KEYS.CURRENT_KB, kbGuid);
-  console.log('set current kb', kbGuid);
+  console.debug('set current kb', kbGuid);
   //
   let selectedType = api.getUserSettings(api.userGuid, KEYS.SELECTED_TYPE, '#allNotes');
   if (selectedType === '#searchResult') {
@@ -137,7 +138,7 @@ async function initUser() {
   api.syncData(kbGuid);
 }
 
-async function initCategoryNotes(changeToSelectedType) {
+async function resetCategoryNotes(changeToSelectedType, callback) {
   let selectedType = store.getData(KEYS.SELECTED_TYPE) || '#allNotes';
   if (changeToSelectedType !== undefined) {
     selectedType = changeToSelectedType;
@@ -150,7 +151,7 @@ async function initCategoryNotes(changeToSelectedType) {
   //
   const notes = await getCategoryNotes(kbGuid, selectedType);
   sortNotes(notes);
-  store.setData(KEYS.CATEGORY_NOTES, notes);
+  store.setData(KEYS.CATEGORY_NOTES, notes, callback);
   //
   if (changeToSelectedType !== undefined) {
     setSelectedType(changeToSelectedType);
@@ -179,7 +180,7 @@ export default {
   setCurrentNote,
   getCurrentNote,
   //
-  initCategoryNotes,
+  resetCategoryNotes,
   //
   setSearchResult,
 };
