@@ -141,7 +141,7 @@ const NoteList: () => React$Node = (props) => {
     function handleVip() {
       //
       showUpgradeViDialog();
-      console.log('upgrade to vip');
+      console.debug('upgrade to vip');
     }
 
     function showUpgradeVipMessage(isVipExpired) {

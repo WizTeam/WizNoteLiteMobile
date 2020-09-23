@@ -39,9 +39,9 @@ const ViewNoteScreen: () => React$Node = (props) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        console.error(`ImagePicker Error: ${response.error?.message}`);
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+        console.log(`User tapped custom button: ${response.customButton}`);
       } else {
         //
         const note = dataStore.getCurrentNote();

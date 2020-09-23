@@ -21,7 +21,7 @@ addWebViewEventHandler('onMessage', async (eventBody) => {
     const parts = contentId.split('/');
     // eslint-disable-next-line no-shadow
     const [userGuid, kbGuid, noteGuid] = parts;
-    console.log(parts);
+    console.debug(parts);
     if (!userGuid) {
       console.error('no userGuid');
       return;

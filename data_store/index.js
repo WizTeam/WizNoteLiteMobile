@@ -97,7 +97,7 @@ function getCurrentNote() {
 
 function setCurrentKb(kbGuid) {
   store.setData(KEYS.CURRENT_KB, kbGuid);
-  console.log('set current kb', kbGuid);
+  console.debug('set current kb', kbGuid);
 }
 
 function getCurrentKb() {
@@ -109,7 +109,7 @@ async function initUser() {
   const kbGuid = api.personalKbGuid;
   store.setData(KEYS.USER_INFO, api.user);
   store.setData(KEYS.CURRENT_KB, kbGuid);
-  console.log('set current kb', kbGuid);
+  console.debug('set current kb', kbGuid);
   //
   let selectedType = api.getUserSettings(api.userGuid, KEYS.SELECTED_TYPE, '#allNotes');
   if (selectedType === '#searchResult') {

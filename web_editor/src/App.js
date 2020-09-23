@@ -101,7 +101,6 @@ function App() {
     };
     //
     window.addImage = (url) => {
-      // TODO: add image to editor
       console.log(`request add image: ${url}`);
       editorRef.current.resetCursor();
       editorRef.current.insertImage({src: url});

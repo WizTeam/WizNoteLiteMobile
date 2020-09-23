@@ -20,6 +20,7 @@ const productSkus = Platform.select({
 });
 
 function reportPurchaseError(error) {
+  console.error(error);
   const title = i18n.t('titlePurchaseFailed');
   const message = i18n.t('messageFailedToPurchase', {
     message: error.message,
@@ -28,6 +29,7 @@ function reportPurchaseError(error) {
 }
 
 function reportPurchaseSuccess(user) {
+  console.log('purchase succeeded');
   const title = i18n.t('titlePurchaseSuccess');
   const message = i18n.t('messagePurchaseSuccess', {
     vipDate: new Date(user.vipDate).toLocaleDateString(),
@@ -37,6 +39,7 @@ function reportPurchaseSuccess(user) {
 
 export async function getProducts() {
   try {
+    console.log('query products');
     const products = await RNIap.getProducts(productSkus);
     return products;
   } catch (err) {
@@ -47,7 +50,9 @@ export async function getProducts() {
 
 export async function restorePurchases() {
   try {
+    console.log('restore purchases');
     const purchases = await RNIap.getAvailablePurchases();
+    console.log(`available purchases: ${purchases?.length}`);
     if (purchases.length > 0) {
       let user;
       for (const purchase of purchases) {
@@ -77,6 +82,7 @@ export async function requestPurchase(sku) {
 
 async function verifyPurchase(purchase) {
   //
+  console.log('verify purchase');
   const userGuid = api.userGuid;
   const userData = api.getUserData(userGuid);
   const user = userData.user;
@@ -99,9 +105,10 @@ async function verifyPurchase(purchase) {
     type: 'info',
     autoHide: false,
   });
-  console.log('show top bar message');
+  console.debug('show top bar message');
   try {
     try {
+      console.log('send verify request');
       const request = api.core.request;
       await request.standardRequest({
         url: `${server}/as/pay2/ios`,
@@ -109,16 +116,19 @@ async function verifyPurchase(purchase) {
         method: 'POST',
       });
       //
+      console.log('succeeded verify purchase');
       const userInfo = await api.refreshUserInfo(userGuid);
+      console.log(`vip date: ${new Date(userInfo.vipDate).toLocaleDateString()}`);
       return userInfo;
     } catch (err) {
       const errorMessage = i18n.t('errorVerifyPurchase', {
         message: err.message,
       });
+      console.error(err);
       throw new WizInternalError(errorMessage);
     }
   } finally {
-    console.log('hide top bar message');
+    console.debug('hide top bar message');
     hideTopBarMessage(componentId);
   }
 }
@@ -129,15 +139,18 @@ RNIap.purchaseUpdatedListener(async (purchase) => {
     //
     try {
       const user = await verifyPurchase(purchase);
+      console.log('finish transaction');
       await RNIap.finishTransaction(purchase, true);
       reportPurchaseSuccess(user);
     } catch (err) {
+      console.error(err);
       reportPurchaseError(err);
     }
   }
 });
 
 RNIap.purchaseErrorListener((error) => {
+  console.error(error);
   reportPurchaseError(error);
 });
 
