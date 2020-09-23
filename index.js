@@ -33,8 +33,6 @@ console.error = customLog.error;
 console.warn = customLog.warn;
 console.log = customLog.info;
 
-console.error(new Error('test'));
-
 const SyncStorage = require('sync-storage').default;
 
 RNIap.initConnection().then((connect) => {
