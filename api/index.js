@@ -84,8 +84,8 @@ class Api extends EventEmitter {
     const userData = sdk.getUserData(userGuid) ?? {};
     const token = userData.token;
     const as = userData.accountServer ?? {};
-    const server = as.server;
-    return `${server}/?p=wiz&c=vip_lite&token=${token}&clientType=lite&clientVersion=${version}`;
+    const apiServer = as.apiServer;
+    return `${apiServer}/?p=wiz&c=vip_lite&token=${token}&clientType=lite_mobile&clientVersion=${version}`;
   }
 
   initEvents() {
