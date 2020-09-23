@@ -42,7 +42,9 @@ addWebViewEventHandler('onMessage', async (eventBody) => {
     // }
     //
     api.setNoteMarkdown(userGuid, kbGuid, noteGuid, markdown);
-  } else if (name === 'onKeyDown') {
+  } else if (name === 'keyDown') {
+    // do nothing
+  } else if (name === 'dropFile') {
     // do nothing
   } else {
     console.error(`unknown browser event: ${eventBody}`);
@@ -154,11 +156,42 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
   }
 
+  async function handleDropFile(messageData) {
+    try {
+      const { type, data } = messageData;
+      console.debug(`drop file: ${type}`);
+      if (!type.startsWith('image/')) {
+        console.log(`unknown file type: ${type}`);
+        return;
+      }
+      //
+      const resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, data, {
+        base64: true,
+        type: {
+          ext: type.substr(6),
+          mime: type,
+        },
+      });
+      //
+      const js = `window.addImage('${resourceUrl}');true;`;
+      try {
+        await injectJavaScript(js);
+      } catch (err) {
+        console.log(err.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   function handleMessage({ nativeEvent }) {
     const data = JSON.parse(nativeEvent.body);
     const name = data.event;
-    if (name === 'onKeyDown') {
+    console.log('-------', name);
+    if (name === 'keyDown') {
       keyboardVisibleTimeRef.current = new Date().valueOf();
+    } else if (name === 'dropFile') {
+      handleDropFile(data);
     }
   }
 

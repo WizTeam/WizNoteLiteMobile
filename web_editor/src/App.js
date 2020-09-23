@@ -22,6 +22,9 @@ const useStyles = makeStyles({
 });
 
 function postMessage(messageData) {
+  if (typeof messageData !== 'string') {
+    messageData = JSON.stringify(messageData);
+  }
   if (window.WizWebView) {
     window.WizWebView.postMessage(messageData);
   } else if (window.ReactNativeWebView) {
@@ -105,13 +108,52 @@ function App() {
       editorRef.current.insertImage({src: url});
       return true;
     };
+    //
+    window.ondrop = async (event) => {
+      console.log('on drop');
+      const files = event.dataTransfer.files;
+      const count = files.length;
+      if (count === 0) {
+        return;
+      }
+      event.preventDefault();
+      //
+      const toBase64 = (file) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+      //
+      for (let i = 0; i < count; i++) {
+        const f = files[i];
+        const type = f.type;
+        const name = f.name;
+        try {
+          const base64DataUrl = await toBase64(f);
+          const base64Data = base64DataUrl.split(',')[1];
+          const message = {
+            event: 'dropFile',
+            data: base64Data,
+            name,
+            type, 
+            index: i, 
+            totalCount: count,
+          };
+          postMessage(message);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+    //
   }, []);
   //
   useEffect(() => {
     //
     function handleKeyDown() {
       const messageData = {
-        event: 'onKeyDown',
+        event: 'keyDown',
       }
       postMessage(JSON.stringify(messageData));
     }

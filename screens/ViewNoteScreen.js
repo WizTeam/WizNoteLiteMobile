@@ -44,13 +44,20 @@ const ViewNoteScreen: () => React$Node = (props) => {
         console.log(`User tapped custom button: ${response.customButton}`);
       } else {
         //
+        console.log(response.type);
+        //
         const note = dataStore.getCurrentNote();
         let resourceUrl;
         if (response.uri) {
           resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
         } else if (response.data) {
+          const type = response.type;
           resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
             base64: true,
+            type: {
+              ext: type.substr(6),
+              mime: type,
+            },
           });
         }
         if (resourceUrl) {
