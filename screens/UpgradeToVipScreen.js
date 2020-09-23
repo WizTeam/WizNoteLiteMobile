@@ -34,7 +34,7 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
   //
   async function handlePurchase() {
     try {
-      if (!isIos) {
+      if (isIos) {
         setPurchasing(true);
         const result = await requestPurchase('cn.wiz.note.lite.year');
         console.log('handlePurchase result', result);
