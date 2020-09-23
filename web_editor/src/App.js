@@ -12,8 +12,6 @@ const PadTheme = React.lazy(() => import('./PadTheme'));
 const params = queryString.parse(window.location.search);
 const isTablet = params.isTablet === 'true';
 
-console.log(isTablet);
-
 const useStyles = makeStyles({
   editorWrapper: {
   },
