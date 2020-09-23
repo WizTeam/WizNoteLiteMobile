@@ -58,10 +58,14 @@ const UpgradeToVipScreen: () => React$Node = (props) => {
   useEffect(() => {
     async function handleGetProducts() {
       try {
-        const res = await getProducts();
-        const item = res.find((product) => product.productId === 'cn.wiz.note.lite.year');
-        setAvailable(true);
-        setYearProduct(item);
+        if (isIos) {
+          const res = await getProducts();
+          const item = res.find((product) => product.productId === 'cn.wiz.note.lite.year');
+          setAvailable(true);
+          setYearProduct(item);
+        } else {
+          setAvailable(true);
+        }
       } catch (err) {
         setYearProduct(null);
         setAvailable(false);
