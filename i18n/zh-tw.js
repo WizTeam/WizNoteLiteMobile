@@ -12,7 +12,6 @@ export default {
   placeholderSearchAllNotes: '搜索全部筆記',
   buttonCancelSearch: '取消',
   buttonForgotPassword: '忘記密碼？',
-  textOr: '或',
   serverTypeDefault: '為知筆記服務',
   serverTypePrivate: '私有服務器/為知盒子',
   //
