@@ -72,15 +72,33 @@ function App() {
   const [bottomHeight, setBottomHeight] = useState(100);
   // 
   const editorRef = useRef(null);
+  function selectFirstLine () {
+    const element = document.querySelector('h1 .ag-plain-text');
+    console.log('element', element)
+    if (element) {
+      const range = document.createRange();
+      range.selectNode(element)
+      const selection = getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
-      const {markdown, resourceUrl, contentId} = options;
+      const {markdown, resourceUrl, contentId, isNewNote } = options;
+      console.log(options);
       setData({
         markdown,
         resourceUrl,
         contentId,
       });
+      if (isNewNote) {
+        setTimeout(() => {
+          // editorRef.current.focus()
+          selectFirstLine()
+        }, 500)
+      }
       return true;
     };
     //
