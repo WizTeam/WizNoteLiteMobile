@@ -192,7 +192,6 @@ const NoteEditor = React.forwardRef((props, ref) => {
   function handleMessage({ nativeEvent }) {
     const data = JSON.parse(nativeEvent.body);
     const name = data.event;
-    console.log('-------', name);
     if (name === 'keyDown') {
       keyboardVisibleTimeRef.current = new Date().valueOf();
     } else if (name === 'dropFile') {
@@ -203,7 +202,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
   const note = props[KEYS.CURRENT_NOTE];
 
   useEffect(() => {
-    if (isTablet()) {
+    if (isTablet() && note) {
       const now = new Date().valueOf();
       const isNewNote = now - (new Date(note.created).valueOf()) < 1000;
       loadNote(note, isNewNote);
