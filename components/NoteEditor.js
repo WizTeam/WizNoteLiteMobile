@@ -65,7 +65,7 @@ export async function emptyEditor() {
   }
 }
 
-export async function loadNote(note) {
+export async function loadNote(note, isNewNote) {
   if (!note) {
     return;
   }
@@ -85,6 +85,7 @@ export async function loadNote(note) {
     markdown,
     resourceUrl: getResourceBaseUrl(api.userGuid, note.kbGuid, note.guid),
     contentId: `${api.userGuid}/${note.kbGuid}/${note.guid}`,
+    isNewNote,
   };
   const dataText = JSON.stringify(data);
   const js = `window.loadMarkdown(${dataText});true;`;

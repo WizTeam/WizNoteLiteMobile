@@ -22,7 +22,7 @@ export async function createNewNote() {
     return;
   }
   //
-  loadNote(note);
+  loadNote(note, true);
   //
   Navigation.showModal({
     stack: {
