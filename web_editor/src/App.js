@@ -74,7 +74,6 @@ function App() {
   const editorRef = useRef(null);
   function selectFirstLine () {
     const element = document.querySelector('h1 .ag-plain-text');
-    console.log('element', element)
     if (element) {
       const range = document.createRange();
       range.selectNode(element)
@@ -87,7 +86,6 @@ function App() {
   useEffect(() => {
     window.loadMarkdown = (options) => {
       const {markdown, resourceUrl, contentId, isNewNote } = options;
-      console.log(options);
       setData({
         markdown,
         resourceUrl,
