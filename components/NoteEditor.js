@@ -203,9 +203,11 @@ const NoteEditor = React.forwardRef((props, ref) => {
   const note = props[KEYS.CURRENT_NOTE];
 
   useEffect(() => {
-    const now = new Date().valueOf();
-    const isNewNote = now - (new Date(note.created).valueOf()) < 1000;
-    loadNote(note, isNewNote);
+    if (isTablet()) {
+      const now = new Date().valueOf();
+      const isNewNote = now - (new Date(note.created).valueOf()) < 1000;
+      loadNote(note, isNewNote);
+    }
   }, [note]);
 
   return (
