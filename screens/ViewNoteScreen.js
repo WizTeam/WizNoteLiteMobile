@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import {
   SafeAreaView,
 } from 'react-native';
-import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { ColorSchemeProvider, useDynamicValue } from 'react-native-dynamic';
 import ImagePicker from 'react-native-image-picker';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
@@ -10,12 +10,12 @@ import { Navigation } from '../thirdparty/react-native-navigation';
 import NoteEditor from '../components/NoteEditor';
 
 import { enableNextAnimation } from '../services/animations';
-import { getDeviceDynamicColor, getColor } from '../config/Colors';
+import { getDeviceDynamicColor, getColor, createDeviceDynamicStyles } from '../config/Colors';
 import dataStore from '../data_store';
 import api from '../api';
 
 const ViewNoteScreen: () => React$Node = (props) => {
-  const styles = useDynamicValue(dynamicStyles);
+  const styles = useDynamicValue(dynamicStyles.styles);
   const editorRef = useRef(null);
 
   async function handleInsertImage() {
@@ -176,7 +176,7 @@ ViewNoteScreen.options = {
   },
 };
 
-const dynamicStyles = new DynamicStyleSheet({
+const dynamicStyles = createDeviceDynamicStyles(() => ({
   content: {
     display: 'flex',
     flex: 1,
@@ -191,6 +191,6 @@ const dynamicStyles = new DynamicStyleSheet({
     width: '100%',
     backgroundColor: getDeviceDynamicColor('noteBackground'),
   },
-});
+}));
 
 export default ViewNoteScreen;

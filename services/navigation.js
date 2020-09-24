@@ -119,18 +119,25 @@ export function showUpgradeViDialog(options) {
   });
 }
 
-export function setMainAsRoot() {
+export function setMainAsRoot(isPad) {
   //
   const darkMode = isDarkMode();
   const theme = darkMode ? 'dark' : 'lite';
   const resPath = app.getPath('res');
-  const tablet = isTablet ? 'true' : 'false';
+  const tablet = isTablet() ? 'true' : 'false';
   const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}&isTablet=${tablet}`;
   // const editorHtmlPath = `http://localhost:3000?theme=${theme}&isTablet=${tablet}`;
   // console.log(`load html: ${editorHtmlPath}`);
   loadRequest(editorHtmlPath);
   //
-  if (isTablet) {
+  let pad;
+  if (isPad !== undefined) {
+    pad = isPad;
+  } else {
+    pad = isTablet();
+  }
+  //
+  if (pad) {
     Navigation.setRoot({
       root: {
         stack: {

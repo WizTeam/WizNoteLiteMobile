@@ -117,7 +117,7 @@ async function initUser() {
   }
   setSelectedType(selectedType);
   //
-  if (isTablet) {
+  if (isTablet()) {
     const currentNoteGuid = api.getUserSettings(api.userGuid, 'selectedNoteGuid', '');
     if (currentNoteGuid) {
       //

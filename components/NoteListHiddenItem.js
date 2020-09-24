@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { Text, TouchableOpacity, Animated } from 'react-native';
-import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
+import { useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
-import { getDeviceDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, createDeviceDynamicStyles } from '../config/Colors';
 import api from '../api';
 
 export const BUTTON_MIN_WIDTH = 90;
@@ -13,7 +13,7 @@ export const BUTTON_MAX_WIDTH = 120;
 export default function NoteListHiddenItem(props) {
   //
   const { note, swipeAnimatedValue, rowMap } = props;
-  const styles = useDynamicValue(dynamicStyles);
+  const styles = useDynamicValue(dynamicStyles.styles);
   //
   const noteInTrash = note.trash;
   let firstButtonText;
@@ -141,7 +141,7 @@ export default function NoteListHiddenItem(props) {
   );
 }
 
-const dynamicStyles = new DynamicStyleSheet({
+const dynamicStyles = createDeviceDynamicStyles(() => ({
   rowFront: {
     height: '100%',
     backgroundColor: getDeviceDynamicColor('noteListBackground'),
@@ -181,4 +181,4 @@ const dynamicStyles = new DynamicStyleSheet({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+}));

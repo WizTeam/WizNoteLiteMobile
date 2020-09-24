@@ -51,14 +51,18 @@ addWebViewEventHandler('onMessage', async (eventBody) => {
   }
 });
 
-export function emptyEditor() {
+export async function emptyEditor() {
   const dataText = JSON.stringify({
     contentId: '',
     markdown: '',
     resourceUrl: '',
   });
   const js = `window.loadMarkdown(${dataText});true;`;
-  injectJavaScript(js);
+  try {
+    await injectJavaScript(js);
+  } catch (err) {
+    //
+  }
 }
 
 export async function loadNote(note) {
@@ -66,7 +70,7 @@ export async function loadNote(note) {
     return;
   }
 
-  if (isTablet) {
+  if (isTablet()) {
     endEditing();
   }
 

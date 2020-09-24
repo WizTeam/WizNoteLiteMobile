@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, TextInput } from 'react-native';
-import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { Navigation } from '../thirdparty/react-native-navigation';
-import { getDeviceDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, createDeviceDynamicStyles } from '../config/Colors';
 import app from '../wrapper/app';
 import fs from '../wrapper/fs';
 
@@ -33,7 +33,7 @@ const ViewLogsScreen: () => React$Node = (props) => {
     return () => listener.remove();
   }, []);
 
-  const styles = useDynamicValue(dynamicStyles);
+  const styles = useDynamicValue(dynamicStyles.styles);
   //
   return (
     <>
@@ -58,7 +58,7 @@ ViewLogsScreen.options = {
   },
 };
 
-const dynamicStyles = new DynamicStyleSheet({
+const dynamicStyles = createDeviceDynamicStyles(() => ({
   content: {
     display: 'flex',
     flex: 1,
@@ -69,6 +69,6 @@ const dynamicStyles = new DynamicStyleSheet({
     padding: 8,
     color: getDeviceDynamicColor('noteListTitle'),
   },
-});
+}));
 
 export default ViewLogsScreen;

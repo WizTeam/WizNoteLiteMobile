@@ -9,7 +9,7 @@ import { Header, ListItem } from 'react-native-elements';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import i18n from 'i18n-js';
-import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { useDynamicValue } from 'react-native-dynamic';
 import { isTablet } from '../utils/device';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
@@ -18,14 +18,14 @@ import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
 import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
-import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
+import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor, createDeviceDynamicStyles } from '../config/Colors';
 import NotesIcon from './svg/NotesIcon';
 import StarredIcon from './svg/StarredIcon';
 import TrashIcon from './svg/TrashIcon';
 
 const MainDrawer: () => React$Node = (props) => {
   //
-  const styles = useDynamicValue(dynamicStyles);
+  const styles = useDynamicValue(dynamicStyles.styles);
   const [tagsState, setTagsState] = useState(() => api.getSettings('tagsState', []));
   //
   function handleCloseDrawer() {
@@ -71,7 +71,7 @@ const MainDrawer: () => React$Node = (props) => {
 
   function handleRenderExpandButton({ isExpanded, hasChildrenNodes, isSelected }) {
     let style = styles.itemButton;
-    if (isTablet && isSelected) {
+    if (isTablet() && isSelected) {
       style = [styles.itemButton, styles.itemTabletButton];
     }
     //
@@ -89,7 +89,7 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleGotoAllNotes() {
-    if (isTablet) {
+    if (isTablet()) {
       dataStore.setSelectedType('#allNotes');
     } else {
       handleCloseDrawer();
@@ -100,7 +100,7 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleGotoStarredNotes() {
-    if (isTablet) {
+    if (isTablet()) {
       dataStore.setSelectedType('#starredNotes');
     } else {
       handleCloseDrawer();
@@ -111,7 +111,7 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleGotoTrash() {
-    if (isTablet) {
+    if (isTablet()) {
       dataStore.setSelectedType('#trash');
     } else {
       handleCloseDrawer();
@@ -122,7 +122,7 @@ const MainDrawer: () => React$Node = (props) => {
   }
 
   function handleClickTreeItem({ node }) {
-    if (isTablet) {
+    if (isTablet()) {
       dataStore.setSelectedType(node.id);
     } else {
       handleCloseDrawer();
@@ -185,7 +185,7 @@ const MainDrawer: () => React$Node = (props) => {
   //
   const tags = props.tags;
   //
-  const underlayColor = isTablet ? getDeviceColor('drawerBackground') : undefined;
+  const underlayColor = isTablet() ? getDeviceColor('drawerBackground') : undefined;
   //
   return (
     <View style={[styles.root, props.style]}>
@@ -197,14 +197,14 @@ const MainDrawer: () => React$Node = (props) => {
             android: 56,
             default: 44,
           }),
-          marginBottom: isTablet ? 0 : 32,
+          marginBottom: isTablet() ? 0 : 32,
         }}
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}
       >
-        {isTablet && (
+        {isTablet() && (
           <UserButton
             onLogin={handleLogin}
             onPressUser={handleViewUserInfo}
@@ -220,26 +220,26 @@ const MainDrawer: () => React$Node = (props) => {
                 key={item.selectedType}
                 containerStyle={[
                   styles.item,
-                  isTablet && styles.tabletItem,
-                  isTablet && item.isSelected && styles.itemSelect,
+                  isTablet() && styles.tabletItem,
+                  isTablet() && item.isSelected && styles.itemSelect,
                 ]}
                 onPress={item.onPress}
                 underlayColor={underlayColor}
               >
-                {isTablet && <item.leftIcon fill={item.isSelected ? '#fff' : styles.itemTitle.color} />}
+                {isTablet() && <item.leftIcon fill={item.isSelected ? '#fff' : styles.itemTitle.color} />}
                 <ListItem.Content
-                  style={!isTablet && styles.itemContent}
+                  style={!isTablet() && styles.itemContent}
                 >
                   <ListItem.Title
                     style={[
                       styles.itemTitle,
-                      (isTablet && item.isSelected) && styles.itemSelectTitle,
+                      (isTablet() && item.isSelected) && styles.itemSelectTitle,
                     ]}
                   >
                     {item.title}
                   </ListItem.Title>
                 </ListItem.Content>
-                {!isTablet && item.isSelected && (
+                {!isTablet() && item.isSelected && (
                   <View style={styles.itemRightElement}>
                     {handleRenderSelectedMarker()}
                   </View>
@@ -256,15 +256,15 @@ const MainDrawer: () => React$Node = (props) => {
           }}
           data={tags}
           renderExpandButton={handleRenderExpandButton}
-          renderSelectedMarker={isTablet ? null : handleRenderSelectedMarker}
+          renderSelectedMarker={isTablet() ? null : handleRenderSelectedMarker}
           getCollapsedNodeHeight={() => 44}
           onNodePress={handleClickTreeItem}
           itemContainerStyle={{
             ...styles.treeItemContainerStyle,
-            marginHorizontal: isTablet ? 16 : 0,
+            marginHorizontal: isTablet() ? 16 : 0,
           }}
-          selectedContainerStyle={isTablet ? styles.itemSelect : null}
-          selectedItemTitleStyle={isTablet ? styles.itemSelectTitle : null}
+          selectedContainerStyle={isTablet() ? styles.itemSelect : null}
+          selectedItemTitleStyle={isTablet() ? styles.itemSelectTitle : null}
           itemTitleStyle={styles.treeItemTitleStyle}
           itemContentContainerStyle={styles.treeItemContentContainerStyle}
           selected={selectedType}
@@ -274,7 +274,7 @@ const MainDrawer: () => React$Node = (props) => {
         />
       </ScrollView>
 
-      {!isTablet && (
+      {!isTablet() && (
         <UserButton
           onLogin={handleLogin}
           onPressUser={handleViewUserInfo}
@@ -285,7 +285,7 @@ const MainDrawer: () => React$Node = (props) => {
   );
 };
 
-const dynamicStyles = new DynamicStyleSheet({
+const dynamicStyles = createDeviceDynamicStyles(() => ({
   root: {
     flex: 1,
   },
@@ -370,9 +370,9 @@ const dynamicStyles = new DynamicStyleSheet({
     paddingTop: 32,
     paddingLeft: 16,
     paddingBottom: 64,
-    marginLeft: isTablet ? 16 : 32,
+    marginLeft: isTablet() ? 16 : 32,
   },
-});
+}));
 
 export default connect([
   KEYS.SELECTED_TYPE,

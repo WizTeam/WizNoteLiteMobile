@@ -9,8 +9,6 @@ export function registerScreens() {
   Navigation.registerComponent('LoginScreen', () => require('./LoginScreen').default);
   Navigation.registerComponent('NotesScreen', () => require('./NotesScreen').default);
   Navigation.registerComponent('ViewNoteScreen', () => require('./ViewNoteScreen').default);
-  Navigation.registerComponent('NewNoteScreen', () => require('./NewNoteScreen').default);
-  Navigation.registerComponent('SearchNotesScreen', () => require('./SearchNotesScreen').default);
   Navigation.registerComponent('PadMainScreen', () => require('./PadMainScreen').default);
   Navigation.registerComponent('UpgradeToVipScreen', () => require('./UpgradeToVipScreen').default);
   Navigation.registerComponent('ViewLogsScreen', () => require('./ViewLogsScreen').default);

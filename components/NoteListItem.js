@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text } from 'react-native';
 import { ListItem, Divider } from 'react-native-elements';
-import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
+import { useDynamicValue } from 'react-native-dynamic';
 import { EventEmitter } from 'events';
 
-import { getDeviceDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, createDeviceDynamicStyles } from '../config/Colors';
 import { formatDateString } from '../utils/date';
 import HighlightText from './HighlightText';
 
@@ -20,7 +20,7 @@ const useForceUpdate = () => useState()[1];
 export default function NoteListItem(props) {
   //
   const { onPressItem, note, selected, hideDivider } = props;
-  const styles = useDynamicValue(dynamicStyles);
+  const styles = useDynamicValue(dynamicStyles.styles);
   //
   let title = note.title;
   let subTitle = formatDateString(note.modified);
@@ -83,7 +83,7 @@ export default function NoteListItem(props) {
   );
 }
 
-const dynamicStyles = new DynamicStyleSheet({
+const dynamicStyles = createDeviceDynamicStyles(() => ({
   list: {
   },
   itemContainer: {
@@ -120,4 +120,4 @@ const dynamicStyles = new DynamicStyleSheet({
     color: 'rgb(253, 201, 46)',
     paddingBottom: 24,
   },
-});
+}));

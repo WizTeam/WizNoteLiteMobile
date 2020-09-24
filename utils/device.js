@@ -1,29 +1,44 @@
 import {
-  PixelRatio,
   Platform,
   Dimensions,
 } from 'react-native';
+import { EventEmitter } from 'events';
+
+const deviceEventObject = new EventEmitter();
+
+export function trackDeviceTypeChange(listener) {
+  deviceEventObject.addListener('deviceTypeChanged', listener);
+}
+
+export function reportDeviceTypeChanged(deviceIsTablet) {
+  deviceEventObject.emit('deviceTypeChanged', deviceIsTablet);
+}
 
 const windowSize = Dimensions.get('window');
 
-const pixelDensity = PixelRatio.get();
-const width = windowSize.width;
-const height = windowSize.height;
-const adjustedWidth = width * pixelDensity;
-const adjustedHeight = height * pixelDensity;
-const isTablet = Math.min(width, height) > 600;
-const isPhone = !isTablet;
+function detectIsTablet(width, height) {
+  const tablet = Math.min(width, height) > 600;
+  return tablet;
+}
+
+let windowWidth = windowSize.width;
+let windowHeight = windowSize.height;
 const isIos = Platform.OS === 'ios';
 const isAndroid = !isIos;
 
+export function updateDeviceType(width, height) {
+  windowWidth = width;
+  windowHeight = height;
+  return detectIsTablet(width, height);
+}
+export function isTablet() {
+  return detectIsTablet(windowWidth, windowHeight);
+}
+export function isPhone() {
+  return !isTablet();
+}
+
 export {
-  pixelDensity,
-  width,
-  height,
-  adjustedHeight,
-  adjustedWidth,
-  isTablet,
-  isPhone,
   isIos,
   isAndroid,
 };

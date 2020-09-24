@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Dimensions } from 'react-native';
-import { DynamicStyleSheet, useDynamicValue } from 'react-native-dynamic';
+import { useDynamicValue } from 'react-native-dynamic';
 import i18n from 'i18n-js';
 
-import { getDeviceDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, createDeviceDynamicStyles } from '../config/Colors';
 import { isTablet } from '../utils/device';
 import dataStore from '../data_store';
 import api from '../api';
@@ -14,9 +14,9 @@ import NoteListHiddenItem, { BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH } from './NoteLi
 
 const NoteList: () => React$Node = (props) => {
   //
-  const listWidth = isTablet ? 368 : Dimensions.get('window').width;
+  const listWidth = isTablet() ? 368 : Dimensions.get('window').width;
   //
-  const styles = useDynamicValue(dynamicStyles);
+  const styles = useDynamicValue(dynamicStyles.styles);
   //
   const notes = props.notes || [];
   const keyExtractor = (note) => note.guid;
@@ -25,7 +25,7 @@ const NoteList: () => React$Node = (props) => {
   //
   async function handlerPressItem(note) {
     //
-    if (isTablet) {
+    if (isTablet()) {
       dataStore.setCurrentNote(note);
     } else {
       const markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
@@ -44,7 +44,7 @@ const NoteList: () => React$Node = (props) => {
     const note = item;
     const selected = note.guid === props.selectedNoteGuid;
     //
-    const hideDivider = isTablet && (selected || index === selectedIndex - 1);
+    const hideDivider = isTablet() && (selected || index === selectedIndex - 1);
     //
     return (
       <NoteListItem
@@ -225,7 +225,7 @@ const NoteList: () => React$Node = (props) => {
   );
 };
 
-const dynamicStyles = new DynamicStyleSheet({
+const dynamicStyles = createDeviceDynamicStyles(() => ({
   list: {
   },
   itemContainer: {
@@ -262,6 +262,6 @@ const dynamicStyles = new DynamicStyleSheet({
     color: 'rgb(253, 201, 46)',
     paddingBottom: 24,
   },
-});
+}));
 
 export default NoteList;

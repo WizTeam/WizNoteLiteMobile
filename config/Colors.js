@@ -1,7 +1,7 @@
 import merge from 'lodash.merge';
 import { Appearance } from 'react-native';
-import { DynamicValue } from 'react-native-dynamic';
-import { isTablet } from '../utils/device';
+import { DynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { isTablet, trackDeviceTypeChange } from '../utils/device';
 
 const light = {
   primary: '#448aff',
@@ -113,7 +113,7 @@ export function getDynamicColor(name) {
 }
 
 export function getDeviceDynamicColor(name) {
-  const deviceName = isTablet ? 'pad' : 'phone';
+  const deviceName = isTablet() ? 'pad' : 'phone';
   return new DynamicValue(Colors.light[deviceName][name], Colors.dark[deviceName][name]);
 }
 
@@ -124,7 +124,7 @@ export function getColor(name) {
 
 export function getDeviceColor(name) {
   const theme = Appearance.getColorScheme();
-  const deviceName = isTablet ? 'pad' : 'phone';
+  const deviceName = isTablet() ? 'pad' : 'phone';
   return Colors[theme][deviceName][name];
 }
 
@@ -132,3 +132,26 @@ export function isDarkMode() {
   const theme = Appearance.getColorScheme();
   return theme === 'dark';
 }
+
+const deviceDynamicStyles = [];
+
+export function createDeviceDynamicStyles(styleCreator) {
+  const styleOptions = styleCreator();
+  const dynamicStyle = new DynamicStyleSheet(styleOptions);
+  const result = {
+    creator: styleCreator,
+    styles: dynamicStyle,
+  };
+  deviceDynamicStyles.push(result);
+  return result;
+}
+
+trackDeviceTypeChange(() => {
+  deviceDynamicStyles.forEach((elem) => {
+    const styleCreator = elem.creator;
+    const styleOptions = styleCreator();
+    const dynamicStyle = new DynamicStyleSheet(styleOptions);
+    // eslint-disable-next-line no-param-reassign
+    elem.styles = dynamicStyle;
+  });
+});

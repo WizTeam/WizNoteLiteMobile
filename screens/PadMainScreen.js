@@ -10,6 +10,7 @@ import NoteEditor from '../components/NoteEditor';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { getDeviceDynamicColor } from '../config/Colors';
 import api from '../api';
+import RootView from '../components/RootView';
 
 const useForceUpdate = () => useState()[1];
 
@@ -95,26 +96,28 @@ const PadMainScreen: () => React$Node = () => {
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar />
-      <TriplePaneLayout
-        ref={layoutRef}
-        onGetExcludeRegions={handleGetExcludeRegions}
-        onLayout={forceUpdate}
-        pane1Width={pane1Width}
-        pane2Width={pane2Width}
-        pane1={<MainDrawer style={styles.drawer} />}
-        pane2={(
-          <PadNoteList
-            onToggleMenu={handleToggleMenu}
-          />
-        )}
-        pane3={(
-          <NoteEditor
-            containerStyle={styles.editorContainer}
-            editorStyle={editorStyle}
-            onBeginEditing={handleBeginEditing}
-          />
-        )}
-      />
+      <RootView>
+        <TriplePaneLayout
+          ref={layoutRef}
+          onGetExcludeRegions={handleGetExcludeRegions}
+          onLayout={forceUpdate}
+          pane1Width={pane1Width}
+          pane2Width={pane2Width}
+          pane1={<MainDrawer style={styles.drawer} />}
+          pane2={(
+            <PadNoteList
+              onToggleMenu={handleToggleMenu}
+            />
+          )}
+          pane3={(
+            <NoteEditor
+              containerStyle={styles.editorContainer}
+              editorStyle={editorStyle}
+              onBeginEditing={handleBeginEditing}
+            />
+          )}
+        />
+      </RootView>
     </ColorSchemeProvider>
   );
 };

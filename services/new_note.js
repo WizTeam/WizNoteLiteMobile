@@ -18,7 +18,7 @@ export async function createNewNote() {
     dataStore.setSelectedType('#allNotes');
   }
   //
-  if (isTablet) {
+  if (isTablet()) {
     return;
   }
   //
@@ -28,7 +28,6 @@ export async function createNewNote() {
     stack: {
       children: [{
         component: {
-          // name: 'NewNoteScreen',
           name: 'ViewNoteScreen',
           passProps: {
             isNewNote: true,

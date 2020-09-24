@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 import i18n from 'i18n-js';
 
-import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { ColorSchemeProvider, useDynamicValue } from 'react-native-dynamic';
 import { SearchBar } from 'react-native-elements';
 
 import { SideMenuView } from '../thirdparty/react-native-navigation-drawer-extension';
@@ -16,8 +16,9 @@ import { createNewNote } from '../services/new_note';
 import api from '../api';
 import store, { KEYS, connect } from '../data_store';
 import CategoryNoteList from '../components/CategoryNoteList';
-import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
+import { getDeviceDynamicColor, getDeviceColor, createDeviceDynamicStyles } from '../config/Colors';
 import { isPhone, isAndroid } from '../utils/device';
+import RootView from '../components/RootView';
 
 const NotesScreen: () => React$Node = (props) => {
   //
@@ -159,38 +160,40 @@ const NotesScreen: () => React$Node = (props) => {
     };
   }, []);
 
-  const styles = useDynamicValue(dynamicStyles);
+  const styles = useDynamicValue(dynamicStyles.styles);
 
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar onThemeChanged={handleThemeChanged} />
-      <SafeAreaView style={styles.content}>
-        <SideMenuView
-          style={styles.root}
-          left={showDrawer}
-          sideMargin={32}
-        >
-          {
-            isAndroid && isPhone
-            && (
-              <SearchBar
-                platform="android"
-                showLoading={showSearchBarLoading}
-                placeholder={i18n.t('placeholderSearchAllNotes')}
-                cancelButtonTitle={i18n.t('buttonCancelSearch')}
-                containerStyle={styles.searchBarContainerStyle}
-                inputContainerStyle={styles.searchBarInputContainerStyle}
-                onChangeText={handleSearchChange}
-                onCancel={handleSearchCancel}
-                onSubmitEditing={handleSearchSubmit}
-                onFocus={handleSearchFocus}
-                value={searchText}
-              />
-            )
-          }
-          <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
-        </SideMenuView>
-      </SafeAreaView>
+      <RootView>
+        <SafeAreaView style={styles.content}>
+          <SideMenuView
+            style={styles.root}
+            left={showDrawer}
+            sideMargin={32}
+          >
+            {
+              isAndroid && isPhone
+              && (
+                <SearchBar
+                  platform="android"
+                  showLoading={showSearchBarLoading}
+                  placeholder={i18n.t('placeholderSearchAllNotes')}
+                  cancelButtonTitle={i18n.t('buttonCancelSearch')}
+                  containerStyle={styles.searchBarContainerStyle}
+                  inputContainerStyle={styles.searchBarInputContainerStyle}
+                  onChangeText={handleSearchChange}
+                  onCancel={handleSearchCancel}
+                  onSubmitEditing={handleSearchSubmit}
+                  onFocus={handleSearchFocus}
+                  value={searchText}
+                />
+              )
+            }
+            <CategoryNoteList style={styles.body} showStar onPressNote={handlePressNote} />
+          </SideMenuView>
+        </SafeAreaView>
+      </RootView>
     </ColorSchemeProvider>
   );
 };
@@ -224,7 +227,7 @@ NotesScreenImpl.options = {
   },
 };
 
-const dynamicStyles = new DynamicStyleSheet({
+const dynamicStyles = createDeviceDynamicStyles(() => ({
   content: {
     display: 'flex',
     flex: 1,
@@ -245,6 +248,6 @@ const dynamicStyles = new DynamicStyleSheet({
   searchBarInputContainerStyle: {
     backgroundColor: getDeviceDynamicColor('searchBarBackground'),
   },
-});
+}));
 
 export default NotesScreenImpl;

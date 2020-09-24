@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { View, Platform } from 'react-native';
-import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
+import { useDynamicValue } from 'react-native-dynamic';
 import { Header, Text, SearchBar } from 'react-native-elements';
 import i18n from 'i18n-js';
 
 import api from '../api';
 import CategoryNoteList from './CategoryNoteList';
-import { getDeviceDynamicColor, getDeviceColor, getDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, getDeviceColor, createDeviceDynamicStyles } from '../config/Colors';
 import { createNewNote } from '../services/new_note';
 import store, { KEYS, connect } from '../data_store';
 
 const PadNoteListTitle = connect([KEYS.SELECTED_TYPE])((props) => {
   //
-  const styles = useDynamicValue(dynamicStyles);
+  const styles = useDynamicValue(dynamicStyles.styles);
   //
   const pane2Title = React.useMemo(() => {
     const type = props.selectedType;
@@ -36,7 +36,7 @@ const PadNoteListTitle = connect([KEYS.SELECTED_TYPE])((props) => {
 
 const PadNoteList: () => React$Node = (props) => {
   //
-  const styles = useDynamicValue(dynamicStyles);
+  const styles = useDynamicValue(dynamicStyles.styles);
   //
   const [searchText, setSearchText] = useState('');
   const [showSearchBarLoading, setShowSearchBarLoading] = useState(false);
@@ -115,7 +115,7 @@ const PadNoteList: () => React$Node = (props) => {
 
 export default PadNoteList;
 
-const dynamicStyles = new DynamicStyleSheet({
+const dynamicStyles = createDeviceDynamicStyles(() => ({
   noteListContainer: {
     flex: 1,
     backgroundColor: getDeviceDynamicColor('noteListBackground'),
@@ -154,4 +154,4 @@ const dynamicStyles = new DynamicStyleSheet({
   searchBarInput: {
     color: getDeviceDynamicColor('noteListTitle'),
   },
-});
+}));

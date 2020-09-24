@@ -279,7 +279,7 @@ const LoginScreen: () => React$Node = (props) => {
   useEffect(() => {
     function handleKeyboardWillShow(event) {
       const { endCoordinates } = event;
-      const bannerHeight = isTablet ? 48 : 24;
+      const bannerHeight = isTablet() ? 48 : 24;
       setKetboardHeight(endCoordinates.height);
       setTimeout(() => {
         scrollViewRef.current.scrollTo({
@@ -319,7 +319,7 @@ const LoginScreen: () => React$Node = (props) => {
     value: 'private',
   }];
 
-  const bannerHeight = isTablet ? '48' : '24';
+  const bannerHeight = isTablet() ? '48' : '24';
 
   const backgroundSource = isDarkMode
     // eslint-disable-next-line import/no-unresolved
@@ -337,7 +337,7 @@ const LoginScreen: () => React$Node = (props) => {
       >
         <SafeAreaView>
           <View style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            {!isTablet && props.closable && (
+            {!isTablet() && props.closable && (
               <TouchableHighlight style={styles.closeTouchable} onPress={handleCloseLogin}>
                 <Icon name="close" color={styles.serverDropdownIcon.color} size={24} />
               </TouchableHighlight>
@@ -462,7 +462,7 @@ const dynamicStyles = new DynamicStyleSheet({
     justifyContent: 'center',
   },
   body: {
-    width: isTablet ? 400 : '100%',
+    width: isTablet() ? 400 : '100%',
     paddingHorizontal: 12,
     minHeight: '100%',
   },
