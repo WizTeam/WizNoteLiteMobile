@@ -45,7 +45,7 @@ const LoginScreen: () => React$Node = (props) => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const [serverErrorMessage, setServerErrorMessage] = useState('');
 
-  const [keyboardHeight, setKetboardHeight] = useState(0);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const scrollViewRef = React.useRef(null);
 
   function handleSwitchLogin() {
@@ -280,7 +280,7 @@ const LoginScreen: () => React$Node = (props) => {
     function handleKeyboardWillShow(event) {
       const { endCoordinates } = event;
       const bannerHeight = isTablet() ? 48 : 24;
-      setKetboardHeight(endCoordinates.height);
+      setKeyboardHeight(endCoordinates.height);
       setTimeout(() => {
         scrollViewRef.current.scrollTo({
           x: 0,
@@ -299,7 +299,7 @@ const LoginScreen: () => React$Node = (props) => {
         duration: event.duration,
       });
       setTimeout(() => {
-        setKetboardHeight(0);
+        setKeyboardHeight(0);
       }, event.duration);
     }
     //
