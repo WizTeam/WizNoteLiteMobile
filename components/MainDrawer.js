@@ -10,7 +10,7 @@ import { Header, ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import i18n from 'i18n-js';
 import { useDynamicValue } from 'react-native-dynamic';
-import { isTablet } from '../utils/device';
+import { isTablet, isAndroid } from '../utils/device';
 
 import TreeView from '../thirdparty/react-native-final-tree-view';
 import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
@@ -194,10 +194,10 @@ const MainDrawer: () => React$Node = (props) => {
         containerStyle={{
           borderBottomColor: 'transparent',
           height: Platform.select({
-            android: 56,
+            android: (isTablet() ? 56 : 0),
             default: 44,
           }),
-          marginBottom: isTablet() ? 0 : 32,
+          marginBottom: (isTablet() || isAndroid) ? 0 : 32,
         }}
       />
       <ScrollView

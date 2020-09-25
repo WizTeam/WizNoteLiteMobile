@@ -3,6 +3,7 @@ package com.wiznotelitemobile;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -44,6 +45,20 @@ public class WizSingletonWebViewModule extends ReactContextBaseJavaModule implem
     @ReactMethod
     public void endEditing(boolean end) {
         if (end) hideSoftKeyboard(getCurrentActivity());
+    }
+
+    @SuppressWarnings("unused")
+    @ReactMethod
+    public void focus() {
+        showSoftKeyboard(getCurrentActivity(), WizWebView.getInstance(getCurrentActivity()));
+    }
+
+    public static void showSoftKeyboard(Activity activity, View focusView) {
+        if (activity == null) return;
+        View view = activity.getCurrentFocus();
+        focusView.requestFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.showSoftInput(focusView, InputMethodManager.SHOW_FORCED);
     }
 
     public static void hideSoftKeyboard(Activity activity) {

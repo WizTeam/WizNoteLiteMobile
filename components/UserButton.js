@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import i18n from 'i18n-js';
-import { Avatar, Icon } from 'react-native-elements';
+import { Avatar, Icon, Button } from 'react-native-elements';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import { Dropdown } from '../thirdparty/react-native-material-dropdown';
@@ -71,7 +71,7 @@ const UserButton: () => React$Node = (props) => {
               backgroundColor: '#d8d8d8',
             }}
           />
-          <Button title={i18n.t('buttonLogin')} onPress={handleClick} />
+          <Button type="clear" title={i18n.t('buttonLogin')} onPress={handleClick} />
         </View>
       )}
       {!isLocalUser && (

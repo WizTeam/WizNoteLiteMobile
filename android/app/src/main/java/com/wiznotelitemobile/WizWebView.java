@@ -3,6 +3,7 @@ package com.wiznotelitemobile;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -116,5 +117,10 @@ public class WizWebView extends WebView implements View.OnScrollChangeListener {
                 break;
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
     }
 }
