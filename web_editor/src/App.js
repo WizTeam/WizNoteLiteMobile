@@ -73,14 +73,11 @@ function App() {
   // 
   const editorRef = useRef(null);
   function selectFirstLine () {
-    const element = document.querySelector('h1 .ag-plain-text');
-    if (element) {
-      const range = document.createRange();
-      range.selectNode(element)
-      const selection = getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
+    const selection = getSelection();
+    const range = selection.getRangeAt(0).cloneRange();
+    range.selectNode(range.startContainer)
+    selection.removeAllRanges();
+    selection.addRange(range);
   }
   //
   useEffect(() => {
@@ -93,7 +90,7 @@ function App() {
       });
       if (isNewNote) {
         setTimeout(() => {
-          // editorRef.current.focus()
+          editorRef.current.focus()
           selectFirstLine()
         }, 500)
       }
