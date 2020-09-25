@@ -80,7 +80,7 @@ export async function loadNote(note, isNewNote) {
     markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
   }
 
-  console.log(`load note: ${isNewNote && '(new note)'}, ${note.kbGuid}/${note.guid}`);
+  console.log(`load note: ${isNewNote ? '(new note), ' : ''}${note.kbGuid}/${note.guid}`);
   const data = {
     markdown,
     resourceUrl: getResourceBaseUrl(api.userGuid, note.kbGuid, note.guid),
@@ -207,7 +207,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
   useEffect(() => {
     if (isTablet() && note) {
       const now = new Date().valueOf();
-      const isNewNote = now - (new Date(note.created).valueOf()) < 3000;
+      const isNewNote = now - (new Date(note.created).valueOf()) < 5000;
       loadNote(note, isNewNote);
     }
   }, [note]);
