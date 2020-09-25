@@ -88,17 +88,11 @@ export async function loadNote(note, isNewNote) {
     isNewNote,
   };
   const dataText = JSON.stringify(data);
+  if (isNewNote && isTablet()) {
+    setFocus();
+  }
   const js = `window.loadMarkdown(${dataText});true;`;
   await injectJavaScript(js);
-  if (isNewNote) {
-    setTimeout(async () => {
-      try {
-        setFocus();
-      } catch (err) {
-        console.log(err);
-      }
-    }, 1000);
-  }
 }
 
 const NoteEditor = React.forwardRef((props, ref) => {

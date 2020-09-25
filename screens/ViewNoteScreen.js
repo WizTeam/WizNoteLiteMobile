@@ -8,6 +8,7 @@ import ImagePicker from 'react-native-image-picker';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { Navigation } from '../thirdparty/react-native-navigation';
 import NoteEditor from '../components/NoteEditor';
+import { setFocus } from '../components/WizSingletonWebView';
 
 import { enableNextAnimation } from '../services/animations';
 import { getDeviceDynamicColor, getColor, createDeviceDynamicStyles } from '../config/Colors';
@@ -129,7 +130,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
     });
   }
 
-  function handleThemeChanged(themeName) {
+  function handleThemeChanged() {
     // force update buttons color
     console.log('update view note screen theme');
     Navigation.mergeOptions(props.componentId, {
@@ -140,6 +141,21 @@ const ViewNoteScreen: () => React$Node = (props) => {
       },
     });
   }
+
+  useEffect(() => {
+    const navigationEventListener = Navigation.events().registerComponentDidAppearListener(
+      ({ componentId }) => {
+        if (componentId === props.componentId && props.isNewNote) {
+          setTimeout(() => {
+            setFocus();
+          }, 300);
+        }
+      },
+    );
+    return () => {
+      navigationEventListener.remove();
+    };
+  }, []);
 
   return (
     <ColorSchemeProvider>
