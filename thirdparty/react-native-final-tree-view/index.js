@@ -107,6 +107,9 @@ class TreeView extends React.Component {
 
   Node = ({ nodes, level }) => {
     const NodeComponent = this.Node
+    if (!nodes) {
+      return <></>;
+    }
 
     return nodes.map((node) => {
       const isExpanded = this.isExpanded(node[this.props.idKey])
