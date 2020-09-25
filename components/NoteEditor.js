@@ -80,7 +80,7 @@ export async function loadNote(note, isNewNote) {
     markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
   }
 
-  console.log(`load note: ${note.kbGuid}/${note.guid}`);
+  console.log(`load note: ${isNewNote && '(new note)'}, ${note.kbGuid}/${note.guid}`);
   const data = {
     markdown,
     resourceUrl: getResourceBaseUrl(api.userGuid, note.kbGuid, note.guid),
@@ -89,7 +89,6 @@ export async function loadNote(note, isNewNote) {
   };
   const dataText = JSON.stringify(data);
   const js = `window.loadMarkdown(${dataText});true;`;
-  console.log(isNewNote);
   await injectJavaScript(js);
   if (isNewNote) {
     setTimeout(async () => {

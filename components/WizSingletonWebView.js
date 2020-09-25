@@ -38,7 +38,10 @@ export function endEditing(force) {
 }
 
 export function setFocus() {
-  WizSingletonWebViewModule.focus();
+  if (WizSingletonWebViewModule.focus) {
+    console.debug('set focus to webview');
+    WizSingletonWebViewModule.focus();
+  }
 }
 
 const NativeWizSingletonWebView = requireNativeComponent('WizSingletonWebView');
