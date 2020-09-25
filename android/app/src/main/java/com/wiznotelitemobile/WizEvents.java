@@ -1,5 +1,7 @@
 package com.wiznotelitemobile;
 
+import com.facebook.react.bridge.WritableMap;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +9,8 @@ public class WizEvents {
     interface WebViewLoadListener {
         void onLoad();
         void onMessage(String message);
-        void onScroll();
+        void onScroll(WritableMap event);
+        void onBeginScroll(WritableMap event);
         void onKeyboardShow(int keyboardWidth, int keyboardHeight);
         void onKeyboardHide();
     }
@@ -29,9 +32,14 @@ public class WizEvents {
             listener.onMessage(message);
         }
     }
-    public static void onScroll() {
+    public static void onScroll(WritableMap event) {
         for (WebViewLoadListener listener: listeners) {
-            listener.onScroll();
+            listener.onScroll(event);
+        }
+    }
+    public static void onBeginScroll(WritableMap event) {
+        for (WebViewLoadListener listener : listeners) {
+            listener.onBeginScroll(event);
         }
     }
     public static void onKeyboardShow(int keyboardWidth, int keyboardHeight) {

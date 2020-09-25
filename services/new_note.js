@@ -5,10 +5,10 @@ import dataStore from '../data_store';
 import api from '../api';
 import { getDeviceColor } from '../config/Colors';
 import { loadNote } from '../components/NoteEditor';
-import { isTablet } from '../utils/device';
+import { isTablet, isAndroid } from '../utils/device';
 import { enableNextAnimation } from './animations';
 
-export async function createNewNote() {
+export async function createNewNote(parentComponentId) {
   //
   enableNextAnimation();
   const kbGuid = dataStore.getCurrentKb();
@@ -24,30 +24,49 @@ export async function createNewNote() {
   //
   loadNote(note, true);
   //
-  Navigation.showModal({
-    stack: {
-      children: [{
-        component: {
-          name: 'ViewNoteScreen',
-          passProps: {
-            isNewNote: true,
+  if (isAndroid) {
+    Navigation.push(parentComponentId, {
+      component: {
+        name: 'ViewNoteScreen',
+        passProps: {
+          isNewNote: true,
+        },
+        options: {
+          layout: {
+            componentBackgroundColor: getDeviceColor('noteBackground'),
           },
-          options: {
-            layout: {
-              componentBackgroundColor: getDeviceColor('noteBackground'),
-            },
-            topBar: {
-              noBorder: true,
-              leftButtons: [{
-                id: 'DoneButton',
-                // eslint-disable-next-line import/no-unresolved
-                text: i18n.t('buttonDone'),
-                systemItem: 'done',
-              }],
-            },
+          topBar: {
+            noBorder: true,
           },
         },
-      }],
-    },
-  });
+      },
+    });
+  } else {
+    Navigation.showModal({
+      stack: {
+        children: [{
+          component: {
+            name: 'ViewNoteScreen',
+            passProps: {
+              isNewNote: true,
+            },
+            options: {
+              layout: {
+                componentBackgroundColor: getDeviceColor('noteBackground'),
+              },
+              topBar: {
+                noBorder: true,
+                leftButtons: [{
+                  id: 'DoneButton',
+                  // eslint-disable-next-line import/no-unresolved
+                  text: i18n.t('buttonDone'),
+                  systemItem: 'done',
+                }],
+              },
+            },
+          },
+        }],
+      },
+    });
+  }
 }

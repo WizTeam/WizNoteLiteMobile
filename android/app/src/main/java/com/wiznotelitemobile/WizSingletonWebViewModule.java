@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 public class WizSingletonWebViewModule extends ReactContextBaseJavaModule implements
@@ -74,7 +75,12 @@ public class WizSingletonWebViewModule extends ReactContextBaseJavaModule implem
     }
 
     @Override
-    public void onScroll() {
+    public void onScroll(WritableMap event) {
+
+    }
+
+    @Override
+    public void onBeginScroll(WritableMap event) {
 
     }
 

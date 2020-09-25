@@ -167,7 +167,7 @@ export function setMainAsRoot(isPad) {
           options: {
             topBar: {
               title: {
-                text: 'WizNote Lite',
+                // text: 'WizNote Lite',
               },
             },
           },

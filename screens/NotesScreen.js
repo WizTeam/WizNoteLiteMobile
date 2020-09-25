@@ -176,7 +176,7 @@ const NotesScreen: () => React$Node = (props) => {
               isAndroid && isPhone
               && (
                 <SearchBar
-                  platform="android"
+                  platform="ios"
                   showLoading={showSearchBarLoading}
                   placeholder={i18n.t('placeholderSearchAllNotes')}
                   cancelButtonTitle={i18n.t('buttonCancelSearch')}

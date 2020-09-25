@@ -119,11 +119,18 @@ const NoteEditor = React.forwardRef((props, ref) => {
   }
 
   function handleScroll({ nativeEvent }) {
-    const oldContentOffsetY = contentOffsetYRef.current;
-    const contentOffsetY = nativeEvent.contentOffset.y;
-    contentOffsetYRef.current = contentOffsetY;
+    let scrollDown = false;
+    console.log(nativeEvent);
+    if (nativeEvent.scrollDown !== undefined) {
+      scrollDown = nativeEvent.scrollDown;
+    } else {
+      const oldContentOffsetY = contentOffsetYRef.current;
+      const contentOffsetY = nativeEvent.contentOffset.y;
+      contentOffsetYRef.current = contentOffsetY;
+      scrollDown = contentOffsetY < oldContentOffsetY;
+    }
     if (keyboardVisibleRef.current && scrollDownRef.current === undefined) {
-      if (contentOffsetY < oldContentOffsetY) {
+      if (scrollDown) {
         scrollDownRef.current = true;
         const now = new Date().valueOf();
         if (now - keyboardVisibleTimeRef.current > 1000) {

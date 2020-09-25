@@ -3,12 +3,16 @@ package com.wiznotelitemobile;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 
 public class WizWebView extends WebView implements View.OnScrollChangeListener {
     private static WizWebView instance = null;
@@ -85,6 +89,32 @@ public class WizWebView extends WebView implements View.OnScrollChangeListener {
 
     @Override
     public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        WizEvents.onScroll();
+        WritableMap event = new WritableNativeMap();
+        event.putBoolean("scrollDown", scrollY < oldScrollY);
+        WizEvents.onScroll(event);
+    }
+
+    private boolean onBeginScroll = false;
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        int actionMasked = ev.getActionMasked();
+        switch (actionMasked) {
+            case MotionEvent.ACTION_DOWN:
+                onBeginScroll = true;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (onBeginScroll) {
+                    WritableMap event = new WritableNativeMap();
+                    WritableMap contentOffset = new WritableNativeMap();
+                    event.putMap("contentOffset", contentOffset);
+                    WizEvents.onBeginScroll(event);
+                }
+                onBeginScroll = false;
+                break;
+            case MotionEvent.ACTION_UP:
+                onBeginScroll = false;
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

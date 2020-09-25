@@ -1,11 +1,8 @@
 package com.wiznotelitemobile;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.Log;
-
-import androidx.fragment.app.FragmentActivity;
+import android.os.Build;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.PackageList;
@@ -15,12 +12,9 @@ import com.facebook.react.ReactNativeHost;
 import com.reactnativenavigation.react.NavigationPackage;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.soloader.SoLoader;
-import com.reactnativenavigation.viewcontrollers.externalcomponent.ExternalComponent;
-import com.reactnativenavigation.viewcontrollers.externalcomponent.ExternalComponentCreator;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 
-import org.json.JSONObject;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -71,15 +65,35 @@ public class MainApplication extends NavigationApplication {
   public void onCreate() {
     super.onCreate();
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    if (flagFileExists()) return;
+    FileUtils.deleteQuietly(localAssetsFolder());
     copyFileOrDir("resources");
+    createFlagFile();
   }
 
-  private String localAssertsFolder() {
-    File filesDir = getFilesDir();
-    return filesDir.getAbsolutePath();
+  private File localAssetsFolder() {
+    return new File(getFilesDir(), "resources");
   }
-  
+
+  private File flagFile() {
+      return new File(getFilesDir(), BuildConfig.VERSION_NAME + "_assets_flag");
+  }
+
+  private boolean flagFileExists() {
+      if (BuildConfig.DEBUG) return false;
+      return flagFile().exists();
+  }
+
+  private void createFlagFile() {
+      try {
+          flagFile().createNewFile();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+  }
+
   private void copyFileOrDir(String path) {
+      //
       AssetManager assetManager = getAssets();
       try {
           String[] assets = assetManager.list(path);
@@ -89,7 +103,7 @@ public class MainApplication extends NavigationApplication {
           if (assets.length == 0) {
               copyFile(path);
           } else {
-              String fullPath = localAssertsFolder() + "/" + path;
+              String fullPath = getFilesDir().getAbsolutePath() + "/" + path;
               File dir = new File(fullPath);
               if (!dir.exists()) dir.mkdirs();
               for (String asset : assets) {
@@ -106,7 +120,7 @@ public class MainApplication extends NavigationApplication {
       InputStream in = null;
       OutputStream out = null;
       try {
-          String outputFileName = localAssertsFolder() + "/" + filename;
+          String outputFileName = getFilesDir().getAbsolutePath() + "/" + filename;
           if (new File(outputFileName).exists()) return;
           in = assetManager.open(filename);
           out = new FileOutputStream(outputFileName);

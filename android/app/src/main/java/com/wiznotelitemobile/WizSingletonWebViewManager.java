@@ -42,6 +42,7 @@ public class WizSingletonWebViewManager extends SimpleViewManager<WebView>
     }
 
     private static final String EVENT_SCROLL = "onScroll";
+    private static final String EVENT_BEGIN_SCROLL = "onBeginScroll";
     private static final String EVENT_MESSAGE = "onMessage";
     private static final String EVENT_KEYBOARD_SHOW = "onKeyboardShow";
     private static final String EVENT_KEYBOARD_HIDE = "onKeyboardHide";
@@ -51,6 +52,7 @@ public class WizSingletonWebViewManager extends SimpleViewManager<WebView>
     public Map<String, Object> getExportedCustomBubblingEventTypeConstants() {
         Map<String, Object> map = new HashMap<>();
         map.put(EVENT_SCROLL, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_SCROLL)));
+        map.put(EVENT_BEGIN_SCROLL, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_BEGIN_SCROLL)));
         map.put(EVENT_MESSAGE, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_MESSAGE)));
         map.put(EVENT_KEYBOARD_SHOW, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_KEYBOARD_SHOW)));
         map.put(EVENT_KEYBOARD_HIDE, MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", EVENT_KEYBOARD_HIDE)));
@@ -75,8 +77,13 @@ public class WizSingletonWebViewManager extends SimpleViewManager<WebView>
     }
 
     @Override
-    public void onScroll() {
-        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(webView.getId(), EVENT_SCROLL, null);
+    public void onScroll(WritableMap event) {
+        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(webView.getId(), EVENT_SCROLL, event);
+    }
+
+    @Override
+    public void onBeginScroll(WritableMap event) {
+        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(webView.getId(), EVENT_BEGIN_SCROLL, event);
     }
 
     @Override
