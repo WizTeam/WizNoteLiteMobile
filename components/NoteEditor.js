@@ -5,7 +5,7 @@ import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
 import { isTablet } from '../utils/device';
-import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing } from './WizSingletonWebView';
+import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing, setFocus } from './WizSingletonWebView';
 
 addWebViewEventHandler('onMessage', async (eventBody) => {
   const data = JSON.parse(eventBody);
@@ -89,7 +89,17 @@ export async function loadNote(note, isNewNote) {
   };
   const dataText = JSON.stringify(data);
   const js = `window.loadMarkdown(${dataText});true;`;
+  console.log(isNewNote);
   await injectJavaScript(js);
+  if (isNewNote) {
+    setTimeout(async () => {
+      try {
+        setFocus();
+      } catch (err) {
+        console.log(err);
+      }
+    }, 1000);
+  }
 }
 
 const NoteEditor = React.forwardRef((props, ref) => {
@@ -204,7 +214,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
   useEffect(() => {
     if (isTablet() && note) {
       const now = new Date().valueOf();
-      const isNewNote = now - (new Date(note.created).valueOf()) < 1000;
+      const isNewNote = now - (new Date(note.created).valueOf()) < 3000;
       loadNote(note, isNewNote);
     }
   }, [note]);

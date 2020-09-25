@@ -37,6 +37,10 @@ export function endEditing(force) {
   WizSingletonWebViewModule.endEditing(!!force);
 }
 
+export function setFocus() {
+  WizSingletonWebViewModule.focus();
+}
+
 const NativeWizSingletonWebView = requireNativeComponent('WizSingletonWebView');
 
 export default class WizSingletonWebView extends React.Component {

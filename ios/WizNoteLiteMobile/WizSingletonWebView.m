@@ -420,6 +420,13 @@ RCT_EXPORT_METHOD(endEditing:(BOOL)force) {
   }
 }
 
+RCT_EXPORT_METHOD(focus) {
+  WizSingletonWebView* web = [WizSingletonWebViewContainer webView];
+  if (web) {
+    [web becomeFirstResponder];
+  }
+}
+
 - (NSArray<NSString *> *)supportedEvents {
   return @[@"onMessage", @"onLoad"];
 }
