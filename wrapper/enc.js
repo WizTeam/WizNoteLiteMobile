@@ -28,7 +28,7 @@ function paddingBytes(bytes) {
 
 function removePaddingBytes(bytes) {
   const paddingLength = bytes[bytes.length - 1];
-  if (paddingLength < 0 || paddingLength >= 16) {
+  if (paddingLength <= 0 || paddingLength > 16) {
     throw new Error('invalid paddingLength');
   }
   for (let i = 1; i <= paddingLength; i++) {
