@@ -29,6 +29,7 @@ const light = {
   upgradeButtonColor: '#ffffff',
   //
   phone: {
+    rootBackground: 'white',
     noteListBackground: 'white',
     noteListSelectedBackground: 'white',
     noteListTitle: '#333333',
@@ -40,6 +41,7 @@ const light = {
     searchBarBackground: '#d8d8d8',
   },
   pad: {
+    rootBackground: '#f0f0f0',
     noteListBackground: '#f0f0f0',
     noteListSelectedBackground: 'white',
     noteListSubTitle: '#aaaaaa',
@@ -77,6 +79,7 @@ const dark = merge({}, light, {
   upgradeButtonColor: '#333333',
 
   phone: {
+    rootBackground: '#2a2a2a',
     noteListBackground: '#2a2a2a',
     noteListSelectedBackground: '#2a2a2a',
     noteListTitle: '#f0f0f0',
@@ -88,6 +91,7 @@ const dark = merge({}, light, {
     searchBarBackground: '#404040',
   },
   pad: {
+    rootBackground: '#2a2a2a',
     noteListBackground: '#2a2a2a',
     noteListSelectedBackground: '#333333',
     noteListTitle: '#d8d8d8',

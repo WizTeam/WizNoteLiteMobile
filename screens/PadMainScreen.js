@@ -8,7 +8,7 @@ import MainDrawer from '../components/MainDrawer';
 import PadNoteList from '../components/PadNoteList';
 import NoteEditor from '../components/NoteEditor';
 import ThemedStatusBar from '../components/ThemedStatusBar';
-import { getDeviceDynamicColor } from '../config/Colors';
+import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import api from '../api';
 import RootView from '../components/RootView';
 
@@ -125,6 +125,9 @@ const PadMainScreen: () => React$Node = () => {
 const PadMainScreenImpl = gestureHandlerRootHOC(PadMainScreen);
 
 PadMainScreenImpl.options = {
+  layout: {
+    componentBackgroundColor: getDeviceColor('rootBackground'),
+  },
   topBar: {
     visible: false,
   },

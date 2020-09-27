@@ -63,7 +63,8 @@ WKScriptMessageHandler>
 
 
 @implementation WizSingletonWebView {
-  BOOL _disabledKeyboardDisplayRequiresUserAction;
+  BOOL _isKeyboardDisplayRequiresUserAction;
+  BOOL _isProcessedKeyboardDisplayRequiresUserAction;
 }
 
 - (id) initWithFrame:(CGRect)frame {
@@ -103,11 +104,12 @@ WKScriptMessageHandler>
   }
 }
 
--(void)disableKeyboardDisplayRequiresUserAction {
-  if (_disabledKeyboardDisplayRequiresUserAction == true) {
+-(void)setKeyboardDisplayRequiresUserAction:(BOOL)require {
+  _isKeyboardDisplayRequiresUserAction = require;
+  if (_isProcessedKeyboardDisplayRequiresUserAction == true) {
       return;
   }
-  _disabledKeyboardDisplayRequiresUserAction = true;
+  _isProcessedKeyboardDisplayRequiresUserAction = true;
 
   UIView* subview;
 
@@ -133,7 +135,7 @@ WKScriptMessageHandler>
     method = class_getInstanceMethod(class, selector);
     IMP original = method_getImplementation(method);
     override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL arg2, BOOL arg3, id arg4) {
-        ((void (*)(id, SEL, void*, BOOL, BOOL, BOOL, id))original)(me, selector, arg0, TRUE, arg2, arg3, arg4);
+        ((void (*)(id, SEL, void*, BOOL, BOOL, BOOL, id))original)(me, selector, arg0, !self->_isKeyboardDisplayRequiresUserAction || arg1, arg2, arg3, arg4);
     });
   }
   else if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion: iOS_12_2_0]) {
@@ -142,7 +144,7 @@ WKScriptMessageHandler>
     method = class_getInstanceMethod(class, selector);
     IMP original = method_getImplementation(method);
     override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL arg2, BOOL arg3, id arg4) {
-        ((void (*)(id, SEL, void*, BOOL, BOOL, BOOL, id))original)(me, selector, arg0, TRUE, arg2, arg3, arg4);
+        ((void (*)(id, SEL, void*, BOOL, BOOL, BOOL, id))original)(me, selector, arg0, !self->_isKeyboardDisplayRequiresUserAction || arg1, arg2, arg3, arg4);
     });
   }
   else if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion: iOS_11_3_0]) {
@@ -151,7 +153,7 @@ WKScriptMessageHandler>
     method = class_getInstanceMethod(class, selector);
     IMP original = method_getImplementation(method);
     override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL arg2, BOOL arg3, id arg4) {
-        ((void (*)(id, SEL, void*, BOOL, BOOL, BOOL, id))original)(me, selector, arg0, TRUE, arg2, arg3, arg4);
+        ((void (*)(id, SEL, void*, BOOL, BOOL, BOOL, id))original)(me, selector, arg0, !self->_isKeyboardDisplayRequiresUserAction || arg1, arg2, arg3, arg4);
     });
   } else {
     // iOS 9.0 - 11.3.0
@@ -159,7 +161,7 @@ WKScriptMessageHandler>
     method = class_getInstanceMethod(class, selector);
     IMP original = method_getImplementation(method);
     override = imp_implementationWithBlock(^void(id me, void* arg0, BOOL arg1, BOOL arg2, id arg3) {
-        ((void (*)(id, SEL, void*, BOOL, BOOL, id))original)(me, selector, arg0, TRUE, arg2, arg3);
+        ((void (*)(id, SEL, void*, BOOL, BOOL, id))original)(me, selector, arg0, !self->_isKeyboardDisplayRequiresUserAction || arg1, arg2, arg3);
     });
   }
 
@@ -252,7 +254,6 @@ static WizSingletonWebView* _webView;
 - (void) didMoveToWindow {
   if (_webView.superview == self) {
     [_webView hideKeyboardAccessoryView];
-    [_webView disableKeyboardDisplayRequiresUserAction];
   }
 }
 
@@ -417,13 +418,23 @@ RCT_EXPORT_METHOD(endEditing:(BOOL)force) {
   WizSingletonWebView* web = [WizSingletonWebViewContainer webView];
   if (web) {
     [web endEditing:force];
+    [web resignFirstResponder];
+    [web setKeyboardDisplayRequiresUserAction: YES];
   }
 }
 
 RCT_EXPORT_METHOD(focus) {
   WizSingletonWebView* web = [WizSingletonWebViewContainer webView];
   if (web) {
+    [web setKeyboardDisplayRequiresUserAction: NO];
     [web becomeFirstResponder];
+  }
+}
+
+RCT_EXPORT_METHOD(setKeyboardDisplayRequiresUserAction:(BOOL)require) {
+  WizSingletonWebView* web = [WizSingletonWebViewContainer webView];
+  if (web) {
+    [web setKeyboardDisplayRequiresUserAction:require];
   }
 }
 

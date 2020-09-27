@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import { useDynamicValue } from 'react-native-dynamic';
 
 import { isTablet, reportDeviceTypeChanged, updateDeviceType } from '../utils/device';
 import { setMainAsRoot } from '../services/navigation';
-//
+import { getDeviceDynamicColor, createDeviceDynamicStyles } from '../config/Colors';
+
 let deviceIsTablet = isTablet();
 
 const RootView: () => React$Node = (props) => {
@@ -24,6 +26,8 @@ const RootView: () => React$Node = (props) => {
     }
   }
   //
+  const styles = useDynamicValue(dynamicStyles.styles);
+  //
   return (
     <View style={styles.root} onLayout={handleLayout}>
       {props.children}
@@ -31,10 +35,11 @@ const RootView: () => React$Node = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const dynamicStyles = createDeviceDynamicStyles(() => ({
   root: {
     flex: 1,
+    backgroundColor: getDeviceDynamicColor('rootBackground'),
   },
-});
+}));
 
 export default RootView;
