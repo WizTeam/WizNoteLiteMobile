@@ -120,7 +120,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
 
   function handleScroll({ nativeEvent }) {
     let scrollDown = false;
-    console.log(nativeEvent);
+    // console.log(nativeEvent);
     if (nativeEvent.scrollDown !== undefined) {
       scrollDown = nativeEvent.scrollDown;
     } else {

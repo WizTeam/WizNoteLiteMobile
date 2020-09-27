@@ -157,8 +157,18 @@ const ViewNoteScreen: () => React$Node = (props) => {
     };
   }, []);
 
-  useEffect(() => () => {
-    endEditing(true);
+  useEffect(() => {
+    const navigationEventListener = Navigation.events().registerComponentDidDisappearListener(
+      ({ componentId }) => {
+        if (componentId === props.componentId) {
+          // console.log('view note screen disappeared, end editing');
+          endEditing(true);
+        }
+      },
+    );
+    return () => {
+      navigationEventListener.remove();
+    };
   }, []);
 
   return (
