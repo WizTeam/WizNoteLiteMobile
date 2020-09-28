@@ -14,10 +14,12 @@ import { enableNextAnimation } from '../services/animations';
 import { getDeviceDynamicColor, getColor, createDeviceDynamicStyles } from '../config/Colors';
 import dataStore from '../data_store';
 import api from '../api';
+import EditorToolBar from '../components/EditorToolbar';
 
 const ViewNoteScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles.styles);
   const editorRef = useRef(null);
+  const toolbarRef = useRef(null);
 
   async function handleInsertImage() {
     //
@@ -110,7 +112,8 @@ const ViewNoteScreen: () => React$Node = (props) => {
     };
   }, []);
 
-  function handleBeginEditing() {
+  function handleBeginEditing({ keyboardHeight, animationDuration }) {
+    toolbarRef.current.show(true, keyboardHeight, animationDuration);
     Navigation.mergeOptions(props.componentId, {
       topBar: {
         rightButtons: [{
@@ -122,7 +125,8 @@ const ViewNoteScreen: () => React$Node = (props) => {
     });
   }
 
-  function handleEndEditing() {
+  function handleEndEditing({ animationDuration }) {
+    toolbarRef.current.hide(true, animationDuration);
     Navigation.mergeOptions(props.componentId, {
       topBar: {
         rightButtons: [],
@@ -182,6 +186,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
           onBeginEditing={handleBeginEditing}
           onEndEditing={handleEndEditing}
         />
+        <EditorToolBar ref={toolbarRef} editorRef={editorRef} />
       </SafeAreaView>
     </ColorSchemeProvider>
   );

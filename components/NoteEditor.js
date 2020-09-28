@@ -103,6 +103,16 @@ const NoteEditor = React.forwardRef((props, ref) => {
       const result = await injectJavaScript(js);
       return result;
     },
+    executeCommand: async (command) => {
+      const js = `window.executeEditorCommand('${command}')`;
+      try {
+        const result = await injectJavaScript(js);
+        return result;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    },
   }));
   //
   // 清空编辑器，可以强制进行保存
@@ -145,8 +155,8 @@ const NoteEditor = React.forwardRef((props, ref) => {
   }
 
   async function handleKeyboardShow({ nativeEvent }) {
+    const { keyboardWidth, keyboardHeight } = nativeEvent;
     try {
-      const { keyboardWidth, keyboardHeight } = nativeEvent;
       const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight});true;`;
       await injectJavaScript(js);
     } catch (err) {
@@ -155,11 +165,11 @@ const NoteEditor = React.forwardRef((props, ref) => {
     keyboardVisibleRef.current = true;
     keyboardVisibleTimeRef.current = new Date().valueOf();
     if (props.onBeginEditing) {
-      props.onBeginEditing();
+      props.onBeginEditing(nativeEvent);
     }
   }
 
-  async function handleKeyboardHide() {
+  async function handleKeyboardHide({ nativeEvent }) {
     try {
       await injectJavaScript('window.onKeyboardHide();true;');
     } catch (err) {
@@ -167,7 +177,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
     keyboardVisibleRef.current = false;
     if (props.onEndEditing) {
-      props.onEndEditing();
+      props.onEndEditing(nativeEvent);
     }
   }
 
