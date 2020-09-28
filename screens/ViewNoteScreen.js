@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   SafeAreaView,
 } from 'react-native';
@@ -175,6 +175,15 @@ const ViewNoteScreen: () => React$Node = (props) => {
     };
   }, []);
 
+  // 生成editorRef后需要刷新EditorToolBar
+  const [_editorRef, _setEditorRef] = useState({current: null});
+
+  useEffect(() => {
+    if (editorRef.current) {
+      _setEditorRef(editorRef);
+    }
+  }, [])
+
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar onThemeChanged={handleThemeChanged} />
@@ -186,7 +195,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
           onBeginEditing={handleBeginEditing}
           onEndEditing={handleEndEditing}
         />
-        <EditorToolBar ref={toolbarRef} editorRef={editorRef} />
+        <EditorToolBar ref={toolbarRef} editorRef={_editorRef} />
       </SafeAreaView>
     </ColorSchemeProvider>
   );
