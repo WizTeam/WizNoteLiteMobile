@@ -175,13 +175,8 @@ const ViewNoteScreen: () => React$Node = (props) => {
     };
   }, []);
 
-  // 生成editorRef后需要刷新EditorToolBar
-  const [_editorRef, _setEditorRef] = useState({ current: null });
-
   useEffect(() => {
-    if (editorRef.current) {
-      _setEditorRef(editorRef);
-    }
+    toolbarRef.current.setEditor(editorRef.current);
   }, []);
 
   return (
@@ -196,7 +191,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
           onEndEditing={handleEndEditing}
           changeCursorStatus={(val) => toolbarRef.current?.changeCursorStatus(val)}
         />
-        <EditorToolBar ref={toolbarRef} editorRef={_editorRef} onInsertImage={handleInsertImage} />
+        <EditorToolBar ref={toolbarRef} onInsertImage={handleInsertImage} />
       </SafeAreaView>
     </ColorSchemeProvider>
   );

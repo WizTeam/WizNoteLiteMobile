@@ -15,9 +15,10 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   const [isCursorInTable, setIsCursorInTable] = useState(false);
   const topValue = topValueRef.current;
   //
-  const editor = props.editorRef.current;
+  const editorRef = useRef(null);
   //
   function handlePress(type) {
+    const editor = editorRef.current;
     if (editor) {
       if (type === 'image' && props.onInsertImage) {
         props.onInsertImage();
@@ -151,6 +152,9 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   //
   //
   useImperativeHandle(ref, () => ({
+    setEditor: (editor) => {
+      editorRef.current = editor;
+    },
     hide: (enableAnimation, duration) => {
       if (enableAnimation) {
         console.debug(`animated hide editor toolbar, ${duration}`);
