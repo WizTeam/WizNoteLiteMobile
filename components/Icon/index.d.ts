@@ -6,7 +6,7 @@ import { ViewProps } from 'react-native';
 import { GProps } from 'react-native-svg';
 
 interface Props extends GProps, ViewProps {
-  name: 'gongshi_putong' | 'zu1' | 'cc-code' | 'image' | 'zu' | 'xuanzekuang' | 'lianjie' | 'shanchuxianstrikethrough2' | 'xieti' | 'cuti' | 'charulie_you' | 'charulie_zuo' | 'charuhang_shang' | 'jinghao' | 'duiqifangshi_zuo' | 'duiqifangshi_you' | 'fengexian' | 'duiqifangshi_zhong' | 'charuhang_xia' | 'shanchubiaoge' | 'wuxuliebiao' | 'shanchuhang' | 'shanchulie' | 'hangneidaima' | 'youxuliebiao' | 'yinyong';
+  name: 'formula' | 'quote' | 'code' | 'image' | 'table' | 'checkedBox' | 'link' | 'deletedLine' | 'italic' | 'bold' | 'insertColAfter' | 'insertColBefore' | 'insertRowBefore' | 'tag' | 'alignLeft' | 'alignRight' | 'dividingLine' | 'alignCenter' | 'insertRowAfter' | 'deleteTable' | 'bulletList' | 'deleteRow' | 'deleteCol' | 'codeBlock' | 'orderList' | 'inlineQuote';
   size?: number;
   color?: string | string[];
 }

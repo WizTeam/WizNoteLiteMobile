@@ -2,7 +2,7 @@ import React, { useRef, useImperativeHandle, useState } from 'react';
 import { Animated, TouchableOpacity, ScrollView, View } from 'react-native';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { getDynamicColor, getColor } from '../config/Colors';
-import Icon from './Icon';
+import Icon from './icon';
 
 export const TOOLBAR_HEIGHT = 40;
 
@@ -31,39 +31,39 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   const BaseBtnListRef = useRef([
     {
       type: 'tag',
-      iconName: 'jinghao',
+      iconName: 'tag',
     },
     {
       type: 'bold',
-      iconName: 'cuti',
+      iconName: 'bold',
     },
     {
       type: 'italic',
-      iconName: 'xieti',
+      iconName: 'italic',
     },
     {
       type: 'deletedLine',
-      iconName: 'shanchuxianstrikethrough2',
+      iconName: 'deletedLine',
     },
     {
       type: 'orderList',
-      iconName: 'youxuliebiao',
+      iconName: 'orderList',
     },
     {
       type: 'bulletList',
-      iconName: 'wuxuliebiao',
+      iconName: 'bulletList',
     },
     {
       type: 'link',
-      iconName: 'lianjie',
+      iconName: 'link',
     },
     {
       type: 'checkedBox',
-      iconName: 'xuanzekuang',
+      iconName: 'checkedBox',
     },
     {
       type: 'table',
-      iconName: 'zu',
+      iconName: 'table',
     },
     {
       type: 'image',
@@ -71,81 +71,81 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     },
     {
       type: 'dividingLine',
-      iconName: 'fengexian',
+      iconName: 'dividingLine',
     },
     {
       type: 'code',
-      iconName: 'cc-code',
+      iconName: 'code',
     },
     {
       type: 'codeBlock',
-      iconName: 'hangneidaima',
+      iconName: 'codeBlock',
     },
     {
       type: 'quote',
-      iconName: 'zu1',
+      iconName: 'quote',
     },
     {
       type: 'formula',
-      iconName: 'gongshi_putong',
+      iconName: 'formula',
     },
   ]);
   const TableBtnListRef = useRef([
     {
       type: 'bold',
-      iconName: 'cuti',
+      iconName: 'bold',
     },
     {
       type: 'italic',
-      iconName: 'xieti',
+      iconName: 'italic',
     },
     {
       type: 'deletedLine',
-      iconName: 'shanchuxianstrikethrough2',
+      iconName: 'deletedLine',
     },
     {
       type: 'checkedBox',
-      iconName: 'xuanzekuang',
+      iconName: 'checkedBox',
     },
     {
       type: 'alignLeft',
-      iconName: 'duiqifangshi_zuo',
+      iconName: 'alignLeft',
     },
     {
       type: 'alignCenter',
-      iconName: 'duiqifangshi_zhong',
+      iconName: 'alignCenter',
     },
     {
       type: 'alignRight',
-      iconName: 'duiqifangshi_you',
+      iconName: 'alignRight',
     },
     {
       type: 'insertRowBefore',
-      iconName: 'charuhang_shang',
+      iconName: 'insertRowBefore',
     },
     {
       type: 'insertRowAfter',
-      iconName: 'charuhang_xia',
+      iconName: 'insertRowAfter',
     },
     {
       type: 'insertColBefore',
-      iconName: 'charulie_zuo',
+      iconName: 'insertColBefore',
     },
     {
       type: 'insertColAfter',
-      iconName: 'charulie_you',
+      iconName: 'insertColAfter',
     },
     {
       type: 'deleteRow',
-      iconName: 'shanchuhang',
+      iconName: 'deleteRow',
     },
     {
       type: 'deleteCol',
-      iconName: 'shanchulie',
+      iconName: 'deleteCol',
     },
     {
       type: 'deleteTable',
-      iconName: 'shanchubiaoge',
+      iconName: 'deleteTable',
     },
   ]);
   //

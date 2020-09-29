@@ -2,87 +2,87 @@
 
 import React from 'react';
 
-import GongshiPutong from './GongshiPutong';
-import Zu1 from './Zu1';
-import CcCode from './CcCode';
+import Formula from './Formula';
+import Quote from './Quote';
+import Code from './Code';
 import Image from './Image';
-import Zu from './Zu';
-import Xuanzekuang from './Xuanzekuang';
-import Lianjie from './Lianjie';
-import Shanchuxianstrikethrough2 from './Shanchuxianstrikethrough2';
-import Xieti from './Xieti';
-import Cuti from './Cuti';
-import CharulieYou from './CharulieYou';
-import CharulieZuo from './CharulieZuo';
-import CharuhangShang from './CharuhangShang';
-import Jinghao from './Jinghao';
-import DuiqifangshiZuo from './DuiqifangshiZuo';
-import DuiqifangshiYou from './DuiqifangshiYou';
-import Fengexian from './Fengexian';
-import DuiqifangshiZhong from './DuiqifangshiZhong';
-import CharuhangXia from './CharuhangXia';
-import Shanchubiaoge from './Shanchubiaoge';
-import Wuxuliebiao from './Wuxuliebiao';
-import Shanchuhang from './Shanchuhang';
-import Shanchulie from './Shanchulie';
-import Hangneidaima from './Hangneidaima';
-import Youxuliebiao from './Youxuliebiao';
-import Yinyong from './Yinyong';
+import Table from './Table';
+import CheckedBox from './CheckedBox';
+import Link from './Link';
+import DeletedLine from './DeletedLine';
+import Italic from './Italic';
+import Bold from './Bold';
+import InsertColAfter from './InsertColAfter';
+import InsertColBefore from './InsertColBefore';
+import InsertRowBefore from './InsertRowBefore';
+import Tag from './Tag';
+import AlignLeft from './AlignLeft';
+import AlignRight from './AlignRight';
+import DividingLine from './DividingLine';
+import AlignCenter from './AlignCenter';
+import InsertRowAfter from './InsertRowAfter';
+import DeleteTable from './DeleteTable';
+import BulletList from './BulletList';
+import DeleteRow from './DeleteRow';
+import DeleteCol from './DeleteCol';
+import CodeBlock from './CodeBlock';
+import OrderList from './OrderList';
+import InlineQuote from './InlineQuote';
 
 let IconFont = ({ name, ...rest }) => {
   switch (name) {
-    case 'gongshi_putong':
-      return <GongshiPutong key="1" {...rest} />;
-    case 'zu1':
-      return <Zu1 key="2" {...rest} />;
-    case 'cc-code':
-      return <CcCode key="3" {...rest} />;
+    case 'formula':
+      return <Formula key="1" {...rest} />;
+    case 'quote':
+      return <Quote key="2" {...rest} />;
+    case 'code':
+      return <Code key="3" {...rest} />;
     case 'image':
       return <Image key="4" {...rest} />;
-    case 'zu':
-      return <Zu key="5" {...rest} />;
-    case 'xuanzekuang':
-      return <Xuanzekuang key="6" {...rest} />;
-    case 'lianjie':
-      return <Lianjie key="7" {...rest} />;
-    case 'shanchuxianstrikethrough2':
-      return <Shanchuxianstrikethrough2 key="8" {...rest} />;
-    case 'xieti':
-      return <Xieti key="9" {...rest} />;
-    case 'cuti':
-      return <Cuti key="10" {...rest} />;
-    case 'charulie_you':
-      return <CharulieYou key="11" {...rest} />;
-    case 'charulie_zuo':
-      return <CharulieZuo key="12" {...rest} />;
-    case 'charuhang_shang':
-      return <CharuhangShang key="13" {...rest} />;
-    case 'jinghao':
-      return <Jinghao key="14" {...rest} />;
-    case 'duiqifangshi_zuo':
-      return <DuiqifangshiZuo key="15" {...rest} />;
-    case 'duiqifangshi_you':
-      return <DuiqifangshiYou key="16" {...rest} />;
-    case 'fengexian':
-      return <Fengexian key="17" {...rest} />;
-    case 'duiqifangshi_zhong':
-      return <DuiqifangshiZhong key="18" {...rest} />;
-    case 'charuhang_xia':
-      return <CharuhangXia key="19" {...rest} />;
-    case 'shanchubiaoge':
-      return <Shanchubiaoge key="20" {...rest} />;
-    case 'wuxuliebiao':
-      return <Wuxuliebiao key="21" {...rest} />;
-    case 'shanchuhang':
-      return <Shanchuhang key="22" {...rest} />;
-    case 'shanchulie':
-      return <Shanchulie key="23" {...rest} />;
-    case 'hangneidaima':
-      return <Hangneidaima key="24" {...rest} />;
-    case 'youxuliebiao':
-      return <Youxuliebiao key="25" {...rest} />;
-    case 'yinyong':
-      return <Yinyong key="26" {...rest} />;
+    case 'table':
+      return <Table key="5" {...rest} />;
+    case 'checkedBox':
+      return <CheckedBox key="6" {...rest} />;
+    case 'link':
+      return <Link key="7" {...rest} />;
+    case 'deletedLine':
+      return <DeletedLine key="8" {...rest} />;
+    case 'italic':
+      return <Italic key="9" {...rest} />;
+    case 'bold':
+      return <Bold key="10" {...rest} />;
+    case 'insertColAfter':
+      return <InsertColAfter key="11" {...rest} />;
+    case 'insertColBefore':
+      return <InsertColBefore key="12" {...rest} />;
+    case 'insertRowBefore':
+      return <InsertRowBefore key="13" {...rest} />;
+    case 'tag':
+      return <Tag key="14" {...rest} />;
+    case 'alignLeft':
+      return <AlignLeft key="15" {...rest} />;
+    case 'alignRight':
+      return <AlignRight key="16" {...rest} />;
+    case 'dividingLine':
+      return <DividingLine key="17" {...rest} />;
+    case 'alignCenter':
+      return <AlignCenter key="18" {...rest} />;
+    case 'insertRowAfter':
+      return <InsertRowAfter key="19" {...rest} />;
+    case 'deleteTable':
+      return <DeleteTable key="20" {...rest} />;
+    case 'bulletList':
+      return <BulletList key="21" {...rest} />;
+    case 'deleteRow':
+      return <DeleteRow key="22" {...rest} />;
+    case 'deleteCol':
+      return <DeleteCol key="23" {...rest} />;
+    case 'codeBlock':
+      return <CodeBlock key="24" {...rest} />;
+    case 'orderList':
+      return <OrderList key="25" {...rest} />;
+    case 'inlineQuote':
+      return <InlineQuote key="26" {...rest} />;
   }
 
   return null;
