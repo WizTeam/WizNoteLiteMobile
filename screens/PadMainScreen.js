@@ -132,7 +132,6 @@ const PadMainScreen: () => React$Node = () => {
               onBeginEditing={handleBeginEditing}
               onEndEditing={handleEndEditing}
               changeCursorStatus={(val) => toolbarRef.current?.changeCursorStatus(val)}
-              toolbarHeight={toolbarRef.current?.height ?? 0}
               ref={editorRef}
             />
           )}

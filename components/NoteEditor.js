@@ -6,6 +6,7 @@ import { KEYS, connect } from '../data_store';
 import api from '../api';
 import { isTablet } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing, setFocus } from './WizSingletonWebView';
+import { TOOLBAR_HEIGHT } from './EditorToolbar';
 
 addWebViewEventHandler('onMessage', async (eventBody) => {
   const data = JSON.parse(eventBody);
@@ -157,7 +158,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
   async function handleKeyboardShow({ nativeEvent }) {
     const { keyboardWidth, keyboardHeight } = nativeEvent;
     try {
-      const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight}, ${props.toolbarHeight});true;`;
+      const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight}, ${TOOLBAR_HEIGHT});true;`;
       await injectJavaScript(js);
     } catch (err) {
       console.log(err);

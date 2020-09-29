@@ -4,7 +4,7 @@ import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { getDynamicColor, getColor } from '../config/Colors';
 import Icon from './Icon';
 
-const TOOLBAR_HEIGHT = 40;
+export const TOOLBAR_HEIGHT = 40;
 
 const TOOLBAR_ICON_SIZE = 22;
 
