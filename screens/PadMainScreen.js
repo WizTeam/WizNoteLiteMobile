@@ -96,14 +96,10 @@ const PadMainScreen: () => React$Node = () => {
   function handleEndEditing({ animationDuration }) {
     toolbarRef.current.hide(true, animationDuration);
   }
-  // 生成editorRef后需要刷新EditorToolBar
-  const [_editorRef, _setEditorRef] = useState({current: null});
 
   useEffect(() => {
-    if (editorRef.current) {
-      _setEditorRef(editorRef);
-    }
-  }, [])
+    toolbarRef.current.setEditor(editorRef.current);
+  }, []);
 
   //
   const forceUpdate = useForceUpdate();
@@ -137,7 +133,7 @@ const PadMainScreen: () => React$Node = () => {
             />
           )}
         />
-        <EditorToolBar ref={toolbarRef} editorRef={_editorRef} />
+        <EditorToolBar ref={toolbarRef} />
       </RootView>
     </ColorSchemeProvider>
   );

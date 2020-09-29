@@ -15,18 +15,18 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   const [isCursorInTable, setIsCursorInTable] = useState(false)
   const topValue = topValueRef.current;
   //
-  const editor = props.editorRef.current;
+  const editorRef = useRef(null);
   //
   function handlePress(type) {
-    if (editor) {
-      if (type === 'image' && props.onInsertImage) {
-        props.onInsertImage();
-      } else {
-
-        // TODO: execute editor command;
-        editor.executeCommand(type);
-      }
-    }
+    editorRef.current.executeCommand(type);
+    // if (editor) {
+    //   if (type === 'image' && props.onInsertImage) {
+    //     props.onInsertImage();
+    //   } else {
+    //     // TODO: execute editor command;
+    //     editorRef.current.executeCommand(type);
+    //   }
+    // }
   }
 
   const BaseBtnListRef = useRef([
@@ -152,6 +152,9 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   //
   //
   useImperativeHandle(ref, () => ({
+    setEditor: (editor) => {
+      editorRef.current = editor;
+    },
     hide: (enableAnimation, duration) => {
       if (enableAnimation) {
         console.debug(`animated hide editor toolbar, ${duration}`);
