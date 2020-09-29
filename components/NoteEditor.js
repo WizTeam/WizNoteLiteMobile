@@ -208,7 +208,6 @@ const NoteEditor = React.forwardRef((props, ref) => {
       console.error(err);
     }
   }
-
   function handleMessage({ nativeEvent }) {
     const data = JSON.parse(nativeEvent.body);
     const name = data.event;
@@ -216,6 +215,8 @@ const NoteEditor = React.forwardRef((props, ref) => {
       keyboardVisibleTimeRef.current = new Date().valueOf();
     } else if (name === 'dropFile') {
       handleDropFile(data);
+    } else if (name === 'isCursorInTable') {
+      props.changeCursorStatus(data.value)
     }
   }
 

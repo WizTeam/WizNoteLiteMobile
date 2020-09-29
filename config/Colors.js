@@ -27,6 +27,8 @@ const light = {
   upgradeText2: '#aaaaaa',
   upgradeButtonBackground: '#333333',
   upgradeButtonColor: '#ffffff',
+  toolbarBackground: '#d7d8da',
+  toolbarIconColor: '#333333',
   //
   phone: {
     rootBackground: 'white',

@@ -194,8 +194,9 @@ const ViewNoteScreen: () => React$Node = (props) => {
           style={styles.editor}
           onBeginEditing={handleBeginEditing}
           onEndEditing={handleEndEditing}
+          changeCursorStatus={(val) => toolbarRef.current?.changeCursorStatus(val)}
         />
-        <EditorToolBar ref={toolbarRef} editorRef={_editorRef} />
+        <EditorToolBar ref={toolbarRef} editorRef={_editorRef} onInsertImage={handleInsertImage} />
       </SafeAreaView>
     </ColorSchemeProvider>
   );

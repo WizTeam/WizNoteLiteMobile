@@ -2,9 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 
-import { MarkdownEditor } from 'wiz-react-markdown-editor';
+import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
 
 import './App.css';
+import { addExecuteEditorCommandListener } from './executeEditorCommand';
 
 const PhoneTheme = React.lazy(() => import('./PhoneTheme'));
 const PadTheme = React.lazy(() => import('./PadTheme'));
@@ -72,13 +73,15 @@ function App() {
   const [bottomHeight, setBottomHeight] = useState(100);
   // 
   const editorRef = useRef(null);
+
+  const { isCursorInTable } = useEditor(editorRef);
   function selectFirstLine () {
     const selection = getSelection();
     const range = selection.getRangeAt(0).cloneRange();
     range.selectNode(range.startContainer)
     selection.removeAllRanges();
     selection.addRange(range);
-  }
+  }  
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
@@ -159,6 +162,10 @@ function App() {
         }
       }
     }
+    // 
+    setTimeout(() => {
+      addExecuteEditorCommandListener(editorRef.current)
+    })
     //
   }, []);
   //
@@ -178,6 +185,13 @@ function App() {
 
   }, []);
   //
+  useEffect(() => {
+    console.log('isCursorInTable', isCursorInTable)
+    postMessage({
+      event: 'isCursorInTable',
+      value: isCursorInTable
+    })
+  }, [isCursorInTable])
   //
   return (
     <div className="App" style={{
