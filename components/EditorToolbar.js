@@ -178,7 +178,8 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     },
     changeCursorStatus(val) {
       setIsCursorInTable(val)
-    }
+    },
+    height: TOOLBAR_HEIGHT
   }));
   //
   const topStyle = {

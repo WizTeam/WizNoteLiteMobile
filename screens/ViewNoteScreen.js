@@ -195,6 +195,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
           onBeginEditing={handleBeginEditing}
           onEndEditing={handleEndEditing}
           changeCursorStatus={(val) => toolbarRef.current?.changeCursorStatus(val)}
+          toolbarHeight={toolbarRef.current?.height ?? 0}
         />
         <EditorToolBar ref={toolbarRef} editorRef={_editorRef} onInsertImage={handleInsertImage} />
       </SafeAreaView>

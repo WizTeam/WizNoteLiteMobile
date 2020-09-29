@@ -157,7 +157,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
   async function handleKeyboardShow({ nativeEvent }) {
     const { keyboardWidth, keyboardHeight } = nativeEvent;
     try {
-      const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight});true;`;
+      const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight}, ${props.toolbarHeight});true;`;
       await injectJavaScript(js);
     } catch (err) {
       console.log(err);

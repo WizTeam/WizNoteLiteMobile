@@ -26,11 +26,9 @@ export function addExecuteEditorCommandListener(editor) {
         editor.insertToDoList();
         break;
       case 'table':
-        // stopClickRef.current = true;
         editor.insertTable();
         break;
       case 'image':
-        // stopClickRef.current = true;
         editor.insertImage();
         break;
       case 'dividingLine':

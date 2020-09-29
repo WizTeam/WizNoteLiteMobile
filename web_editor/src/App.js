@@ -106,8 +106,8 @@ function App() {
       return true;
     };
     //
-    window.onKeyboardShow = (keyboardWidth, keyboardHeight) => {
-      setBottomHeight(keyboardHeight);
+    window.onKeyboardShow = (keyboardWidth, keyboardHeight, toolbarHeight) => {
+      setBottomHeight(keyboardHeight + toolbarHeight);
       // setBottomHeight(312);
       return true;
     };
