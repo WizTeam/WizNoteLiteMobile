@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle, useEffect, useState } from 'react';
+import React, { useRef, useImperativeHandle, useState } from 'react';
 import { Animated, TouchableOpacity, ScrollView, View } from 'react-native';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { getDynamicColor, getColor } from '../config/Colors';
@@ -12,7 +12,7 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   //
   const styles = useDynamicValue(dynamicStyles);
   const topValueRef = useRef(new Animated.Value(-TOOLBAR_HEIGHT));
-  const [isCursorInTable, setIsCursorInTable] = useState(false)
+  const [isCursorInTable, setIsCursorInTable] = useState(false);
   const topValue = topValueRef.current;
   //
   const editor = props.editorRef.current;
@@ -22,7 +22,6 @@ const EditorToolBar = React.forwardRef((props, ref) => {
       if (type === 'image' && props.onInsertImage) {
         props.onInsertImage();
       } else {
-
         // TODO: execute editor command;
         editor.executeCommand(type);
       }
@@ -32,23 +31,23 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   const BaseBtnListRef = useRef([
     {
       type: 'tag',
-      iconName: 'jinghao'
+      iconName: 'jinghao',
     },
     {
       type: 'bold',
-      iconName: 'cuti'
+      iconName: 'cuti',
     },
     {
       type: 'italic',
-      iconName: 'xieti'
+      iconName: 'xieti',
     },
     {
       type: 'deletedLine',
-      iconName: 'shanchuxianstrikethrough2'
+      iconName: 'shanchuxianstrikethrough2',
     },
     {
       type: 'orderList',
-      iconName: 'youxuliebiao'
+      iconName: 'youxuliebiao',
     },
     {
       type: 'bulletList',
@@ -56,53 +55,53 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     },
     {
       type: 'link',
-      iconName: 'lianjie'
+      iconName: 'lianjie',
     },
     {
       type: 'checkedBox',
-      iconName: 'xuanzekuang'
+      iconName: 'xuanzekuang',
     },
     {
       type: 'table',
-      iconName: 'zu'
+      iconName: 'zu',
     },
     {
       type: 'image',
-      iconName: 'image'
+      iconName: 'image',
     },
     {
       type: 'dividingLine',
-      iconName: 'fengexian'
+      iconName: 'fengexian',
     },
     {
       type: 'code',
-      iconName: 'cc-code'
+      iconName: 'cc-code',
     },
     {
       type: 'codeBlock',
-      iconName: 'hangneidaima'
+      iconName: 'hangneidaima',
     },
     {
       type: 'quote',
-      iconName: 'zu1'
+      iconName: 'zu1',
     },
     {
       type: 'formula',
-      iconName: 'gongshi_putong'
-    }
-  ])
+      iconName: 'gongshi_putong',
+    },
+  ]);
   const TableBtnListRef = useRef([
     {
       type: 'bold',
-      iconName: 'cuti'
+      iconName: 'cuti',
     },
     {
       type: 'italic',
-      iconName: 'xieti'
+      iconName: 'xieti',
     },
     {
       type: 'deletedLine',
-      iconName: 'shanchuxianstrikethrough2'
+      iconName: 'shanchuxianstrikethrough2',
     },
     {
       type: 'checkedBox',
@@ -110,45 +109,45 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     },
     {
       type: 'alignLeft',
-      iconName: 'duiqifangshi_zuo'
+      iconName: 'duiqifangshi_zuo',
     },
     {
       type: 'alignCenter',
-      iconName: 'duiqifangshi_zhong'
+      iconName: 'duiqifangshi_zhong',
     },
     {
       type: 'alignRight',
-      iconName: 'duiqifangshi_you'
+      iconName: 'duiqifangshi_you',
     },
     {
       type: 'insertRowBefore',
-      iconName: 'charuhang_shang'
+      iconName: 'charuhang_shang',
     },
     {
       type: 'insertRowAfter',
-      iconName: 'charuhang_xia'
+      iconName: 'charuhang_xia',
     },
     {
       type: 'insertColBefore',
-      iconName: 'charulie_zuo'
+      iconName: 'charulie_zuo',
     },
     {
       type: 'insertColAfter',
-      iconName: 'charulie_you'
+      iconName: 'charulie_you',
     },
     {
       type: 'deleteRow',
-      iconName: 'shanchuhang'
+      iconName: 'shanchuhang',
     },
     {
       type: 'deleteCol',
-      iconName: 'shanchulie'
+      iconName: 'shanchulie',
     },
     {
       type: 'deleteTable',
-      iconName: 'shanchubiaoge'
+      iconName: 'shanchubiaoge',
     },
-  ])
+  ]);
   //
   //
   useImperativeHandle(ref, () => ({
@@ -177,9 +176,8 @@ const EditorToolBar = React.forwardRef((props, ref) => {
       }
     },
     changeCursorStatus(val) {
-      setIsCursorInTable(val)
+      setIsCursorInTable(val);
     },
-    height: TOOLBAR_HEIGHT
   }));
   //
   const topStyle = {
@@ -190,8 +188,12 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     <Animated.View style={[styles.root, topStyle]}>
       <ScrollView style={styles.scroll} horizontal>
         <View style={styles.container}>
-          {(isCursorInTable ? TableBtnListRef : BaseBtnListRef).current.map(item => (
-            <TouchableOpacity onPress={() => handlePress(item.type)} key={item.type} style={styles.iconBtn}>
+          {(isCursorInTable ? TableBtnListRef : BaseBtnListRef).current.map((item) => (
+            <TouchableOpacity
+              onPress={() => handlePress(item.type)}
+              key={item.type}
+              style={styles.iconBtn}
+            >
               <Icon name={item.iconName} size={TOOLBAR_ICON_SIZE} color={getColor('toolbarIconColor')} />
             </TouchableOpacity>
           ))}
@@ -226,8 +228,8 @@ const dynamicStyles = new DynamicStyleSheet({
     height: '100%',
     paddingHorizontal: 20,
     alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
 export default EditorToolBar;

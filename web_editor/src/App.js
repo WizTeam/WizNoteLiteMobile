@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 
+// eslint-disable-next-line import/no-unresolved
 import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
 
 import './App.css';
@@ -24,6 +25,7 @@ const useStyles = makeStyles({
 
 function postMessage(messageData) {
   if (typeof messageData !== 'string') {
+    // eslint-disable-next-line no-param-reassign
     messageData = JSON.stringify(messageData);
   }
   if (window.WizWebView) {
@@ -39,7 +41,7 @@ function Editor(props) {
   //
   const classes = useStyles();
   //
-  function handleSave({contentId, markdown}) {
+  function handleSave({ contentId, markdown }) {
     //
     // console.log('request save data')
     const messageData = JSON.stringify({
@@ -50,7 +52,7 @@ function Editor(props) {
     postMessage(messageData);
   }
   //
-  let markdown = props.markdown || '';
+  const markdown = props.markdown || '';
 
   return (
     <MarkdownEditor
@@ -71,21 +73,21 @@ function App() {
   //
   const [data, setData] = useState(null);
   const [bottomHeight, setBottomHeight] = useState(100);
-  // 
+  //
   const editorRef = useRef(null);
 
   const { isCursorInTable } = useEditor(editorRef);
-  function selectFirstLine () {
-    const selection = getSelection();
+  function selectFirstLine() {
+    const selection = window.getSelection();
     const range = selection.getRangeAt(0).cloneRange();
-    range.selectNode(range.startContainer)
+    range.selectNode(range.startContainer);
     selection.removeAllRanges();
     selection.addRange(range);
-  }  
+  }
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
-      const {markdown, resourceUrl, contentId, isNewNote } = options;
+      const { markdown, resourceUrl, contentId, isNewNote } = options;
       setData({
         markdown,
         resourceUrl,
@@ -93,9 +95,9 @@ function App() {
       });
       if (isNewNote) {
         setTimeout(() => {
-          editorRef.current.focus()
-          selectFirstLine()
-        }, 500)
+          editorRef.current.focus();
+          selectFirstLine();
+        }, 500);
       }
       return true;
     };
@@ -114,14 +116,14 @@ function App() {
     //
     window.onKeyboardHide = () => {
       console.log('onKeyboardHide');
-      setBottomHeight(0)
+      setBottomHeight(0);
       return true;
     };
     //
     window.addImage = (url) => {
       console.log(`request add image: ${url}`);
       editorRef.current.resetCursor();
-      editorRef.current.insertImage({src: url});
+      editorRef.current.insertImage({ src: url });
       return true;
     };
     //
@@ -138,7 +140,7 @@ function App() {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
+        reader.onerror = (error) => reject(error);
       });
       //
       for (let i = 0; i < count; i++) {
@@ -152,8 +154,8 @@ function App() {
             event: 'dropFile',
             data: base64Data,
             name,
-            type, 
-            index: i, 
+            type,
+            index: i,
             totalCount: count,
           };
           postMessage(message);
@@ -161,11 +163,11 @@ function App() {
           console.error(err);
         }
       }
-    }
-    // 
+    };
+    //
     setTimeout(() => {
-      addExecuteEditorCommandListener(editorRef.current)
-    })
+      addExecuteEditorCommandListener(editorRef.current);
+    });
     //
   }, []);
   //
@@ -174,32 +176,34 @@ function App() {
     function handleKeyDown() {
       const messageData = {
         event: 'keyDown',
-      }
+      };
       postMessage(JSON.stringify(messageData));
     }
     //
     document.body.addEventListener('keydown', handleKeyDown);
     return () => {
       document.body.removeEventListener('keydown', handleKeyDown);
-    }
-
+    };
   }, []);
   //
   useEffect(() => {
-    console.log('isCursorInTable', isCursorInTable)
+    console.log('isCursorInTable', isCursorInTable);
     postMessage({
       event: 'isCursorInTable',
-      value: isCursorInTable
-    })
-  }, [isCursorInTable])
+      value: isCursorInTable,
+    });
+  }, [isCursorInTable]);
   //
   return (
-    <div className="App" style={{
-      visibility: (data && data.contentId) ? 'visible' : 'hidden',
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-    }}>
+    <div
+      className="App"
+      style={{
+        visibility: (data && data.contentId) ? 'visible' : 'hidden',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <React.Suspense fallback={<></>}>
         {(isTablet) && <PadTheme />}
         {(!isTablet) && <PhoneTheme />}
@@ -208,7 +212,7 @@ function App() {
         editorRef={editorRef}
         contentId={data?.contentId}
         markdown={data?.markdown}
-        resourceUrl={data?.resourceUrl}  
+        resourceUrl={data?.resourceUrl}
         bottomHeight={bottomHeight}
       />
     </div>

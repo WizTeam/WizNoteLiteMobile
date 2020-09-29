@@ -79,5 +79,5 @@ export function addExecuteEditorCommandListener(editor) {
       default:
         break;
     }
-  }
+  };
 }

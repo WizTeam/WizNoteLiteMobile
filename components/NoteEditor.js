@@ -216,7 +216,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
     } else if (name === 'dropFile') {
       handleDropFile(data);
     } else if (name === 'isCursorInTable') {
-      props.changeCursorStatus(data.value)
+      props.changeCursorStatus(data.value);
     }
   }
 

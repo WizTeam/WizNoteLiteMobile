@@ -176,13 +176,13 @@ const ViewNoteScreen: () => React$Node = (props) => {
   }, []);
 
   // 生成editorRef后需要刷新EditorToolBar
-  const [_editorRef, _setEditorRef] = useState({current: null});
+  const [_editorRef, _setEditorRef] = useState({ current: null });
 
   useEffect(() => {
     if (editorRef.current) {
       _setEditorRef(editorRef);
     }
-  }, [])
+  }, []);
 
   return (
     <ColorSchemeProvider>

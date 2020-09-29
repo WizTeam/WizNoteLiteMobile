@@ -14,5 +14,8 @@
     "upsert",
     "wiznote"
   ],
-  "javascript.validate.enable": false
+  "javascript.validate.enable": false,
+  "eslint.options": {
+    "configFile":".eslintrc.json"
+  }
 }

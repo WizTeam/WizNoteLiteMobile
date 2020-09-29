@@ -97,13 +97,13 @@ const PadMainScreen: () => React$Node = () => {
     toolbarRef.current.hide(true, animationDuration);
   }
   // 生成editorRef后需要刷新EditorToolBar
-  const [_editorRef, _setEditorRef] = useState({current: null});
+  const [_editorRef, _setEditorRef] = useState({ current: null });
 
   useEffect(() => {
     if (editorRef.current) {
       _setEditorRef(editorRef);
     }
-  }, [])
+  }, []);
 
   //
   const forceUpdate = useForceUpdate();
