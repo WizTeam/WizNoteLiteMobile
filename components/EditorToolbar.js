@@ -193,7 +193,7 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     <Animated.View style={[styles.root, topStyle]}>
       <ScrollView style={styles.scroll} horizontal>
         <View style={styles.container}>
-          {(isCursorInTable ? TableBtnList : BaseBtnList).current.map((item) => (
+          {(isCursorInTable ? TableBtnList : BaseBtnList).map((item) => (
             <TouchableOpacity
               onPress={() => handlePress(item.type)}
               key={item.type}
