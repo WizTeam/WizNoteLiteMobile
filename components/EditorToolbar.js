@@ -8,6 +8,128 @@ export const TOOLBAR_HEIGHT = 40;
 
 const TOOLBAR_ICON_SIZE = 22;
 
+const BaseBtnList = [
+  {
+    type: 'tag',
+    iconName: 'tag',
+  },
+  {
+    type: 'bold',
+    iconName: 'bold',
+  },
+  {
+    type: 'italic',
+    iconName: 'italic',
+  },
+  {
+    type: 'deletedLine',
+    iconName: 'deletedLine',
+  },
+  {
+    type: 'orderList',
+    iconName: 'orderList',
+  },
+  {
+    type: 'bulletList',
+    iconName: 'bulletList',
+  },
+  {
+    type: 'link',
+    iconName: 'link',
+  },
+  {
+    type: 'checkedBox',
+    iconName: 'checkedBox',
+  },
+  {
+    type: 'table',
+    iconName: 'table',
+  },
+  {
+    type: 'image',
+    iconName: 'image',
+  },
+  {
+    type: 'dividingLine',
+    iconName: 'dividingLine',
+  },
+  {
+    type: 'code',
+    iconName: 'code',
+  },
+  {
+    type: 'codeBlock',
+    iconName: 'codeBlock',
+  },
+  {
+    type: 'quote',
+    iconName: 'quote',
+  },
+  {
+    type: 'formula',
+    iconName: 'formula',
+  },
+];
+
+const TableBtnList = [
+  {
+    type: 'bold',
+    iconName: 'bold',
+  },
+  {
+    type: 'italic',
+    iconName: 'italic',
+  },
+  {
+    type: 'deletedLine',
+    iconName: 'deletedLine',
+  },
+  {
+    type: 'checkedBox',
+    iconName: 'checkedBox',
+  },
+  {
+    type: 'alignLeft',
+    iconName: 'alignLeft',
+  },
+  {
+    type: 'alignCenter',
+    iconName: 'alignCenter',
+  },
+  {
+    type: 'alignRight',
+    iconName: 'alignRight',
+  },
+  {
+    type: 'insertRowBefore',
+    iconName: 'insertRowBefore',
+  },
+  {
+    type: 'insertRowAfter',
+    iconName: 'insertRowAfter',
+  },
+  {
+    type: 'insertColBefore',
+    iconName: 'insertColBefore',
+  },
+  {
+    type: 'insertColAfter',
+    iconName: 'insertColAfter',
+  },
+  {
+    type: 'deleteRow',
+    iconName: 'deleteRow',
+  },
+  {
+    type: 'deleteCol',
+    iconName: 'deleteCol',
+  },
+  {
+    type: 'deleteTable',
+    iconName: 'deleteTable',
+  },
+];
+
 const EditorToolBar = React.forwardRef((props, ref) => {
   //
   const styles = useDynamicValue(dynamicStyles);
@@ -28,127 +150,6 @@ const EditorToolBar = React.forwardRef((props, ref) => {
       }
     }
   }
-
-  const BaseBtnListRef = useRef([
-    {
-      type: 'tag',
-      iconName: 'tag',
-    },
-    {
-      type: 'bold',
-      iconName: 'bold',
-    },
-    {
-      type: 'italic',
-      iconName: 'italic',
-    },
-    {
-      type: 'deletedLine',
-      iconName: 'deletedLine',
-    },
-    {
-      type: 'orderList',
-      iconName: 'orderList',
-    },
-    {
-      type: 'bulletList',
-      iconName: 'bulletList',
-    },
-    {
-      type: 'link',
-      iconName: 'link',
-    },
-    {
-      type: 'checkedBox',
-      iconName: 'checkedBox',
-    },
-    {
-      type: 'table',
-      iconName: 'table',
-    },
-    {
-      type: 'image',
-      iconName: 'image',
-    },
-    {
-      type: 'dividingLine',
-      iconName: 'dividingLine',
-    },
-    {
-      type: 'code',
-      iconName: 'code',
-    },
-    {
-      type: 'codeBlock',
-      iconName: 'codeBlock',
-    },
-    {
-      type: 'quote',
-      iconName: 'quote',
-    },
-    {
-      type: 'formula',
-      iconName: 'formula',
-    },
-  ]);
-  const TableBtnListRef = useRef([
-    {
-      type: 'bold',
-      iconName: 'bold',
-    },
-    {
-      type: 'italic',
-      iconName: 'italic',
-    },
-    {
-      type: 'deletedLine',
-      iconName: 'deletedLine',
-    },
-    {
-      type: 'checkedBox',
-      iconName: 'checkedBox',
-    },
-    {
-      type: 'alignLeft',
-      iconName: 'alignLeft',
-    },
-    {
-      type: 'alignCenter',
-      iconName: 'alignCenter',
-    },
-    {
-      type: 'alignRight',
-      iconName: 'alignRight',
-    },
-    {
-      type: 'insertRowBefore',
-      iconName: 'insertRowBefore',
-    },
-    {
-      type: 'insertRowAfter',
-      iconName: 'insertRowAfter',
-    },
-    {
-      type: 'insertColBefore',
-      iconName: 'insertColBefore',
-    },
-    {
-      type: 'insertColAfter',
-      iconName: 'insertColAfter',
-    },
-    {
-      type: 'deleteRow',
-      iconName: 'deleteRow',
-    },
-    {
-      type: 'deleteCol',
-      iconName: 'deleteCol',
-    },
-    {
-      type: 'deleteTable',
-      iconName: 'deleteTable',
-    },
-  ]);
   //
   //
   useImperativeHandle(ref, () => ({
@@ -192,7 +193,7 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     <Animated.View style={[styles.root, topStyle]}>
       <ScrollView style={styles.scroll} horizontal>
         <View style={styles.container}>
-          {(isCursorInTable ? TableBtnListRef : BaseBtnListRef).current.map((item) => (
+          {(isCursorInTable ? TableBtnList : BaseBtnList).current.map((item) => (
             <TouchableOpacity
               onPress={() => handlePress(item.type)}
               key={item.type}
