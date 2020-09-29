@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
@@ -96,6 +96,14 @@ const PadMainScreen: () => React$Node = () => {
   function handleEndEditing({ animationDuration }) {
     toolbarRef.current.hide(true, animationDuration);
   }
+  // 生成editorRef后需要刷新EditorToolBar
+  const [_editorRef, _setEditorRef] = useState({current: null});
+
+  useEffect(() => {
+    if (editorRef.current) {
+      _setEditorRef(editorRef);
+    }
+  }, [])
 
   //
   const forceUpdate = useForceUpdate();
@@ -123,11 +131,13 @@ const PadMainScreen: () => React$Node = () => {
               editorStyle={editorStyle}
               onBeginEditing={handleBeginEditing}
               onEndEditing={handleEndEditing}
+              changeCursorStatus={(val) => toolbarRef.current?.changeCursorStatus(val)}
+              toolbarHeight={toolbarRef.current?.height ?? 0}
               ref={editorRef}
             />
           )}
         />
-        <EditorToolBar ref={toolbarRef} editorRef={editorRef} />
+        <EditorToolBar ref={toolbarRef} editorRef={_editorRef} />
       </RootView>
     </ColorSchemeProvider>
   );

@@ -19,7 +19,7 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   //
   function handlePress(type) {
     if (editor) {
-      if (type === 'image') {
+      if (type === 'image' && props.onInsertImage) {
         props.onInsertImage();
       } else {
 
