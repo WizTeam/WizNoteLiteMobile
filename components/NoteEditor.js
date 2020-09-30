@@ -216,8 +216,8 @@ const NoteEditor = React.forwardRef((props, ref) => {
       keyboardVisibleTimeRef.current = new Date().valueOf();
     } else if (name === 'dropFile') {
       handleDropFile(data);
-    } else if (name === 'isCursorInTable') {
-      props.changeCursorStatus(data.value);
+    } else if (name === 'selectionChanged') {
+      props.onChangeSelection(data);
     }
   }
 

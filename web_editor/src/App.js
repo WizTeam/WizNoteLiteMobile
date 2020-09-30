@@ -187,10 +187,9 @@ function App() {
   }, []);
   //
   useEffect(() => {
-    console.log('isCursorInTable', isCursorInTable);
     postMessage({
-      event: 'isCursorInTable',
-      value: isCursorInTable,
+      event: 'selectionChanged',
+      isCursorInTable,
     });
   }, [isCursorInTable]);
   //

@@ -127,7 +127,7 @@ const PadMainScreen: () => React$Node = () => {
               editorStyle={editorStyle}
               onBeginEditing={handleBeginEditing}
               onEndEditing={handleEndEditing}
-              changeCursorStatus={(val) => toolbarRef.current?.changeCursorStatus(val)}
+              onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
               ref={editorRef}
             />
           )}

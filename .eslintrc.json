@@ -12,7 +12,10 @@
     "sourceType": "module"
   },
   "globals": {
-    "React$Node": true
+    "React$Node": true,
+    "FileReader": true,
+    "document": true,
+    "window": true
   },
   "rules": {
     "linebreak-style": "off",

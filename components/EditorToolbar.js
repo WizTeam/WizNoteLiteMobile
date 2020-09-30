@@ -180,8 +180,8 @@ const EditorToolBar = React.forwardRef((props, ref) => {
         topValue.setValue(keyboardHeight);
       }
     },
-    changeCursorStatus(val) {
-      setIsCursorInTable(val);
+    changeToolbarType(selectionStatus) {
+      setIsCursorInTable(selectionStatus.isCursorInTable);
     },
   }));
   //
