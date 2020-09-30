@@ -83,10 +83,10 @@ export function addExecuteEditorCommandListener(editor, postMessage) {
         editor.insertColRight();
         break;
       case 'deleteRow':
-        editor.removeTableCol();
+        editor.removeTableRow();
         break;
       case 'deleteCol':
-        editor.removeTableRow();
+        editor.removeTableCol();
         break;
       case 'deleteTable':
         editor.removeTable();

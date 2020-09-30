@@ -10,6 +10,6 @@ interface Props extends GProps, ViewProps {
   color?: string | string[];
 }
 
-declare const Orderlist: FunctionComponent<Props>;
+declare const InsertAbove: FunctionComponent<Props>;
 
-export default Orderlist;
+export default InsertAbove;

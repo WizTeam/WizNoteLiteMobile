@@ -11,7 +11,7 @@ const TOOLBAR_ICON_SIZE = 22;
 const BaseBtnList = [
   {
     type: 'tag',
-    iconName: 'tag',
+    iconName: 'title',
   },
   {
     type: 'bold',
@@ -23,15 +23,15 @@ const BaseBtnList = [
   },
   {
     type: 'deletedLine',
-    iconName: 'deletedLine',
+    iconName: 'strickthrough',
   },
   {
     type: 'orderList',
-    iconName: 'orderList',
+    iconName: 'orderlist',
   },
   {
     type: 'bulletList',
-    iconName: 'bulletList',
+    iconName: 'bullet',
   },
   {
     type: 'link',
@@ -39,7 +39,7 @@ const BaseBtnList = [
   },
   {
     type: 'checkedBox',
-    iconName: 'checkedBox',
+    iconName: 'todolist',
   },
   {
     type: 'table',
@@ -51,23 +51,19 @@ const BaseBtnList = [
   },
   {
     type: 'dividingLine',
-    iconName: 'dividingLine',
+    iconName: 'divide',
   },
   {
     type: 'code',
-    iconName: 'code',
+    iconName: 'code-inline',
   },
   {
     type: 'codeBlock',
-    iconName: 'codeBlock',
+    iconName: 'code-block',
   },
   {
     type: 'quote',
     iconName: 'quote',
-  },
-  {
-    type: 'formula',
-    iconName: 'formula',
   },
 ];
 
@@ -82,51 +78,51 @@ const TableBtnList = [
   },
   {
     type: 'deletedLine',
-    iconName: 'deletedLine',
+    iconName: 'strickthrough',
   },
   {
     type: 'checkedBox',
-    iconName: 'checkedBox',
+    iconName: 'todolist',
   },
   {
     type: 'alignLeft',
-    iconName: 'alignLeft',
+    iconName: 'left',
   },
   {
     type: 'alignCenter',
-    iconName: 'alignCenter',
+    iconName: 'center',
   },
   {
     type: 'alignRight',
-    iconName: 'alignRight',
+    iconName: 'right',
   },
   {
     type: 'insertRowBefore',
-    iconName: 'insertRowBefore',
+    iconName: 'insert-above',
   },
   {
     type: 'insertRowAfter',
-    iconName: 'insertRowAfter',
+    iconName: 'insert-under',
   },
   {
     type: 'insertColBefore',
-    iconName: 'insertColBefore',
+    iconName: 'insert-left',
   },
   {
     type: 'insertColAfter',
-    iconName: 'insertColAfter',
+    iconName: 'insert-right',
   },
   {
     type: 'deleteRow',
-    iconName: 'deleteRow',
+    iconName: 'table-delete-row',
   },
   {
     type: 'deleteCol',
-    iconName: 'deleteCol',
+    iconName: 'table-delete-col',
   },
   {
     type: 'deleteTable',
-    iconName: 'deleteTable',
+    iconName: 'table-delete',
   },
 ];
 
