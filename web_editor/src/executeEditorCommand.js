@@ -1,19 +1,4 @@
-export function addExecuteEditorCommandListener(editor, postMessage) {
-  function insertImage() {
-    editor.saveCursor();
-    //
-    const callback = `insertImage${new Date().getTime()}`;
-    window[callback] = (url) => {
-      editor.resetCursor();
-      editor.insertImage({ src: url });
-      window[callback] = undefined;
-    };
-    //
-    postMessage({
-      event: 'insertImage',
-      callback,
-    });
-  }
+export function addExecuteEditorCommandListener(editor, insertImage) {
   window.executeEditorCommand = (command) => {
     switch (command) {
       case 'tag':

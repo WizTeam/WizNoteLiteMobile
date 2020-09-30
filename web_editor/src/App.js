@@ -13,6 +13,7 @@ const PadTheme = React.lazy(() => import('./PadTheme'));
 
 const params = queryString.parse(window.location.search);
 const isTablet = params.isTablet === 'true';
+let timer = 0;
 
 const useStyles = makeStyles({
   editorWrapper: {
@@ -160,7 +161,33 @@ function App() {
     };
     //
     setTimeout(() => {
-      addExecuteEditorCommandListener(editorRef.current, postMessage);
+      function insertImage(imageInfo) {
+        if (timer) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+          editorRef.current.saveCursor();
+          //
+          const callback = `insertImage${new Date().getTime()}`;
+          window[callback] = (url) => {
+            editorRef.current.resetCursor();
+            if (imageInfo) {
+              editorRef.current.replaceImage(imageInfo, { src: url });
+            } else {
+              editorRef.current.insertImage({ src: url });
+            }
+            window[callback] = undefined;
+          };
+          //
+          postMessage({
+            event: 'insertImage',
+            callback,
+          });
+          timer = null;
+        }, 500);
+      }
+      addExecuteEditorCommandListener(editorRef.current, insertImage);
+      editorRef.current.on('muya-image-selector', ({ imageInfo }) => insertImage(imageInfo));
     });
     //
   }, []);
