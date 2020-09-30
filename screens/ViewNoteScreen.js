@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   SafeAreaView,
 } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue } from 'react-native-dynamic';
-import ImagePicker from 'react-native-image-picker';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { Navigation } from '../thirdparty/react-native-navigation';
@@ -21,70 +20,10 @@ const ViewNoteScreen: () => React$Node = (props) => {
   const editorRef = useRef(null);
   const toolbarRef = useRef(null);
 
-  async function handleInsertImage() {
-    //
-    try {
-      const js = 'window.onBeforeInsert();true;';
-      await editorRef.current.injectJavaScript(js);
-      const resourceUrl = await openImagePicker();
-      await editorRef.current?.injectJavaScript(`window.addImage('${resourceUrl}');true;`);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  function openImagePicker() {
-    return new Promise((resolve, reject) => {
-      //
-      const options = {
-        title: 'Select Image',
-        storageOptions: {
-          skipBackup: true,
-          path: 'images',
-        },
-      };
-
-      ImagePicker.showImagePicker(options, async (response) => {
-        if (response.didCancel) {
-          reject(new Error('User cancelled image picker'));
-        } else if (response.error) {
-          reject(new Error(`ImagePicker Error: ${response.error?.message}`));
-        } else if (response.customButton) {
-          reject(new Error(`User tapped custom button: ${response.customButton}`));
-        } else {
-          //
-          console.log(response.type);
-          //
-          const note = dataStore.getCurrentNote();
-          let resourceUrl;
-          if (response.uri) {
-            resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
-          } else if (response.data) {
-            const type = response.type;
-            resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
-              base64: true,
-              type: {
-                ext: type.substr(6),
-                mime: type,
-              },
-            });
-          }
-          if (resourceUrl) {
-            resolve(resourceUrl)
-          } else {
-            reject();
-          }
-        }
-      });
-    });
-  }
-
   useEffect(() => {
     const listener = Navigation.events().registerNavigationButtonPressedListener(({ buttonId }) => {
       if (buttonId === 'DoneButton') {
         Navigation.dismissModal(props.componentId);
-      } else if (buttonId === 'InsertImageButton') {
-        handleInsertImage();
       }
     });
     return () => listener.remove();
@@ -116,15 +55,6 @@ const ViewNoteScreen: () => React$Node = (props) => {
 
   function handleBeginEditing({ keyboardHeight, animationDuration }) {
     toolbarRef.current.show(true, keyboardHeight, animationDuration);
-    Navigation.mergeOptions(props.componentId, {
-      topBar: {
-        rightButtons: [{
-          id: 'InsertImageButton',
-          // eslint-disable-next-line import/no-unresolved
-          icon: require('../images/icons/insert_image.png'),
-        }],
-      },
-    });
   }
 
   function handleEndEditing({ animationDuration }) {
@@ -138,7 +68,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
 
   function handleThemeChanged() {
     // force update buttons color
-    console.log('update view note screen theme');
+    console.debug('update view note screen theme');
     Navigation.mergeOptions(props.componentId, {
       topBar: {
         background: {
@@ -192,7 +122,6 @@ const ViewNoteScreen: () => React$Node = (props) => {
           onBeginEditing={handleBeginEditing}
           onEndEditing={handleEndEditing}
           onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
-          onInsertImage={openImagePicker}
         />
         <EditorToolBar ref={toolbarRef} />
       </SafeAreaView>

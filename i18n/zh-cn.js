@@ -88,4 +88,6 @@ export default {
   buttonVerifying: '正在验证购买信息...',
   errorPurchaseFailed: '购买失败: %{message}',
   buttonPurchasing: '正在购买...',
+
+  titleSelectImage: 'Select Images',
 };

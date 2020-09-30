@@ -87,4 +87,6 @@ export default {
   buttonVerifying: 'Verifying...',
   errorPurchaseFailed: 'Failed to purchase product: %{message}',
   buttonPurchasing: 'Purchasing...',
+
+  titleSelectImage: 'Select Images',
 };
