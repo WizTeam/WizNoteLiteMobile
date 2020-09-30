@@ -4,7 +4,7 @@ import React from 'react';
 import { Svg, Path } from 'react-native-svg';
 import { getIconColor } from './helper';
 
-let Todolist = ({ size, color, ...rest }) => {
+let TodoList = ({ size, color, ...rest }) => {
   return (
     <Svg viewBox="0 0 1024 1024" width={size} height={size} {...rest}>
       <Path
@@ -15,10 +15,10 @@ let Todolist = ({ size, color, ...rest }) => {
   );
 };
 
-Todolist.defaultProps = {
+TodoList.defaultProps = {
   size: 18,
 };
 
-Todolist = React.memo ? React.memo(Todolist) : Todolist;
+TodoList = React.memo ? React.memo(TodoList) : TodoList;
 
-export default Todolist;
+export default TodoList;

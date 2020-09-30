@@ -10,6 +10,6 @@ interface Props extends GProps, ViewProps {
   color?: string | string[];
 }
 
-declare const Strickthrough: FunctionComponent<Props>;
+declare const StrickThrough: FunctionComponent<Props>;
 
-export default Strickthrough;
+export default StrickThrough;

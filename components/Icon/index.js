@@ -13,17 +13,17 @@ import TableDelete from './TableDelete';
 import Left from './Left';
 import Title from './Title';
 import Center from './Center';
-import Strickthrough from './Strickthrough';
+import StrickThrough from './StrickThrough';
 import Italic from './Italic';
 import CodeBlock from './CodeBlock';
 import Right from './Right';
 import Divide from './Divide';
-import Todolist from './Todolist';
+import TodoList from './TodoList';
 import Quote from './Quote';
 import CodeInline from './CodeInline';
 import TableDeleteCol from './TableDeleteCol';
 import InsertLeft from './InsertLeft';
-import Orderlist from './Orderlist';
+import OrderList from './OrderList';
 import InsertAbove from './InsertAbove';
 import Image from './Image';
 
@@ -51,8 +51,8 @@ let IconFont = ({ name, ...rest }) => {
       return <Title key="10" {...rest} />;
     case 'center':
       return <Center key="11" {...rest} />;
-    case 'strickthrough':
-      return <Strickthrough key="12" {...rest} />;
+    case 'strickThrough':
+      return <StrickThrough key="12" {...rest} />;
     case 'italic':
       return <Italic key="13" {...rest} />;
     case 'code-block':
@@ -61,8 +61,8 @@ let IconFont = ({ name, ...rest }) => {
       return <Right key="15" {...rest} />;
     case 'divide':
       return <Divide key="16" {...rest} />;
-    case 'todolist':
-      return <Todolist key="17" {...rest} />;
+    case 'todoList':
+      return <TodoList key="17" {...rest} />;
     case 'quote':
       return <Quote key="18" {...rest} />;
     case 'code-inline':
@@ -71,8 +71,8 @@ let IconFont = ({ name, ...rest }) => {
       return <TableDeleteCol key="20" {...rest} />;
     case 'insert-left':
       return <InsertLeft key="21" {...rest} />;
-    case 'orderlist':
-      return <Orderlist key="22" {...rest} />;
+    case 'orderList':
+      return <OrderList key="22" {...rest} />;
     case 'insert-above':
       return <InsertAbove key="23" {...rest} />;
     case 'image':

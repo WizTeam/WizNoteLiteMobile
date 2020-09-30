@@ -23,11 +23,11 @@ const BaseBtnList = [
   },
   {
     type: 'deletedLine',
-    iconName: 'strickthrough',
+    iconName: 'strickThrough',
   },
   {
     type: 'orderList',
-    iconName: 'orderlist',
+    iconName: 'orderList',
   },
   {
     type: 'bulletList',
@@ -39,7 +39,7 @@ const BaseBtnList = [
   },
   {
     type: 'checkedBox',
-    iconName: 'todolist',
+    iconName: 'todoList',
   },
   {
     type: 'table',
@@ -78,11 +78,11 @@ const TableBtnList = [
   },
   {
     type: 'deletedLine',
-    iconName: 'strickthrough',
+    iconName: 'strickThrough',
   },
   {
     type: 'checkedBox',
-    iconName: 'todolist',
+    iconName: 'todoList',
   },
   {
     type: 'alignLeft',

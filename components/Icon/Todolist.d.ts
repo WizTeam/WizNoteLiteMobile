@@ -10,6 +10,6 @@ interface Props extends GProps, ViewProps {
   color?: string | string[];
 }
 
-declare const Todolist: FunctionComponent<Props>;
+declare const TodoList: FunctionComponent<Props>;
 
-export default Todolist;
+export default TodoList;

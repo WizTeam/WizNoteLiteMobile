@@ -4,7 +4,7 @@ import React from 'react';
 import { Svg, Path } from 'react-native-svg';
 import { getIconColor } from './helper';
 
-let Strickthrough = ({ size, color, ...rest }) => {
+let StrickThrough = ({ size, color, ...rest }) => {
   return (
     <Svg viewBox="0 0 1024 1024" width={size} height={size} {...rest}>
       <Path
@@ -15,10 +15,10 @@ let Strickthrough = ({ size, color, ...rest }) => {
   );
 };
 
-Strickthrough.defaultProps = {
+StrickThrough.defaultProps = {
   size: 18,
 };
 
-Strickthrough = React.memo ? React.memo(Strickthrough) : Strickthrough;
+StrickThrough = React.memo ? React.memo(StrickThrough) : StrickThrough;
 
-export default Strickthrough;
+export default StrickThrough;

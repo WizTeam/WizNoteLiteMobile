@@ -4,7 +4,7 @@ import React from 'react';
 import { Svg, Path } from 'react-native-svg';
 import { getIconColor } from './helper';
 
-let Orderlist = ({ size, color, ...rest }) => {
+let OrderList = ({ size, color, ...rest }) => {
   return (
     <Svg viewBox="0 0 1024 1024" width={size} height={size} {...rest}>
       <Path
@@ -15,10 +15,10 @@ let Orderlist = ({ size, color, ...rest }) => {
   );
 };
 
-Orderlist.defaultProps = {
+OrderList.defaultProps = {
   size: 18,
 };
 
-Orderlist = React.memo ? React.memo(Orderlist) : Orderlist;
+OrderList = React.memo ? React.memo(OrderList) : OrderList;
 
-export default Orderlist;
+export default OrderList;
