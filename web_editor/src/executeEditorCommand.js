@@ -42,7 +42,7 @@ export function addExecuteEditorCommandListener(editor, postMessage) {
         editor.insertToDoList();
         break;
       case 'table':
-        editor.insertTable();
+        editor.insertTable({ rows: 4, columns: 4 });
         break;
       case 'image':
         insertImage();
