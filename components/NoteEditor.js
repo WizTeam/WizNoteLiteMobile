@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useImperativeHandle } from 'react';
 import { View } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
+import i18n from 'i18n-js';
 
 import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
@@ -211,13 +213,57 @@ const NoteEditor = React.forwardRef((props, ref) => {
   }
 
   async function handleInsertImage(cb) {
-    if (props.onInsertImage) {
-      try {
-        const resourceUrl = await props.onInsertImage();
-        await injectJavaScript(`window.${cb}('${resourceUrl}');true;`);
-      } catch (e) {
-        console.log(e);
-      }
+    // select image from image picker
+    function selectImage() {
+      return new Promise((resolve, reject) => {
+        //
+        const options = {
+          title: i18n.t('titleSelectImage'),
+          storageOptions: {
+            skipBackup: true,
+            path: 'images',
+          },
+        };
+
+        ImagePicker.showImagePicker(options, async (response) => {
+          if (response.didCancel) {
+            reject(new Error('User cancelled image picker'));
+          } else if (response.error) {
+            reject(new Error(`ImagePicker Error: ${response.error?.message}`));
+          } else if (response.customButton) {
+            reject(new Error(`User tapped custom button: ${response.customButton}`));
+          } else {
+            //
+            console.debug(response.type);
+            //
+            let resourceUrl;
+            if (response.uri) {
+              resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
+            } else if (response.data) {
+              const type = response.type;
+              resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
+                base64: true,
+                type: {
+                  ext: type.substr(6),
+                  mime: type,
+                },
+              });
+            }
+            if (resourceUrl) {
+              resolve(resourceUrl);
+            } else {
+              reject();
+            }
+          }
+        });
+      });
+    }
+
+    try {
+      const resourceUrl = await selectImage();
+      await injectJavaScript(`window.${cb}('${resourceUrl}');true;`);
+    } catch (e) {
+      console.error(e);
     }
   }
 

@@ -89,4 +89,6 @@ export default {
   errorPurchaseFailed: '購買失敗: %{message}',
   buttonPurchasing: '正在購買...',
   messagePurchaseSucceeded: '購買成功',
+
+  titleSelectImage: 'Select Images',
 };
