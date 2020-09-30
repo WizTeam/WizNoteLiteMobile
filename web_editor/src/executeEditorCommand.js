@@ -4,7 +4,6 @@ export function addExecuteEditorCommandListener(editor, postMessage) {
     //
     const callback = `insertImage${new Date().getTime()}`;
     window[callback] = (url) => {
-      // TODO: insert image at selection;
       editor.resetCursor();
       editor.insertImage({ src: url });
       window[callback] = undefined;
