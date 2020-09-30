@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
+import ImagePicker from 'react-native-image-picker';
 import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneLayout';
 import { gestureHandlerRootHOC } from '../thirdparty/react-native-gesture-handler';
 import MainDrawer from '../components/MainDrawer';
@@ -12,6 +13,7 @@ import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import api from '../api';
 import RootView from '../components/RootView';
 import EditorToolBar from '../components/EditorToolbar';
+import dataStore from '../data_store';
 
 const useForceUpdate = () => useState()[1];
 
@@ -97,6 +99,52 @@ const PadMainScreen: () => React$Node = () => {
     toolbarRef.current.hide(true, animationDuration);
   }
 
+  function openImagePicker() {
+    return new Promise((resolve, reject) => {
+      //
+      const options = {
+        title: 'Select Image',
+        storageOptions: {
+          skipBackup: true,
+          path: 'images',
+        },
+      };
+
+      ImagePicker.showImagePicker(options, async (response) => {
+        if (response.didCancel) {
+          reject(new Error('User cancelled image picker'));
+        } else if (response.error) {
+          reject(new Error(`ImagePicker Error: ${response.error?.message}`));
+        } else if (response.customButton) {
+          reject(new Error(`User tapped custom button: ${response.customButton}`));
+        } else {
+          //
+          console.log(response.type);
+          //
+          const note = dataStore.getCurrentNote();
+          let resourceUrl;
+          if (response.uri) {
+            resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
+          } else if (response.data) {
+            const type = response.type;
+            resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
+              base64: true,
+              type: {
+                ext: type.substr(6),
+                mime: type,
+              },
+            });
+          }
+          if (resourceUrl) {
+            resolve(resourceUrl);
+          } else {
+            reject();
+          }
+        }
+      });
+    });
+  }
+
   useEffect(() => {
     toolbarRef.current.setEditor(editorRef.current);
   }, []);
@@ -129,6 +177,7 @@ const PadMainScreen: () => React$Node = () => {
               onEndEditing={handleEndEditing}
               onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
               ref={editorRef}
+              onInsertImage={openImagePicker}
             />
           )}
         />

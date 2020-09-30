@@ -26,54 +26,56 @@ const ViewNoteScreen: () => React$Node = (props) => {
     try {
       const js = 'window.onBeforeInsert();true;';
       await editorRef.current.injectJavaScript(js);
+      const resourceUrl = await openImagePicker();
+      await editorRef.current?.injectJavaScript(`window.addImage('${resourceUrl}');true;`);
     } catch (err) {
       console.log(err);
     }
-    //
-    const options = {
-      title: 'Select Image',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
+  }
 
-    ImagePicker.showImagePicker(options, async (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.error(`ImagePicker Error: ${response.error?.message}`);
-      } else if (response.customButton) {
-        console.log(`User tapped custom button: ${response.customButton}`);
-      } else {
-        //
-        console.log(response.type);
-        //
-        const note = dataStore.getCurrentNote();
-        let resourceUrl;
-        if (response.uri) {
-          resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
-        } else if (response.data) {
-          const type = response.type;
-          resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
-            base64: true,
-            type: {
-              ext: type.substr(6),
-              mime: type,
-            },
-          });
-        }
-        if (resourceUrl) {
-          if (editorRef.current) {
-            const js = `window.addImage('${resourceUrl}');true;`;
-            try {
-              await editorRef.current.injectJavaScript(js);
-            } catch (err) {
-              console.log(err.message);
-            }
+  function openImagePicker() {
+    return new Promise((resolve, reject) => {
+      //
+      const options = {
+        title: 'Select Image',
+        storageOptions: {
+          skipBackup: true,
+          path: 'images',
+        },
+      };
+
+      ImagePicker.showImagePicker(options, async (response) => {
+        if (response.didCancel) {
+          reject(new Error('User cancelled image picker'));
+        } else if (response.error) {
+          reject(new Error(`ImagePicker Error: ${response.error?.message}`));
+        } else if (response.customButton) {
+          reject(new Error(`User tapped custom button: ${response.customButton}`));
+        } else {
+          //
+          console.log(response.type);
+          //
+          const note = dataStore.getCurrentNote();
+          let resourceUrl;
+          if (response.uri) {
+            resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
+          } else if (response.data) {
+            const type = response.type;
+            resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
+              base64: true,
+              type: {
+                ext: type.substr(6),
+                mime: type,
+              },
+            });
+          }
+          if (resourceUrl) {
+            resolve(resourceUrl)
+          } else {
+            reject();
           }
         }
-      }
+      });
     });
   }
 
@@ -190,8 +192,9 @@ const ViewNoteScreen: () => React$Node = (props) => {
           onBeginEditing={handleBeginEditing}
           onEndEditing={handleEndEditing}
           onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
+          onInsertImage={openImagePicker}
         />
-        <EditorToolBar ref={toolbarRef} onInsertImage={handleInsertImage} />
+        <EditorToolBar ref={toolbarRef} />
       </SafeAreaView>
     </ColorSchemeProvider>
   );

@@ -139,15 +139,10 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   //
   const editorRef = useRef(null);
   //
-  function handlePress(type) {
+  function handleExecuteCommand(type) {
     const editor = editorRef.current;
     if (editor) {
-      if (type === 'image' && props.onInsertImage) {
-        props.onInsertImage();
-      } else {
-        // TODO: execute editor command;
-        editor.executeCommand(type);
-      }
+      editor.executeCommand(type);
     }
   }
   //
@@ -195,7 +190,7 @@ const EditorToolBar = React.forwardRef((props, ref) => {
         <View style={styles.container}>
           {(isCursorInTable ? TableBtnList : BaseBtnList).map((item) => (
             <TouchableOpacity
-              onPress={() => handlePress(item.type)}
+              onPress={() => handleExecuteCommand(item.type)}
               key={item.type}
               style={styles.iconBtn}
             >

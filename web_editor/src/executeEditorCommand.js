@@ -1,4 +1,20 @@
-export function addExecuteEditorCommandListener(editor) {
+export function addExecuteEditorCommandListener(editor, postMessage) {
+  function insertImage() {
+    editor.saveCursor();
+    //
+    const callback = `insertImage${new Date().getTime()}`;
+    window[callback] = (url) => {
+      // TODO: insert image at selection;
+      editor.resetCursor();
+      editor.insertImage({ src: url });
+      window[callback] = undefined;
+    };
+    //
+    postMessage({
+      event: 'insertImage',
+      callback,
+    });
+  }
   window.executeEditorCommand = (command) => {
     switch (command) {
       case 'tag':
@@ -29,7 +45,7 @@ export function addExecuteEditorCommandListener(editor) {
         editor.insertTable();
         break;
       case 'image':
-        editor.insertImage();
+        insertImage();
         break;
       case 'dividingLine':
         editor.insertHorizontalLine();

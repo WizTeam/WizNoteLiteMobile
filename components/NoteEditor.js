@@ -209,6 +209,18 @@ const NoteEditor = React.forwardRef((props, ref) => {
       console.error(err);
     }
   }
+
+  async function handleInsertImage(cb) {
+    if (props.onInsertImage) {
+      try {
+        const resourceUrl = await props.onInsertImage();
+        await injectJavaScript(`window.${cb}('${resourceUrl}');true;`);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
+
   function handleMessage({ nativeEvent }) {
     const data = JSON.parse(nativeEvent.body);
     const name = data.event;
@@ -218,6 +230,8 @@ const NoteEditor = React.forwardRef((props, ref) => {
       handleDropFile(data);
     } else if (name === 'selectionChanged') {
       props.onChangeSelection(data);
+    } else if (name === 'insertImage') {
+      handleInsertImage(data.callback);
     }
   }
 

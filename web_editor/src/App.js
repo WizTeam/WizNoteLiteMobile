@@ -166,7 +166,7 @@ function App() {
     };
     //
     setTimeout(() => {
-      addExecuteEditorCommandListener(editorRef.current);
+      addExecuteEditorCommandListener(editorRef.current, postMessage);
     });
     //
   }, []);
