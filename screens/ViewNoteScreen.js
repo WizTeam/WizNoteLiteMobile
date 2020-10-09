@@ -14,6 +14,7 @@ import { enableNextAnimation } from '../services/animations';
 import { getDeviceDynamicColor, getColor, createDeviceDynamicStyles } from '../config/Colors';
 import dataStore from '../data_store';
 import api from '../api';
+import { isAndroid, isIos } from '../utils/device';
 
 const ViewNoteScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles.styles);
@@ -49,8 +50,10 @@ const ViewNoteScreen: () => React$Node = (props) => {
         //
         const note = dataStore.getCurrentNote();
         let resourceUrl;
-        if (response.uri) {
+        if (isIos && response.uri) {
           resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
+        } else if (isAndroid && response.path) {
+          resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.path);
         } else if (response.data) {
           const type = response.type;
           resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
