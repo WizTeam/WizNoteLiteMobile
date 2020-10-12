@@ -194,7 +194,7 @@ const MainDrawer: () => React$Node = (props) => {
         containerStyle={{
           borderBottomColor: 'transparent',
           height: Platform.select({
-            android: (isTablet() ? 56 : 0),
+            android: 0,
             default: 44,
           }),
           marginBottom: (isTablet() || isAndroid) ? 0 : 32,
