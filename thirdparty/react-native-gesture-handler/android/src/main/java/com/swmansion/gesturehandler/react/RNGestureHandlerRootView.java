@@ -16,6 +16,7 @@ import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.views.scroll.ReactScrollView;
 import com.facebook.react.views.view.ReactViewGroup;
+import com.swmansion.gesturehandler.GestureHandler;
 
 import androidx.annotation.Nullable;
 
@@ -83,10 +84,30 @@ public class RNGestureHandlerRootView extends ReactViewGroup {
   private boolean clickScrollView(MotionEvent ev) {
     if (scrollViews.isEmpty()) initScrollViews(this);
     //
-    for (ReactScrollView scrollView : scrollViews) {
+    int state = RNGestureHandlerModule.getExcludeRegion().state;
+    if (state == 1) return false;
+    //
+    ReactScrollView firstView = scrollViews.get(0);
+    ReactScrollView secondView = scrollViews.get(1);
+    //
+    if (state == 2) {
       Rect outRect = new Rect();
-      scrollView.getChildAt(0).getDrawingRect(outRect);
-      if (outRect.contains((int)ev.getX(), (int)ev.getY())) return true;
+      secondView.getChildAt(0).getDrawingRect(outRect);
+      if (outRect.contains((int)ev.getX(), (int)ev.getY())) {
+        return true;
+      }
+    } else if (state == 3) {
+      Rect firstRect = new Rect();
+      Rect secondRect = new Rect();
+      firstView.getChildAt(0).getDrawingRect(firstRect);
+      secondView.getChildAt(0).getDrawingRect(secondRect);
+      //
+      if (firstRect.contains((int)ev.getX(), (int)ev.getY())){
+        return true;
+      }
+      if (secondRect.contains((int)ev.getX() - firstRect.right, (int)ev.getY())){
+        return true;
+      }
     }
     return false;
   }

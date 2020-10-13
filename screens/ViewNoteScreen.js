@@ -8,7 +8,7 @@ import ImagePicker from 'react-native-image-picker';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { Navigation } from '../thirdparty/react-native-navigation';
 import NoteEditor from '../components/NoteEditor';
-import { setFocus, endEditing } from '../components/WizSingletonWebView';
+import { setFocus, endEditing, toggleKeyboard } from '../components/WizSingletonWebView';
 
 import { enableNextAnimation } from '../services/animations';
 import { getDeviceDynamicColor, getColor, createDeviceDynamicStyles } from '../config/Colors';
@@ -21,6 +21,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
   const editorRef = useRef(null);
 
   async function handleInsertImage() {
+    toggleKeyboard(false);
     //
     try {
       const js = 'window.onBeforeInsert();true;';

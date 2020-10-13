@@ -53,6 +53,16 @@ public class WizSingletonWebViewModule extends ReactContextBaseJavaModule implem
         showSoftKeyboard(getCurrentActivity(), WizWebView.getInstance(getCurrentActivity()));
     }
 
+    @SuppressWarnings("unused")
+    @ReactMethod
+    public void toggleKeyboard(boolean show) {
+        if (show) {
+            focus();
+        } else {
+            endEditing(true);
+        }
+    }
+
     public static void showSoftKeyboard(Activity activity, View focusView) {
         if (activity == null) return;
         View view = activity.getCurrentFocus();

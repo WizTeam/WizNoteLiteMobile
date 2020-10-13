@@ -471,6 +471,7 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
     public int y;
     public int height;
     public ArrayList<Object> exceptionClassNames;
+    public int state = 1;
     public ExcludeRegion(ReadableMap props) {
       if (props == null) return;
       if (!props.hasKey("excludeRegions")) return;
@@ -482,6 +483,7 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
           this.width = map.getInt("width");
           this.y = map.getInt("y");
           this.height = map.getInt("height");
+          this.state = map.getInt("state");
           ReadableArray exceptionClassNames = map.getArray("exceptionClassNames");
           this.exceptionClassNames = exceptionClassNames.toArrayList();
         }
@@ -492,7 +494,6 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
       float density = resources.getDisplayMetrics().density;
       float touchX = ev.getX() / density;
       float touchY = ev.getY() / density;
-      Log.e("wiz_react", String.format("x: %s, width: %s, touchX: %s", x, width, touchX));
       return (touchX > x && touchX < x + width) && (touchY > y && touchY < y + height);
     }
   }
@@ -500,7 +501,6 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
   private static ReadableMap props = null;
   private static ExcludeRegion excludeRegion = null;
   private static void setProps(ReadableMap props) {
-    Log.e("wiz_react", "update propssssss");
     excludeRegion = new ExcludeRegion(props);
     RNGestureHandlerModule.props = props;
   }
@@ -510,6 +510,7 @@ public class RNGestureHandlerModule extends ReactContextBaseJavaModule {
   public static ExcludeRegion getExcludeRegion() {
     return  excludeRegion;
   }
+
   @ReactMethod
   public void createGestureHandler(
           String handlerName,

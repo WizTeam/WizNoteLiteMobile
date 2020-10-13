@@ -75,6 +75,9 @@ const NotesScreen: () => React$Node = (props) => {
         },
       },
     });
+    if (type !== '#searchResult') {
+      setSearchText('');
+    }
   }, [props.selectedType]);
 
   useEffect(() => {

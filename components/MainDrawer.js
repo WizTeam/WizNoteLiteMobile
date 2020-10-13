@@ -368,8 +368,8 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
   },
   phoneLoginButton: {
     paddingTop: 32,
-    paddingLeft: 16,
-    paddingBottom: 64,
+    paddingLeft: isTablet() ? 16 : 0,
+    paddingBottom: isTablet() ? 64 : 48,
     marginLeft: isTablet() ? 16 : 32,
   },
 }));
