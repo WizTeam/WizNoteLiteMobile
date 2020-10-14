@@ -65,6 +65,14 @@ const BaseBtnList = [
     type: 'quote',
     iconName: 'quote',
   },
+  {
+    type: 'indent',
+    iconName: 'indent',
+  },
+  {
+    type: 'unindent',
+    iconName: 'unindent',
+  },
 ];
 
 const TableBtnList = [

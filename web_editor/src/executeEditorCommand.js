@@ -76,6 +76,12 @@ export function addExecuteEditorCommandListener(editor, insertImage) {
       case 'deleteTable':
         editor.removeTable();
         break;
+      case 'indent':
+        editor.indent();
+        break;
+      case 'unindent':
+        editor.unindent();
+        break;
       default:
         break;
     }
