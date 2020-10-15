@@ -158,11 +158,10 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     hide: (enableAnimation, duration) => {
       if (enableAnimation) {
         console.debug(`animated hide editor toolbar, ${duration}`);
-        Animated.spring(topValue, {
-          duration: (duration && duration - 50) || 250,
+        Animated.timing(topValue, {
+          duration: duration || 300,
           toValue: -TOOLBAR_HEIGHT,
           useNativeDriver: false,
-          bounciness: 0,
         }).start();
       } else {
         topValue.setValue(-TOOLBAR_HEIGHT);
