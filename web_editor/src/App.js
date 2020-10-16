@@ -104,7 +104,7 @@ function App() {
     };
     //
     window.onKeyboardShow = (keyboardWidth, keyboardHeight, toolbarHeight) => {
-      setBottomHeight(keyboardHeight + toolbarHeight);
+      setBottomHeight(keyboardHeight + toolbarHeight + 50);
       // setBottomHeight(312);
       return true;
     };
