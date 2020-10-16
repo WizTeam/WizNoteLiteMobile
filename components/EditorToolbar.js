@@ -89,10 +89,6 @@ const TableBtnList = [
     iconName: 'strickThrough',
   },
   {
-    type: 'checkedBox',
-    iconName: 'todoList',
-  },
-  {
     type: 'alignLeft',
     iconName: 'left',
   },
