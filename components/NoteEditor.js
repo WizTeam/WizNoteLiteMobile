@@ -147,7 +147,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
         scrollDownRef.current = true;
         const now = new Date().valueOf();
         if (now - keyboardVisibleTimeRef.current > 1000) {
-          console.debug('scroll done, hide keyboard');
+          console.debug('scroll down, hide keyboard');
           // 使用endEditing。在点击页面的时候可能会不正常跳动
           // endEditing(true);
           injectJavaScript('document.activeElement.blur();true;');
