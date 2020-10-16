@@ -166,10 +166,11 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     show: (enableAnimation, keyboardHeight, duration) => {
       if (enableAnimation) {
         console.debug(`animated show editor toolbar ${duration}`);
-        Animated.timing(topValue, {
+        Animated.spring(topValue, {
           duration: duration || 300,
           toValue: keyboardHeight,
           useNativeDriver: false,
+          bounciness: 0,
         }).start();
       } else {
         topValue.setValue(keyboardHeight);
