@@ -6,7 +6,7 @@ import { ViewProps } from 'react-native';
 import { GProps } from 'react-native-svg';
 
 interface Props extends GProps, ViewProps {
-  name: 'unindent' | 'indent' | 'bold' | 'table-delete-row' | 'insert-right' | 'bullet' | 'insert-under' | 'table' | 'link' | 'table-delete' | 'left' | 'title' | 'center' | 'strickThrough' | 'italic' | 'code-block' | 'right' | 'divide' | 'todoList' | 'quote' | 'code-inline' | 'table-delete-col' | 'insert-left' | 'orderList' | 'insert-above' | 'image';
+  name: 'tag' | 'unindent' | 'indent' | 'bold' | 'table-delete-row' | 'insert-right' | 'bullet' | 'insert-under' | 'table' | 'link' | 'table-delete' | 'left' | 'title' | 'center' | 'strickThrough' | 'italic' | 'code-block' | 'right' | 'divide' | 'todoList' | 'quote' | 'code-inline' | 'table-delete-col' | 'insert-left' | 'orderList' | 'insert-above' | 'image';
   size?: number;
   color?: string | string[];
 }

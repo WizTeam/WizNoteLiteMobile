@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import Tag from './Tag';
 import Unindent from './Unindent';
 import Indent from './Indent';
 import Bold from './Bold';
@@ -31,58 +32,60 @@ import Image from './Image';
 
 let IconFont = ({ name, ...rest }) => {
   switch (name) {
+    case 'tag':
+      return <Tag key="1" {...rest} />;
     case 'unindent':
-      return <Unindent key="1" {...rest} />;
+      return <Unindent key="2" {...rest} />;
     case 'indent':
-      return <Indent key="2" {...rest} />;
+      return <Indent key="3" {...rest} />;
     case 'bold':
-      return <Bold key="3" {...rest} />;
+      return <Bold key="4" {...rest} />;
     case 'table-delete-row':
-      return <TableDeleteRow key="4" {...rest} />;
+      return <TableDeleteRow key="5" {...rest} />;
     case 'insert-right':
-      return <InsertRight key="5" {...rest} />;
+      return <InsertRight key="6" {...rest} />;
     case 'bullet':
-      return <Bullet key="6" {...rest} />;
+      return <Bullet key="7" {...rest} />;
     case 'insert-under':
-      return <InsertUnder key="7" {...rest} />;
+      return <InsertUnder key="8" {...rest} />;
     case 'table':
-      return <Table key="8" {...rest} />;
+      return <Table key="9" {...rest} />;
     case 'link':
-      return <Link key="9" {...rest} />;
+      return <Link key="10" {...rest} />;
     case 'table-delete':
-      return <TableDelete key="10" {...rest} />;
+      return <TableDelete key="11" {...rest} />;
     case 'left':
-      return <Left key="11" {...rest} />;
+      return <Left key="12" {...rest} />;
     case 'title':
-      return <Title key="12" {...rest} />;
+      return <Title key="13" {...rest} />;
     case 'center':
-      return <Center key="13" {...rest} />;
+      return <Center key="14" {...rest} />;
     case 'strickThrough':
-      return <StrickThrough key="14" {...rest} />;
+      return <StrickThrough key="15" {...rest} />;
     case 'italic':
-      return <Italic key="15" {...rest} />;
+      return <Italic key="16" {...rest} />;
     case 'code-block':
-      return <CodeBlock key="16" {...rest} />;
+      return <CodeBlock key="17" {...rest} />;
     case 'right':
-      return <Right key="17" {...rest} />;
+      return <Right key="18" {...rest} />;
     case 'divide':
-      return <Divide key="18" {...rest} />;
+      return <Divide key="19" {...rest} />;
     case 'todoList':
-      return <TodoList key="19" {...rest} />;
+      return <TodoList key="20" {...rest} />;
     case 'quote':
-      return <Quote key="20" {...rest} />;
+      return <Quote key="21" {...rest} />;
     case 'code-inline':
-      return <CodeInline key="21" {...rest} />;
+      return <CodeInline key="22" {...rest} />;
     case 'table-delete-col':
-      return <TableDeleteCol key="22" {...rest} />;
+      return <TableDeleteCol key="23" {...rest} />;
     case 'insert-left':
-      return <InsertLeft key="23" {...rest} />;
+      return <InsertLeft key="24" {...rest} />;
     case 'orderList':
-      return <OrderList key="24" {...rest} />;
+      return <OrderList key="25" {...rest} />;
     case 'insert-above':
-      return <InsertAbove key="25" {...rest} />;
+      return <InsertAbove key="26" {...rest} />;
     case 'image':
-      return <Image key="26" {...rest} />;
+      return <Image key="27" {...rest} />;
   }
 
   return null;

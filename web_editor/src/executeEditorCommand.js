@@ -1,6 +1,9 @@
 export function addExecuteEditorCommandListener(editor, insertImage) {
   window.executeEditorCommand = (command) => {
     switch (command) {
+      case 'header':
+        editor.insertHeader();
+        break;
       case 'tag':
         editor.insertTag();
         break;

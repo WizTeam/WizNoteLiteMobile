@@ -10,8 +10,12 @@ const TOOLBAR_ICON_SIZE = 22;
 
 const BaseBtnList = [
   {
-    type: 'tag',
+    type: 'header',
     iconName: 'title',
+  },
+  {
+    type: 'tag',
+    iconName: 'tag',
   },
   {
     type: 'bold',
