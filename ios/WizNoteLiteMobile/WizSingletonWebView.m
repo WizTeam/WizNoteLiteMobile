@@ -85,6 +85,15 @@ WKScriptMessageHandler>
   return self;
 }
 
+- (BOOL) canPerformAction:(SEL)action withSender:(id)sender {
+  NSString* actionName = NSStringFromSelector(action);
+  NSLog(@"%@", actionName);
+  if ([actionName isEqualToString:@"_showTextStyleOptions:"]) {
+    return NO;
+  }
+  return [super canPerformAction:action withSender:sender];
+}
+
 - (void) webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
   [[WizSingletonWebViewModule sharedInstance] sendEventWithName:@"onLoad" body:@{}];
 }
