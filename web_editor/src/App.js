@@ -78,13 +78,6 @@ function App() {
   const editorRef = useRef(null);
 
   const { isCursorInTable } = useEditor(editorRef);
-  function selectFirstLine() {
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0).cloneRange();
-    range.selectNode(range.startContainer);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  }
   //
   useEffect(() => {
     window.loadMarkdown = (options) => {
@@ -97,7 +90,7 @@ function App() {
       if (isNewNote) {
         setTimeout(() => {
           editorRef.current.focus();
-          selectFirstLine();
+          editorRef.current.selectFirstTitle();
         }, 500);
       }
       return true;
