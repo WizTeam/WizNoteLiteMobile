@@ -38,6 +38,7 @@ typedef void (^RNNReactViewReadyCompletionBlock)(void);
 - (void)overrideOptions:(RNNNavigationOptions *)options;
 
 - (void)onChildWillAppear;
+- (void) onChildDidAppear;
 
 - (void)readyForPresentation;
 

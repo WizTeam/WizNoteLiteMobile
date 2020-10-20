@@ -160,6 +160,10 @@
 	[self.parentViewController onChildWillAppear];
 }
 
+- (void) onChildDidAppear {
+  [self.presenter applyOptionsForTopBar:self.resolveOptions];
+}
+
 - (void)onChildAddToParent:(UIViewController *)child options:(RNNNavigationOptions *)options {
     [self.parentViewController onChildAddToParent:child options:options];
 }

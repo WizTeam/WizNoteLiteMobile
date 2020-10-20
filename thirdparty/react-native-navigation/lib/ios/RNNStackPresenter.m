@@ -68,6 +68,11 @@
 	[stack.view setBackgroundColor:[withDefault.layout.backgroundColor getWithDefaultValue:nil]];
 }
 
+- (void)applyOptionsForTopBar:(RNNNavigationOptions *)options {
+  RNNNavigationOptions * withDefault = [options withDefault:[self defaultOptions]];
+  [_topBarPresenter applyOptions:withDefault.topBar];
+}
+
 - (void)applyOptionsOnViewDidLayoutSubviews:(RNNNavigationOptions *)options {
     RNNNavigationOptions *withDefault = [options withDefault:[self defaultOptions]];
     if (withDefault.topBar.background.component.name.hasValue) {

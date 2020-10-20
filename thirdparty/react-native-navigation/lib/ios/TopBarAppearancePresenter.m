@@ -50,9 +50,14 @@
 }
 
 - (void)showBorder:(BOOL)showBorder {
-    UIColor* shadowColor = showBorder ? [[UINavigationBarAppearance new] shadowColor] : nil;
+    UIColor* shadowColor = showBorder ? [[UINavigationBarAppearance new] shadowColor] : [UIColor clearColor];
     self.getAppearance.shadowColor = shadowColor;
     self.getScrollEdgeAppearance.shadowColor = shadowColor;
+    //
+    [NSTimer scheduledTimerWithTimeInterval:0.3 repeats:NO block:^(NSTimer * _Nonnull timer) {
+      self.getAppearance.shadowColor = shadowColor;
+      self.getScrollEdgeAppearance.shadowColor = shadowColor;
+    }];
 }
 
 - (void)setBackIndicatorImage:(UIImage *)image withColor:(UIColor *)color {
