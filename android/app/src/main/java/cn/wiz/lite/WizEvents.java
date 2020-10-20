@@ -1,4 +1,4 @@
-package com.wiznotelitemobile;
+package cn.wiz.lite;
 
 import com.facebook.react.bridge.WritableMap;
 

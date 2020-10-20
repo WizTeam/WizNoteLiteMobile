@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.wiznotelitemobile"
+        applicationId "cn.wiz.lite"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
