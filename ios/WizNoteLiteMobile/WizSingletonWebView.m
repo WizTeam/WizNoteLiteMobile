@@ -87,7 +87,7 @@ WKScriptMessageHandler>
 
 - (BOOL) canPerformAction:(SEL)action withSender:(id)sender {
   NSString* actionName = NSStringFromSelector(action);
-  NSLog(@"%@", actionName);
+//  NSLog(@"%@", actionName);
   if ([actionName isEqualToString:@"_showTextStyleOptions:"]) {
     return NO;
   }
