@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
-import { isTablet } from '../utils/device';
+import { isTablet, setKeyboardHeight } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing, setFocus } from './WizSingletonWebView';
 
 addWebViewEventHandler('onMessage', async (eventBody) => {
@@ -147,6 +147,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
   async function handleKeyboardShow({ nativeEvent }) {
     try {
       const { keyboardWidth, keyboardHeight } = nativeEvent;
+      setKeyboardHeight(keyboardHeight);
       const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight});true;`;
       await injectJavaScript(js);
     } catch (err) {
@@ -161,6 +162,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
 
   async function handleKeyboardHide() {
     try {
+      setKeyboardHeight(0);
       await injectJavaScript('window.onKeyboardHide();true;');
     } catch (err) {
       console.log(err);
