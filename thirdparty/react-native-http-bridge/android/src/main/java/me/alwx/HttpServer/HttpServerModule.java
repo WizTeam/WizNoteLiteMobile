@@ -86,9 +86,13 @@ public class HttpServerModule extends ReactContextBaseJavaModule implements Life
             return;
         }
 
-        if (server == null) {
-            server = new Server(reactContext, port);
+        if (server != null) {
+            server.stop();
+            server = null;
         }
+
+        server = new Server(reactContext, port);
+
         try {
             server.start();
         } catch (IOException e) {
