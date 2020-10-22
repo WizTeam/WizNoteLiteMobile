@@ -17,7 +17,8 @@ export function reportDeviceTypeChanged(deviceIsTablet) {
 const windowSize = Dimensions.get('window');
 
 function detectIsTablet(width, height) {
-  const tablet = Math.min(width, height + keyboardHeight) > 600;
+  const realHeight = Platform.select({ ios: height, android: (height + keyboardHeight) });
+  const tablet = Math.min(width, realHeight) > 600;
   return tablet;
 }
 
