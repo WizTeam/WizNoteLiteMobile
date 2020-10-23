@@ -4,7 +4,6 @@ import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import i18n from 'i18n-js';
 
-
 import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
