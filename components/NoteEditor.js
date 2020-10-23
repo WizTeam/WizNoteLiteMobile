@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useImperativeHandle } from 'react';
 import { View } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
 import i18n from 'i18n-js';
+
 
 import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
+import app from '../wrapper/app';
+import fs from '../wrapper/fs';
 import { isTablet } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing, setFocus } from './WizSingletonWebView';
 import { TOOLBAR_HEIGHT } from './EditorToolbar';
@@ -235,21 +239,41 @@ const NoteEditor = React.forwardRef((props, ref) => {
             reject(new Error(`User tapped custom button: ${response.customButton}`));
           } else {
             //
-            console.debug(response.type);
+            const type = response.type;
+            const orgWidth = response.width;
+            const orgHeight = response.height;
+            const ext = type.substr(type.indexOf('/') + 1);
+            console.debug(`image file size: ${response.fileSize}, type: ${type}, ext: ${ext}`);
+            console.debug(`image width: ${orgWidth}, height: ${orgHeight}`);
             //
             let resourceUrl;
             if (response.uri) {
-              resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
+              resourceUrl = response.uri;
             } else if (response.data) {
-              const type = response.type;
-              resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
+              //
+              const rand = `${new Date().valueOf()}.${ext}`;
+              const tempFileName = app.pathJoin(app.getPath('temp'), rand);
+              await fs.writeFile(tempFileName, response.data, {
                 base64: true,
-                type: {
-                  ext: type.substr(6),
-                  mime: type,
-                },
               });
+              resourceUrl = `file://${tempFileName}`;
             }
+            //
+            const MAX_SIZE = 1200;
+            if (orgWidth > MAX_SIZE && orgHeight > MAX_SIZE) {
+              //
+              const rate = Math.min(orgWidth, orgHeight) / MAX_SIZE;
+              const newWidth = orgWidth / rate;
+              const newHeight = orgHeight / rate;
+              //
+              const newImage = await ImageResizer.createResizedImage(resourceUrl,
+                newWidth, newHeight, ext.toUpperCase(), 90);
+              resourceUrl = newImage.uri;
+              console.debug(`new image file size: ${newImage.size}`);
+            }
+            //
+            resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, resourceUrl);
+            //
             if (resourceUrl) {
               resolve(resourceUrl);
             } else {

@@ -78,6 +78,10 @@ function getLogFileName() {
   return path.join(rnfs.DocumentDirectoryPath, 'wiznote.txt');
 }
 
+function pathJoin(...paths) {
+  return path.join(...paths);
+}
+
 export default {
   getVersion,
   getPath,
@@ -85,4 +89,5 @@ export default {
   doStandardPost,
   name: appName,
   getLogFileName,
+  pathJoin,
 };
