@@ -1,10 +1,9 @@
-package com.wiznotelitemobile;
+package cn.wiz.lite;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;

@@ -1,4 +1,4 @@
-package com.wiznotelitemobile;
+package cn.wiz.lite;
 
 import android.view.ViewGroup;
 import android.view.ViewParent;

@@ -1,5 +1,5 @@
 /* eslint-disable semi */
-import get from 'lodash.get'
+import {get} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'

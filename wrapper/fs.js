@@ -33,22 +33,38 @@ async function copyFile(src, dest) {
   await rnfs.copyFile(src, dest);
 }
 
-async function copy(src, dest, options) {
-  const statResult = await rnfs.stat(src);
-  if (statResult.isDirectory()) {
-    await copyFile(src, dest);
+async function copyDir(src, dest) {
+  // console.log(`copy dir: ${src}, ${dest}`);
+  const destExists = await rnfs.exists(dest);
+  if (destExists) {
+    const destStat = await rnfs.stat(dest);
+    if (!destStat.isDirectory()) {
+      await rnfs.unlink(dest);
+    }
   }
+  await ensureDir(dest);
   //
   const subList = await rnfs.readDir(src);
   for (const sub of subList) {
-    const subSrc = path.join(src, sub.name);
-    const subDest = path.join(dest, sub.name);
     if (sub.isDirectory()) {
-      await ensureDir(subDest);
-      await copy(subSrc, subDest, options);
+      const srcDir = sub.path;
+      const destDir = path.join(dest, sub.name);
+      await copyDir(srcDir, destDir);
     } else {
-      await copyFile(subSrc, subDest);
+      const srcFile = sub.path;
+      const destFile = path.join(dest, sub.name);
+      await copyFile(srcFile, destFile);
     }
+  }
+}
+
+async function copy(src, dest, options) {
+  // console.log(`copy ${src}, ${dest}`);
+  const statResult = await rnfs.stat(src);
+  if (statResult.isDirectory()) {
+    await copyDir(src, dest);
+  } else {
+    await copyFile(src, dest);
   }
 }
 async function writeFile(filePath, data, options) {

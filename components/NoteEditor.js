@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useImperativeHandle } from 'react';
-import { View } from 'react-native';
+import { View, Linking } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import i18n from 'i18n-js';
@@ -9,7 +9,7 @@ import { KEYS, connect } from '../data_store';
 import api from '../api';
 import app from '../wrapper/app';
 import fs from '../wrapper/fs';
-import { isTablet } from '../utils/device';
+import { isTablet, setKeyboardHeight } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing, setFocus } from './WizSingletonWebView';
 import { TOOLBAR_HEIGHT } from './EditorToolbar';
 
@@ -52,6 +52,10 @@ addWebViewEventHandler('onMessage', async (eventBody) => {
     // do nothing
   } else if (name === 'dropFile') {
     // do nothing
+  } else if (name === 'openLink') {
+    if (data.url && data.url.startsWith('http')) {
+      Linking.openURL(data.url);
+    }
   } else {
     console.error(`unknown browser event: ${eventBody}`);
   }
@@ -165,6 +169,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
     const { keyboardWidth, keyboardHeight } = nativeEvent;
     try {
       const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight}, ${TOOLBAR_HEIGHT});true;`;
+      setKeyboardHeight(keyboardHeight);
       await injectJavaScript(js);
     } catch (err) {
       console.log(err);
@@ -178,6 +183,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
 
   async function handleKeyboardHide({ nativeEvent }) {
     try {
+      setKeyboardHeight(0);
       await injectJavaScript('window.onKeyboardHide();true;');
     } catch (err) {
       console.log(err);

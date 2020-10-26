@@ -1,4 +1,4 @@
-package com.wiznotelitemobile;
+package cn.wiz.lite;
 
 import androidx.annotation.NonNull;
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Platform } from 'react-native';
 import { useDynamicValue } from 'react-native-dynamic';
 import { Header, Text, SearchBar } from 'react-native-elements';
@@ -28,6 +28,7 @@ const PadNoteListTitle = connect([KEYS.SELECTED_TYPE])((props) => {
     } else {
       title = type;
     }
+    props.onSelectedTypeChanged(type);
     return title;
   }, [props.selectedType]);
   //
@@ -40,8 +41,14 @@ const PadNoteList: () => React$Node = (props) => {
   //
   const [searchText, setSearchText] = useState('');
   const [showSearchBarLoading, setShowSearchBarLoading] = useState(false);
+  const [selectedType, setSelectedType] = useState('');
   //
-
+  useEffect(() => {
+    if (selectedType !== '#searchResult') {
+      setSearchText('');
+    }
+  }, [selectedType]);
+  //
   function handleCreateNote() {
     createNewNote();
   }
@@ -92,7 +99,7 @@ const PadNoteList: () => React$Node = (props) => {
           color: getDeviceColor('noteListTitle'),
         }}
       />
-      <PadNoteListTitle />
+      <PadNoteListTitle onSelectedTypeChanged={setSelectedType} />
       <SearchBar
         platform="ios"
         showCancel

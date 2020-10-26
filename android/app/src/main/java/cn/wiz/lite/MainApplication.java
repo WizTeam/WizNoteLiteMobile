@@ -1,8 +1,7 @@
-package com.wiznotelitemobile;
+package cn.wiz.lite;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.os.Build;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.PackageList;
@@ -13,6 +12,7 @@ import com.reactnativenavigation.react.NavigationPackage;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+
 
 import org.apache.commons.io.FileUtils;
 
@@ -157,7 +157,7 @@ public class MainApplication extends NavigationApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.wiznotelitemobile.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("cn.wiz.lite.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

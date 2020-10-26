@@ -7,18 +7,78 @@ import { ColorSchemeProvider, useDynamicValue } from 'react-native-dynamic';
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { Navigation } from '../thirdparty/react-native-navigation';
 import NoteEditor from '../components/NoteEditor';
-import { setFocus, endEditing } from '../components/WizSingletonWebView';
+import { setFocus, endEditing, toggleKeyboard } from '../components/WizSingletonWebView';
 
 import { enableNextAnimation } from '../services/animations';
 import { getDeviceDynamicColor, getColor, createDeviceDynamicStyles } from '../config/Colors';
 import dataStore from '../data_store';
 import api from '../api';
 import EditorToolBar from '../components/EditorToolbar';
+import { isAndroid, isIos } from '../utils/device';
 
 const ViewNoteScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles.styles);
   const editorRef = useRef(null);
   const toolbarRef = useRef(null);
+
+  async function handleInsertImage() {
+    toggleKeyboard(false);
+    //
+    try {
+      const js = 'window.onBeforeInsert();true;';
+      await editorRef.current.injectJavaScript(js);
+    } catch (err) {
+      console.log(err);
+    }
+    //
+    const options = {
+      title: 'Select Image',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    ImagePicker.showImagePicker(options, async (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.error(`ImagePicker Error: ${response.error?.message}`);
+      } else if (response.customButton) {
+        console.log(`User tapped custom button: ${response.customButton}`);
+      } else {
+        //
+        console.log(response.type);
+        //
+        const note = dataStore.getCurrentNote();
+        let resourceUrl;
+        if (isIos && response.uri) {
+          resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.uri);
+        } else if (isAndroid && response.path) {
+          resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, response.path);
+        } else if (response.data) {
+          const type = response.type;
+          resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, response.data, {
+            base64: true,
+            type: {
+              ext: type.substr(6),
+              mime: type,
+            },
+          });
+        }
+        if (resourceUrl) {
+          if (editorRef.current) {
+            const js = `window.addImage('${resourceUrl}');true;`;
+            try {
+              await editorRef.current.injectJavaScript(js);
+            } catch (err) {
+              console.log(err.message);
+            }
+          }
+        }
+      }
+    });
+  }
 
   useEffect(() => {
     const listener = Navigation.events().registerNavigationButtonPressedListener(({ buttonId }) => {

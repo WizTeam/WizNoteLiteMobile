@@ -44,6 +44,12 @@ export function setFocus() {
   }
 }
 
+export function toggleKeyboard(show) {
+  if (WizSingletonWebViewModule.toggleKeyboard) {
+    WizSingletonWebViewModule.toggleKeyboard(show);
+  }
+}
+
 const NativeWizSingletonWebView = requireNativeComponent('WizSingletonWebView');
 
 export default class WizSingletonWebView extends React.Component {
