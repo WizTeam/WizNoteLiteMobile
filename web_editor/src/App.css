@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+table.ag-paragraph {
+  margin-left: 36px;
+  border-right: 36px solid transparent;
+}
+
+.ag-paragraph.ag-table-scroll {
+  overflow-x: unset;
+  overflow-y: unset;
+  padding-bottom: 0;
+}
+
+figure.ag-paragraph[data-role="TABLE"] {
+  margin-left: -36px;
+  width: 100vw;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 15px;
+}
+
+figure.ag-paragraph[data-role="TABLE"] .ag-front-icon {
+  left: 6px;
+}

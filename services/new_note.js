@@ -58,7 +58,6 @@ export async function createNewNote(parentComponentId) {
                 noBorder: true,
                 leftButtons: [{
                   id: 'DoneButton',
-                  // eslint-disable-next-line import/no-unresolved
                   text: i18n.t('buttonDone'),
                   systemItem: 'done',
                 }],

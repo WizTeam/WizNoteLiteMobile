@@ -1,11 +1,17 @@
 import React, { useEffect, useRef, useImperativeHandle } from 'react';
 import { View, Linking } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
+import i18n from 'i18n-js';
 
 import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
 import api from '../api';
+import app from '../wrapper/app';
+import fs from '../wrapper/fs';
 import { isTablet, setKeyboardHeight } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing, setFocus } from './WizSingletonWebView';
+import { TOOLBAR_HEIGHT } from './EditorToolbar';
 
 addWebViewEventHandler('onMessage', async (eventBody) => {
   const data = JSON.parse(eventBody);
@@ -107,6 +113,16 @@ const NoteEditor = React.forwardRef((props, ref) => {
       const result = await injectJavaScript(js);
       return result;
     },
+    executeCommand: async (command) => {
+      const js = `window.executeEditorCommand('${command}')`;
+      try {
+        const result = await injectJavaScript(js);
+        return result;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    },
   }));
   //
   // 清空编辑器，可以强制进行保存
@@ -138,6 +154,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
         scrollDownRef.current = true;
         const now = new Date().valueOf();
         if (now - keyboardVisibleTimeRef.current > 1000) {
+          console.debug('scroll down, hide keyboard');
           // 使用endEditing。在点击页面的时候可能会不正常跳动
           // endEditing(true);
           injectJavaScript('document.activeElement.blur();true;');
@@ -149,10 +166,10 @@ const NoteEditor = React.forwardRef((props, ref) => {
   }
 
   async function handleKeyboardShow({ nativeEvent }) {
+    const { keyboardWidth, keyboardHeight } = nativeEvent;
     try {
-      const { keyboardWidth, keyboardHeight } = nativeEvent;
+      const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight}, ${TOOLBAR_HEIGHT});true;`;
       setKeyboardHeight(keyboardHeight);
-      const js = `window.onKeyboardShow(${keyboardWidth}, ${keyboardHeight});true;`;
       await injectJavaScript(js);
     } catch (err) {
       console.log(err);
@@ -160,11 +177,11 @@ const NoteEditor = React.forwardRef((props, ref) => {
     keyboardVisibleRef.current = true;
     keyboardVisibleTimeRef.current = new Date().valueOf();
     if (props.onBeginEditing) {
-      props.onBeginEditing();
+      props.onBeginEditing(nativeEvent);
     }
   }
 
-  async function handleKeyboardHide() {
+  async function handleKeyboardHide({ nativeEvent }) {
     try {
       setKeyboardHeight(0);
       await injectJavaScript('window.onKeyboardHide();true;');
@@ -173,7 +190,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
     keyboardVisibleRef.current = false;
     if (props.onEndEditing) {
-      props.onEndEditing();
+      props.onEndEditing(nativeEvent);
     }
   }
 
@@ -205,6 +222,81 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
   }
 
+  async function handleInsertImage(cb) {
+    // select image from image picker
+    function selectImage() {
+      return new Promise((resolve, reject) => {
+        //
+        const options = {
+          title: i18n.t('titleSelectImage'),
+          storageOptions: {
+            skipBackup: true,
+            path: 'images',
+          },
+        };
+
+        ImagePicker.showImagePicker(options, async (response) => {
+          if (response.didCancel) {
+            reject(new Error('User cancelled image picker'));
+          } else if (response.error) {
+            reject(new Error(`ImagePicker Error: ${response.error?.message}`));
+          } else if (response.customButton) {
+            reject(new Error(`User tapped custom button: ${response.customButton}`));
+          } else {
+            //
+            const type = response.type;
+            const orgWidth = response.width;
+            const orgHeight = response.height;
+            const ext = type.substr(type.indexOf('/') + 1);
+            console.debug(`image file size: ${response.fileSize}, type: ${type}, ext: ${ext}`);
+            console.debug(`image width: ${orgWidth}, height: ${orgHeight}`);
+            //
+            let resourceUrl;
+            if (response.uri) {
+              resourceUrl = response.uri;
+            } else if (response.data) {
+              //
+              const rand = `${new Date().valueOf()}.${ext}`;
+              const tempFileName = app.pathJoin(app.getPath('temp'), rand);
+              await fs.writeFile(tempFileName, response.data, {
+                base64: true,
+              });
+              resourceUrl = `file://${tempFileName}`;
+            }
+            //
+            const MAX_SIZE = 1200;
+            if (orgWidth > MAX_SIZE && orgHeight > MAX_SIZE) {
+              //
+              const rate = Math.min(orgWidth, orgHeight) / MAX_SIZE;
+              const newWidth = orgWidth / rate;
+              const newHeight = orgHeight / rate;
+              //
+              const newImage = await ImageResizer.createResizedImage(resourceUrl,
+                newWidth, newHeight, ext.toUpperCase(), 90);
+              resourceUrl = newImage.uri;
+              console.debug(`new image file size: ${newImage.size}`);
+            }
+            //
+            resourceUrl = await api.addImageFromUrl(note.kbGuid, note.guid, resourceUrl);
+            //
+            if (resourceUrl) {
+              resolve(resourceUrl);
+            } else {
+              reject();
+            }
+          }
+        });
+      });
+    }
+
+    try {
+      const resourceUrl = await selectImage();
+      await injectJavaScript(`window.${cb}('${resourceUrl}');true;`);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   function handleMessage({ nativeEvent }) {
     const data = JSON.parse(nativeEvent.body);
     const name = data.event;
@@ -212,6 +304,10 @@ const NoteEditor = React.forwardRef((props, ref) => {
       keyboardVisibleTimeRef.current = new Date().valueOf();
     } else if (name === 'dropFile') {
       handleDropFile(data);
+    } else if (name === 'selectionChanged') {
+      props.onChangeSelection(data);
+    } else if (name === 'insertImage') {
+      handleInsertImage(data.callback);
     }
   }
 

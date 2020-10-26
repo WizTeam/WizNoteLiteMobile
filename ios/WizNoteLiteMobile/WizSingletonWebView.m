@@ -85,6 +85,15 @@ WKScriptMessageHandler>
   return self;
 }
 
+- (BOOL) canPerformAction:(SEL)action withSender:(id)sender {
+  NSString* actionName = NSStringFromSelector(action);
+//  NSLog(@"%@", actionName);
+  if ([actionName isEqualToString:@"_showTextStyleOptions:"]) {
+    return NO;
+  }
+  return [super canPerformAction:action withSender:sender];
+}
+
 - (void) webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
   [[WizSingletonWebViewModule sharedInstance] sendEventWithName:@"onLoad" body:@{}];
 }
@@ -222,7 +231,7 @@ static WizSingletonWebView* _webView;
   _webView.scrollView.delegate = self;
   [[NSNotificationCenter defaultCenter]
     addObserver:self
-    selector:@selector(keyboardWillHide)
+    selector:@selector(keyboardWillHide:)
     name:UIKeyboardWillHideNotification object:nil];
   [[NSNotificationCenter defaultCenter]
     addObserver:self
@@ -311,27 +320,33 @@ static WizSingletonWebView* _webView;
   }
 }
 
--(void)keyboardWillHide {
+-(void)keyboardWillHide:(NSNotification*)note {
   keyboardTimer = [NSTimer scheduledTimerWithTimeInterval:0 target:self selector:@selector(keyboardDisplacementFix) userInfo:nil repeats:false];
   [[NSRunLoop mainRunLoop] addTimer:keyboardTimer forMode:NSRunLoopCommonModes];
   if (_onKeyboardHide) {
-    _onKeyboardHide(@{});
+    NSDictionary *userInfo = note.userInfo;
+    CGFloat animationDuration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    _onKeyboardHide(@{
+      @"animationDuration": @(animationDuration * 1000)
+    });
   }
 }
 
 -(void)keyboardWillShow:(NSNotification*)note {
-  NSDictionary *userInfo = note.userInfo;
-  CGRect keyboardFrameEnd = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-  CGFloat keyboardHeight = keyboardFrameEnd.size.height;
-  CGFloat keyboardWidth = keyboardFrameEnd.size.width;
-  
   if (keyboardTimer != nil) {
     [keyboardTimer invalidate];
   }
   if (_onKeyboardShow) {
+    NSDictionary *userInfo = note.userInfo;
+    CGRect keyboardFrameEnd = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGFloat keyboardHeight = keyboardFrameEnd.size.height;
+    CGFloat keyboardWidth = keyboardFrameEnd.size.width;
+    CGFloat animationDuration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
     _onKeyboardShow(@{
       @"keyboardWidth": @(keyboardWidth),
       @"keyboardHeight": @(keyboardHeight),
+      @"animationDuration": @(animationDuration * 1000)
     });
   }
 }

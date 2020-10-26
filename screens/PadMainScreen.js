@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
@@ -11,12 +11,15 @@ import ThemedStatusBar from '../components/ThemedStatusBar';
 import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import api from '../api';
 import RootView from '../components/RootView';
+import EditorToolBar from '../components/EditorToolbar';
 
 const useForceUpdate = () => useState()[1];
 
 const PadMainScreen: () => React$Node = () => {
   //
   const layoutRef = useRef(null);
+  const toolbarRef = useRef(null);
+  const editorRef = useRef(null);
   //
   const styles = useDynamicValue(dynamicStyles);
   //
@@ -76,7 +79,7 @@ const PadMainScreen: () => React$Node = () => {
     }
     return excludeRegions;
   }
-  function handleBeginEditing() {
+  function handleBeginEditing({ keyboardHeight, animationDuration }) {
     const layout = layoutRef.current;
     const openState = layout.currentOpenState();
     if (isLandscape) {
@@ -89,7 +92,16 @@ const PadMainScreen: () => React$Node = () => {
         // layoutRef.current.toggleOpenState(OPEN_STATE.closeAll);
       }
     }
+    toolbarRef.current.show(true, keyboardHeight, animationDuration);
   }
+
+  function handleEndEditing({ animationDuration }) {
+    toolbarRef.current.hide(true, animationDuration);
+  }
+
+  useEffect(() => {
+    toolbarRef.current.setEditor(editorRef.current);
+  }, []);
 
   //
   const forceUpdate = useForceUpdate();
@@ -116,9 +128,13 @@ const PadMainScreen: () => React$Node = () => {
               containerStyle={styles.editorContainer}
               editorStyle={editorStyle}
               onBeginEditing={handleBeginEditing}
+              onEndEditing={handleEndEditing}
+              onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
+              ref={editorRef}
             />
           )}
         />
+        <EditorToolBar ref={toolbarRef} />
       </RootView>
     </ColorSchemeProvider>
   );

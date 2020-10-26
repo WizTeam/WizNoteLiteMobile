@@ -27,6 +27,8 @@ const light = {
   upgradeText2: '#aaaaaa',
   upgradeButtonBackground: '#333333',
   upgradeButtonColor: '#ffffff',
+  toolbarBackground: '#d7d8da',
+  toolbarIconColor: '#333333',
   //
   phone: {
     rootBackground: 'white',
@@ -77,6 +79,8 @@ const dark = merge({}, light, {
   upgradeText2: '#d8d8d8',
   upgradeButtonBackground: '#f0f0f0',
   upgradeButtonColor: '#333333',
+  toolbarBackground: '#121212',
+  toolbarIconColor: '#f0f0f0',
 
   phone: {
     rootBackground: '#2a2a2a',

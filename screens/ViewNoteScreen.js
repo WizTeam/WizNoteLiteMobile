@@ -3,7 +3,6 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue } from 'react-native-dynamic';
-import ImagePicker from 'react-native-image-picker';
 
 import ThemedStatusBar from '../components/ThemedStatusBar';
 import { Navigation } from '../thirdparty/react-native-navigation';
@@ -14,11 +13,13 @@ import { enableNextAnimation } from '../services/animations';
 import { getDeviceDynamicColor, getColor, createDeviceDynamicStyles } from '../config/Colors';
 import dataStore from '../data_store';
 import api from '../api';
+import EditorToolBar from '../components/EditorToolbar';
 import { isAndroid, isIos } from '../utils/device';
 
 const ViewNoteScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles.styles);
   const editorRef = useRef(null);
+  const toolbarRef = useRef(null);
 
   async function handleInsertImage() {
     toggleKeyboard(false);
@@ -83,8 +84,6 @@ const ViewNoteScreen: () => React$Node = (props) => {
     const listener = Navigation.events().registerNavigationButtonPressedListener(({ buttonId }) => {
       if (buttonId === 'DoneButton') {
         Navigation.dismissModal(props.componentId);
-      } else if (buttonId === 'InsertImageButton') {
-        handleInsertImage();
       }
     });
     return () => listener.remove();
@@ -114,19 +113,12 @@ const ViewNoteScreen: () => React$Node = (props) => {
     };
   }, []);
 
-  function handleBeginEditing() {
-    Navigation.mergeOptions(props.componentId, {
-      topBar: {
-        rightButtons: [{
-          id: 'InsertImageButton',
-          // eslint-disable-next-line import/no-unresolved
-          icon: require('../images/icons/insert_image.png'),
-        }],
-      },
-    });
+  function handleBeginEditing({ keyboardHeight, animationDuration }) {
+    toolbarRef.current.show(true, keyboardHeight, animationDuration);
   }
 
-  function handleEndEditing() {
+  function handleEndEditing({ animationDuration }) {
+    toolbarRef.current.hide(true, animationDuration);
     Navigation.mergeOptions(props.componentId, {
       topBar: {
         rightButtons: [],
@@ -136,7 +128,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
 
   function handleThemeChanged() {
     // force update buttons color
-    console.log('update view note screen theme');
+    console.debug('update view note screen theme');
     Navigation.mergeOptions(props.componentId, {
       topBar: {
         background: {
@@ -175,6 +167,10 @@ const ViewNoteScreen: () => React$Node = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    toolbarRef.current.setEditor(editorRef.current);
+  }, []);
+
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar onThemeChanged={handleThemeChanged} />
@@ -185,7 +181,9 @@ const ViewNoteScreen: () => React$Node = (props) => {
           style={styles.editor}
           onBeginEditing={handleBeginEditing}
           onEndEditing={handleEndEditing}
+          onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
         />
+        <EditorToolBar ref={toolbarRef} />
       </SafeAreaView>
     </ColorSchemeProvider>
   );

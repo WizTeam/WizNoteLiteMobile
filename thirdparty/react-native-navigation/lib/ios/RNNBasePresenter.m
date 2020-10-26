@@ -66,6 +66,10 @@
 
 }
 
+- (void) applyOptionsForTopBar:(RNNNavigationOptions *)options {
+  
+}
+
 - (void)mergeOptions:(RNNNavigationOptions *)options resolvedOptions:(RNNNavigationOptions *)resolvedOptions {
     RNNNavigationOptions* withDefault = (RNNNavigationOptions *) [[resolvedOptions withDefault:_defaultOptions] overrideOptions:options];
 	
