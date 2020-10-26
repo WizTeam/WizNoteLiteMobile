@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useImperativeHandle } from 'react';
-import { View } from 'react-native';
+import { View, Linking } from 'react-native';
 
 import { getResourceBaseUrl } from '../services/resources_loader';
 import { KEYS, connect } from '../data_store';
@@ -46,6 +46,10 @@ addWebViewEventHandler('onMessage', async (eventBody) => {
     // do nothing
   } else if (name === 'dropFile') {
     // do nothing
+  } else if (name === 'openLink') {
+    if (data.url && data.url.startsWith('http')) {
+      Linking.openURL(data.url);
+    }
   } else {
     console.error(`unknown browser event: ${eventBody}`);
   }

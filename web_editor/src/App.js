@@ -49,6 +49,14 @@ function Editor(props) {
     postMessage(messageData);
   }
   //
+  function handleOpenLink({ url }) {
+    const messageData = JSON.stringify({
+      event: 'openLink',
+      url,
+    });
+    postMessage(messageData);
+  }
+  //
   let markdown = props.markdown || '';
 
   return (
@@ -56,6 +64,7 @@ function Editor(props) {
       ref={props.editorRef}
       style={props.style}
       onSave={handleSave}
+      onLinkOpen={handleOpenLink}
       markdown={markdown}
       resourceUrl={props.resourceUrl}
       contentId={props.contentId}
