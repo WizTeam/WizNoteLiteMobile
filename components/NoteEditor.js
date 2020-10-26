@@ -54,7 +54,11 @@ addWebViewEventHandler('onMessage', async (eventBody) => {
     // do nothing
   } else if (name === 'openLink') {
     if (data.url && data.url.startsWith('http')) {
-      Linking.openURL(data.url);
+      try {
+        Linking.openURL(data.url).catch(() => {});
+      } catch (err) {
+        // ignore error
+      }
     }
   } else {
     console.error(`unknown browser event: ${eventBody}`);
