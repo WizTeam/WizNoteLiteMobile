@@ -61,7 +61,7 @@ function Editor(props) {
     postMessage(messageData);
   }
   //
-  let markdown = props.markdown || '';
+  const markdown = props.markdown || '';
 
   return (
     <MarkdownEditor
