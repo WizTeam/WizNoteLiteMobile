@@ -1,5 +1,5 @@
 import React, { useRef, useImperativeHandle, useState } from 'react';
-import { Animated, TouchableOpacity, ScrollView, View } from 'react-native';
+import { Animated, TouchableOpacity, ScrollView, View, Platform } from 'react-native';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { getDynamicColor, getColor } from '../config/Colors';
 import Icon from './icon';
@@ -168,16 +168,20 @@ const EditorToolBar = React.forwardRef((props, ref) => {
       }
     },
     show: (enableAnimation, keyboardHeight, duration) => {
+      const top = Platform.select({
+        default: keyboardHeight,
+        android: 0,
+      });
       if (enableAnimation) {
         console.debug(`animated show editor toolbar ${duration}`);
         Animated.spring(topValue, {
           duration: duration || 300,
-          toValue: keyboardHeight,
+          toValue: top,
           useNativeDriver: false,
           bounciness: 0,
         }).start();
       } else {
-        topValue.setValue(keyboardHeight);
+        topValue.setValue(top);
       }
     },
     changeToolbarType(selectionStatus) {
