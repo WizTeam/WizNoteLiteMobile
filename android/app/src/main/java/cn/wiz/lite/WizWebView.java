@@ -1,15 +1,23 @@
 package cn.wiz.lite;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
@@ -34,6 +42,7 @@ public class WizWebView extends WebView implements View.OnScrollChangeListener {
         initSettings();
         addJavascriptInterface(this, "WizWebView");
         setOnScrollChangeListener(this);
+        hasHardwareKeyboard = getResources().getConfiguration().keyboard == Configuration.KEYBOARD_QWERTY;
         init();
     }
 
@@ -54,6 +63,38 @@ public class WizWebView extends WebView implements View.OnScrollChangeListener {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 WizEvents.onLoad();
+            }
+
+            private boolean wizUrl(String url) {
+                return url.startsWith("file:") || url.startsWith("http://localhost");
+            }
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (wizUrl(url)) {
+                    return super.shouldOverrideUrlLoading(view, url);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                if (wizUrl(request.getUrl().toString())) {
+                    return super.shouldOverrideUrlLoading(view, request);
+                }
+                return true;
+            }
+
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view,
+                    WebResourceRequest request) {
+                return super.shouldInterceptRequest(view, request);
+            }
+
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                return super.shouldInterceptRequest(view, url);
             }
         });
     }
@@ -118,8 +159,29 @@ public class WizWebView extends WebView implements View.OnScrollChangeListener {
         return super.dispatchTouchEvent(ev);
     }
 
+    private boolean focused = false;
     @Override
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
+        this.focused = focused;
+        handleShowKeyboard();
+    }
+
+    private boolean hasHardwareKeyboard;
+    @Override
+    protected void onConfigurationChanged(Configuration newConfig) {
+        hasHardwareKeyboard = newConfig.keyboard == Configuration.KEYBOARD_QWERTY;
+        super.onConfigurationChanged(newConfig);
+        new Handler().postDelayed(this::handleShowKeyboard, 2000);
+    }
+
+    private void handleShowKeyboard() {
+        if (focused) {
+            if (hasHardwareKeyboard) {
+                WizEvents.onKeyboardShow(0, 0);
+            }
+        } else {
+            WizEvents.onKeyboardHide();
+        }
     }
 }

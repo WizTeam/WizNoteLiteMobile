@@ -2,6 +2,7 @@ package cn.wiz.lite;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.webkit.WebView;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.PackageList;
@@ -69,6 +70,9 @@ public class MainApplication extends NavigationApplication {
     FileUtils.deleteQuietly(localAssetsFolder());
     copyFileOrDir("resources");
     createFlagFile();
+    if (BuildConfig.DEBUG) {
+        WebView.setWebContentsDebuggingEnabled(true);
+    }
   }
 
   private File localAssetsFolder() {
