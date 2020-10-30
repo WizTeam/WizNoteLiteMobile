@@ -99,7 +99,7 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
     fontSize: 16,
     lineHeight: 24,
     fontWeight: '400',
-    paddingBottom: 8,
+    paddingBottom: 4,
     color: getDeviceDynamicColor('noteListTitle'),
   },
   subtitle: {
