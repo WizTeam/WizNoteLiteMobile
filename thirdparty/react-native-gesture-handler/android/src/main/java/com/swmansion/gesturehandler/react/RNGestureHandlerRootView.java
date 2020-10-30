@@ -118,8 +118,10 @@ public class RNGestureHandlerRootView extends ReactViewGroup {
 //    if (ev.getActionMasked() == MotionEvent.ACTION_DOWN && excludeRegion.in(ev, getResources())) {
 //      return super.dispatchTouchEvent(ev);
 //    }
-    if (ev.getActionMasked() == MotionEvent.ACTION_DOWN && clickScrollView(ev)) return super.dispatchTouchEvent(ev);
+    if (clickScrollView(ev)) return super.dispatchTouchEvent(ev);
     if (mEnabled && Assertions.assertNotNull(mRootHelper).dispatchTouchEvent(ev)) {
+      ev.setAction(MotionEvent.ACTION_CANCEL);
+      super.dispatchTouchEvent(ev);
       return true;
     }
     return super.dispatchTouchEvent(ev);

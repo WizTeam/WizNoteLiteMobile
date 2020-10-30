@@ -87,6 +87,10 @@ public class UiUtils {
         return (int) UiUtils.pxToDp(context, getTopBarHeight(context));
     }
 
+    public static int getTopBarTitleHeightDp(Context context) {
+        return (int) UiUtils.pxToDp(context, getTopBarHeight(context) - StatusBarUtils.getStatusBarHeight(context));
+    }
+
     public static int getTopBarHeight(Context context) {
         if (topBarHeight > 0) {
             return topBarHeight;
@@ -95,7 +99,7 @@ public class UiUtils {
         final int resourceId = resources.getIdentifier("action_bar_size", "dimen", "android");
         topBarHeight = resourceId > 0 ?
                 resources.getDimensionPixelSize(resourceId) :
-                dpToPx(context, DEFAULT_TOOLBAR_HEIGHT);
+                dpToPx(context, DEFAULT_TOOLBAR_HEIGHT) + StatusBarUtils.getStatusBarHeight(context);
         return topBarHeight;
     }
 

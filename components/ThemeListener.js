@@ -13,7 +13,10 @@ function getNavigationOptions(isDarkMode) {
   //
   return {
     statusBar: {
+      translucent: false,
+      backgroundColor: 'transparent',
       style: isDarkMode ? 'light' : 'dark',
+      drawBehind: true,
     },
     topBar: {
       leftButtonColor: colors.topBarTitle,

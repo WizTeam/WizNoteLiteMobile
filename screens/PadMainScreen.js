@@ -146,6 +146,11 @@ PadMainScreenImpl.options = {
   layout: {
     componentBackgroundColor: getDeviceColor('rootBackground'),
   },
+  statusBar: {
+    translucent: false,
+    drawBehind: true,
+    backgroundColor: 'transparent',
+  },
   topBar: {
     visible: false,
   },

@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   ScrollView,
-  Platform,
 } from 'react-native';
-import { Header, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import i18n from 'i18n-js';
@@ -22,6 +21,7 @@ import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor, createD
 import NotesIcon from './svg/NotesIcon';
 import StarredIcon from './svg/StarredIcon';
 import TrashIcon from './svg/TrashIcon';
+import Header from '../components/Header';
 
 const MainDrawer: () => React$Node = (props) => {
   //
@@ -193,10 +193,6 @@ const MainDrawer: () => React$Node = (props) => {
         backgroundColor="transparent"
         containerStyle={{
           borderBottomColor: 'transparent',
-          height: Platform.select({
-            android: 0,
-            default: 44,
-          }),
           marginBottom: (isTablet() || isAndroid) ? 0 : 32,
         }}
       />
@@ -383,6 +379,11 @@ export function showDrawer(parentComponentId) {
   RNNDrawer.showDrawer({
     component: {
       name: 'MainDrawer',
+      options: {
+        statusBar: {
+          drawBehind: true,
+        },
+      },
       passProps: {
         animationOpenTime: 300,
         animationCloseTime: 300,

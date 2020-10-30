@@ -204,6 +204,11 @@ const NotesScreen: () => React$Node = (props) => {
 const NotesScreenImpl = connect([KEYS.SELECTED_TYPE])(NotesScreen);
 
 NotesScreenImpl.options = {
+  statusBar: {
+    translucent: false,
+    drawBehind: true,
+    backgroundColor: 'transparent',
+  },
   topBar: {
     largeTitle: {
       visible: true,

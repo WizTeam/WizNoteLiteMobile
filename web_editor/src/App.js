@@ -106,7 +106,12 @@ function App() {
     };
     //
     window.onKeyboardShow = (keyboardWidth, keyboardHeight, toolbarHeight) => {
-      setBottomHeight(keyboardHeight + toolbarHeight + 50);
+      if (/(?:Android)/.test(window.navigator.userAgent)) {
+        setBottomHeight(toolbarHeight);
+      } else {
+        setBottomHeight(keyboardHeight + toolbarHeight + 50);
+      }
+
       // setBottomHeight(312);
       return true;
     };
