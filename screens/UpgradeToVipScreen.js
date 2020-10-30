@@ -234,6 +234,11 @@ const dynamicStyles = new DynamicStyleSheet({
 const UpgradeToVipScreenImpl = connect([KEYS.USER_INFO])(UpgradeToVipScreen);
 
 UpgradeToVipScreenImpl.options = {
+  statusBar: {
+    translucent: false,
+    drawBehind: true,
+    backgroundColor: 'transparent',
+  },
   topBar: {
     visible: false,
   },

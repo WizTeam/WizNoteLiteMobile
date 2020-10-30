@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Platform } from 'react-native';
+import { View } from 'react-native';
 import { useDynamicValue } from 'react-native-dynamic';
-import { Header, Text, SearchBar } from 'react-native-elements';
+import { Text, SearchBar } from 'react-native-elements';
 import i18n from 'i18n-js';
 
 import api from '../api';
@@ -9,6 +9,7 @@ import CategoryNoteList from './CategoryNoteList';
 import { getDeviceDynamicColor, getDeviceColor, createDeviceDynamicStyles } from '../config/Colors';
 import { createNewNote } from '../services/new_note';
 import store, { KEYS, connect } from '../data_store';
+import Header from '../components/Header';
 
 const PadNoteListTitle = connect([KEYS.SELECTED_TYPE])((props) => {
   //
@@ -142,10 +143,6 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
     backgroundColor: 'transparent',
     // backgroundColor: 'red',
     borderBottomColor: 'transparent',
-    height: Platform.select({
-      android: 56,
-      // default: 44,
-    }),
   },
   headerButton: {
     paddingVertical: 4,

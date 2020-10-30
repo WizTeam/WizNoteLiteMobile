@@ -46,6 +46,11 @@ const ViewLogsScreen: () => React$Node = (props) => {
 };
 
 ViewLogsScreen.options = {
+  statusBar: {
+    translucent: false,
+    drawBehind: true,
+    backgroundColor: 'transparent',
+  },
   topBar: {
     noBorder: true,
     title: {

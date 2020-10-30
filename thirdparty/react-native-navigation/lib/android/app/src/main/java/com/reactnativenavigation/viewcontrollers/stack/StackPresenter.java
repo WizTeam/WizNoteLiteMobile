@@ -49,6 +49,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import static com.reactnativenavigation.utils.CollectionUtils.*;
 import static com.reactnativenavigation.utils.ObjectUtils.perform;
@@ -172,9 +173,11 @@ public class StackPresenter {
         topBar.setElevation(topBarOptions.elevation.get(DEFAULT_ELEVATION));
         if (topBar.getLayoutParams() instanceof MarginLayoutParams) {
             ((MarginLayoutParams) topBar.getLayoutParams()).topMargin = UiUtils.dpToPx(activity, topBarOptions.topMargin.get(0));
+            ((MarginLayoutParams) topBar.getLayoutParams()).topMargin = 0;
         }
+        topBar.setPadding(0, StatusBarUtils.getStatusBarHeight(activity), 0, 0);
 
-        topBar.setTitleHeight(topBarOptions.title.height.get(UiUtils.getTopBarHeightDp(activity)));
+        topBar.setTitleHeight(topBarOptions.title.height.get(UiUtils.getTopBarTitleHeightDp(activity)));
         topBar.setTitle(topBarOptions.title.text.get(""));
         topBar.setTitleTopMargin(topBarOptions.title.topMargin.get(0));
 
@@ -418,7 +421,9 @@ public class StackPresenter {
         if (topBarOptions.elevation.hasValue()) topBar.setElevation(topBarOptions.elevation.get());
         if (topBarOptions.topMargin.hasValue() && topBar.getLayoutParams() instanceof MarginLayoutParams) {
             ((MarginLayoutParams) topBar.getLayoutParams()).topMargin = UiUtils.dpToPx(activity, topBarOptions.topMargin.get());
+            ((MarginLayoutParams) topBar.getLayoutParams()).topMargin = 0;
         }
+        topBar.setPadding(0, StatusBarUtils.getStatusBarHeight(activity), 0, 0);
 
         if (topBarOptions.title.height.hasValue()) topBar.setTitleHeight(topBarOptions.title.height.get());
         if (topBarOptions.title.topMargin.hasValue()) topBar.setTitleTopMargin(topBarOptions.title.topMargin.get());
@@ -545,6 +550,8 @@ public class StackPresenter {
     private void applyStatusBarInsets(StackController stack, ViewController child) {
         MarginLayoutParams lp = (MarginLayoutParams) topBar.getLayoutParams();
         lp.topMargin = getTopBarTopMargin(stack, child);
+        lp.topMargin = 0;
+        topBar.setPadding(0, StatusBarUtils.getStatusBarHeight(activity), 0, 0);
         topBar.requestLayout();
     }
 

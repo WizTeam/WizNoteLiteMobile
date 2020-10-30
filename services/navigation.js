@@ -150,6 +150,13 @@ export function setMainAsRoot(isPad) {
               },
             },
           ],
+          options: {
+            statusBar: {
+              translucent: false,
+              drawBehind: true,
+              backgroundColor: 'transparent',
+            },
+          },
         },
       },
     });
@@ -165,6 +172,11 @@ export function setMainAsRoot(isPad) {
             },
           ],
           options: {
+            statusBar: {
+              translucent: false,
+              drawBehind: true,
+              backgroundColor: 'transparent',
+            },
             topBar: {
               elevation: 0,
               title: {

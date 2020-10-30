@@ -78,7 +78,7 @@ describe('navigation options', () => {
       topBar: {
         visible: true,
         background: {
-          translucent: true,
+          translucent: false,
         },
       },
     };

@@ -9,6 +9,8 @@ import {
   TouchableHighlight,
   Linking,
   Keyboard,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import { Button, Icon, Input } from 'react-native-elements';
 import i18n from 'i18n-js';
@@ -443,6 +445,11 @@ const LoginScreen: () => React$Node = (props) => {
 };
 
 LoginScreen.options = {
+  statusBar: {
+    translucent: false,
+    drawBehind: true,
+    backgroundColor: 'transparent',
+  },
   topBar: {
     visible: false,
   },
@@ -473,6 +480,10 @@ const dynamicStyles = new DynamicStyleSheet({
   closeTouchable: {
     padding: 8,
     marginRight: 8,
+    marginTop: Platform.select({
+      default: 0,
+      android: StatusBar.currentHeight,
+    }),
   },
   shadowBox: {
     marginTop: 40,

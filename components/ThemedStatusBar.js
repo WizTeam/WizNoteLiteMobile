@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+// import { StatusBar } from 'react-native';
 import { useDarkMode } from 'react-native-dynamic';
 import ThemeListener from './ThemeListener';
 
@@ -11,7 +11,7 @@ const ThemedStatusBar: () => React$Node = (props) => {
   return (
     <>
       <ThemeListener onThemeChanged={props.onThemeChanged} />
-      <StatusBar translucent barStyle={barStyle} />
+      {/* <StatusBar translucent barStyle={barStyle} /> */}
     </>
   );
 };

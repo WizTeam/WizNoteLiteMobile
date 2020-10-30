@@ -148,11 +148,16 @@ public class StackController extends ParentController<StackLayout> {
         presenter.onChildDestroyed(child);
     }
 
+    private List<String> controllers = new ArrayList<>();
     public void push(ViewController child, CommandListener listener) {
         if (findController(child.getId()) != null) {
             listener.onError("A stack can't contain two children with the same id");
             return;
         }
+        if (controllers.contains(child.getCurrentComponentName())) {
+            return;
+        }
+        controllers.add(child.getCurrentComponentName());
         final ViewController toRemove = stack.peek();
         if (size() > 0) backButtonHelper.addToPushedChild(child);
         child.setParentController(this);
@@ -254,8 +259,9 @@ public class StackController extends ParentController<StackLayout> {
             listener.onError("Nothing to pop");
             return;
         }
-
-        peek().mergeOptions(mergeOptions);
+        ViewController controller = peek();
+        controllers.remove(controller.getCurrentComponentName());
+        controller.mergeOptions(mergeOptions);
         Options disappearingOptions = resolveCurrentOptions(presenter.getDefaultOptions());
 
         final ViewController disappearing = stack.pop();
