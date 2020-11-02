@@ -29,6 +29,10 @@ run on iPad
 npx react-native run-ios --simulator="iPad (7th generation)"
 ```
 
+## License
+
+[MIT or commercial.](./LICENSE.txt)
+
 ## WizNote Lite for PC (Windows / Mac / Linux)
 
-[WizNote Lite](https://github.com/WizTeam/WizNoteLiteMobile)
+[WizNote Lite](https://github.com/WizTeam/WizNoteLite)
