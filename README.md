@@ -1,4 +1,6 @@
-# WizNote Lite (React Native Project)
+# WizNote Lite for Mobile (iOS / Android, phone or pad)
+
+WizNote Lite React Native Project
 
 ## install
 
@@ -15,14 +17,22 @@ npm run build
 cd ..
 ```
 
-debug on iPhone
+run on iPhone
 
 ```bash
 npm run ios
 ```
 
-debug on iPad
+run on iPad
 
 ```bash
 npx react-native run-ios --simulator="iPad (7th generation)"
 ```
+
+## License
+
+[MIT or commercial.](./LICENSE.txt)
+
+## WizNote Lite for PC (Windows / Mac / Linux)
+
+[WizNote Lite](https://github.com/WizTeam/WizNoteLite)
