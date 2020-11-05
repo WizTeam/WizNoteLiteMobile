@@ -85,6 +85,12 @@ const ViewNoteScreen: () => React$Node = (props) => {
       if (buttonId === 'DoneButton') {
         Navigation.dismissModal(props.componentId);
       }
+      if (buttonId === 'redo') {
+        editorRef.current.executeCommand('redo');
+      }
+      if (buttonId === 'revoke') {
+        editorRef.current.executeCommand('undo');
+      }
     });
     return () => listener.remove();
   }, []);
@@ -115,6 +121,22 @@ const ViewNoteScreen: () => React$Node = (props) => {
 
   function handleBeginEditing({ keyboardHeight, animationDuration }) {
     toolbarRef.current.show(true, keyboardHeight, animationDuration);
+    Navigation.mergeOptions(props.componentId, {
+      topBar: {
+        rightButtons: [
+          {
+            id: 'redo',
+            // eslint-disable-next-line import/no-unresolved
+            icon: require('../images/icons/redo.png'),
+          },
+          {
+            id: 'revoke',
+            // eslint-disable-next-line import/no-unresolved
+            icon: require('../images/icons/revoke.png'),
+          },
+        ],
+      },
+    });
   }
 
   function handleEndEditing({ animationDuration }) {

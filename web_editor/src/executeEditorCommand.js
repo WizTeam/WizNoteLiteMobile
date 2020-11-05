@@ -85,6 +85,12 @@ export function addExecuteEditorCommandListener(editor, insertImage) {
       case 'unindent':
         editor.unindent();
         break;
+      case 'undo':
+        editor.undo();
+        break;
+      case 'redo':
+        editor.redo();
+        break;
       default:
         break;
     }
