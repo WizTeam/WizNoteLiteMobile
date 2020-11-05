@@ -37,6 +37,7 @@ project.xcworkspace
 # Android/IJ
 .idea
 .gradle
+*.jks
 local.properties
 
 # vscode debug info
