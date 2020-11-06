@@ -15,6 +15,9 @@ const languageTagMap = {
   en: 'en',
   'zh-Hans-CN': 'zh-cn',
   'zh-Hans-TW': 'zh-tw',
+  // android
+  zh_CN: 'zh-cn',
+  'zh-CN': 'zh-cn',
 };
 
 const translate = memoize(

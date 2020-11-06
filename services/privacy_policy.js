@@ -74,7 +74,7 @@ const styles = {
     fontSize: 12,
     lineHeight: 22,
     color: getDynamicColor('loginBoxText2'),
-    textAlign: 'center',
+    textAlign: 'left',
     paddingVertical: 16,
   },
   link: {
