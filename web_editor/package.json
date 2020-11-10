@@ -12,7 +12,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
-    "wiz-react-markdown-editor": "^0.5.7"
+    "wiz-react-markdown-editor": "^0.5.10"
   },
   "scripts": {
     "start": "react-scripts start",
