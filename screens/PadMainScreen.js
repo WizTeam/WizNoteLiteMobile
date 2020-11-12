@@ -12,6 +12,7 @@ import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import api from '../api';
 import RootView from '../components/RootView';
 import EditorToolBar from '../components/EditorToolbar';
+import { showPrivacyPolicy } from '../services/privacy_policy';
 
 const useForceUpdate = () => useState()[1];
 
@@ -106,6 +107,10 @@ const PadMainScreen: () => React$Node = () => {
   //
   const forceUpdate = useForceUpdate();
   //
+  useEffect(() => {
+    showPrivacyPolicy();
+  }, []);
+
   //
   return (
     <ColorSchemeProvider>

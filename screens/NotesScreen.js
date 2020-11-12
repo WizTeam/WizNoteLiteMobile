@@ -19,6 +19,7 @@ import CategoryNoteList from '../components/CategoryNoteList';
 import { getDeviceDynamicColor, getDeviceColor, createDeviceDynamicStyles } from '../config/Colors';
 import { isPhone, isAndroid } from '../utils/device';
 import RootView from '../components/RootView';
+import { showPrivacyPolicy } from '../services/privacy_policy';
 
 const NotesScreen: () => React$Node = (props) => {
   //
@@ -161,6 +162,10 @@ const NotesScreen: () => React$Node = (props) => {
       listener2.remove();
       listener3.remove();
     };
+  }, []);
+
+  useEffect(() => {
+    showPrivacyPolicy();
   }, []);
 
   const styles = useDynamicValue(dynamicStyles.styles);

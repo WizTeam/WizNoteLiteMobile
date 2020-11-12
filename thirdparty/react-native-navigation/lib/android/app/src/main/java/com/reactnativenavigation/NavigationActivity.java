@@ -86,7 +86,8 @@ public class NavigationActivity extends ReactActivity
     @Override
     public void invokeDefaultOnBackPressed() {
         if (!navigator.handleBack(new CommandListenerAdapter())) {
-            super.onBackPressed();
+//            super.onBackPressed();
+            finish();
         }
     }
 

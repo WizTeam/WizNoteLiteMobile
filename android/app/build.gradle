@@ -133,8 +133,8 @@ android {
         applicationId "cn.wiz.lite"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 200000
+        versionName "2.0.0"
     }
     splits {
         abi {
@@ -151,6 +151,15 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            Properties properties = new Properties()
+            InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+            properties.load( inputStream )
+            storeFile file(properties.getProperty('keystore.file'))
+            storePassword properties.getProperty('keystore.pass')
+            keyAlias properties.getProperty('keystore.alias')
+            keyPassword properties.getProperty('keystore.pass')
+        }
     }
     buildTypes {
         debug {
@@ -159,7 +168,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
