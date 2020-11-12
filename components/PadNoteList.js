@@ -9,7 +9,7 @@ import CategoryNoteList from './CategoryNoteList';
 import { getDeviceDynamicColor, getDeviceColor, createDeviceDynamicStyles } from '../config/Colors';
 import { createNewNote } from '../services/new_note';
 import store, { KEYS, connect } from '../data_store';
-import Header from '../components/Header';
+import Header from './Header';
 
 const PadNoteListTitle = connect([KEYS.SELECTED_TYPE])((props) => {
   //
@@ -140,6 +140,7 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
     color: getDeviceDynamicColor('noteListTitle'),
   },
   listHeader: {
+    height: 60,
     backgroundColor: 'transparent',
     // backgroundColor: 'red',
     borderBottomColor: 'transparent',
