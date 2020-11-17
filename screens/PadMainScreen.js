@@ -23,6 +23,8 @@ const PadMainScreen: () => React$Node = () => {
   const toolbarRef = useRef(null);
   const editorRef = useRef(null);
   //
+  const [isEditing, setIsEditing] = useState(false);
+  //
   const styles = useDynamicValue(dynamicStyles);
   //
   const pane1Width = 288;
@@ -95,10 +97,12 @@ const PadMainScreen: () => React$Node = () => {
       }
     }
     toolbarRef.current.show(true, keyboardHeight, animationDuration);
+    setIsEditing(true);
   }
 
   function handleEndEditing({ animationDuration }) {
     toolbarRef.current.hide(true, animationDuration);
+    setIsEditing(false);
   }
 
   useEffect(() => {
@@ -131,7 +135,7 @@ const PadMainScreen: () => React$Node = () => {
           )}
           pane3={(
             <View style={styles.editorContainer}>
-              <View style={styles.toolbarBlock}>
+              <View style={[styles.toolbarBlock, { display: isEditing ? 'flex' : 'none' }]}>
                 <TouchableOpacity style={styles.toolbarBlockBtn} onPress={() => editorRef.current?.executeCommand('undo')}>
                   <Icon size={30} name="revoke" />
                 </TouchableOpacity>
