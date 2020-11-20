@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import Redo from './Redo';
 import Revoke from './Revoke';
+import Redo from './Redo';
 import Tag from './Tag';
 import Unindent from './Unindent';
 import Indent from './Indent';
@@ -34,10 +34,10 @@ import Image from './Image';
 
 let IconFont = ({ name, ...rest }) => {
   switch (name) {
-    case 'redo':
-      return <Redo key="1" {...rest} />;
     case 'revoke':
-      return <Revoke key="2" {...rest} />;
+      return <Revoke key="1" {...rest} />;
+    case 'redo':
+      return <Redo key="2" {...rest} />;
     case 'tag':
       return <Tag key="3" {...rest} />;
     case 'unindent':

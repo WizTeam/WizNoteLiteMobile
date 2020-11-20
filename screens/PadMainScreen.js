@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Dimensions, Platform, TouchableOpacity } from 'react-native';
+import { View, Dimensions, Platform } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
-import Icon from '../components/icon';
 
 import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneLayout';
 import { gestureHandlerRootHOC } from '../thirdparty/react-native-gesture-handler';
@@ -22,8 +21,6 @@ const PadMainScreen: () => React$Node = () => {
   const layoutRef = useRef(null);
   const toolbarRef = useRef(null);
   const editorRef = useRef(null);
-  //
-  const [isEditing, setIsEditing] = useState(false);
   //
   const styles = useDynamicValue(dynamicStyles);
   //
@@ -97,12 +94,10 @@ const PadMainScreen: () => React$Node = () => {
       }
     }
     toolbarRef.current.show(true, keyboardHeight, animationDuration);
-    setIsEditing(true);
   }
 
   function handleEndEditing({ animationDuration }) {
     toolbarRef.current.hide(true, animationDuration);
-    setIsEditing(false);
   }
 
   useEffect(() => {
@@ -135,14 +130,6 @@ const PadMainScreen: () => React$Node = () => {
           )}
           pane3={(
             <View style={styles.editorContainer}>
-              <View style={[styles.toolbarBlock, { display: isEditing ? 'flex' : 'none' }]}>
-                <TouchableOpacity style={styles.toolbarBlockBtn} onPress={() => editorRef.current?.executeCommand('undo')}>
-                  <Icon size={30} name="revoke" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.toolbarBlockBtn} onPress={() => editorRef.current?.executeCommand('redo')}>
-                  <Icon size={38} name="redo" />
-                </TouchableOpacity>
-              </View>
               <NoteEditor
                 containerStyle={styles.editorContainer}
                 editorStyle={editorStyle}
