@@ -94,4 +94,8 @@ export default {
   buttonPurchasing: '正在购买...',
 
   titleSelectImage: 'Select Images',
+
+  selectLinkedTitle: '选择笔记',
+  selectLinkedSubtitle: '支持输入标题筛选',
+
 };

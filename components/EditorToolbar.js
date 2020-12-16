@@ -15,6 +15,10 @@ const BaseBtnList = [
     iconName: 'title',
   },
   {
+    type: 'noteLink',
+    iconName: 'note',
+  },
+  {
     type: 'tag',
     iconName: 'tag',
   },

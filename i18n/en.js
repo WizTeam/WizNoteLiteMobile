@@ -93,4 +93,7 @@ export default {
   buttonPurchasing: 'Purchasing...',
 
   titleSelectImage: 'Select Images',
+
+  selectLinkedTitle: 'Note selection',
+  selectLinkedSubtitle: 'Support input Title Filtering',
 };

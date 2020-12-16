@@ -1,4 +1,4 @@
-export function addExecuteEditorCommandListener(editor, insertImage) {
+export function addExecuteEditorCommandListener(editor, insertImage, insertNoteLink) {
   window.executeEditorCommand = (command) => {
     switch (command) {
       case 'header':
@@ -90,6 +90,9 @@ export function addExecuteEditorCommandListener(editor, insertImage) {
         break;
       case 'redo':
         editor.redo();
+        break;
+      case 'noteLink':
+        insertNoteLink();
         break;
       default:
         break;

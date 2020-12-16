@@ -1,10 +1,11 @@
+import i18n from 'i18n-js';
 import { showMessage, hideMessage } from '../thirdparty/react-native-flash-message';
 import { Navigation } from '../thirdparty/react-native-navigation';
 import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
 import { isTablet } from '../utils/device';
 import { loadRequest } from '../components/WizSingletonWebView';
 import app from '../wrapper/app';
-import { isDarkMode } from '../config/Colors';
+import { isDarkMode, getDeviceColor } from '../config/Colors';
 
 export async function showTopBarMessage(options = {}) {
   const { message, description, onPress, closeTimeout = 3000, autoHide, buttons } = options;
@@ -72,6 +73,38 @@ export function setLoginAsRoot() {
           },
         ],
       },
+    },
+  });
+}
+
+export function openNoteLinksScreen(options) {
+  Navigation.showModal({
+    stack: {
+      children: [{
+        component: {
+          name: 'NoteLinksScreen',
+          passProps: options,
+          options: {
+            layout: {
+              componentBackgroundColor: getDeviceColor('noteBackground'),
+            },
+            topBar: {
+              elevation: 0,
+              title: {
+                text: i18n.t('selectLinkedTitle'),
+              },
+              subtitle: {
+                text: i18n.t('selectLinkedSubtitle'),
+              },
+              leftButtons: [{
+                id: 'CancelButton',
+                text: i18n.t('buttonCancelSearch'),
+                systemItem: 'cancel',
+              }],
+            },
+          },
+        },
+      }],
     },
   });
 }

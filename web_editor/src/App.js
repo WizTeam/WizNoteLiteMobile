@@ -193,7 +193,33 @@ function App() {
           timer = null;
         }, 500);
       }
-      addExecuteEditorCommandListener(editorRef.current, insertImage);
+      function insertNoteLink() {
+        const selection = document.getSelection();
+        const range = selection.getRangeAt(0);
+        if (range.collapsed) {
+          timer = setTimeout(() => {
+            editorRef.current.saveCursor();
+            //
+            const callback = `insertNoteLink${new Date().getTime()}`;
+            window[callback] = (content) => {
+              editorRef.current.resetCursor();
+              if (content !== undefined) {
+                editorRef.current.insertNoteLink(content);
+              }
+              window[callback] = undefined;
+            };
+            //
+            postMessage({
+              event: 'insertNoteLink',
+              callback,
+            });
+            timer = null;
+          }, 500);
+        } else {
+          editorRef.current.insertNoteLink();
+        }
+      }
+      addExecuteEditorCommandListener(editorRef.current, insertImage, insertNoteLink);
       editorRef.current.on('muya-image-selector', ({ imageInfo }) => insertImage(imageInfo));
     });
     //
@@ -207,10 +233,19 @@ function App() {
       };
       postMessage(JSON.stringify(messageData));
     }
+
+    function onNoteLink({ href: title }) {
+      postMessage({
+        event: 'noteLink',
+        title,
+      });
+    }
     //
     document.body.addEventListener('keydown', handleKeyDown);
+    editorRef.current.on('muya-note-link', onNoteLink);
     return () => {
       document.body.removeEventListener('keydown', handleKeyDown);
+      editorRef.current.off('muya-note-link', onNoteLink);
     };
   }, []);
   //

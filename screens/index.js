@@ -12,4 +12,5 @@ export function registerScreens() {
   Navigation.registerComponent('PadMainScreen', () => require('./PadMainScreen').default);
   Navigation.registerComponent('UpgradeToVipScreen', () => require('./UpgradeToVipScreen').default);
   Navigation.registerComponent('ViewLogsScreen', () => require('./ViewLogsScreen').default);
+  Navigation.registerComponent('NoteLinksScreen', () => require('./NoteLinksScreen').default);
 }

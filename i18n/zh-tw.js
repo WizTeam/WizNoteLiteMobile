@@ -94,4 +94,6 @@ export default {
   messagePurchaseSucceeded: '購買成功',
 
   titleSelectImage: 'Select Images',
+  selectLinkedTitle: '選擇筆記',
+  selectLinkedSubtitle: '支持輸入標題篩選',
 };
