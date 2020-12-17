@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n-js';
-import { filter } from 'fuzzaldrin';
+import { filter, match } from 'fuzzaldrin';
 
 import { useDynamicValue } from 'react-native-dynamic';
 import { Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { Navigation } from '../thirdparty/react-native-navigation';
-import { getDeviceDynamicColor, createDeviceDynamicStyles } from '../config/Colors';
+import Colors, { getDeviceDynamicColor, createDeviceDynamicStyles } from '../config/Colors';
 import store from '../data_store';
 import api from '../api';
 import Icon from '../components/icon';
@@ -17,9 +17,45 @@ export default function NoteLinks(props) {
   const [allTitle, setAllTitle] = useState([]);
   const [searchText, setSearchText] = useState('');
 
+  function highlightTextView(title) {
+    const res = match(title, searchText);
+    if (res && res.length) {
+      const positionArr = [];
+      let pre = res[0];
+      for (let i = 1; i < res.length; i++) {
+        if (res[i] - res[i - 1] !== 1) {
+          positionArr.push([pre, res[i - 1] + 1]);
+          pre = res[i];
+        }
+      }
+      positionArr.push([pre, res[res.length - 1] + 1]);
+      return (
+        <Text numberOfLines={1} ellipsizeMode="tail" style={styles.selectItemText}>
+          {positionArr.reduce((prev, curr, index) => {
+            if (index === 0) {
+              prev.push(title.substring(0, curr[0]));
+            } else {
+              prev.push(title.substring(positionArr[index - 1][1], curr[0]));
+            }
+            prev.push(
+              <Text style={styles.highlightStyle}>{title.substring(curr[0], curr[1])}</Text>,
+            );
+            if (index === positionArr.length - 1) {
+              prev.push(title.substring(curr[1]));
+            }
+            return prev;
+          }, [])}
+        </Text>
+      );
+    }
+    return (<Text numberOfLines={1} ellipsizeMode="tail" style={styles.selectItemText}>{title}</Text>);
+  }
+
   function handleSearchChange(text) {
     setSearchText(text);
-    setAllTitle(filter(allData, text));
+    // console.log('text', text);
+    const titleList = text ? filter(allData, text) : allData;
+    setAllTitle(titleList);
   }
 
   function handleClose(title) {
@@ -71,7 +107,7 @@ export default function NoteLinks(props) {
             onPress={() => handleClose(item)}
           >
             <Icon color="#448aff" name="note" size={30} />
-            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.selectItemText}>{item}</Text>
+            {highlightTextView(item)}
           </TouchableOpacity>
         ))}
 
@@ -103,5 +139,8 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
     color: getDeviceDynamicColor('noteListTitle'),
     fontSize: 18,
     marginLeft: 10,
+  },
+  highlightStyle: {
+    color: Colors.primary,
   },
 }));
