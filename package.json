@@ -67,7 +67,7 @@
     "url": "^0.11.0",
     "use-state-with-callback": "^2.0.2",
     "uuid": "^8.3.0",
-    "wiznote-sdk-js": "^1.2.10",
+    "wiznote-sdk-js": "^1.2.11",
     "wiznote-sdk-js-share": "^1.0.4",
     "xregexp": "^4.3.0"
   },
