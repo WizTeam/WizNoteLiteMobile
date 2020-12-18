@@ -9,7 +9,9 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "icon": "iconfont-rn"
+    "icon": "iconfont-rn",
+    "preBuild": "cd web_editor && rm node_modules/wiz-react-markdown-editor -rf && npm i && npm run build && cp -rf build ../assets/resources",
+    "buildAndroid": "npm i && npm run preBuild && cd android && pwd && ./gradlew assembleRelease"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.11.0",
