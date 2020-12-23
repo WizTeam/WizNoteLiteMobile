@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Dimensions, Platform } from 'react-native';
+import { View, Dimensions, Platform } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
 import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneLayout';
@@ -12,6 +12,7 @@ import { getDeviceDynamicColor, getDeviceColor } from '../config/Colors';
 import api from '../api';
 import RootView from '../components/RootView';
 import EditorToolBar from '../components/EditorToolbar';
+import { showPrivacyPolicy } from '../services/privacy_policy';
 
 const useForceUpdate = () => useState()[1];
 
@@ -106,6 +107,10 @@ const PadMainScreen: () => React$Node = () => {
   //
   const forceUpdate = useForceUpdate();
   //
+  useEffect(() => {
+    showPrivacyPolicy();
+  }, []);
+
   //
   return (
     <ColorSchemeProvider>
@@ -124,14 +129,16 @@ const PadMainScreen: () => React$Node = () => {
             />
           )}
           pane3={(
-            <NoteEditor
-              containerStyle={styles.editorContainer}
-              editorStyle={editorStyle}
-              onBeginEditing={handleBeginEditing}
-              onEndEditing={handleEndEditing}
-              onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
-              ref={editorRef}
-            />
+            <View style={styles.editorContainer}>
+              <NoteEditor
+                containerStyle={styles.editorContainer}
+                editorStyle={editorStyle}
+                onBeginEditing={handleBeginEditing}
+                onEndEditing={handleEndEditing}
+                onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
+                ref={editorRef}
+              />
+            </View>
           )}
         />
         <EditorToolBar ref={toolbarRef} />
@@ -201,6 +208,17 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   searchBarInputContainerStyle: {
     backgroundColor: getDeviceDynamicColor('searchBarBackground'),
+  },
+  toolbarBlock: {
+    position: 'absolute',
+    right: 30,
+    top: 30,
+    zIndex: 99,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  toolbarBlockBtn: {
+    marginLeft: 30,
   },
 });
 

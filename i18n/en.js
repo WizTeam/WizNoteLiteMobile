@@ -21,6 +21,10 @@ export default {
   errorVipExpiredSync: 'The VIP service has expired, so the notes can not be uploaded.',
   errorUpgradeVipSync: 'The free trial period has ended, so the notes can not be uploaded.',
   //
+  alertPrivacy: 'Before continue using WizNoteLite products and services we recommended that you review our https://wiz.cn/pages/go?blogName=wiz-privacy&lang=zh-cn. By continuing to use our products and service, you agree to the Privacy and Policy applied to you.',
+  privacyAccept: 'Accept',
+  privacyDecline: 'Decline',
+  //
   errorDisableRegister: 'The registration has been disabled.',
   errorMaxTimesForIP: 'You were logging in too frequently at this IP address, please retry later...',
   errorFrequentOverflow: 'Refreshing too frequently, please take a break and try again.',
@@ -89,4 +93,7 @@ export default {
   buttonPurchasing: 'Purchasing...',
 
   titleSelectImage: 'Select Images',
+
+  selectLinkedTitle: 'Note selection',
+  selectLinkedSubtitle: 'Support input Title Filtering',
 };

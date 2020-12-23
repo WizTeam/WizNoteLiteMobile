@@ -21,6 +21,10 @@ export default {
   errorVipExpiredSync: 'VIP服务已到期，无法上传笔记。',
   errorUpgradeVipSync: '试用期已结束，无法上传笔记。',
   //
+  alertPrivacy: '为了更好地为您提供服务，在继续使用 WizNoteLite 之前，请阅读我们的 https://wiz.cn/pages/go?blogName=wiz-privacy&lang=zh-cn',
+  privacyAccept: '接受',
+  privacyDecline: '拒绝',
+  //
   // error
   errorDisableRegister: '注册已禁用',
   errorMaxTimesForIP: '您当前的 IP 注册次数过多，请稍后再试...',
@@ -90,4 +94,8 @@ export default {
   buttonPurchasing: '正在购买...',
 
   titleSelectImage: 'Select Images',
+
+  selectLinkedTitle: '选择笔记',
+  selectLinkedSubtitle: '支持输入标题筛选',
+
 };

@@ -5,10 +5,11 @@ import ImageResizer from 'react-native-image-resizer';
 import i18n from 'i18n-js';
 
 import { getResourceBaseUrl } from '../services/resources_loader';
-import { KEYS, connect } from '../data_store';
+import store, { KEYS, connect } from '../data_store';
 import api from '../api';
 import app from '../wrapper/app';
 import fs from '../wrapper/fs';
+import { openNoteLinksScreen } from '../services/navigation';
 import { isTablet, setKeyboardHeight } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing, setFocus } from './WizSingletonWebView';
 import { TOOLBAR_HEIGHT } from './EditorToolbar';
@@ -301,6 +302,28 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
   }
 
+  async function openNote(content) {
+    const title = content.trim();
+    if (title) {
+      const kbGuid = store.getCurrentKb();
+      const list = await api.searchNotesForTitle(kbGuid, title);
+      if (!list?.length) {
+        console.log('createNote');
+        const note = await api.createNote(kbGuid, { type: 'lite/markdown', markdown: `# ${title}` });
+        store.setCurrentNote(note);
+        loadNote(note, false);
+        if (store.getSelectedType() !== '#allNotes') {
+          store.setSelectedType('#allNotes');
+        }
+      // } else if (list.length === 1) {
+      //   this.handler.handleSelectNote(list[0].guid);
+      } else {
+        store.setCurrentNote(list[0]);
+        loadNote(list[0], false);
+      }
+    }
+  }
+
   function handleMessage({ nativeEvent }) {
     const data = JSON.parse(nativeEvent.body);
     const name = data.event;
@@ -312,6 +335,12 @@ const NoteEditor = React.forwardRef((props, ref) => {
       props.onChangeSelection(data);
     } else if (name === 'insertImage') {
       handleInsertImage(data.callback);
+    } else if (name === 'insertNoteLink') {
+      openNoteLinksScreen({
+        onSelect: (content) => injectJavaScript(`window.${data.callback}(${content === undefined ? content : `'${content}'`});true;`),
+      });
+    } else if (name === 'noteLink') {
+      openNote(data.title);
     }
   }
 

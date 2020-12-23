@@ -2,6 +2,7 @@ import React, { useRef, useImperativeHandle, useState } from 'react';
 import { Animated, TouchableOpacity, ScrollView, View, Platform } from 'react-native';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 import { getDynamicColor, getColor } from '../config/Colors';
+import { isTablet } from '../utils/device';
 import Icon from './icon';
 
 export const TOOLBAR_HEIGHT = 40;
@@ -12,6 +13,10 @@ const BaseBtnList = [
   {
     type: 'header',
     iconName: 'title',
+  },
+  {
+    type: 'noteLink',
+    iconName: 'note',
   },
   {
     type: 'tag',
@@ -76,6 +81,17 @@ const BaseBtnList = [
   {
     type: 'unindent',
     iconName: 'unindent',
+  },
+];
+
+const ipadEditList = [
+  {
+    type: 'undo',
+    iconName: 'revoke',
+  },
+  {
+    type: 'redo',
+    iconName: 'redo',
   },
 ];
 
@@ -197,15 +213,17 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     <Animated.View style={[styles.root, topStyle]}>
       <ScrollView style={styles.scroll} horizontal>
         <View style={styles.container}>
-          {(isCursorInTable ? TableBtnList : BaseBtnList).map((item) => (
-            <TouchableOpacity
-              onPress={() => handleExecuteCommand(item.type)}
-              key={item.type}
-              style={styles.iconBtn}
-            >
-              <Icon name={item.iconName} size={TOOLBAR_ICON_SIZE} color={getColor('toolbarIconColor')} />
-            </TouchableOpacity>
-          ))}
+          {(isTablet() ? ipadEditList : [])
+            .concat(isCursorInTable ? TableBtnList : BaseBtnList)
+            .map((item) => (
+              <TouchableOpacity
+                onPress={() => handleExecuteCommand(item.type)}
+                key={item.type}
+                style={styles.iconBtn}
+              >
+                <Icon name={item.iconName} size={TOOLBAR_ICON_SIZE} color={getColor('toolbarIconColor')} />
+              </TouchableOpacity>
+            ))}
         </View>
       </ScrollView>
     </Animated.View>

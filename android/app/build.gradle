@@ -133,8 +133,8 @@ android {
         applicationId "cn.wiz.lite"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 200000
-        versionName "2.0.0"
+        versionCode 201010
+        versionName "2.1.1"
     }
     splits {
         abi {

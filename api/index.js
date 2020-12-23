@@ -250,6 +250,22 @@ class Api extends EventEmitter {
     return notes;
   }
 
+  async searchNotesForTitle(kbGuid, title) {
+    const notes = await sdk.queryNotes(
+      this.userGuid,
+      kbGuid,
+      0,
+      10000,
+      { title, analysisTags: true },
+    );
+    return notes;
+  }
+
+  async searchAllNotesTitle(kbGuid) {
+    const titles = await sdk.getAllTitles(this.userGuid, kbGuid);
+    return titles;
+  }
+
   get core() {
     return sdk.core;
   }

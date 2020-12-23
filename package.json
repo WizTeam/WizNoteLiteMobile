@@ -9,7 +9,9 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "icon": "iconfont-rn"
+    "icon": "iconfont-rn",
+    "preBuild": "cd web_editor && rm node_modules/wiz-react-markdown-editor -rf && npm i && npm run build && cp -rf build ../assets/resources",
+    "buildAndroid": "npm i && npm run preBuild && cd android && pwd && ./gradlew assembleRelease"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.11.0",
@@ -18,6 +20,7 @@
     "axios": "^0.19.2",
     "base64-js": "^1.3.1",
     "events": "^3.2.0",
+    "fuzzaldrin": "^2.1.0",
     "i18n-js": "^3.7.1",
     "i18next": "^19.6.3",
     "image-type": "^4.1.0",
@@ -45,6 +48,7 @@
     "react-native-device-detection": "^0.2.1",
     "react-native-dynamic": "^1.0.0",
     "react-native-elements": "^2.2.0",
+    "react-native-exit-app": "^1.1.0",
     "react-native-fs": "^2.16.6",
     "react-native-get-random-values": "^1.4.0",
     "react-native-haptic-feedback": "^1.10.0",
@@ -63,9 +67,8 @@
     "url": "^0.11.0",
     "use-state-with-callback": "^2.0.2",
     "uuid": "^8.3.0",
-    "wiz-react-markdown-editor": "git+https://github.com/WizTeam/wiz-react-markdown-editor.git",
-    "wiznote-sdk-js": "^1.2.9",
-    "wiznote-sdk-js-share": "^1.0.2",
+    "wiznote-sdk-js": "^1.2.11",
+    "wiznote-sdk-js-share": "^1.0.4",
     "xregexp": "^4.3.0"
   },
   "devDependencies": {

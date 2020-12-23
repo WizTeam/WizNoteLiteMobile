@@ -13,6 +13,8 @@ target 'WizNoteLiteMobile' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RNExitApp', :path => '../node_modules/react-native-exit-app'
+
   target 'WizNoteLiteMobileTests' do
     inherit! :complete
     # Pods for testing
@@ -22,9 +24,9 @@ target 'WizNoteLiteMobile' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!
+  # use_flipper!
   post_install do |installer|
-    flipper_post_install(installer)
+    # flipper_post_install(installer)
 
     installer.pods_project.targets.each do |target|
       if target.name == "React-Core.common-AccessibilityResources"

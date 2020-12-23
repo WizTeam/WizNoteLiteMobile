@@ -21,6 +21,9 @@ export default {
   errorVipExpiredSync: 'VIP服務已到期，無法上傳筆記。',
   errorUpgradeVipSync: '試用期已結束，無法上傳筆記。',
   //
+  alertPrivacy: '為了更好地為您提供服務，在繼續使用 WizNoteLite 之前，請閱讀我們的 https://wiz.cn/pages/go?blogName=wiz-privacy&lang=zh-cn',
+  privacyAccept: '接受',
+  privacyDecline: '拒絕',
   // error
   errorDisableRegister: '註冊已被禁用',
   errorMaxTimesForIP: '您當前的 IP 註冊次數過多，請稍後再試...',
@@ -91,4 +94,6 @@ export default {
   messagePurchaseSucceeded: '購買成功',
 
   titleSelectImage: 'Select Images',
+  selectLinkedTitle: '選擇筆記',
+  selectLinkedSubtitle: '支持輸入標題篩選',
 };
