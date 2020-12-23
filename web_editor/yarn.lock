@@ -6038,9 +6038,9 @@ inherits@2.0.3:
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
 ini@^1.3.5:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
-  integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
+  integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
 inquirer@7.0.4:
   version "7.0.4"
@@ -12061,10 +12061,10 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
-"wiz-react-markdown-editor@git+https://github.com/WizTeam/wiz-react-markdown-editor.git":
-  version "0.0.1"
-  uid a6c1e0e2db0233142829131def0301dfebd37dd0
-  resolved "git+https://github.com/WizTeam/wiz-react-markdown-editor.git#a6c1e0e2db0233142829131def0301dfebd37dd0"
+wiz-react-markdown-editor@^0.5.34:
+  version "0.5.34"
+  resolved "https://registry.yarnpkg.com/wiz-react-markdown-editor/-/wiz-react-markdown-editor-0.5.34.tgz#104c635003a81dab83c8c22c94192aa5ebf7d1da"
+  integrity sha512-Y7bOYORNuM9xQm53Yxq2MX0nle5HoWI5aJnXicoFeaok4IsnVMhcnmBUKF6DN59x3M2W0q8Z1yCdlzj4RcnRVw==
   dependencies:
     classnames "^2.2.6"
     domino "^2.1.6"
