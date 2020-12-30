@@ -15,6 +15,7 @@ import dataStore from '../data_store';
 import api from '../api';
 import EditorToolBar from '../components/EditorToolbar';
 import { isAndroid, isIos } from '../utils/device';
+import { showDrawer } from '../components/NoteInfoDrawer';
 
 const ViewNoteScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles.styles);
@@ -81,17 +82,20 @@ const ViewNoteScreen: () => React$Node = (props) => {
   }
 
   useEffect(() => {
-    const listener = Navigation.events().registerNavigationButtonPressedListener(({ buttonId }) => {
-      if (buttonId === 'DoneButton') {
-        Navigation.dismissModal(props.componentId);
-      }
-      if (buttonId === 'redo') {
-        editorRef.current.executeCommand('redo');
-      }
-      if (buttonId === 'revoke') {
-        editorRef.current.executeCommand('undo');
-      }
-    });
+    const listener = Navigation.events().registerNavigationButtonPressedListener(
+      async ({ buttonId }) => {
+        if (buttonId === 'DoneButton') {
+          Navigation.dismissModal(props.componentId);
+        } else if (buttonId === 'redo') {
+          editorRef.current.executeCommand('redo');
+        } else if (buttonId === 'revoke') {
+          editorRef.current.executeCommand('undo');
+        } else if (buttonId === 'noteInfoDrawer') {
+          const toc = await getTOC();
+          showDrawer(props.componentId, toc, noteScrollByKey);
+        }
+      },
+    );
     return () => listener.remove();
   }, []);
 
@@ -125,6 +129,11 @@ const ViewNoteScreen: () => React$Node = (props) => {
       topBar: {
         rightButtons: [
           {
+            id: 'noteInfoDrawer',
+            // eslint-disable-next-line import/no-unresolved
+            icon: require('../images/icons/menu.png'),
+          },
+          {
             id: 'redo',
             // eslint-disable-next-line import/no-unresolved
             icon: require('../images/icons/redo.png'),
@@ -143,7 +152,13 @@ const ViewNoteScreen: () => React$Node = (props) => {
     toolbarRef.current.hide(true, animationDuration);
     Navigation.mergeOptions(props.componentId, {
       topBar: {
-        rightButtons: [],
+        rightButtons: [
+          {
+            id: 'noteInfoDrawer',
+            // eslint-disable-next-line import/no-unresolved
+            icon: require('../images/icons/menu.png'),
+          },
+        ],
       },
     });
   }
@@ -158,6 +173,41 @@ const ViewNoteScreen: () => React$Node = (props) => {
         },
       },
     });
+  }
+
+  async function getTOC() {
+    const toc = await editorRef.current.injectJavaScript('window.getNoteToc()');
+    if (toc) {
+      const list = toc.map((item) => ({
+        ...item,
+        name: item.content,
+        key: item.slug,
+        children: [],
+        open: true,
+      }));
+
+      const result = [];
+      const parent = new Map();
+      let last = null;
+
+      parent.set(last, { lvl: 0, children: result });
+
+      list.forEach((item) => {
+        while (!last || item.lvl <= last.lvl) {
+          last = parent.get(last);
+        }
+        last.children.push(item);
+        parent.set(item, last);
+        last = item;
+      });
+
+      return result;
+    }
+    return [];
+  }
+
+  async function noteScrollByKey(key) {
+    await editorRef.current.injectJavaScript(`window.noteScrollByKey('${key}')`);
   }
 
   useEffect(() => {
@@ -221,6 +271,11 @@ ViewNoteScreen.options = {
     noBorder: true,
     title: {
     },
+    rightButtons: [{
+      id: 'noteInfoDrawer',
+      // eslint-disable-next-line import/no-unresolved
+      icon: require('../images/icons/menu.png'),
+    }],
   },
   bottomTabs: {
     visible: false,
