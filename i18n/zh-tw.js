@@ -102,7 +102,7 @@ export default {
   editorLinkLabel: '本文中的引用',
   editorLinkInfo: '當前筆記中關聯的鏈接',
   editorLinkedLabel: '引用本文的筆記',
-  editorLinkedInfo: '在正文中關聯 [[{currentTitle}]] 的筆記',
+  editorLinkedInfo: '在正文中關聯 [[%{currentTitle}]] 的筆記',
   editorLinkedNull: '(無)',
 
 };

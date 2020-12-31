@@ -102,7 +102,7 @@ export default {
   editorLinkLabel: 'References in this article',
   editorLinkInfo: 'Associated links in the current note',
   editorLinkedLabel: 'Quote notes from this article',
-  editorLinkedInfo: 'Associate the notes of [[{currentTitle}]] in the text',
+  editorLinkedInfo: 'Associate the notes of [[%{currentTitle}]] in the text',
   editorLinkedNull: '(no linked)',
 
 };

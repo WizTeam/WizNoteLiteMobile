@@ -29,6 +29,10 @@ const light = {
   upgradeButtonColor: '#ffffff',
   toolbarBackground: '#d7d8da',
   toolbarIconColor: '#333333',
+  tabBtnBackground: '#fff',
+  tabBtnActiveBackground: '#333',
+  tabBtnColor: 'rgba(68, 138, 255, 0.9)',
+  linkSubtitleColor: '#d7d8da',
   //
   phone: {
     rootBackground: 'white',
@@ -41,9 +45,6 @@ const light = {
     noteBackground: 'white',
     drawerBackground: '#f0f0f0',
     searchBarBackground: '#d8d8d8',
-    tabBtnBackground: '#fff',
-    tabBtnActiveBackground: '#333',
-    tabBtnColor: 'rgba(68, 138, 255, 0.9)',
   },
   pad: {
     rootBackground: '#f0f0f0',
@@ -84,6 +85,10 @@ const dark = merge({}, light, {
   upgradeButtonColor: '#333333',
   toolbarBackground: '#121212',
   toolbarIconColor: '#f0f0f0',
+  tabBtnBackground: '#ddd',
+  tabBtnActiveBackground: '#f0f0f0',
+  tabBtnColor: 'rgba(68, 138, 255, 0.9)',
+  linkSubtitleColor: '#aaaaaa',
 
   phone: {
     rootBackground: '#2a2a2a',
@@ -96,9 +101,6 @@ const dark = merge({}, light, {
     noteBackground: '#2a2a2a',
     drawerBackground: '#333333',
     searchBarBackground: '#404040',
-    tabBtnBackground: '#ddd',
-    tabBtnActiveBackground: '#f0f0f0',
-    tabBtnColor: 'rgba(68, 138, 255, 0.9)',
   },
   pad: {
     rootBackground: '#2a2a2a',

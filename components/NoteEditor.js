@@ -13,6 +13,8 @@ import { openNoteLinksScreen } from '../services/navigation';
 import { isTablet, setKeyboardHeight } from '../utils/device';
 import WizSingletonWebView, { addWebViewEventHandler, injectJavaScript, endEditing, setFocus } from './WizSingletonWebView';
 import { TOOLBAR_HEIGHT } from './EditorToolbar';
+import { Navigation } from '../thirdparty/react-native-navigation';
+import { showDrawer } from './NoteInfoDrawer';
 
 addWebViewEventHandler('onMessage', async (eventBody) => {
   const data = JSON.parse(eventBody);
@@ -303,24 +305,31 @@ const NoteEditor = React.forwardRef((props, ref) => {
   }
 
   async function openNote(content) {
-    const title = content.trim();
-    if (title) {
-      const kbGuid = store.getCurrentKb();
-      const list = await api.searchNotesForTitle(kbGuid, title);
-      if (!list?.length) {
-        console.log('createNote');
-        const note = await api.createNote(kbGuid, { type: 'lite/markdown', markdown: `# ${title}` });
-        store.setCurrentNote(note);
-        loadNote(note, false);
-        if (store.getSelectedType() !== '#allNotes') {
-          store.setSelectedType('#allNotes');
+    if (typeof content === 'string') {
+      const title = content.trim();
+      if (title) {
+        const kbGuid = store.getCurrentKb();
+        const list = await api.searchNotesForTitle(kbGuid, title);
+        if (!list?.length) {
+          console.log('createNote');
+          const note = await api.createNote(kbGuid, { type: 'lite/markdown', markdown: `# ${title}` });
+          store.setCurrentNote(note);
+          loadNote(note, false);
+          if (store.getSelectedType() !== '#allNotes') {
+            store.setSelectedType('#allNotes');
+          }
+        // } else if (list.length === 1) {
+        //   this.handler.handleSelectNote(list[0].guid);
+        } else {
+          store.setCurrentNote(list[0]);
+          loadNote(list[0], false);
         }
-      // } else if (list.length === 1) {
-      //   this.handler.handleSelectNote(list[0].guid);
-      } else {
-        store.setCurrentNote(list[0]);
-        loadNote(list[0], false);
       }
+    } else if (content.guid) {
+      const kbGuid = store.getCurrentKb();
+      const note = await api.getNote(kbGuid, content.guid);
+      store.setCurrentNote(note);
+      loadNote(note, false);
     }
   }
 
@@ -352,6 +361,68 @@ const NoteEditor = React.forwardRef((props, ref) => {
       const isNewNote = now - (new Date(note.created).valueOf()) < 5000;
       loadNote(note, isNewNote);
     }
+  }, [note]);
+
+  async function getTOC() {
+    const toc = await injectJavaScript('window.getNoteToc()');
+    if (toc) {
+      const list = toc.map((item) => ({
+        ...item,
+        name: item.content,
+        key: item.slug,
+        id: item.slug,
+        children: [],
+        open: true,
+      }));
+
+      const result = [];
+      const parent = new Map();
+      let last = null;
+
+      parent.set(last, { lvl: 0, children: result });
+
+      list.forEach((item) => {
+        while (!last || item.lvl <= last.lvl) {
+          last = parent.get(last);
+        }
+        last.children.push(item);
+        parent.set(item, last);
+        last = item;
+      });
+      return result;
+    }
+    return [];
+  }
+
+  async function getLinkList() {
+    const list = await injectJavaScript('window.getNoteLinks()');
+    return list;
+  }
+
+  async function noteScrollByKey(key) {
+    await injectJavaScript(`window.noteScrollByKey('${key}')`);
+  }
+
+  useEffect(() => {
+    const listener = Navigation.events().registerNavigationButtonPressedListener(
+      async ({ buttonId }) => {
+        if (buttonId === 'noteInfoDrawer') {
+          const toc = await getTOC();
+          const linksList = await getLinkList();
+          const backwardLinkedNotes = await api.getBackwardLinkedNotes(note.kbGuid, note.title);
+          console.log('backwardLinkedNotes', backwardLinkedNotes);
+          showDrawer(props.componentId, {
+            toc,
+            noteScrollByKey,
+            linksList,
+            openNote,
+            noteTitle: note.title,
+            backwardLinkedNotes,
+          });
+        }
+      },
+    );
+    return () => listener.remove();
   }, [note]);
 
   return (

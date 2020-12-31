@@ -15,7 +15,6 @@ import dataStore from '../data_store';
 import api from '../api';
 import EditorToolBar from '../components/EditorToolbar';
 import { isAndroid, isIos } from '../utils/device';
-import { showDrawer } from '../components/NoteInfoDrawer';
 
 const ViewNoteScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles.styles);
@@ -90,9 +89,6 @@ const ViewNoteScreen: () => React$Node = (props) => {
           editorRef.current.executeCommand('redo');
         } else if (buttonId === 'revoke') {
           editorRef.current.executeCommand('undo');
-        } else if (buttonId === 'noteInfoDrawer') {
-          const toc = await getTOC();
-          showDrawer(props.componentId, toc, noteScrollByKey);
         }
       },
     );
@@ -173,41 +169,6 @@ const ViewNoteScreen: () => React$Node = (props) => {
         },
       },
     });
-  }
-
-  async function getTOC() {
-    const toc = await editorRef.current.injectJavaScript('window.getNoteToc()');
-    if (toc) {
-      const list = toc.map((item) => ({
-        ...item,
-        name: item.content,
-        key: item.slug,
-        children: [],
-        open: true,
-      }));
-
-      const result = [];
-      const parent = new Map();
-      let last = null;
-
-      parent.set(last, { lvl: 0, children: result });
-
-      list.forEach((item) => {
-        while (!last || item.lvl <= last.lvl) {
-          last = parent.get(last);
-        }
-        last.children.push(item);
-        parent.set(item, last);
-        last = item;
-      });
-
-      return result;
-    }
-    return [];
-  }
-
-  async function noteScrollByKey(key) {
-    await editorRef.current.injectJavaScript(`window.noteScrollByKey('${key}')`);
   }
 
   useEffect(() => {

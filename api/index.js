@@ -266,6 +266,11 @@ class Api extends EventEmitter {
     return titles;
   }
 
+  async getBackwardLinkedNotes(kbGuid, title) {
+    const res = await sdk.getBackwardLinkedNotes(this.userGuid, kbGuid, title);
+    return res;
+  }
+
   get core() {
     return sdk.core;
   }

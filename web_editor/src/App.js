@@ -169,6 +169,8 @@ function App() {
 
     window.getNoteToc = () => editorRef.current.getTOC();
 
+    window.getNoteLinks = () => editorRef.current.getNoteLinks();
+
     window.noteScrollByKey = (key) => {
       const element = document.querySelector(`#${key}`);
       element.scrollIntoView({
