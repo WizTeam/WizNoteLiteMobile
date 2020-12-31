@@ -32,7 +32,7 @@ const light = {
   tabBtnBackground: '#fff',
   tabBtnActiveBackground: '#333',
   tabBtnColor: 'rgba(68, 138, 255, 0.9)',
-  linkSubtitleColor: '#d7d8da',
+  linkSubtitleColor: '#666',
   //
   phone: {
     rootBackground: 'white',

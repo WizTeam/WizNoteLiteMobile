@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Dimensions, Platform } from 'react-native';
+import { View, Dimensions, Platform, Image, Text, Animated } from 'react-native';
 import { ColorSchemeProvider, useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import TriplePaneLayout, { STATE as OPEN_STATE } from '../components/TriplePaneLayout';
 import { gestureHandlerRootHOC } from '../thirdparty/react-native-gesture-handler';
 import MainDrawer from '../components/MainDrawer';
@@ -130,6 +131,7 @@ const PadMainScreen: () => React$Node = () => {
           )}
           pane3={(
             <View style={styles.editorContainer}>
+
               <NoteEditor
                 containerStyle={styles.editorContainer}
                 editorStyle={editorStyle}
@@ -142,6 +144,16 @@ const PadMainScreen: () => React$Node = () => {
           )}
         />
         <EditorToolBar ref={toolbarRef} />
+        <Animated.View style={styles.noteInfoBtnContainer}>
+
+          <TouchableOpacity
+            style={styles.noteInfoBtn}
+            onPress={editorRef.current?.openNoteInfoDrawer}
+          >
+            {/* eslint-disable-next-line import/no-unresolved */}
+            <Image source={require('../images/icons/menu.png')} />
+          </TouchableOpacity>
+        </Animated.View>
       </RootView>
     </ColorSchemeProvider>
   );
@@ -219,6 +231,17 @@ const dynamicStyles = new DynamicStyleSheet({
   },
   toolbarBlockBtn: {
     marginLeft: 30,
+  },
+  noteInfoBtnContainer: {
+    position: 'absolute',
+    top: 30,
+    right: 30,
+    width: 30,
+    height: 30,
+  },
+  noteInfoBtn: {
+    width: 30,
+    height: 30,
   },
 });
 

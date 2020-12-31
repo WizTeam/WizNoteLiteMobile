@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useImperativeHandle } from 'react';
+import React, { useEffect, useRef, useImperativeHandle, useCallback } from 'react';
 import { View, Linking } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
@@ -130,6 +130,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
         return false;
       }
     },
+    openNoteInfoDrawer,
   }));
   //
   // 清空编辑器，可以强制进行保存
@@ -402,28 +403,31 @@ const NoteEditor = React.forwardRef((props, ref) => {
   async function noteScrollByKey(key) {
     await injectJavaScript(`window.noteScrollByKey('${key}')`);
   }
+  const openNoteInfoDrawer = useCallback(async () => {
+    const toc = await getTOC();
+    const linksList = await getLinkList();
+    const backwardLinkedNotes = await api.getBackwardLinkedNotes(note.kbGuid, note.title);
+    console.log('backwardLinkedNotes', backwardLinkedNotes);
+    showDrawer(props.componentId, {
+      toc,
+      noteScrollByKey,
+      linksList,
+      openNote,
+      noteTitle: note.title,
+      backwardLinkedNotes,
+    });
+  }, [note]);
 
   useEffect(() => {
     const listener = Navigation.events().registerNavigationButtonPressedListener(
       async ({ buttonId }) => {
         if (buttonId === 'noteInfoDrawer') {
-          const toc = await getTOC();
-          const linksList = await getLinkList();
-          const backwardLinkedNotes = await api.getBackwardLinkedNotes(note.kbGuid, note.title);
-          console.log('backwardLinkedNotes', backwardLinkedNotes);
-          showDrawer(props.componentId, {
-            toc,
-            noteScrollByKey,
-            linksList,
-            openNote,
-            noteTitle: note.title,
-            backwardLinkedNotes,
-          });
+          openNoteInfoDrawer();
         }
       },
     );
     return () => listener.remove();
-  }, [note]);
+  }, [openNoteInfoDrawer]);
 
   return (
     <View style={props.containerStyle}>

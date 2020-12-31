@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, Text, View, ScrollView } from 'react-native';
 import { ButtonGroup, ListItem } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { useDynamicValue } from 'react-native-dynamic';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extension';
 import { getDeviceColor, createDeviceDynamicStyles, getDeviceDynamicColor, getDynamicColor } from '../config/Colors';
+import { isTablet } from '../utils/device';
 import TreeView from '../thirdparty/react-native-final-tree-view';
 
 const dynamicStyles = createDeviceDynamicStyles(() => ({
@@ -49,9 +50,6 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
     paddingLeft: 16,
     color: getDeviceDynamicColor('drawerItemTitle'),
   },
-  itemTabletButton: {
-    color: '#ffffff',
-  },
   treeItemTitleStyle: {
     paddingTop: 0,
     paddingBottom: 0,
@@ -86,18 +84,14 @@ export function NoteInfoDrawer(Props) {
   const styles = useDynamicValue(dynamicStyles.styles);
 
   function handleRenderExpandButton({ isExpanded, hasChildrenNodes, isSelected }) {
-    let style = styles.itemButton;
-    if (isSelected) {
-      style = [styles.itemButton, styles.itemTabletButton];
-    }
     //
     if (!hasChildrenNodes) {
       return null;
     } else if (isExpanded) {
-      return <Icon name="keyboard-arrow-down" size={24} style={style} />;
+      return <Icon name="keyboard-arrow-down" size={24} style={styles.itemButton} />;
     }
 
-    return <Icon name="keyboard-arrow-right" size={24} style={style} />;
+    return <Icon name="keyboard-arrow-right" size={24} style={styles.itemButton} />;
   }
 
   function handleClickTreeItem({ node }) {
@@ -138,7 +132,7 @@ export function NoteInfoDrawer(Props) {
               onPress={() => setLinkListOpen((open) => !open)}
               underlayColor={getDeviceColor('drawerBackground')}
             >
-              {linkListOpen ? <Icon name="keyboard-arrow-down" size={24} style={[styles.itemButton, styles.itemTabletButton]} /> : <Icon name="keyboard-arrow-right" size={24} style={[styles.itemButton, styles.itemTabletButton]} />}
+              {linkListOpen ? <Icon name="keyboard-arrow-down" size={24} style={styles.itemButton} /> : <Icon name="keyboard-arrow-right" size={24} style={styles.itemButton} />}
               <ListItem.Content style={styles.treeItemContentContainerStyle}>
                 <ListItem.Title style={styles.treeItemTitleStyle}>
                   {i18n.t('editorLinkLabel')}
@@ -241,7 +235,7 @@ export function showDrawer(parentComponentId, Props) {
         direction: 'right',
         dismissWhenTouchOutside: true,
         fadeOpacity: 0,
-        drawerScreenWidth: '80%' || 445, // Use relative to screen '%' or absolute
+        drawerScreenWidth: isTablet() ? 445 : ('80%' || 445), // Use relative to screen '%' or absolute
         drawerScreenHeight: '100%' || 700,
         style: { // Styles the drawer container, supports any react-native style
           backgroundColor: getDeviceColor('drawerBackground'),
