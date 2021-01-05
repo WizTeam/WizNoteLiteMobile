@@ -91,6 +91,10 @@ class Api extends EventEmitter {
     return `${server}/as/user/avatar/${userGuid}?version=${version}`;
   }
 
+  get userToken() {
+    return this._user.token;
+  }
+
   get purchaseUrl() {
     if (!this._user) {
       return null;
@@ -269,6 +273,36 @@ class Api extends EventEmitter {
   async getBackwardLinkedNotes(kbGuid, title) {
     const res = await sdk.getBackwardLinkedNotes(this.userGuid, kbGuid, title);
     return res;
+  }
+
+  updateUserDisplayName(displayName) {
+    const userData = sdk.getUserData(this.userGuid) ?? {};
+    const server = userData.accountServer.server;
+
+    return this.core.request.standardRequest({
+      url: `${server}/as/users/update_info`,
+      token: this.userToken,
+      data: {
+        displayName,
+      },
+      method: 'PUT',
+    });
+  }
+
+  async changeAccount(password, userId, newUserId) {
+    const userData = sdk.getUserData(this.userGuid) ?? {};
+    const server = userData.accountServer.server;
+
+    return this.core.request.standardRequest({
+      url: `${server}/as/users/change_account`,
+      token: this.userToken,
+      data: {
+        userId,
+        newUserId,
+        password,
+      },
+      method: 'POST',
+    });
   }
 
   get core() {

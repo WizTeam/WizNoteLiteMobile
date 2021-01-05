@@ -1,13 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import i18n from 'i18n-js';
-import { Avatar, Icon, Button } from 'react-native-elements';
+import { Avatar, Button } from 'react-native-elements';
 import { useDynamicValue, DynamicStyleSheet } from 'react-native-dynamic';
 
-import { Dropdown } from '../thirdparty/react-native-material-dropdown';
-import dataStore, { KEYS, connect } from '../data_store';
-import { setLoginAsRoot, closeDrawer } from '../services/navigation';
+import { KEYS, connect } from '../data_store';
 import { getDynamicColor } from '../config/Colors';
+
 import api from '../api';
 
 const UserButton: () => React$Node = (props) => {
@@ -34,7 +33,7 @@ const UserButton: () => React$Node = (props) => {
     const avatarUrl = api.avatarUrl;
     const name = api.displayName;
     return (
-      <View style={styles.userActionDropdownBase}>
+      <TouchableOpacity style={styles.userActionDropdownBase} onPress={props.onSetting}>
         <Avatar
           rounded
           source={{
@@ -43,22 +42,10 @@ const UserButton: () => React$Node = (props) => {
           title={name}
         />
         <Text type="clear" style={styles.userActionDropdownText}>{userInfo.displayName}</Text>
-        <Icon name="keyboard-arrow-down" color={styles.userActionDropdownIcon.color} />
-      </View>
+      </TouchableOpacity>
     );
   }
 
-  function handleUserAction(value) {
-    if (value === 'logout') {
-      setTimeout(() => {
-        dataStore.logout();
-        closeDrawer();
-        setTimeout(() => {
-          setLoginAsRoot();
-        }, 300);
-      }, 300);
-    }
-  }
   //
   return (
     <View style={[styles.container, props.style]}>
@@ -74,7 +61,7 @@ const UserButton: () => React$Node = (props) => {
           <Button type="clear" title={i18n.t('buttonLogin')} onPress={handleClick} />
         </View>
       )}
-      {!isLocalUser && (
+      {/* {!isLocalUser && (
         <Dropdown
           containerStyle={styles.userNameDropdown}
           itemContainerStyle={styles.dropdownItem}
@@ -89,7 +76,8 @@ const UserButton: () => React$Node = (props) => {
             left: 12,
           }}
         />
-      )}
+      )} */}
+      {!isLocalUser && handleRenderDropdownBase()}
 
     </View>
   );

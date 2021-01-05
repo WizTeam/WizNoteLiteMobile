@@ -12,6 +12,7 @@ export const KEYS = {
   SELECTED_TYPE: 'selectedType',
   CATEGORY_NOTES: 'categoryNotes',
   CURRENT_NOTE: 'currentNote',
+  USER_SETTING: 'userSetting',
   TAGS: 'tags',
 };
 
@@ -52,6 +53,19 @@ function handleModifyNote(kbGuid, note) {
 async function handleTagsChanged(kbGuid) {
   const tags = await getTags(kbGuid);
   store.setData(KEYS.TAGS, tags);
+}
+
+function getUserSetting() {
+  const EDITOR_DEFAULT_CONFIG = {
+    fontFamily: 'Open Sans',
+    fontSize: '16',
+    lineHeight: '1.8',
+    paragraphHeight: '20',
+  };
+  store.setData(KEYS.USER_SETTING, {
+    editorConfig: api.getUserSettings(api.userGuid, 'editorConfig', EDITOR_DEFAULT_CONFIG),
+    colorTheme: api.getUserSettings(api.userGuid, 'colorTheme', 'default'),
+  });
 }
 
 function handleApiEvents(userGuid, eventName, ...args) {
@@ -131,6 +145,8 @@ async function initUser() {
   //
   const tags = await getTags(kbGuid);
   store.setData(KEYS.TAGS, tags);
+  //
+  getUserSetting();
   //
   api.initEvents();
   api.registerListener(api.userGuid, handleApiEvents);

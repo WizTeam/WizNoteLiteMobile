@@ -77,6 +77,24 @@ export function setLoginAsRoot() {
   });
 }
 
+export async function openScreen(name, passProps) {
+  Navigation.showOverlay({
+    component: {
+      name,
+      passProps,
+      options: {
+        overlay: {
+          interceptTouchOutside: false,
+        },
+        layout: {
+          // componentBackgroundColor: 'transparent',
+          orientation: ['portrait'],
+        },
+      },
+    },
+  });
+}
+
 export function openNoteLinksScreen(options) {
   Navigation.showModal({
     stack: {

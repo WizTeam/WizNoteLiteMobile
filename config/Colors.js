@@ -33,6 +33,10 @@ const light = {
   tabBtnActiveBackground: '#333',
   tabBtnColor: 'rgba(68, 138, 255, 0.9)',
   linkSubtitleColor: '#666',
+  settingBackgroundColor: '#f2f2f7',
+  settingTitleColor: '#333',
+  settingFontColor: '#666',
+  settingMainColor: '#4089d6',
   //
   phone: {
     rootBackground: 'white',
@@ -88,7 +92,10 @@ const dark = merge({}, light, {
   tabBtnBackground: '#ddd',
   tabBtnActiveBackground: '#f0f0f0',
   tabBtnColor: 'rgba(68, 138, 255, 0.9)',
+  settingBackgroundColor: '#53565c',
   linkSubtitleColor: '#aaaaaa',
+  settingTitleColor: '#fff',
+  settingFontColor: '#aaa',
 
   phone: {
     rootBackground: '#2a2a2a',

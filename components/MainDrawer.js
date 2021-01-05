@@ -16,12 +16,12 @@ import { RNNDrawer } from '../thirdparty/react-native-navigation-drawer-extensio
 import api from '../api';
 import dataStore, { KEYS, connect } from '../data_store';
 import UserButton from './UserButton';
-import { setLoginAsRoot, showLoginDialog } from '../services/navigation';
+import { setLoginAsRoot, showLoginDialog, openScreen } from '../services/navigation';
 import Colors, { getDynamicColor, getDeviceDynamicColor, getDeviceColor, createDeviceDynamicStyles } from '../config/Colors';
 import NotesIcon from './svg/NotesIcon';
 import StarredIcon from './svg/StarredIcon';
 import TrashIcon from './svg/TrashIcon';
-import Header from '../components/Header';
+import Header from './Header';
 
 const MainDrawer: () => React$Node = (props) => {
   //
@@ -46,6 +46,11 @@ const MainDrawer: () => React$Node = (props) => {
         handleCloseDrawer();
       }, 100);
     }
+  }
+
+  function handleSetting() {
+    RNNDrawer.dismissDrawer();
+    openScreen('SettingScreen');
   }
 
   function handleViewUserInfo() {
@@ -274,6 +279,7 @@ const MainDrawer: () => React$Node = (props) => {
         <UserButton
           onLogin={handleLogin}
           onPressUser={handleViewUserInfo}
+          onSetting={handleSetting}
           style={styles.phoneLoginButton}
         />
       )}

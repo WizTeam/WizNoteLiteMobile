@@ -15,4 +15,6 @@ export function registerScreens() {
   Navigation.registerComponent('UpgradeToVipScreen', () => require('./UpgradeToVipScreen').default);
   Navigation.registerComponent('ViewLogsScreen', () => require('./ViewLogsScreen').default);
   Navigation.registerComponent('NoteLinksScreen', () => require('./NoteLinksScreen').default);
+  Navigation.registerComponent('SettingScreen', () => require('./settingScreen').default);
+  Navigation.registerComponent('AccountSettingScreen', () => require('./settingScreen/AccountSettingScreen').default);
 }
