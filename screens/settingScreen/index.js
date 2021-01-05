@@ -68,7 +68,7 @@ function SettingScreen(Props) {
             <Text style={styles.listValue}>{userInfo.email}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem>
+          <ListItem onPress={() => openScreen('ChangePasswordScreen')}>
             <ListItem.Content style={styles.listLabel}>
               <ListItem.Title>{i18n.t('settingLabelModifyPassword')}</ListItem.Title>
             </ListItem.Content>

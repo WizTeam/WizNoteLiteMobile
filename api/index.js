@@ -305,6 +305,21 @@ class Api extends EventEmitter {
     });
   }
 
+  async changePassword(newPwd, oldPwd) {
+    const userData = sdk.getUserData(this.userGuid) ?? {};
+    const server = userData.accountServer.server;
+
+    return this.core.request.standardRequest({
+      url: `${server}/as/users/change_pwd`,
+      token: this.userToken,
+      data: {
+        newPwd,
+        oldPwd,
+      },
+      method: 'POST',
+    });
+  }
+
   get core() {
     return sdk.core;
   }

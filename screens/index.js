@@ -17,4 +17,5 @@ export function registerScreens() {
   Navigation.registerComponent('NoteLinksScreen', () => require('./NoteLinksScreen').default);
   Navigation.registerComponent('SettingScreen', () => require('./settingScreen').default);
   Navigation.registerComponent('AccountSettingScreen', () => require('./settingScreen/AccountSettingScreen').default);
+  Navigation.registerComponent('ChangePasswordScreen', () => require('./settingScreen/ChangePasswordScreen').default);
 }
