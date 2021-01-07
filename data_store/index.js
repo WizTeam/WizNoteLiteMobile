@@ -68,6 +68,12 @@ function getUserSetting() {
   });
 }
 
+async function setUserSettings(key, value) {
+  await api.setUserSettings(api.userGuid, key, value);
+  const userSetting = store.getData(KEYS.USER_SETTING);
+  store.setData(KEYS.USER_SETTING, Object.assign({}, userSetting, { [key]: value }));
+}
+
 function handleApiEvents(userGuid, eventName, ...args) {
   if (userGuid !== api.userGuid) {
     console.log(`ignore event, not current user: sender is ${userGuid}, current is ${api.userGuid}`);
@@ -199,4 +205,5 @@ export default {
   resetCategoryNotes,
   //
   setSearchResult,
+  setUserSettings,
 };

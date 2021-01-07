@@ -144,6 +144,7 @@ export default {
   settingLabelLightMode: '亮色模式',
   settingLabelDarkMode: '暗色模式',
   settingLabelPreviewTheme: '主题预览',
+  settingLabelChooseTheme: '选择主题',
   settingLabelSettingEmail: '设置邮箱',
   settingLabelSettingEmailTip: '修改邮箱后，请使用新邮箱登录',
   settingLabelPassword: '密码',

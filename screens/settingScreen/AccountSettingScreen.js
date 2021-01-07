@@ -85,7 +85,7 @@ function AccountSettingScreen(Props) {
 
   const goBackBtn = (
     <TouchableOpacity onPress={() => {
-      Navigation.dismissOverlay(Props.componentId);
+      Navigation.pop(Props.componentId);
     }}
     >
       <Icon name="angleleft" color={getColor('settingTitleColor')} size={30} />

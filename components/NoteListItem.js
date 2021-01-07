@@ -7,6 +7,8 @@ import { EventEmitter } from 'events';
 import { getDeviceDynamicColor, createDeviceDynamicStyles } from '../config/Colors';
 import { formatDateString } from '../utils/date';
 import HighlightText from './HighlightText';
+import { KEYS, connect } from '../data_store';
+import { useThemeStyle } from '../hook/useThemeStyle';
 
 const starEventObject = new EventEmitter();
 starEventObject.setMaxListeners(10000);
@@ -17,7 +19,7 @@ export function updateNoteStar(kbGuid, noteGuid, starred) {
 
 const useForceUpdate = () => useState()[1];
 
-export default function NoteListItem(props) {
+function NoteListItem(props) {
   //
   const { onPressItem, note, selected, hideDivider } = props;
   const styles = useDynamicValue(dynamicStyles.styles);
@@ -60,13 +62,15 @@ export default function NoteListItem(props) {
       starEventObject.removeListener('updateNoteStar', updateStar);
     };
   }, []);
+
+  const { mainBackground } = useThemeStyle(props[KEYS.USER_SETTING]?.colorTheme);
   //
   return (
     <View>
       <ListItem
         onPress={() => onPressItem(note)}
         key={note.guid}
-        containerStyle={[styles.itemContainer, selected && styles.selected]}
+        containerStyle={[styles.itemContainer, mainBackground, selected && styles.selected]}
       >
         <ListItem.Content style={styles.itemContent}>
           <ListItem.Title numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
@@ -82,6 +86,10 @@ export default function NoteListItem(props) {
     </View>
   );
 }
+
+export default connect([
+  KEYS.USER_SETTING,
+])(NoteListItem);
 
 const dynamicStyles = createDeviceDynamicStyles(() => ({
   list: {

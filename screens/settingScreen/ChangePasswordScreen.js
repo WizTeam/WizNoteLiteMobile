@@ -1,5 +1,5 @@
 import { useDynamicValue } from 'react-native-dynamic';
-import { View, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { Header, Input, Button } from 'react-native-elements';
 import i18n from 'i18n-js';
@@ -70,7 +70,7 @@ export default function ChangePasswordScreen(Props) {
 
   const goBackBtn = (
     <TouchableOpacity onPress={() => {
-      Navigation.dismissOverlay(Props.componentId);
+      Navigation.pop(Props.componentId);
     }}
     >
       <Icon name="angleleft" color={getColor('settingTitleColor')} size={30} />

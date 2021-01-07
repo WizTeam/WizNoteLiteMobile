@@ -7,6 +7,9 @@ import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
 
 import './App.css';
 import { addExecuteEditorCommandListener } from './executeEditorCommand';
+import { injectionCssFormId } from './utils';
+
+const containerId = `wiz-note-content-root-${new Date().getTime()}`;
 
 const PhoneTheme = React.lazy(() => import('./PhoneTheme'));
 const PadTheme = React.lazy(() => import('./PadTheme'));
@@ -178,6 +181,12 @@ function App() {
       });
     };
 
+    window.checkTheme = (css) => {
+      const id = 'wiz-note-content-root';
+      const reg = new RegExp(id, 'g');
+      injectionCssFormId(containerId, css.replace(reg, containerId));
+    };
+
     //
     setTimeout(() => {
       function insertImage(imageInfo) {
@@ -277,6 +286,7 @@ function App() {
         display: 'flex',
         flexDirection: 'column',
       }}
+      id={containerId}
     >
       <React.Suspense fallback={<></>}>
         {(isTablet) && <PadTheme />}

@@ -144,6 +144,7 @@ export default {
   settingLabelLightMode: '亮色模式',
   settingLabelDarkMode: '暗色模式',
   settingLabelPreviewTheme: '主題預覽',
+  settingLabelChooseTheme: '選擇主題',
   settingLabelSettingEmail: '設置郵箱',
   settingLabelSettingEmailTip: '修改郵箱後，請使用新郵箱登錄',
   settingLabelPassword: '密碼',

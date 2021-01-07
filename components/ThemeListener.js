@@ -4,7 +4,7 @@ import { useDarkMode } from 'react-native-dynamic';
 import { Navigation } from '../thirdparty/react-native-navigation';
 import Colors from '../config/Colors';
 
-function getNavigationOptions(isDarkMode) {
+function getNavigationOptions(isDarkMode, themeColor = 'default') {
   if (isDarkMode === undefined) {
     // eslint-disable-next-line no-param-reassign
     isDarkMode = Appearance.getColorScheme() === 'dark';
@@ -22,7 +22,7 @@ function getNavigationOptions(isDarkMode) {
       leftButtonColor: colors.topBarTitle,
       rightButtonColor: colors.topBarTitle,
       background: {
-        color: colors.topBarBackground,
+        color: colors.theme?.[themeColor].primary ?? colors.topBarBackground,
       },
       largeTitle: {
         color: colors.topBarTitle, // rnn bug, not working
@@ -51,9 +51,9 @@ export function setDefaultNavigationOptions(isDarkMode) {
   Navigation.setDefaultOptions(getNavigationOptions(isDarkMode));
 }
 
-export function updateNavigationTheme(componentId, themeName) {
+export function updateNavigationTheme(componentId, themeName, themeColor) {
   console.debug(`switch bottom tab theme to: ${themeName}`);
-  Navigation.mergeOptions(componentId, getNavigationOptions(themeName === 'dark'));
+  Navigation.mergeOptions(componentId, getNavigationOptions(themeName === 'dark', themeColor));
 }
 
 const ThemeListener: () => React$Node = (props) => {

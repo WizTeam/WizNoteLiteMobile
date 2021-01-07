@@ -143,6 +143,7 @@ export default {
   settingLabelLightMode: 'Light Mode',
   settingLabelDarkMode: 'Dark Mode',
   settingLabelPreviewTheme: 'Preview Theme',
+  settingLabelChooseTheme: 'Choose a New Theme',
   settingLabelSettingEmail: 'Setting Email',
   settingLabelSettingEmailTip: 'After modifying your email address, please log in with your new email address',
   settingLabelPassword: 'Password',

@@ -77,18 +77,17 @@ export function setLoginAsRoot() {
   });
 }
 
-export async function openScreen(name, passProps) {
-  Navigation.showOverlay({
+export async function openScreen(parentComponentId, name, passProps = {}) {
+  Navigation.push(parentComponentId, {
     component: {
       name,
-      passProps,
+      passProps: {
+        ...passProps,
+        parentComponentId,
+      },
       options: {
-        overlay: {
-          interceptTouchOutside: false,
-        },
-        layout: {
-          // componentBackgroundColor: 'transparent',
-          orientation: ['portrait'],
+        topBar: {
+          visible: false,
         },
       },
     },
@@ -176,8 +175,8 @@ export function setMainAsRoot(isPad) {
   const theme = darkMode ? 'dark' : 'lite';
   const resPath = app.getPath('res');
   const tablet = isTablet() ? 'true' : 'false';
-  const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}&isTablet=${tablet}`;
-  // const editorHtmlPath = `http://localhost:3000?theme=${theme}&isTablet=${tablet}`;
+  // const editorHtmlPath = `file://${resPath}/build/index.html?theme=${theme}&isTablet=${tablet}`;
+  const editorHtmlPath = `http://localhost:3000?theme=${theme}&isTablet=${tablet}`;
   // console.log(`load html: ${editorHtmlPath}`);
   loadRequest(editorHtmlPath);
   //

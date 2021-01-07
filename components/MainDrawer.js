@@ -50,7 +50,7 @@ const MainDrawer: () => React$Node = (props) => {
 
   function handleSetting() {
     RNNDrawer.dismissDrawer();
-    openScreen('SettingScreen');
+    openScreen(props.parentComponentId, 'SettingScreen');
   }
 
   function handleViewUserInfo() {

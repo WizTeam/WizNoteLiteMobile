@@ -93,7 +93,7 @@ const NotesScreen: () => React$Node = (props) => {
   }, []);
 
   function handleThemeChanged(themeName) {
-    updateNavigationTheme(props.componentId, themeName);
+    updateNavigationTheme(props.componentId, themeName, props[KEYS.USER_SETTING]?.colorTheme);
     //
     // force update buttons color
     Navigation.mergeOptions(props.componentId, {
@@ -206,7 +206,7 @@ const NotesScreen: () => React$Node = (props) => {
   );
 };
 
-const NotesScreenImpl = connect([KEYS.SELECTED_TYPE])(NotesScreen);
+const NotesScreenImpl = connect([KEYS.SELECTED_TYPE, KEYS.USER_SETTING])(NotesScreen);
 
 NotesScreenImpl.options = {
   statusBar: {
@@ -244,10 +244,10 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
   content: {
     display: 'flex',
     flex: 1,
-    backgroundColor: getDeviceDynamicColor('noteListBackground'),
+    // backgroundColor: 'transparent',
   },
   body: {
-    backgroundColor: getDeviceDynamicColor('noteListBackground'),
+    // backgroundColor: getDeviceDynamicColor('noteListBackground'),
     minHeight: '100%',
     flexGrow: 1,
   },

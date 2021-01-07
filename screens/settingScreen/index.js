@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import i18n from 'i18n-js';
 
@@ -17,7 +17,7 @@ function SettingScreen(Props) {
   const styles = useDynamicValue(dynamicStyles.styles);
   const goBackBtn = (
     <TouchableOpacity onPress={() => {
-      Navigation.dismissOverlay(Props.componentId);
+      Navigation.pop(Props.componentId);
     }}
     >
       <Icon name="angleleft" color={getColor('settingTitleColor')} size={30} />
@@ -27,19 +27,15 @@ function SettingScreen(Props) {
   function handleUserAction() {
     setTimeout(() => {
       dataStore.logout();
-      Navigation.dismissOverlay(Props.componentId);
+      Navigation.pop(Props.componentId);
       setTimeout(() => {
         setLoginAsRoot();
       }, 300);
     }, 300);
   }
 
-  useEffect(() => {
-    console.log('Props', Props[KEYS.USER_SETTING]);
-  }, []);
-
   const userInfo = Props[KEYS.USER_INFO] || {};
-  const settingInfo = Props[KEYS.USER_SETTING];
+  const settingInfo = Props[KEYS.USER_SETTING] || {};
   return (
     <View style={styles.root}>
       <Header
@@ -61,14 +57,14 @@ function SettingScreen(Props) {
 
         <View style={styles.lists}>
           <Text style={styles.listName}>{i18n.t('settingSidebarAccount')}</Text>
-          <ListItem bottomDivider onPress={() => openScreen('AccountSettingScreen')}>
+          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'AccountSettingScreen')}>
             <ListItem.Content style={styles.listLabel}>
               <ListItem.Title>{userInfo.displayName}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{userInfo.email}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem onPress={() => openScreen('ChangePasswordScreen')}>
+          <ListItem onPress={() => openScreen(Props.parentComponentId, 'ChangePasswordScreen')}>
             <ListItem.Content style={styles.listLabel}>
               <ListItem.Title>{i18n.t('settingLabelModifyPassword')}</ListItem.Title>
             </ListItem.Content>
@@ -78,7 +74,7 @@ function SettingScreen(Props) {
 
         <View style={styles.lists}>
           <Text style={styles.listName}>{i18n.t('settingSidebarTheme')}</Text>
-          <ListItem>
+          <ListItem onPress={() => openScreen(Props.parentComponentId, 'ThemeSettingScreen')}>
             <ListItem.Content style={styles.listLabel}>
               <ListItem.Title>{i18n.t('settingSidebarTheme')}</ListItem.Title>
             </ListItem.Content>

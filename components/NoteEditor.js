@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useImperativeHandle, useCallback } from 'react';
-import { View, Linking } from 'react-native';
+import { View, Linking, Appearance } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import i18n from 'i18n-js';
@@ -356,6 +356,32 @@ const NoteEditor = React.forwardRef((props, ref) => {
 
   const note = props[KEYS.CURRENT_NOTE];
 
+  const settingInfo = props[KEYS.USER_SETTING] || {};
+
+  const isDark = Appearance.getColorScheme() === 'dark';
+
+  async function checkTheme() {
+    if (isDark !== undefined) {
+      const newTheme = [];
+      //
+      if (settingInfo.colorTheme) {
+        newTheme.push(settingInfo.colorTheme);
+      }
+      if (isDark) {
+        newTheme.push('dark');
+      } else {
+        newTheme.push('lite');
+      }
+      //
+      const css = await api.getThemeCssString(newTheme.join('.'));
+      await injectJavaScript(`checkTheme(${JSON.stringify(css)});true;`);
+    }
+  }
+
+  useEffect(() => {
+    setTimeout(() => { checkTheme(); }, 500);
+  }, [isDark, settingInfo.colorTheme]);
+
   useEffect(() => {
     if (isTablet() && note) {
       const now = new Date().valueOf();
@@ -446,4 +472,5 @@ const NoteEditor = React.forwardRef((props, ref) => {
 export default connect([
   KEYS.CURRENT_KB,
   KEYS.CURRENT_NOTE,
+  KEYS.USER_SETTING,
 ])(NoteEditor);

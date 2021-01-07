@@ -5,6 +5,8 @@ import { useDynamicValue } from 'react-native-dynamic';
 import { isTablet, reportDeviceTypeChanged, updateDeviceType } from '../utils/device';
 import { setMainAsRoot } from '../services/navigation';
 import { getDeviceDynamicColor, createDeviceDynamicStyles } from '../config/Colors';
+import { KEYS, connect } from '../data_store';
+import { useThemeStyle } from '../hook/useThemeStyle';
 
 let deviceIsTablet = isTablet();
 
@@ -12,6 +14,7 @@ const RootView: () => React$Node = (props) => {
   //
   const isPad = deviceIsTablet;
   //
+  const { mainBackground } = useThemeStyle(props[KEYS.USER_SETTING]?.colorTheme);
   function handleLayout({ nativeEvent }) {
     const width = nativeEvent.layout.width;
     const height = nativeEvent.layout.height;
@@ -29,7 +32,7 @@ const RootView: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles.styles);
   //
   return (
-    <View style={styles.root} onLayout={handleLayout}>
+    <View style={[styles.root, mainBackground]} onLayout={handleLayout}>
       {props.children}
     </View>
   );
@@ -42,4 +45,6 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
   },
 }));
 
-export default RootView;
+export default connect([
+  KEYS.USER_SETTING,
+])(RootView);

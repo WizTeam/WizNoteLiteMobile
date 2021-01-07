@@ -61,6 +61,20 @@ const light = {
     drawerBackground: '#d8d8d8',
     searchBarBackground: '#d8d8d8',
   },
+  theme: {
+    default: {
+      primary: 'rgb(245, 245, 245)',
+    },
+    beiges: {
+      primary: '#fff9e2',
+    },
+    mintGreen: {
+      primary: '#bccecb',
+    },
+    coffee: {
+      primary: '#f4f4f4',
+    },
+  },
 };
 
 const dark = merge({}, light, {
@@ -121,6 +135,20 @@ const dark = merge({}, light, {
     drawerBackground: '#121212',
     searchBarBackground: '#404040',
   },
+  theme: {
+    default: {
+      primary: '#2a2a2a',
+    },
+    beiges: {
+      primary: '#57544e',
+    },
+    mintGreen: {
+      primary: '#364e4c',
+    },
+    coffee: {
+      primary: '#333333',
+    },
+  },
 });
 
 const Colors = {
@@ -149,6 +177,11 @@ export function getDeviceColor(name) {
   const theme = Appearance.getColorScheme();
   const deviceName = isTablet() ? 'pad' : 'phone';
   return Colors[theme][deviceName][name];
+}
+
+export function getThemeColor(name) {
+  const theme = Appearance.getColorScheme();
+  return Colors[theme].theme[name];
 }
 
 export function isDarkMode() {

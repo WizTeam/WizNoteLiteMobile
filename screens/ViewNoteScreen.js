@@ -10,16 +10,18 @@ import NoteEditor from '../components/NoteEditor';
 import { setFocus, endEditing, toggleKeyboard } from '../components/WizSingletonWebView';
 
 import { enableNextAnimation } from '../services/animations';
-import { getDeviceDynamicColor, getColor, createDeviceDynamicStyles } from '../config/Colors';
-import dataStore from '../data_store';
+import { getDeviceDynamicColor, getColor, createDeviceDynamicStyles, getThemeColor } from '../config/Colors';
+import dataStore, { KEYS, connect } from '../data_store';
 import api from '../api';
 import EditorToolBar from '../components/EditorToolbar';
 import { isAndroid, isIos } from '../utils/device';
+import { useThemeStyle } from '../hook/useThemeStyle';
 
 const ViewNoteScreen: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles.styles);
   const editorRef = useRef(null);
   const toolbarRef = useRef(null);
+  const { mainBackground } = useThemeStyle(props[KEYS.USER_SETTING]?.colorTheme);
 
   async function handleInsertImage() {
     toggleKeyboard(false);
@@ -165,7 +167,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
     Navigation.mergeOptions(props.componentId, {
       topBar: {
         background: {
-          color: getColor('topBarBackground'),
+          color: getThemeColor(props[KEYS.USER_SETTING]?.colorTheme).primary,
         },
       },
     });
@@ -207,11 +209,11 @@ const ViewNoteScreen: () => React$Node = (props) => {
   return (
     <ColorSchemeProvider>
       <ThemedStatusBar onThemeChanged={handleThemeChanged} />
-      <SafeAreaView style={styles.content}>
+      <SafeAreaView style={[styles.content, mainBackground]}>
         <NoteEditor
           ref={editorRef}
-          containerStyle={styles.editorContainer}
-          style={styles.editor}
+          containerStyle={[styles.editorContainer, mainBackground]}
+          style={[styles.editor, mainBackground]}
           onBeginEditing={handleBeginEditing}
           onEndEditing={handleEndEditing}
           onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
@@ -268,4 +270,6 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
   },
 }));
 
-export default ViewNoteScreen;
+export default connect([
+  KEYS.USER_SETTING,
+])(ViewNoteScreen);

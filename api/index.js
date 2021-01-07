@@ -1,7 +1,11 @@
 import assert from 'assert';
 import sdk from 'wiznote-sdk-js';
 import { EventEmitter } from 'events';
+import RNFS from 'react-native-fs';
+import app from '../wrapper/app';
 
+const ResBaseUrl = '/Users/angle/Documents/code/WizTeam/WizNoteLiteMobile/assets/resources/';
+// const ResBaseUrl = `file://${app.getPath('res')}/`;
 class SdkEventListener {
   static _listeners = new Map();
 
@@ -318,6 +322,22 @@ class Api extends EventEmitter {
       },
       method: 'POST',
     });
+  }
+
+  async getDefaultMarkdown() {
+    const result = await RNFS.readFile(`${ResBaseUrl}default_markdown.md`, 'utf8');
+    return result;
+  }
+
+  async getThemeCssString(theme) {
+    if (theme) {
+      const cssPath = `${ResBaseUrl}editor_theme/${theme}.css`;
+      if (await RNFS.exists(cssPath)) {
+        const css = await RNFS.readFile(cssPath, 'utf8');
+        return css;
+      }
+    }
+    return '';
   }
 
   get core() {
