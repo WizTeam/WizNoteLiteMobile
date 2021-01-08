@@ -59,3 +59,20 @@ figure.ag-paragraph[data-role="TABLE"] {
 figure.ag-paragraph[data-role="TABLE"] .ag-front-icon {
   left: 6px;
 }
+.editor-root {
+  --text-line-height: 28px;
+  --text-font-size: 16px;
+  --text-font-color: #333333;
+  --text-font-family: 'Open Sans', 'Noto Sans SC', Menlo, "Ubuntu Mono", Consolas, "Courier New", "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+  --p-margin-bottom: 16px;
+  line-height: var(--text-line-height);
+  font-size: var(--text-font-size);
+  color: var(--text-font-color);
+  font-family: var(--text-font-family);
+}
+.editor-root p {
+  margin-bottom: var(--p-margin-bottom);
+}
+div[id^='ag-editor-id'] > .ag-paragraph {
+  margin-bottom: var(--p-margin-bottom);
+}

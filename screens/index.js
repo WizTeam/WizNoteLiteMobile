@@ -20,4 +20,5 @@ export function registerScreens() {
   Navigation.registerComponent('ChangePasswordScreen', () => require('./settingScreen/ChangePasswordScreen').default);
   Navigation.registerComponent('ThemeSettingScreen', () => require('./settingScreen/ThemeSettingScreen').default);
   Navigation.registerComponent('ThemeChooseScreen', () => require('./settingScreen/ThemeChooseScreen').default);
+  Navigation.registerComponent('TextStyleSettingScreen', () => require('./settingScreen/TextStyleSettingScreen').default);
 }

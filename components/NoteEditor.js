@@ -383,6 +383,10 @@ const NoteEditor = React.forwardRef((props, ref) => {
   }, [isDark, settingInfo.colorTheme]);
 
   useEffect(() => {
+    setTimeout(() => { injectJavaScript(`setEditorTextStyle(${JSON.stringify(settingInfo.editorConfig)});true;`); }, 500);
+  }, [settingInfo.editorConfig]);
+
+  useEffect(() => {
     if (isTablet() && note) {
       const now = new Date().valueOf();
       const isNewNote = now - (new Date(note.created).valueOf()) < 5000;

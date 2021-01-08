@@ -85,28 +85,28 @@ function SettingScreen(Props) {
 
         <View style={styles.lists}>
           <Text style={styles.listName}>{i18n.t('settingSidebarEdit')}</Text>
-          <ListItem bottomDivider>
+          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'fontSize' })}>
             <ListItem.Content style={styles.listLabel}>
               <ListItem.Title>{i18n.t('settingLabelFontSize')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.editorConfig.fontSize}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem bottomDivider>
+          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'lineHeight' })}>
             <ListItem.Content style={styles.listLabel}>
               <ListItem.Title>{i18n.t('settingLabelLineHeight')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.editorConfig.lineHeight}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem bottomDivider>
+          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'fontFamily' })}>
             <ListItem.Content style={styles.listLabel}>
               <ListItem.Title>{i18n.t('settingLabelFontFamily')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.editorConfig.fontFamily}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem>
+          <ListItem onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'paragraphHeight' })}>
             <ListItem.Content style={styles.listLabel}>
               <ListItem.Title>{i18n.t('settingLabelParagraphHeight')}</ListItem.Title>
             </ListItem.Content>

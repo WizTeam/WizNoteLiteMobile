@@ -7,7 +7,7 @@ import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
 
 import './App.css';
 import { addExecuteEditorCommandListener } from './executeEditorCommand';
-import { injectionCssFormId } from './utils';
+import { injectionCssFormId, overwriteEditorConfig } from './utils';
 
 const containerId = `wiz-note-content-root-${new Date().getTime()}`;
 
@@ -187,6 +187,12 @@ function App() {
       injectionCssFormId(containerId, css.replace(reg, containerId));
     };
 
+    window.setEditorTextStyle = (options) => {
+      if (options) {
+        overwriteEditorConfig(options);
+        // console.log(options);
+      }
+    };
     //
     setTimeout(() => {
       function insertImage(imageInfo) {
@@ -279,7 +285,7 @@ function App() {
   //
   return (
     <div
-      className="App"
+      className="App editor-root"
       style={{
         visibility: (data && data.contentId) ? 'visible' : 'hidden',
         minHeight: '100vh',
