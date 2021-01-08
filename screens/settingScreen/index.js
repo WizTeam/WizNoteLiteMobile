@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Linking } from 'react-native';
 import i18n from 'i18n-js';
 
 import { Header, Button, ListItem } from 'react-native-elements';
@@ -7,7 +7,7 @@ import { useDynamicValue } from 'react-native-dynamic';
 import moment from 'moment';
 import { Navigation } from '../../thirdparty/react-native-navigation';
 import { getColor } from '../../config/Colors';
-import { setLoginAsRoot, openScreen } from '../../services/navigation';
+import { setLoginAsRoot, openScreen, showUpgradeViDialog } from '../../services/navigation';
 import dataStore, { KEYS, connect } from '../../data_store';
 import { dynamicStyles } from './dynamicStyles';
 
@@ -53,7 +53,7 @@ function SettingScreen(Props) {
             <Text style={styles.vipTime}>{i18n.t('vipExpiredTime', { time: moment(userInfo.vipDate).format('YYYY-MM-DD') })}</Text>
           </View>
         ) : null}
-        <Button title={i18n.t(userInfo.vip ? 'buttonUpgradeVIPWithPrice' : 'buttonUpgradeVIPWithPrice')} style={styles.vipBtn} />
+        <Button title={i18n.t(userInfo.vip ? 'buttonUpgradeVIPWithPrice' : 'buttonUpgradeVIPWithPrice')} style={styles.vipBtn} onPress={() => showUpgradeViDialog()} />
 
         <View style={styles.lists}>
           <Text style={styles.listName}>{i18n.t('settingSidebarAccount')}</Text>
@@ -111,6 +111,22 @@ function SettingScreen(Props) {
               <ListItem.Title>{i18n.t('settingLabelParagraphHeight')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.editorConfig.paragraphHeight}</Text>
+            <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
+          </ListItem>
+        </View>
+
+        <View style={styles.lists}>
+          <Text style={styles.listName}>{i18n.t('settingOtherLabel')}</Text>
+          <ListItem onPress={() => Linking.openURL('https://support.qq.com/product/174045')}>
+            <ListItem.Content style={styles.listLabel}>
+              <ListItem.Title>{i18n.t('feedback')}</ListItem.Title>
+            </ListItem.Content>
+            <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
+          </ListItem>
+          <ListItem onPress={() => Linking.openURL('https://url.wiz.cn/u/LiteManual')}>
+            <ListItem.Content style={styles.listLabel}>
+              <ListItem.Title>{i18n.t('helpBook')}</ListItem.Title>
+            </ListItem.Content>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
         </View>

@@ -159,6 +159,9 @@ export default {
   settingButtonChangePassword: 'Change Password',
   settingButtonRenderNow: 'Render Now Mode',
   settingButtonConfirm: 'Confirm',
+  settingOtherLabel: 'Other',
+  feedback: 'Feedback',
+  helpBook: 'Help Book',
 
   settingTip: 'Tip',
   settingSuccess: 'Set Successfully!',

@@ -160,6 +160,9 @@ export default {
   settingButtonChangePassword: '修改密碼',
   settingButtonRenderNow: '即時渲染模式',
   settingButtonConfirm: '確定',
+  settingOtherLabel: '其他',
+  feedback: '用戶反饋',
+  helpBook: '幫助手冊',
 
   settingTip: '提示',
   settingSuccess: '設置成功!',

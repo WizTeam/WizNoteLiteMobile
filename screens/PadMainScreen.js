@@ -17,7 +17,7 @@ import { showPrivacyPolicy } from '../services/privacy_policy';
 
 const useForceUpdate = () => useState()[1];
 
-const PadMainScreen: () => React$Node = () => {
+const PadMainScreen: () => React$Node = (props) => {
   //
   const layoutRef = useRef(null);
   const toolbarRef = useRef(null);
@@ -123,7 +123,7 @@ const PadMainScreen: () => React$Node = () => {
           onLayout={forceUpdate}
           pane1Width={pane1Width}
           pane2Width={pane2Width}
-          pane1={<MainDrawer style={styles.drawer} />}
+          pane1={<MainDrawer style={styles.drawer} parentComponentId={props.componentId} />}
           pane2={(
             <PadNoteList
               onToggleMenu={handleToggleMenu}

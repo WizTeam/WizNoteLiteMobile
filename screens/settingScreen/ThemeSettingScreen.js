@@ -11,6 +11,9 @@ import { getColor } from '../../config/Colors';
 import { KEYS, connect } from '../../data_store';
 import { openScreen } from '../../services/navigation';
 import api from '../../api';
+import app from '../../wrapper/app';
+
+const resPath = app.getPath('res');
 
 function ThemeSettingScreen(Props) {
   const styles = useDynamicValue(dynamicStyles.styles);
@@ -81,7 +84,8 @@ function ThemeSettingScreen(Props) {
       <ScrollView>
         <View style={styles.mainContainer}>
           <Text style={styles.editorViewerLabel}>{i18n.t('settingLabelPreviewTheme')}</Text>
-          <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} />
+          <WebView source={{ uri: `file://${resPath}/build/index.html?type=viewer` }} style={styles.editorViewer} ref={webRef} />
+          {/* <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} /> */}
         </View>
         <View style={styles.lists}>
           <ListItem onPress={() => openScreen(Props.parentComponentId, 'ThemeChooseScreen')}>

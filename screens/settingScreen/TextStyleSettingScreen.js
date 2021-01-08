@@ -1,6 +1,6 @@
 import { useDynamicValue } from 'react-native-dynamic';
 import { View, TouchableOpacity, ScrollView, Text } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Header, ListItem, Slider } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { WebView } from 'react-native-webview';
@@ -10,6 +10,9 @@ import { Navigation } from '../../thirdparty/react-native-navigation';
 import { getColor } from '../../config/Colors';
 import dataStore, { KEYS, connect } from '../../data_store';
 import api from '../../api';
+import app from '../../wrapper/app';
+
+const resPath = app.getPath('res');
 
 const fontFamilyOptions = [
   { title: 'Open Sans', value: 'Open Sans' },
@@ -21,27 +24,6 @@ function TextStyleSettingScreen(Props) {
   const styles = useDynamicValue(dynamicStyles.styles);
   const webRef = useRef();
   const settingInfo = Props[KEYS.USER_SETTING] || {};
-
-  function formatTitle() {
-    let res = '';
-    switch (Props.type) {
-      case 'fontSize':
-        res = i18n.t('settingLabelFontSize');
-        break;
-      case 'lineHeight':
-        res = i18n.t('settingLabelLineHeight');
-        break;
-      case 'fontFamily':
-        res = i18n.t('settingLabelFontFamily');
-        break;
-      case 'paragraphHeight':
-        res = i18n.t('settingSidebarEdit');
-        break;
-      default:
-        break;
-    }
-    return res;
-  }
 
   const goBackBtn = (
     <TouchableOpacity onPress={() => {
@@ -80,7 +62,8 @@ function TextStyleSettingScreen(Props) {
       />
       <ScrollView>
         <View style={styles.mainContainer}>
-          <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} />
+          <WebView source={{ uri: `file://${resPath}/build/index.html?type=viewer` }} style={styles.editorViewer} ref={webRef} />
+          {/* <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} /> */}
         </View>
 
         {Props.type === 'fontSize' ? (

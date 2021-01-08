@@ -208,6 +208,7 @@ const MainDrawer: () => React$Node = (props) => {
         {isTablet() && (
           <UserButton
             onLogin={handleLogin}
+            onSetting={handleSetting}
             onPressUser={handleViewUserInfo}
             style={styles.padLoginButton}
           />

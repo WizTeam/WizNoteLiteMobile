@@ -4,8 +4,8 @@ import { EventEmitter } from 'events';
 import RNFS from 'react-native-fs';
 import app from '../wrapper/app';
 
-const ResBaseUrl = '/Users/angle/Documents/code/WizTeam/WizNoteLiteMobile/assets/resources/';
-// const ResBaseUrl = `file://${app.getPath('res')}/`;
+// const ResBaseUrl = '/Users/angle/Documents/code/WizTeam/WizNoteLiteMobile/assets/resources/';
+const ResBaseUrl = `file://${app.getPath('res')}/`;
 class SdkEventListener {
   static _listeners = new Map();
 
