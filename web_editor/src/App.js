@@ -6,10 +6,12 @@ import queryString from 'query-string';
 import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
 
 import './App.css';
+import axios from 'axios';
 import {
   createEditorPromise,
   markdown2Doc,
   LANGS,
+// } from './live-editor/client'
 } from 'live-editor/client';
 import axios from 'axios';
 import { addExecuteEditorCommandListener } from './executeEditorCommand';
@@ -25,7 +27,7 @@ const PadTheme = React.lazy(() => import('./PadTheme'));
 
 const params = queryString.parse(window.location.search);
 const isTablet = params.isTablet === 'true';
-const timer = 0;
+let timer = 0;
 
 let docToc = [];
 let docLinks = [];
@@ -296,7 +298,6 @@ function App() {
   //     addExecuteEditorCommandListener(editorRef.current, insertImage, insertNoteLink);
   //     editorRef.current.on('muya-image-selector', ({ imageInfo }) => insertImage(imageInfo));
   //   });
-  //   //
   // }, []);
   //
   // useEffect(() => {
@@ -424,30 +425,50 @@ function App() {
       return ret;
     }
 
-    async function handleUploadResource(editor, file) {
-      try {
-        const base64DataUrl = await toBase64(file);
-        return new Promise((resolve) => {
-          const base64Data = base64DataUrl.split(',')[1];
-          const callback = `uploadResource${new Date().getTime()}`;
-          window[callback] = (content) => {
-            window[callback] = undefined;
-            resolve(content);
-          };
-          const message = {
-            event: 'uploadResource',
-            data: base64Data,
-            name: file.name,
-            type: file.type,
-          };
-          postMessage(message);
-        });
-      } catch (err) {
-        console.error(err);
-        throw err;
-      }
-    }
+    // async function handleUploadResource(editor, file) {
+    //   console.log('handleUploadResource', 'sad');
+    //   // try {
+    //   //   const base64DataUrl = await toBase64(file);
+    //   //   return new Promise((resolve) => {
+    //   //     const base64Data = base64DataUrl.split(',')[1];
+    //   //     const callback = `uploadResource${new Date().getTime()}`;
+    //   //     window[callback] = (content) => {
+    //   //       window[callback] = undefined;
+    //   //       resolve(content);
+    //   //     };
+    //   //     const message = {
+    //   //       event: 'uploadResource',
+    //   //       data: base64Data,
+    //   //       name: file.name,
+    //   //       type: file.type,
+    //   //     };
+    //   //     postMessage(message);
+    //   //   });
+    //   // } catch (err) {
+    //   //   console.error(err);
+    //   //   throw err;
+    //   // }
+    // }
 
+    function insertImage(editor, container, index) {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(() => {
+        //
+        const callback = `insertImage${new Date().getTime()}`;
+        window[callback] = (url) => {
+          editor.insertImage(container, handleBuildResourceUrl(editor, url), index);
+          window[callback] = undefined;
+        };
+        //
+        postMessage({
+          event: 'insertImage',
+          callback,
+        });
+        timer = null;
+      }, 500);
+    }
     function handleUpdateToc(editor, toc) {
       console.log('handleUpdateToc', toc);
       docToc = toc ?? [];
@@ -481,14 +502,17 @@ function App() {
       titleInEditor: true,
       hideComments: true,
       isMobile: true,
+      resourceProtocol: ['wiz:'],
       callbacks: {
         // onLoad: this.handler.handleCheckMode,
         // onError: this.handler.handleError,
         onChange: handleLiveEditorChange,
-        onUploadResource: handleUploadResource,
+        // onUploadResource: handleUploadResource,
         onBuildResourceUrl: handleBuildResourceUrl,
         onCopyResourcesFromOtherServer: handleCopyResourcesFromOtherServer,
         onUpdateToc: handleUpdateToc,
+        onSelectFileUpload: insertImage,
+        // onFileInserted: () => console.log('onFileInserted'),
         // onGetTagItems: this.handler.handleGetTagItems,
         // onTagClicked: this.handler.handleTagClicked,
       },
