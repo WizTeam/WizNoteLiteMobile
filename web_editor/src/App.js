@@ -11,8 +11,8 @@ import {
   createEditorPromise,
   markdown2Doc,
   LANGS,
-} from './live-editor/client';
-// } from 'live-editor/client';
+// } from './live-editor/client';
+} from 'live-editor/client';
 import { addExecuteEditorCommandListener } from './executeEditorCommand';
 import { injectionCssFormId, overwriteEditorConfig } from './utils';
 
