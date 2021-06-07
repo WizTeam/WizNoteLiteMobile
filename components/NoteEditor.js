@@ -68,11 +68,27 @@ addWebViewEventHandler('onMessage', async (eventBody) => {
   }
 });
 
+function handleProcessToc(toc) {
+  if (!Array.isArray(toc)) return [];
+  //
+  toc.forEach((item) => {
+    const tocItem = item;
+    tocItem.name = item.text;
+    tocItem.key = item.blockId;
+    tocItem.id = item.blockId;
+    tocItem.open = true;
+    tocItem.children = handleProcessToc(item.children);
+  });
+  return toc;
+}
+
 export async function emptyEditor() {
   const dataText = JSON.stringify({
     contentId: '',
     markdown: '',
     resourceUrl: '',
+    kbGuid: '',
+    guid: '',
   });
   const js = `window.loadMarkdown(${dataText});true;`;
   try {
@@ -103,6 +119,12 @@ export async function loadNote(note, isNewNote) {
     resourceUrl: getResourceBaseUrl(api.userGuid, note.kbGuid, note.guid),
     contentId: `${api.userGuid}/${note.kbGuid}/${note.guid}`,
     isNewNote,
+    kbGuid: note.kbGuid,
+    guid: note.guid,
+    user: {
+      displayName: api.displayName,
+      avatarUrl: api.avatarUrl,
+    },
   };
   const dataText = JSON.stringify(data);
   if (isNewNote && isTablet()) {
@@ -230,6 +252,34 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
   }
 
+  async function uploadResource(messageData) {
+    try {
+      const { type, data, callback } = messageData;
+      console.debug(`drop file: ${type}`);
+      if (!type.startsWith('image/')) {
+        console.log(`unknown file type: ${type}`);
+        return;
+      }
+      //
+      const resourceUrl = await api.addImageFromData(note.kbGuid, note.guid, data, {
+        base64: true,
+        type: {
+          ext: type.substr(6),
+          mime: type,
+        },
+      });
+      //
+      const js = `window.${callback}('${resourceUrl}');true;`;
+      try {
+        await injectJavaScript(js);
+      } catch (err) {
+        console.log(err.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   async function handleInsertImage(cb) {
     // select image from image picker
     function selectImage() {
@@ -334,7 +384,7 @@ const NoteEditor = React.forwardRef((props, ref) => {
     }
   }
 
-  function handleMessage({ nativeEvent }) {
+  async function handleMessage({ nativeEvent }) {
     const data = JSON.parse(nativeEvent.body);
     const name = data.event;
     if (name === 'keyDown') {
@@ -351,6 +401,8 @@ const NoteEditor = React.forwardRef((props, ref) => {
       });
     } else if (name === 'noteLink') {
       openNote(data.title);
+    } else if (name === 'uploadResource') {
+      uploadResource(data);
     }
   }
 
@@ -397,30 +449,30 @@ const NoteEditor = React.forwardRef((props, ref) => {
   async function getTOC() {
     const toc = await injectJavaScript('window.getNoteToc()');
     if (toc) {
-      const list = toc.map((item) => ({
-        ...item,
-        name: item.content,
-        key: item.slug,
-        id: item.slug,
-        children: [],
-        open: true,
-      }));
+      // const list = toc.map((item) => ({
+      //   ...item,
+      //   name: item.text,
+      //   key: item.blockId,
+      //   id: item.blockId,
+      //   children: [],
+      //   open: true,
+      // }));
 
-      const result = [];
-      const parent = new Map();
-      let last = null;
+      // const result = [];
+      // const parent = new Map();
+      // let last = null;
 
-      parent.set(last, { lvl: 0, children: result });
+      // parent.set(last, { lvl: 0, children: result });
 
-      list.forEach((item) => {
-        while (!last || item.lvl <= last.lvl) {
-          last = parent.get(last);
-        }
-        last.children.push(item);
-        parent.set(item, last);
-        last = item;
-      });
-      return result;
+      // list.forEach((item) => {
+      //   while (!last || item.lvl <= last.lvl) {
+      //     last = parent.get(last);
+      //   }
+      //   last.children.push(item);
+      //   parent.set(item, last);
+      //   last = item;
+      // });
+      return handleProcessToc(toc);
     }
     return [];
   }
