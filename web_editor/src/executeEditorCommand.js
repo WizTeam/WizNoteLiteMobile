@@ -1,101 +1,122 @@
-export function addExecuteEditorCommandListener(editor, insertImage, insertNoteLink) {
+import { blockUtils, containerUtils } from 'live-editor/client';
+
+export function addExecuteEditorCommandListener(editor, insertImage) {
   window.executeEditorCommand = (command) => {
-    switch (command) {
-      case 'header':
-        editor.insertHeader();
-        break;
-      case 'tag':
-        editor.insertTag();
-        break;
-      case 'bold':
-        editor.insertBold();
-        break;
-      case 'italic':
-        editor.insertItalic();
-        break;
-      case 'deletedLine':
-        editor.insertDeletedLine();
-        break;
-      case 'orderList':
-        editor.insertOrderList();
-        break;
-      case 'bulletList':
-        editor.insertBulletList();
-        break;
-      case 'link':
-        editor.insertLink();
-        break;
-      case 'checkedBox':
-        editor.insertToDoList();
-        break;
-      case 'table':
-        editor.insertTable({ rows: 4, columns: 4 });
-        break;
-      case 'image':
-        insertImage();
-        break;
-      case 'dividingLine':
-        editor.insertHorizontalLine();
-        break;
-      case 'code':
-        editor.insertInlineCode();
-        break;
-      case 'codeBlock':
-        editor.insertCodeBlock();
-        break;
-      case 'quote':
-        editor.insertQuote();
-        break;
-      case 'formula':
-        editor.insertMathFormula();
-        break;
-      case 'alignLeft':
-        editor.tableColAlignLeft();
-        break;
-      case 'alignCenter':
-        editor.tableColAlignCenter();
-        break;
-      case 'alignRight':
-        editor.tableColAlignRight();
-        break;
-      case 'insertRowBefore':
-        editor.insertRowAbove();
-        break;
-      case 'insertRowAfter':
-        editor.insertRowBelow();
-        break;
-      case 'insertColBefore':
-        editor.insertColLeft();
-        break;
-      case 'insertColAfter':
-        editor.insertColRight();
-        break;
-      case 'deleteRow':
-        editor.removeTableRow();
-        break;
-      case 'deleteCol':
-        editor.removeTableCol();
-        break;
-      case 'deleteTable':
-        editor.removeTable();
-        break;
-      case 'indent':
-        editor.indent();
-        break;
-      case 'unindent':
-        editor.unindent();
-        break;
-      case 'undo':
-        editor.undo();
-        break;
-      case 'redo':
-        editor.redo();
-        break;
-      case 'noteLink':
-        insertNoteLink();
-        break;
-      default:
-        break;
+    const detail = editor.getSelectionDetail();
+    if (detail.startBlock && detail.endBlock) {
+      const blocks = [detail.startBlock];
+      let targetBlock = detail.startBlock;
+
+      while (targetBlock !== detail.endBlock) {
+        targetBlock = containerUtils.getNextBlock(targetBlock);
+        if (targetBlock) {
+          blocks.push(targetBlock);
+        }
+      }
+      blocks.forEach((block) => {
+        const data = blockUtils.saveData(block);
+
+        switch (command) {
+          case 'header':
+            editor.executeBlockCommand(`toHeading${((data.heading ?? 0) % 8) + 1}`, block);
+            break;
+          case 'tag':
+            editor.executeTextCommand('tag', block);
+            break;
+          case 'bold':
+            editor.executeTextCommand('style-bold', block);
+            break;
+          case 'italic':
+            editor.executeTextCommand('style-italic', block);
+            break;
+          case 'deletedLine':
+            editor.executeTextCommand('style-strikethrough', block);
+            break;
+          case 'orderList':
+            editor.executeBlockCommand('toOrderedList', block);
+            break;
+          case 'bulletList':
+            editor.executeBlockCommand('toUnorderedList', block);
+            break;
+          case 'link':
+            editor.executeTextCommand('link', block);
+            break;
+          case 'checkedBox':
+            editor.executeBlockCommand('toCheckbox', block);
+            break;
+          case 'table':
+            editor.insertTable(-2, 4, 4);
+            break;
+          case 'image':
+            insertImage();
+            break;
+          case 'dividingLine':
+            editor.insertHorizontalLine(null, -2);
+            break;
+          case 'code':
+            editor.insertCode(-2);
+            break;
+          case 'codeBlock':
+            editor.insertCode(-2);
+            break;
+          case 'quote':
+            editor.setBlockQuoted(block, !editor.isBlockQuoted(block));
+            break;
+          case 'formula':
+            editor.executeTextCommand('inline-math');
+            break;
+          case 'alignLeft':
+            editor.executeBlockCommand('alignLeft', block);
+            break;
+          case 'alignCenter':
+            editor.executeBlockCommand('alignCenter', block);
+            break;
+          case 'alignRight':
+            editor.executeBlockCommand('alignRight', block);
+            break;
+          case 'insertRowBefore':
+            editor.insertRowAbove();
+            break;
+          case 'insertRowAfter':
+            editor.insertRowBelow();
+            break;
+          case 'insertColBefore':
+            editor.insertColLeft();
+            break;
+          case 'insertColAfter':
+            editor.insertColRight();
+            break;
+          case 'deleteRow':
+            editor.executeBlockCommand('table/deleteSelectedRows', block);
+            break;
+          case 'deleteCol':
+            editor.executeBlockCommand('table/deleteSelectedCols', block);
+            break;
+          case 'deleteTable':
+            editor.deleteBlock(block, {
+              fromUndo: false,
+              localAction: true,
+            });
+            break;
+          case 'indent':
+            editor.executeBlockCommand('indent', block);
+            break;
+          case 'unindent':
+            editor.executeBlockCommand('outdent', block);
+            break;
+          case 'undo':
+            editor.undo();
+            break;
+          case 'redo':
+            editor.redo();
+            break;
+          case 'noteLink':
+            editor.executeTextCommand('wiki-link', block);
+            break;
+          default:
+            break;
+        }
+      });
     }
   };
 }

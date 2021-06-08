@@ -331,7 +331,6 @@ function App() {
   // }, [isCursorInTable]);
 
   const loadNote = useCallback(async (initLocalData, kbGuid, guid, user, contentId, resourceUrl) => {
-    console.log('loadNote');
     const langs = {
       'zh-CN': LANGS.ZH_CN,
       'zh-SG': LANGS.ZH_CN,
@@ -354,11 +353,29 @@ function App() {
     }
 
     function handleBuildResourceUrl(editor, resourceName) {
-      console.log('resourceName--->', resourceName);
       if (resourceName.startsWith('index_files/')) {
         return `${resourceUrl}/${resourceName}`;
       }
       return resourceName;
+    }
+
+    async function handleUploadResource(editor, file) {
+      const base64DataUrl = await toBase64(file);
+      const base64Data = base64DataUrl.split(',')[1];
+      return new Promise((resolve) => {
+        const callback = `uploadResource${new Date().getTime()}`;
+        window[callback] = (url) => {
+          resolve(url);
+          window[callback] = undefined;
+        };
+        const messageData = JSON.stringify({
+          event: 'uploadResource',
+          type: file.type,
+          data: base64Data,
+          callback,
+        });
+        postMessage(messageData);
+      });
     }
 
     async function handleCopyResourcesFromOtherServer(editor, apiServer, resourceNames, token) {
@@ -424,31 +441,6 @@ function App() {
       return ret;
     }
 
-    // async function handleUploadResource(editor, file) {
-    //   console.log('handleUploadResource', 'sad');
-    //   // try {
-    //   //   const base64DataUrl = await toBase64(file);
-    //   //   return new Promise((resolve) => {
-    //   //     const base64Data = base64DataUrl.split(',')[1];
-    //   //     const callback = `uploadResource${new Date().getTime()}`;
-    //   //     window[callback] = (content) => {
-    //   //       window[callback] = undefined;
-    //   //       resolve(content);
-    //   //     };
-    //   //     const message = {
-    //   //       event: 'uploadResource',
-    //   //       data: base64Data,
-    //   //       name: file.name,
-    //   //       type: file.type,
-    //   //     };
-    //   //     postMessage(message);
-    //   //   });
-    //   // } catch (err) {
-    //   //   console.error(err);
-    //   //   throw err;
-    //   // }
-    // }
-
     function insertImage(editor, container, index) {
       if (timer) {
         clearTimeout(timer);
@@ -473,11 +465,32 @@ function App() {
       docToc = toc ?? [];
     }
 
-    // const user = {
-    //   avatarUrl: 'avatarUrl',
-    //   userId: currentUser.userId,
-    //   displayName: currentUser.displayName,
-    // };
+    // function insertNoteLink() {
+    //   const selection = document.getSelection();
+    //   const range = selection.getRangeAt(0);
+    //   if (range.collapsed) {
+    //     timer = setTimeout(() => {
+    //       editorRef.current.saveCursor();
+    //       //
+    //       const callback = `insertNoteLink${new Date().getTime()}`;
+    //       window[callback] = (content) => {
+    //         editorRef.current.resetCursor();
+    //         if (content !== undefined) {
+    //           editorRef.current.insertNoteLink(content);
+    //         }
+    //         window[callback] = undefined;
+    //       };
+    //       //
+    //       postMessage({
+    //         event: 'insertNoteLink',
+    //         callback,
+    //       });
+    //       timer = null;
+    //     }, 500);
+    //   } else {
+    //     editorRef.current.insertNoteLink();
+    //   }
+    // }
 
     // const lang = langs[this.props.intl.local] || LANGS.EN_US;
 
@@ -506,7 +519,7 @@ function App() {
         // onLoad: this.handler.handleCheckMode,
         // onError: this.handler.handleError,
         onChange: handleLiveEditorChange,
-        // onUploadResource: handleUploadResource,
+        onUploadResource: handleUploadResource,
         onBuildResourceUrl: handleBuildResourceUrl,
         onCopyResourcesFromOtherServer: handleCopyResourcesFromOtherServer,
         onUpdateToc: handleUpdateToc,
@@ -517,7 +530,10 @@ function App() {
       },
     };
     console.log('options', options, containerRef.current);
-    await createEditorPromise(containerRef.current, options, auth);
+    const editor = await createEditorPromise(containerRef.current, options, auth);
+    addExecuteEditorCommandListener(editor, () => {
+      insertImage(editor, null, -2);
+    });
   }, []);
 
   useEffect(() => {
