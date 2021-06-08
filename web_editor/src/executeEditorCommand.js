@@ -75,16 +75,16 @@ export function addExecuteEditorCommandListener(editor, insertImage) {
             editor.executeBlockCommand('alignRight', block);
             break;
           case 'insertRowBefore':
-            editor.insertRowAbove();
+            editor.executeBlockCommand('table/insertRowAbove', block);
             break;
           case 'insertRowAfter':
-            editor.insertRowBelow();
+            editor.executeBlockCommand('table/insertRowBelow', block);
             break;
           case 'insertColBefore':
-            editor.insertColLeft();
+            editor.executeBlockCommand('table/insertColLeft', block);
             break;
           case 'insertColAfter':
-            editor.insertColRight();
+            editor.executeBlockCommand('table/insertColRight', block);
             break;
           case 'deleteRow':
             editor.executeBlockCommand('table/deleteSelectedRows', block);

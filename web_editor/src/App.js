@@ -11,6 +11,8 @@ import {
   createEditorPromise,
   markdown2Doc,
   LANGS,
+  blockUtils,
+  BLOCK_TYPE,
 // } from './live-editor/client';
 } from 'live-editor/client';
 import { addExecuteEditorCommandListener } from './executeEditorCommand';
@@ -465,6 +467,22 @@ function App() {
       docToc = toc ?? [];
     }
 
+    function handleBlockFocusChanged(editor, block, focused) {
+      if (focused) {
+        if (blockUtils.getBlockType(block) === BLOCK_TYPE.TABLE) {
+          postMessage({
+            event: 'selectionChanged',
+            isCursorInTable: true,
+          });
+        } else {
+          postMessage({
+            event: 'selectionChanged',
+            isCursorInTable: false,
+          });
+        }
+      }
+    }
+
     // function insertNoteLink() {
     //   const selection = document.getSelection();
     //   const range = selection.getRangeAt(0);
@@ -524,6 +542,7 @@ function App() {
         onCopyResourcesFromOtherServer: handleCopyResourcesFromOtherServer,
         onUpdateToc: handleUpdateToc,
         onSelectFileUpload: insertImage,
+        onBlockFocusChanged: handleBlockFocusChanged,
         // onFileInserted: () => console.log('onFileInserted'),
         // onGetTagItems: this.handler.handleGetTagItems,
         // onTagClicked: this.handler.handleTagClicked,
