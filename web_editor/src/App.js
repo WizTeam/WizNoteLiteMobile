@@ -332,6 +332,13 @@ function App() {
   //   });
   // }, [isCursorInTable]);
 
+  const handleBuildResourceUrl = useCallback((editor, resourceName) => {
+    if (data?.resourceUrl && resourceName.startsWith('index_files/')) {
+      return `${data.resourceUrl}/${resourceName}`;
+    }
+    return resourceName;
+  }, [data]);
+
   const loadNote = useCallback(async (initLocalData, kbGuid, guid, user, contentId, resourceUrl) => {
     const langs = {
       'zh-CN': LANGS.ZH_CN,
@@ -352,13 +359,6 @@ function App() {
         markdown,
       });
       postMessage(messageData);
-    }
-
-    function handleBuildResourceUrl(editor, resourceName) {
-      if (resourceName.startsWith('index_files/')) {
-        return `${resourceUrl}/${resourceName}`;
-      }
-      return resourceName;
     }
 
     async function handleUploadResource(editor, file) {
@@ -549,15 +549,16 @@ function App() {
       },
     };
     console.log('options', options, containerRef.current);
-    const editor = await createEditorPromise(containerRef.current, options, auth);
-    addExecuteEditorCommandListener(editor, () => {
-      insertImage(editor, null, -2);
+    editorRef.current = await createEditorPromise(containerRef.current, options, auth);
+    addExecuteEditorCommandListener(editorRef.current, () => {
+      insertImage(editorRef.current, null, -2);
     });
-  }, []);
+  }, [handleBuildResourceUrl]);
 
   useEffect(() => {
     window.loadMarkdown = (options) => {
       console.log('loadMarkdown', options);
+      setData(options);
       if (options.kbGuid && options.guid) {
         const doc = markdown2Doc(options.markdown);
         loadNote(doc, options.kbGuid, options.guid, options.user, options.contentId, options.resourceUrl);
@@ -566,11 +567,46 @@ function App() {
     window.getNoteToc = () => docToc;
     window.getNoteLinks = () => docLinks;
     window.onKeyboardShow = (keyboardWidth, keyboardHeight, toolbarHeight) => {};
+    window.addImage = (url) => {
+      console.log(`request add image: ${url}`);
+      editorRef.current.insertImage(null, handleBuildResourceUrl(editorRef.current, url), -2);
+      return true;
+    };
+    window.ondrop = async (event) => {
+      console.log('on drop');
+      const files = event.dataTransfer.files;
+      const count = files.length;
+      if (count === 0) {
+        return;
+      }
+      event.preventDefault();
+      //
+      for (let i = 0; i < count; i++) {
+        const f = files[i];
+        const type = f.type;
+        const name = f.name;
+        try {
+          const base64DataUrl = await toBase64(f);
+          const base64Data = base64DataUrl.split(',')[1];
+          const message = {
+            event: 'dropFile',
+            data: base64Data,
+            name,
+            type,
+            index: i,
+            totalCount: count,
+          };
+          postMessage(message);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
     window.onKeyboardHide = () => {};
     window.checkTheme = () => {};
     window.setEditorTextStyle = () => {};
     console.log('editorRef');
-  }, [loadNote]);
+  }, [handleBuildResourceUrl, loadNote]);
   //
   return (
     <div
