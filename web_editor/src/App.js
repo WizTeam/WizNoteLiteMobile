@@ -13,6 +13,7 @@ import {
   LANGS,
   blockUtils,
   BLOCK_TYPE,
+  domUtils,
 // } from './live-editor/client';
 } from 'live-editor/client';
 import { addExecuteEditorCommandListener } from './executeEditorCommand';
@@ -135,6 +136,7 @@ function App() {
   //
   const [data, setData] = useState(null);
   const [bottomHeight, setBottomHeight] = useState(100);
+  const [focusNode, setFocusNode] = useState();
   //
   const containerRef = useRef(null);
   const editorRef = useRef(null);
@@ -332,6 +334,22 @@ function App() {
   //   });
   // }, [isCursorInTable]);
 
+  const scrollView = useCallback((node) => {
+    const rect = node.getBoundingClientRect();
+    const scrollContainer = document.documentElement;
+    if (window.outerHeight - bottomHeight < rect.bottom) {
+      const editableHeight = rect.bottom - window.outerHeight + bottomHeight;
+      //
+      if (editableHeight > 1) {
+        domUtils.animatedScrollTo(scrollContainer, scrollContainer.scrollTop + editableHeight, 100);
+      }
+    } else if (rect.top < 0) {
+      const editableHeight = rect.top;
+      //
+      domUtils.animatedScrollTo(scrollContainer, scrollContainer.scrollTop - editableHeight, 100);
+    }
+  }, [bottomHeight]);
+
   const handleBuildResourceUrl = useCallback((editor, resourceName) => {
     if (data?.resourceUrl && resourceName.startsWith('index_files/')) {
       return `${data.resourceUrl}/${resourceName}`;
@@ -352,7 +370,6 @@ function App() {
     function handleLiveEditorChange(editor) {
       const markdown = editor.toMarkdown();
       docLinks = extractLinksFromMarkdown(markdown) ?? [];
-      console.log('handleLiveEditorChange', markdown, contentId);
       const messageData = JSON.stringify({
         event: 'saveData',
         contentId,
@@ -381,7 +398,6 @@ function App() {
     }
 
     async function handleCopyResourcesFromOtherServer(editor, apiServer, resourceNames, token) {
-      console.log('handleCopyResourcesFromOtherServer');
       //
       const getNoteInfoFromApiServer = () => {
         //
@@ -463,7 +479,6 @@ function App() {
       }, 500);
     }
     function handleUpdateToc(editor, toc) {
-      console.log('handleUpdateToc', toc);
       docToc = toc ?? [];
     }
 
@@ -482,33 +497,10 @@ function App() {
         }
       }
     }
-
-    // function insertNoteLink() {
-    //   const selection = document.getSelection();
-    //   const range = selection.getRangeAt(0);
-    //   if (range.collapsed) {
-    //     timer = setTimeout(() => {
-    //       editorRef.current.saveCursor();
-    //       //
-    //       const callback = `insertNoteLink${new Date().getTime()}`;
-    //       window[callback] = (content) => {
-    //         editorRef.current.resetCursor();
-    //         if (content !== undefined) {
-    //           editorRef.current.insertNoteLink(content);
-    //         }
-    //         window[callback] = undefined;
-    //       };
-    //       //
-    //       postMessage({
-    //         event: 'insertNoteLink',
-    //         callback,
-    //       });
-    //       timer = null;
-    //     }, 500);
-    //   } else {
-    //     editorRef.current.insertNoteLink();
-    //   }
-    // }
+    function handleScrollIntoView(editor, scrollContainer, dom) {
+      scrollView(dom);
+      setFocusNode(dom);
+    }
 
     // const lang = langs[this.props.intl.local] || LANGS.EN_US;
 
@@ -543,21 +535,21 @@ function App() {
         onUpdateToc: handleUpdateToc,
         onSelectFileUpload: insertImage,
         onBlockFocusChanged: handleBlockFocusChanged,
+        onScrollIntoView: handleScrollIntoView,
         // onFileInserted: () => console.log('onFileInserted'),
         // onGetTagItems: this.handler.handleGetTagItems,
         // onTagClicked: this.handler.handleTagClicked,
       },
     };
-    console.log('options', options, containerRef.current);
     editorRef.current = await createEditorPromise(containerRef.current, options, auth);
     addExecuteEditorCommandListener(editorRef.current, () => {
       insertImage(editorRef.current, null, -2);
     });
-  }, [handleBuildResourceUrl]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleBuildResourceUrl, scrollView]);
 
   useEffect(() => {
     window.loadMarkdown = (options) => {
-      console.log('loadMarkdown', options);
       setData(options);
       if (options.kbGuid && options.guid) {
         const doc = markdown2Doc(options.markdown);
@@ -566,7 +558,21 @@ function App() {
     };
     window.getNoteToc = () => docToc;
     window.getNoteLinks = () => docLinks;
-    window.onKeyboardShow = (keyboardWidth, keyboardHeight, toolbarHeight) => {};
+    window.onKeyboardShow = (keyboardWidth, keyboardHeight, toolbarHeight) => {
+      if (/(?:Android)/.test(window.navigator.userAgent)) {
+        setBottomHeight(toolbarHeight);
+      } else {
+        setBottomHeight(keyboardHeight + toolbarHeight + 50);
+      }
+
+      // setBottomHeight(312);
+      return true;
+    };
+    //
+    window.onKeyboardHide = () => {
+      setBottomHeight(0);
+      return true;
+    };
     window.addImage = (url) => {
       console.log(`request add image: ${url}`);
       editorRef.current.insertImage(null, handleBuildResourceUrl(editorRef.current, url), -2);
@@ -602,11 +608,17 @@ function App() {
         }
       }
     };
-    window.onKeyboardHide = () => {};
     window.checkTheme = () => {};
     window.setEditorTextStyle = () => {};
     console.log('editorRef');
   }, [handleBuildResourceUrl, loadNote]);
+
+  useEffect(() => {
+    if (focusNode) {
+      scrollView(focusNode);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bottomHeight]);
   //
   return (
     <div
