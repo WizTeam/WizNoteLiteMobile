@@ -357,7 +357,7 @@ function App() {
     return resourceName;
   }, [data]);
 
-  const loadNote = useCallback(async (initLocalData, kbGuid, guid, user, contentId, resourceUrl) => {
+  const loadNote = useCallback(async (initLocalData, kbGuid, guid, user, contentId) => {
     const langs = {
       'zh-CN': LANGS.ZH_CN,
       'zh-SG': LANGS.ZH_CN,
@@ -608,7 +608,11 @@ function App() {
         }
       }
     };
-    window.checkTheme = () => {};
+    window.checkTheme = (css) => {
+      const id = 'wiz-note-content-root';
+      const reg = new RegExp(id, 'g');
+      injectionCssFormId(containerId, css.replace(reg, containerId));
+    };
     window.setEditorTextStyle = () => {};
     console.log('editorRef');
   }, [handleBuildResourceUrl, loadNote]);
