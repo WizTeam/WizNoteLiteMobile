@@ -113,6 +113,8 @@ export async function loadNote(note, isNewNote) {
     markdown = await api.getNoteMarkdown(note.kbGuid, note.guid);
   }
 
+  const allNotesTitle = await api.searchAllNotesTitle(store.getCurrentKb());
+
   console.log(`load note: ${isNewNote ? '(new note), ' : ''}${note.kbGuid}/${note.guid}`);
   const data = {
     markdown,
@@ -125,6 +127,7 @@ export async function loadNote(note, isNewNote) {
       displayName: api.displayName,
       avatarUrl: api.avatarUrl,
     },
+    allNotesTitle,
   };
   const dataText = JSON.stringify(data);
   if (isNewNote && isTablet()) {

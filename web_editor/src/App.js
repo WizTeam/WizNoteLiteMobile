@@ -357,7 +357,7 @@ function App() {
     return resourceName;
   }, [data]);
 
-  const loadNote = useCallback(async (initLocalData, kbGuid, guid, user, contentId) => {
+  const loadNote = useCallback(async (initLocalData, kbGuid, guid, user, contentId, allNotesTitle) => {
     const langs = {
       'zh-CN': LANGS.ZH_CN,
       'zh-SG': LANGS.ZH_CN,
@@ -502,6 +502,13 @@ function App() {
       setFocusNode(dom);
     }
 
+    function getWikiLinks(editor, keywords) {
+      if (keywords) {
+        return allNotesTitle;
+      }
+      return allNotesTitle.filter((link) => link.toLowerCase().indexOf(keywords.toLowerCase()) !== -1);
+    }
+
     // const lang = langs[this.props.intl.local] || LANGS.EN_US;
 
     const auth = {
@@ -536,6 +543,7 @@ function App() {
         onSelectFileUpload: insertImage,
         onBlockFocusChanged: handleBlockFocusChanged,
         onScrollIntoView: handleScrollIntoView,
+        onGetWikiLinkItems: getWikiLinks,
         // onFileInserted: () => console.log('onFileInserted'),
         // onGetTagItems: this.handler.handleGetTagItems,
         // onTagClicked: this.handler.handleTagClicked,
@@ -553,7 +561,7 @@ function App() {
       setData(options);
       if (options.kbGuid && options.guid) {
         const doc = markdown2Doc(options.markdown);
-        loadNote(doc, options.kbGuid, options.guid, options.user, options.contentId, options.resourceUrl);
+        loadNote(doc, options.kbGuid, options.guid, options.user, options.contentId, options.allNotesTitle ?? []);
       }
     };
     window.getNoteToc = () => docToc;
