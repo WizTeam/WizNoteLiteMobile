@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 
 // eslint-disable-next-line import/no-unresolved
-import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
+// import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
 
 import './App.css';
 import axios from 'axios';
@@ -91,46 +91,46 @@ function postMessage(messageData) {
   }
 }
 
-function Editor(props) {
-  //
-  const classes = useStyles();
-  //
-  function handleSave({ contentId, markdown }) {
-    //
-    // console.log('request save data')
-    const messageData = JSON.stringify({
-      event: 'saveData',
-      contentId,
-      markdown,
-    });
-    postMessage(messageData);
-  }
-  //
-  function handleOpenLink({ url }) {
-    const messageData = JSON.stringify({
-      event: 'openLink',
-      url,
-    });
-    postMessage(messageData);
-  }
-  //
-  const markdown = props.markdown || '';
+// function Editor(props) {
+//   //
+//   const classes = useStyles();
+//   //
+//   function handleSave({ contentId, markdown }) {
+//     //
+//     // console.log('request save data')
+//     const messageData = JSON.stringify({
+//       event: 'saveData',
+//       contentId,
+//       markdown,
+//     });
+//     postMessage(messageData);
+//   }
+//   //
+//   function handleOpenLink({ url }) {
+//     const messageData = JSON.stringify({
+//       event: 'openLink',
+//       url,
+//     });
+//     postMessage(messageData);
+//   }
+//   //
+//   const markdown = props.markdown || '';
 
-  return (
-    <MarkdownEditor
-      ref={props.editorRef}
-      style={props.style}
-      onSave={handleSave}
-      onLinkOpen={handleOpenLink}
-      markdown={markdown}
-      resourceUrl={props.resourceUrl}
-      contentId={props.contentId}
-      editorWrapperClassName={classes.editorWrapper}
-      editorComponentClassName={classes.editorComponent}
-      bottomHeight={props.bottomHeight}
-    />
-  );
-}
+//   return (
+//     <MarkdownEditor
+//       ref={props.editorRef}
+//       style={props.style}
+//       onSave={handleSave}
+//       onLinkOpen={handleOpenLink}
+//       markdown={markdown}
+//       resourceUrl={props.resourceUrl}
+//       contentId={props.contentId}
+//       editorWrapperClassName={classes.editorWrapper}
+//       editorComponentClassName={classes.editorComponent}
+//       bottomHeight={props.bottomHeight}
+//     />
+//   );
+// }
 
 function App() {
   //
