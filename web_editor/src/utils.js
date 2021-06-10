@@ -30,28 +30,28 @@ export function overwriteEditorConfig(options, id = 'editor-overwrite') {
     const val = options[item];
     switch (item) {
       case 'fontFamily':
-        css += `--text-font-family: '${val}';`;
+        css += `--editor-font-family: '${val}';`;
         break;
       case 'fontSize':
-        css += `--text-font-size: ${val}px;`;
+        css += `--editor-font-size: ${val}px;`;
         break;
       case 'lineHeight':
         {
           const h = Math.floor(val * options.fontSize);
-          css += `--text-line-height: ${h}px;`;
+          css += `--editor-line-height: ${h}px;`;
         }
         break;
       case 'paragraphHeight':
         css += `--p-margin-bottom: ${val}px;`;
         break;
       case 'textColor':
-        css += `--text-font-color: ${val}`;
+        css += `--editor-color: ${val}`;
         break;
       default:
         break;
     }
   });
   //
-  style.innerHTML = `.editor-root { ${css} }`;
+  style.innerHTML = `:root,div.editor-main.mobile { ${css} }`;
   document.head.appendChild(style);
 }

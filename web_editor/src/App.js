@@ -613,7 +613,12 @@ function App() {
       const reg = new RegExp(id, 'g');
       injectionCssFormId(containerId, css.replace(reg, containerId));
     };
-    window.setEditorTextStyle = () => {};
+    window.setEditorTextStyle = (options) => {
+      if (options) {
+        overwriteEditorConfig(options);
+        // console.log(options);
+      }
+    };
     console.log('editorRef');
   }, [handleBuildResourceUrl, loadNote]);
 
