@@ -1,6 +1,6 @@
 import { useDynamicValue } from 'react-native-dynamic';
 import { View, TouchableOpacity, ScrollView, Text } from 'react-native';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Header, ListItem, Slider } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { WebView } from 'react-native-webview';
@@ -34,15 +34,10 @@ function TextStyleSettingScreen(Props) {
     </TouchableOpacity>
   );
 
-  useEffect(() => {
-    async function loadDefaultMarkdown() {
-      const md = await api.getDefaultMarkdown();
-      setTimeout(() => {
-        webRef.current.injectJavaScript(`setMarkdown(${JSON.stringify(md)});true;`);
-        webRef.current.injectJavaScript(`setEditorTextStyle(${JSON.stringify(settingInfo.editorConfig)});true;`);
-      }, 1000);
-    }
-    loadDefaultMarkdown();
+  const loadDefaultMarkdown = useCallback(async () => {
+    const md = await api.getDefaultMarkdown();
+    webRef.current.injectJavaScript(`setMarkdown(${JSON.stringify(md)});true;`);
+    webRef.current.injectJavaScript(`setEditorTextStyle(${JSON.stringify(settingInfo.editorConfig)});true;`);
   }, []);
 
   function handleEditorStyleChange(type, val) {
@@ -62,8 +57,8 @@ function TextStyleSettingScreen(Props) {
       />
       <ScrollView>
         <View style={styles.mainContainer}>
-          <WebView source={{ uri: `file://${resPath}/build/index.html?type=viewer` }} style={styles.editorViewer} ref={webRef} />
-          {/* <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} /> */}
+          <WebView source={{ uri: `file://${resPath}/build/index.html?type=viewer` }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} />
+          {/* <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} /> */}
         </View>
 
         {Props.type === 'fontSize' ? (

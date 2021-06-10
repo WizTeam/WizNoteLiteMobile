@@ -1,6 +1,6 @@
 import { useDynamicValue } from 'react-native-dynamic';
 import { View, TouchableOpacity, ScrollView, Text } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Header, ListItem } from 'react-native-elements';
 import i18n from 'i18n-js';
 import { WebView } from 'react-native-webview';
@@ -60,15 +60,10 @@ function ThemeSettingScreen(Props) {
     checkTheme();
   }, [isDark, settingInfo.colorTheme]);
 
-  useEffect(() => {
-    async function loadDefaultMarkdown() {
-      const md = await api.getDefaultMarkdown();
-      setTimeout(() => {
-        webRef.current.injectJavaScript(`setMarkdown(${JSON.stringify(md)});true;`);
-        checkTheme();
-      }, 1000);
-    }
-    loadDefaultMarkdown();
+  const loadDefaultMarkdown = useCallback(async () => {
+    const md = await api.getDefaultMarkdown();
+    webRef.current.injectJavaScript(`setMarkdown(${JSON.stringify(md)});true;`);
+    checkTheme();
   }, []);
 
   return (
@@ -84,8 +79,8 @@ function ThemeSettingScreen(Props) {
       <ScrollView>
         <View style={styles.mainContainer}>
           <Text style={styles.editorViewerLabel}>{i18n.t('settingLabelPreviewTheme')}</Text>
-          <WebView source={{ uri: `file://${resPath}/build/index.html?type=viewer` }} style={styles.editorViewer} ref={webRef} />
-          {/* <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} /> */}
+          <WebView source={{ uri: `file://${resPath}/build/index.html?type=viewer` }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} />
+          {/* <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} /> */}
         </View>
         <View style={styles.lists}>
           <ListItem onPress={() => openScreen(Props.parentComponentId, 'ThemeChooseScreen')}>
