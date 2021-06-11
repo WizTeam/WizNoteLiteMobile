@@ -652,7 +652,12 @@ function App() {
         {(isTablet) && <PadTheme />}
         {(!isTablet) && <PhoneTheme />}
       </React.Suspense>
-      <div ref={containerRef} />
+      <div
+        ref={containerRef}
+        style={{
+          minHeight: '100vh',
+        }}
+      />
       {/* <Editor
         editorRef={editorRef}
         contentId={data?.contentId}

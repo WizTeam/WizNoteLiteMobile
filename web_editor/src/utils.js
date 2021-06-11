@@ -38,7 +38,7 @@ export function overwriteEditorConfig(options, id = 'editor-overwrite') {
       case 'lineHeight':
         {
           const h = Math.floor(val * options.fontSize);
-          css += `--editor-line-height: ${h}px;`;
+          css += `--editor-line-height: ${h}px; --editor-first-line-center-top: calc(0.5 * var(--editor-line-height) - 1px);`;
         }
         break;
       case 'paragraphHeight':
