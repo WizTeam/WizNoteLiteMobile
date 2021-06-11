@@ -117,6 +117,12 @@ const NotesScreen: () => React$Node = (props) => {
     });
   }
 
+  useEffect(() => {
+    if (props[KEYS.USER_SETTING]?.colorTheme) {
+      updateNavigationTheme(props.componentId, undefined, props[KEYS.USER_SETTING]?.colorTheme);
+    }
+  }, [props[KEYS.USER_SETTING]?.colorTheme]);
+
   function handlePressNote() {
     viewNote(props.componentId);
   }

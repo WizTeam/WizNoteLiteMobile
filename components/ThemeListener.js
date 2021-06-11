@@ -53,7 +53,7 @@ export function setDefaultNavigationOptions(isDarkMode) {
 
 export function updateNavigationTheme(componentId, themeName, themeColor) {
   console.debug(`switch bottom tab theme to: ${themeName}`);
-  Navigation.mergeOptions(componentId, getNavigationOptions(themeName === 'dark', themeColor));
+  Navigation.mergeOptions(componentId, getNavigationOptions(themeName ? themeName === 'dark' : undefined, themeColor));
 }
 
 const ThemeListener: () => React$Node = (props) => {
