@@ -97,6 +97,20 @@ export async function emptyEditor() {
     //
   }
 }
+function convertToTreeData(list, data, path) {
+  try {
+    for (const tag in data) {
+      if (tag === 'wizName' || tag === 'wizFull') continue;
+      if (data[tag]) {
+        const name = path ? `${path}/${data[tag].wizName}` : data[tag].wizName;
+        list.push(name);
+        convertToTreeData(list, data[tag], name);
+      }
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 export async function loadNote(note, isNewNote) {
   if (!note) {
@@ -115,6 +129,12 @@ export async function loadNote(note, isNewNote) {
 
   const allNotesTitle = await api.searchAllNotesTitle(store.getCurrentKb());
 
+  const allTagsData = await api.getAllTags(store.getCurrentKb());
+
+  const allTags = [];
+
+  convertToTreeData(allTags, allTagsData);
+
   console.log(`load note: ${isNewNote ? '(new note), ' : ''}${note.kbGuid}/${note.guid}`);
   const data = {
     markdown,
@@ -128,6 +148,7 @@ export async function loadNote(note, isNewNote) {
       avatarUrl: api.avatarUrl,
     },
     allNotesTitle,
+    allTags,
   };
   const dataText = JSON.stringify(data);
   if (isNewNote && isTablet()) {

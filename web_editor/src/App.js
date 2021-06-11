@@ -357,7 +357,7 @@ function App() {
     return resourceName;
   }, [data]);
 
-  const loadNote = useCallback(async (initLocalData, kbGuid, guid, user, contentId, allNotesTitle) => {
+  const loadNote = useCallback(async (initLocalData, kbGuid, guid, user, contentId, allNotesTitle, allTags) => {
     const langs = {
       'zh-CN': LANGS.ZH_CN,
       'zh-SG': LANGS.ZH_CN,
@@ -503,10 +503,19 @@ function App() {
     }
 
     function getWikiLinks(editor, keywords) {
-      if (keywords) {
+      if (!keywords) {
         return allNotesTitle;
       }
-      return allNotesTitle.filter((link) => link.toLowerCase().indexOf(keywords.toLowerCase()) !== -1);
+      const res = allNotesTitle.filter((link) => link.toLowerCase().indexOf(keywords.toLowerCase()) !== -1);
+      return res.length === 0 ? [keywords] : res;
+    }
+
+    function handleGetTagItems(editor, keywords) {
+      if (!keywords) {
+        return allTags;
+      }
+      const res = allTags.filter((tag) => tag.toLowerCase().indexOf(keywords.toLowerCase()) !== -1);
+      return res.length === 0 ? [keywords] : res;
     }
 
     // const lang = langs[this.props.intl.local] || LANGS.EN_US;
@@ -544,8 +553,7 @@ function App() {
         onBlockFocusChanged: handleBlockFocusChanged,
         onScrollIntoView: handleScrollIntoView,
         onGetWikiLinkItems: getWikiLinks,
-        // onFileInserted: () => console.log('onFileInserted'),
-        // onGetTagItems: this.handler.handleGetTagItems,
+        onGetTagItems: handleGetTagItems,
         // onTagClicked: this.handler.handleTagClicked,
       },
     };
@@ -561,7 +569,7 @@ function App() {
       setData(options);
       if (options.kbGuid && options.guid) {
         const doc = markdown2Doc(options.markdown);
-        loadNote(doc, options.kbGuid, options.guid, options.user, options.contentId, options.allNotesTitle ?? []);
+        loadNote(doc, options.kbGuid, options.guid, options.user, options.contentId, options.allNotesTitle ?? [], options.allTags ?? []);
       }
     };
     window.getNoteToc = () => docToc;
