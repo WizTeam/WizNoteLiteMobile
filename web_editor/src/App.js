@@ -131,11 +131,10 @@ function postMessage(messageData) {
 //     />
 //   );
 // }
-
+let bottomHeight = 100;
 function App() {
   //
   const [data, setData] = useState(null);
-  const [bottomHeight, setBottomHeight] = useState(100);
   const [focusNode, setFocusNode] = useState();
   //
   const containerRef = useRef(null);
@@ -337,6 +336,9 @@ function App() {
   const scrollView = useCallback((node) => {
     const rect = node.getBoundingClientRect();
     const scrollContainer = document.documentElement;
+    console.log('window.outerHeight', window.outerHeight);
+    console.log('bottomHeight', bottomHeight);
+    console.log('rect', rect);
     if (window.outerHeight - bottomHeight < rect.bottom) {
       const editableHeight = rect.bottom - window.outerHeight + bottomHeight;
       //
@@ -348,7 +350,7 @@ function App() {
       //
       domUtils.animatedScrollTo(scrollContainer, scrollContainer.scrollTop - editableHeight, 100);
     }
-  }, [bottomHeight]);
+  }, []);
 
   const handleBuildResourceUrl = useCallback((editor, resourceName) => {
     if (data?.resourceUrl && resourceName.startsWith('index_files/')) {
@@ -519,7 +521,6 @@ function App() {
     }
 
     function handleCommandStatusChanged(editor, status) {
-      console.log('handleCommandStatusChanged', status);
       postMessage({
         event: 'commandStatusChanged',
         status,
@@ -585,17 +586,19 @@ function App() {
     window.getNoteLinks = () => docLinks;
     window.onKeyboardShow = (keyboardWidth, keyboardHeight, toolbarHeight) => {
       if (/(?:Android)/.test(window.navigator.userAgent)) {
-        setBottomHeight(toolbarHeight);
+        bottomHeight = toolbarHeight;
       } else {
-        setBottomHeight(keyboardHeight + toolbarHeight + 50);
+        bottomHeight = toolbarHeight + keyboardHeight;
       }
-
+      if (focusNode) {
+        scrollView(focusNode);
+      }
       // setBottomHeight(312);
       return true;
     };
     //
     window.onKeyboardHide = () => {
-      setBottomHeight(0);
+      bottomHeight = 0;
       return true;
     };
     window.addImage = (url) => {
@@ -645,14 +648,9 @@ function App() {
       }
     };
     console.log('editorRef');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleBuildResourceUrl, loadNote]);
 
-  useEffect(() => {
-    if (focusNode) {
-      scrollView(focusNode);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bottomHeight]);
   //
   return (
     <div
