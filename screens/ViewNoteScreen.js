@@ -217,6 +217,7 @@ const ViewNoteScreen: () => React$Node = (props) => {
           onBeginEditing={handleBeginEditing}
           onEndEditing={handleEndEditing}
           onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
+          onStatusChange={(status) => toolbarRef.current?.handleStatusChanged(status)}
         />
         <EditorToolBar ref={toolbarRef} />
       </SafeAreaView>

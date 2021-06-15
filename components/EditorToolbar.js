@@ -155,6 +155,7 @@ const EditorToolBar = React.forwardRef((props, ref) => {
   const styles = useDynamicValue(dynamicStyles);
   const topValueRef = useRef(new Animated.Value(-TOOLBAR_HEIGHT));
   const [isCursorInTable, setIsCursorInTable] = useState(false);
+  const [status, setStatus] = useState({});
   const topValue = topValueRef.current;
   //
   const editorRef = useRef(null);
@@ -164,6 +165,35 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     if (editor) {
       editor.executeCommand(type);
     }
+  }
+
+  function handleStatusChanged(textStatus) {
+    setStatus(textStatus);
+  }
+
+  function getStatusColor(type) {
+    if (type === 'bold' && status['style-bold'] === true) {
+      return getColor('toolbarActiveIconColor');
+    }
+    if (type === 'italic' && status['style-italic'] === true) {
+      return getColor('toolbarActiveIconColor');
+    }
+    if (type === 'deletedLine' && status['style-strikethrough'] === true) {
+      return getColor('toolbarActiveIconColor');
+    }
+    if (type === 'orderList' && status.ordered === true) {
+      return getColor('toolbarActiveIconColor');
+    }
+    if (type === 'checkedBox' && status.checkbox) {
+      return getColor('toolbarActiveIconColor');
+    }
+    if (type === 'bulletList' && status.type === 'list') {
+      return getColor('toolbarActiveIconColor');
+    }
+    if (type === 'link' && status.link !== 'enabled' && status.link !== 'disabled') {
+      return getColor('toolbarActiveIconColor');
+    }
+    return getColor('toolbarIconColor');
   }
   //
   //
@@ -203,6 +233,7 @@ const EditorToolBar = React.forwardRef((props, ref) => {
     changeToolbarType(selectionStatus) {
       setIsCursorInTable(selectionStatus.isCursorInTable);
     },
+    handleStatusChanged,
   }));
   //
   const topStyle = {
@@ -221,7 +252,11 @@ const EditorToolBar = React.forwardRef((props, ref) => {
                 key={item.type}
                 style={styles.iconBtn}
               >
-                <Icon name={item.iconName} size={TOOLBAR_ICON_SIZE} color={getColor('toolbarIconColor')} />
+                <Icon
+                  name={item.iconName}
+                  size={TOOLBAR_ICON_SIZE}
+                  color={getStatusColor(item.type)}
+                />
               </TouchableOpacity>
             ))}
         </View>

@@ -417,6 +417,8 @@ const NoteEditor = React.forwardRef((props, ref) => {
       handleDropFile(data);
     } else if (name === 'selectionChanged') {
       props.onChangeSelection(data);
+    } else if (name === 'commandStatusChanged') {
+      props.onStatusChange(data.status);
     } else if (name === 'insertImage') {
       handleInsertImage(data.callback);
     } else if (name === 'insertNoteLink') {

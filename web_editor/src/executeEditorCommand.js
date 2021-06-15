@@ -21,28 +21,28 @@ export function addExecuteEditorCommandListener(editor, insertImage) {
             editor.executeBlockCommand(`toHeading${((data.heading ?? 0) % 8) + 1}`, block);
             break;
           case 'tag':
-            editor.executeTextCommand('tag', block);
+            editor.executeTextCommand('tag');
             break;
           case 'bold':
-            editor.executeTextCommand('style-bold', block);
+            editor.executeTextCommand('style-bold');
             break;
           case 'italic':
-            editor.executeTextCommand('style-italic', block);
+            editor.executeTextCommand('style-italic');
             break;
           case 'deletedLine':
-            editor.executeTextCommand('style-strikethrough', block);
+            editor.executeTextCommand('style-strikethrough');
             break;
           case 'orderList':
-            editor.executeBlockCommand('toOrderedList', block);
+            editor.executeBlockCommand('toOrderedList');
             break;
           case 'bulletList':
-            editor.executeBlockCommand('toUnorderedList', block);
+            editor.executeBlockCommand('toUnorderedList');
             break;
           case 'link':
-            editor.executeTextCommand('link', block);
+            editor.executeTextCommand('link');
             break;
           case 'checkedBox':
-            editor.executeBlockCommand('toCheckbox', block);
+            editor.executeBlockCommand('toCheckbox');
             break;
           case 'table':
             editor.insertTable(-2, 4, 4);
@@ -66,31 +66,31 @@ export function addExecuteEditorCommandListener(editor, insertImage) {
             editor.executeTextCommand('inline-math');
             break;
           case 'alignLeft':
-            editor.executeBlockCommand('alignLeft', block);
+            editor.executeBlockCommand('alignLeft');
             break;
           case 'alignCenter':
-            editor.executeBlockCommand('alignCenter', block);
+            editor.executeBlockCommand('alignCenter');
             break;
           case 'alignRight':
-            editor.executeBlockCommand('alignRight', block);
+            editor.executeBlockCommand('alignRight');
             break;
           case 'insertRowBefore':
-            editor.executeBlockCommand('table/insertRowAbove', block);
+            editor.executeBlockCommand('table/insertRowAbove');
             break;
           case 'insertRowAfter':
-            editor.executeBlockCommand('table/insertRowBelow', block);
+            editor.executeBlockCommand('table/insertRowBelow');
             break;
           case 'insertColBefore':
-            editor.executeBlockCommand('table/insertColLeft', block);
+            editor.executeBlockCommand('table/insertColLeft');
             break;
           case 'insertColAfter':
-            editor.executeBlockCommand('table/insertColRight', block);
+            editor.executeBlockCommand('table/insertColRight');
             break;
           case 'deleteRow':
-            editor.executeBlockCommand('table/deleteSelectedRows', block);
+            editor.executeBlockCommand('table/deleteSelectedRows');
             break;
           case 'deleteCol':
-            editor.executeBlockCommand('table/deleteSelectedCols', block);
+            editor.executeBlockCommand('table/deleteSelectedCols');
             break;
           case 'deleteTable':
             editor.deleteBlock(block, {
@@ -99,10 +99,10 @@ export function addExecuteEditorCommandListener(editor, insertImage) {
             });
             break;
           case 'indent':
-            editor.executeBlockCommand('indent', block);
+            editor.executeBlockCommand('indent');
             break;
           case 'unindent':
-            editor.executeBlockCommand('outdent', block);
+            editor.executeBlockCommand('outdent');
             break;
           case 'undo':
             editor.undo();
@@ -111,7 +111,7 @@ export function addExecuteEditorCommandListener(editor, insertImage) {
             editor.redo();
             break;
           case 'noteLink':
-            editor.executeTextCommand('wiki-link', block);
+            editor.executeTextCommand('wiki-link');
             break;
           default:
             break;

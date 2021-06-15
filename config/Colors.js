@@ -29,6 +29,7 @@ const light = {
   upgradeButtonColor: '#ffffff',
   toolbarBackground: '#d7d8da',
   toolbarIconColor: '#333333',
+  toolbarActiveIconColor: '#006eff',
   tabBtnBackground: '#fff',
   tabBtnActiveBackground: '#333',
   tabBtnColor: 'rgba(68, 138, 255, 0.9)',

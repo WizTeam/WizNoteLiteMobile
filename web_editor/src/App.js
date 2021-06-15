@@ -518,6 +518,14 @@ function App() {
       return res.length === 0 ? [keywords] : res;
     }
 
+    function handleCommandStatusChanged(editor, status) {
+      console.log('handleCommandStatusChanged', status);
+      postMessage({
+        event: 'commandStatusChanged',
+        status,
+      });
+    }
+
     // const lang = langs[this.props.intl.local] || LANGS.EN_US;
 
     const auth = {
@@ -554,6 +562,7 @@ function App() {
         onScrollIntoView: handleScrollIntoView,
         onGetWikiLinkItems: getWikiLinks,
         onGetTagItems: handleGetTagItems,
+        onCommandStatusChanged: handleCommandStatusChanged,
         // onTagClicked: this.handler.handleTagClicked,
       },
     };

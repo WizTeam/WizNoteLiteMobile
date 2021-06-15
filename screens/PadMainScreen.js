@@ -138,6 +138,7 @@ const PadMainScreen: () => React$Node = (props) => {
                 onBeginEditing={handleBeginEditing}
                 onEndEditing={handleEndEditing}
                 onChangeSelection={(status) => toolbarRef.current?.changeToolbarType(status)}
+                onStatusChange={(status) => toolbarRef.current?.handleStatusChanged(status)}
                 ref={editorRef}
               />
             </View>
