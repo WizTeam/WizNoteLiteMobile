@@ -7837,10 +7837,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-live-editor@0.0.308:
-  version "0.0.308"
-  resolved "https://registry.yarnpkg.com/live-editor/-/live-editor-0.0.308.tgz#82d861d2363b675a119544626968a989b2560131"
-  integrity sha512-okyLin+prtmhJrEW/30/uN1Hl7E08sNmDlQvMO2AvUn+b8Odtte3bfv/Xq3Z7HuA+mhzNNReX0Qc25XlTN4N3w==
+live-editor@0.0.313:
+  version "0.0.313"
+  resolved "https://registry.yarnpkg.com/live-editor/-/live-editor-0.0.313.tgz#732c464ff5eb452a515cf6f42b090d126f22f005"
+  integrity sha512-je3NyW/xWRqHSiVSRwxvo0n+oeMyWstCw9rL0yBSHVNKjmrzKG+UNwI8xTJhsjTRvRiTxAfsaCIG599pyx9cGg==
   dependencies:
     "@lvgithub/ctrip-apollo-client" "^1.0.22"
     "@nestjs/common" "^7.6.3"
