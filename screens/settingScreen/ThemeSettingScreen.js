@@ -19,6 +19,7 @@ function ThemeSettingScreen(Props) {
   const styles = useDynamicValue(dynamicStyles.styles);
   const webRef = useRef();
   const [isDark, setIsDark] = useState(false);
+  const [isLoadEnd, setIsLoadEnd] = useState(false);
 
   const settingInfo = Props[KEYS.USER_SETTING] || {};
 
@@ -57,13 +58,15 @@ function ThemeSettingScreen(Props) {
   }
 
   useEffect(() => {
-    checkTheme();
-  }, [isDark, settingInfo.colorTheme]);
+    if (isLoadEnd) {
+      checkTheme();
+    }
+  }, [isDark, settingInfo.colorTheme, isLoadEnd]);
 
   const loadDefaultMarkdown = useCallback(async () => {
     const md = await api.getDefaultMarkdown();
     webRef.current.injectJavaScript(`setMarkdown(${JSON.stringify(md)});true;`);
-    checkTheme();
+    setIsLoadEnd(true);
   }, []);
 
   return (

@@ -56,10 +56,10 @@ function TextStyleSettingScreen(Props) {
         leftComponent={goBackBtn}
       />
       <ScrollView>
-        <View style={styles.mainContainer}>
+        {/* <View style={styles.mainContainer}>
           <WebView source={{ uri: `file://${resPath}/build/index.html?type=viewer` }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} />
-          {/* <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} /> */}
-        </View>
+          <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} />
+        </View> */}
 
         {Props.type === 'fontSize' ? (
           <View style={styles.lists}>
