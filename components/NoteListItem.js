@@ -115,7 +115,7 @@ const dynamicStyles = createDeviceDynamicStyles(() => ({
     color: getDeviceDynamicColor('noteListSubTitle'),
   },
   dividerContainer: {
-    backgroundColor: getDeviceDynamicColor('noteListBackground'),
+    // backgroundColor: getDeviceDynamicColor('noteListBackground'),
   },
   divider: {
     marginLeft: 22,
