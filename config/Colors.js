@@ -64,16 +64,16 @@ const light = {
   },
   theme: {
     default: {
-      primary: 'rgb(245, 245, 245)',
+      primary: '#ffffff',
     },
     beiges: {
       primary: '#fff9e2',
     },
     mintGreen: {
-      primary: '#bccecb',
+      primary: '#eae9e5',
     },
     coffee: {
-      primary: '#f4f4f4',
+      primary: '#ffffff',
     },
   },
 };
@@ -138,16 +138,16 @@ const dark = merge({}, light, {
   },
   theme: {
     default: {
-      primary: '#2a2a2a',
+      primary: '#333333',
     },
     beiges: {
-      primary: '#57544e',
+      primary: '#6d6b65',
     },
     mintGreen: {
-      primary: '#364e4c',
+      primary: '#5b6b6a',
     },
     coffee: {
-      primary: '#333333',
+      primary: '#494949',
     },
   },
 });
