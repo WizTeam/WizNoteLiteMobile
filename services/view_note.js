@@ -1,9 +1,9 @@
 import { Navigation } from '../thirdparty/react-native-navigation';
 import dataStore from '../data_store';
-import { getDeviceColor } from '../config/Colors';
+import { getDeviceColor, getThemeColor } from '../config/Colors';
 import { loadNote } from '../components/NoteEditor';
 
-export async function viewNote(parentComponentId) {
+export async function viewNote(parentComponentId, theme) {
   const note = dataStore.getCurrentNote();
   loadNote(note);
   //
@@ -12,10 +12,11 @@ export async function viewNote(parentComponentId) {
       name: 'ViewNoteScreen',
       options: {
         layout: {
-          componentBackgroundColor: getDeviceColor('noteBackground'),
+          componentBackgroundColor: theme ? getThemeColor(theme).primary : getDeviceColor('noteBackground'),
         },
         topBar: {
           noBorder: true,
+          background: { color: theme ? getThemeColor(theme).primary : undefined },
         },
       },
     },

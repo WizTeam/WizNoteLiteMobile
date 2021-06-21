@@ -124,7 +124,7 @@ const NotesScreen: () => React$Node = (props) => {
   }, [props[KEYS.USER_SETTING]?.colorTheme]);
 
   function handlePressNote() {
-    viewNote(props.componentId);
+    viewNote(props.componentId, props[KEYS.USER_SETTING]?.colorTheme);
   }
 
   const searchTextRef = useRef('');
