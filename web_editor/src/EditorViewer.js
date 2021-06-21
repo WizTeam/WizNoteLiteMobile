@@ -9,8 +9,9 @@ import { injectionCssFormId, overwriteEditorConfig } from './utils';
 
 const containerId = `wiz-note-content-root-${new Date().getTime()}`;
 
-export function EditorViewer() {
+export function EditorViewer(props) {
   const containerRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const loadNote = useCallback(async (initLocalData) => {
     const user = {
@@ -41,33 +42,42 @@ export function EditorViewer() {
   }, []);
 
   useEffect(() => {
-    window.setMarkdown = (md) => {
-      const doc = markdown2Doc(md);
-      loadNote(doc);
-    };
-    window.checkTheme = (css) => {
-      const id = 'wiz-note-content-root';
-      const reg = new RegExp(id, 'g');
-      injectionCssFormId(containerId, css.replace(reg, containerId));
-    };
+    // window.setMarkdown = async (md) => {
+    //   console.log('setMarkdown');
+    //   const doc = markdown2Doc(md);
+    //   await loadNote(doc);
+    //   setIsLoading(false);
+    // };
+    // window.checkTheme = (css) => {
+    //   const id = 'wiz-note-content-root';
+    //   const reg = new RegExp(id, 'g');
+    //   injectionCssFormId(containerId, css.replace(reg, containerId));
+    // };
     window.setEditorTextStyle = (options) => {
       if (options) {
         overwriteEditorConfig(options);
       }
     };
+    (async () => {
+      const doc = markdown2Doc(props.md);
+      await loadNote(doc);
+      setIsLoading(false);
+    })();
+
     return () => {
-      window.setMarkdown = undefined;
-      window.checkTheme = undefined;
+      // window.setMarkdown = undefined;
+      // window.checkTheme = undefined;
       window.setEditorTextStyle = undefined;
     };
-  }, [loadNote]);
+  }, [loadNote, props.md]);
 
   return (
     <div
-      id={containerId}
+      id={props.containerId}
       className="editor-root"
     >
       <div ref={containerRef} />
+      {isLoading && (<div className="editor-view-loading"><span>loading....</span></div>)}
       {/* <MarkdownEditor
         readOnly
         markdown={markdown}

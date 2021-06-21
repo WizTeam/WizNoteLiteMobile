@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
+import { EditorViewer } from './EditorViewer';
 
 // eslint-disable-next-line import/no-unresolved
 // import { MarkdownEditor, useEditor } from 'wiz-react-markdown-editor';
@@ -136,6 +137,8 @@ function App() {
   //
   const [data, setData] = useState(null);
   const [focusNode, setFocusNode] = useState();
+  const [isEditorViewer, setIsEditorViewer] = useState(false);
+  const [editorViewerMd, setEditorViewerMd] = useState('');
   //
   const containerRef = useRef(null);
   const editorRef = useRef(null);
@@ -576,6 +579,7 @@ function App() {
 
   useEffect(() => {
     window.loadMarkdown = (options) => {
+      setIsEditorViewer(false);
       setData(options);
       if (options.kbGuid && options.guid) {
         const doc = markdown2Doc(options.markdown);
@@ -647,12 +651,16 @@ function App() {
         // console.log(options);
       }
     };
+    window.setEditorViewerMarkdown = (md) => {
+      setEditorViewerMd(md);
+      setIsEditorViewer(true);
+    };
     console.log('editorRef');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleBuildResourceUrl, loadNote]);
 
   //
-  return (
+  return isEditorViewer ? (<EditorViewer md={editorViewerMd} containerId={containerId} />) : (
     <div
       className="App editor-root"
       style={{

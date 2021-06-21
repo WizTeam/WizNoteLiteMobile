@@ -2,7 +2,7 @@ export function injectionCssFormId(id, css = '') {
   if (!id) return;
   //
   const element = document.querySelector(`#${id}`);
-  const parentElement = element.parentElement;
+  const parentElement = element?.parentElement;
   if (element && parentElement) {
     let style = Array
       .from(parentElement.childNodes)

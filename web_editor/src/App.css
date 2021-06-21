@@ -76,3 +76,14 @@ figure.ag-paragraph[data-role="TABLE"] .ag-front-icon {
 div[id^='ag-editor-id'] > .ag-paragraph {
   margin-bottom: var(--p-margin-bottom);
 }
+.editor-view-loading {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}

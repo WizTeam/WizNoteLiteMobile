@@ -1,9 +1,8 @@
 import { useDynamicValue } from 'react-native-dynamic';
 import { View, TouchableOpacity, ScrollView, Text } from 'react-native';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header, ListItem } from 'react-native-elements';
 import i18n from 'i18n-js';
-import { WebView } from 'react-native-webview';
 import { dynamicStyles } from './dynamicStyles';
 import Icon from '../../components/icon';
 import { Navigation } from '../../thirdparty/react-native-navigation';
@@ -12,12 +11,13 @@ import { KEYS, connect } from '../../data_store';
 import { openScreen } from '../../services/navigation';
 import api from '../../api';
 import app from '../../wrapper/app';
+import WizSingletonWebView, { injectJavaScript } from '../../components/WizSingletonWebView';
 
 const resPath = app.getPath('res');
 
 function ThemeSettingScreen(Props) {
   const styles = useDynamicValue(dynamicStyles.styles);
-  const webRef = useRef();
+  // const webRef = useRef();
   const [isDark, setIsDark] = useState(false);
   const [isLoadEnd, setIsLoadEnd] = useState(false);
 
@@ -46,7 +46,8 @@ function ThemeSettingScreen(Props) {
       }
       //
       const css = await api.getThemeCssString(newTheme.join('.'));
-      webRef.current.injectJavaScript(`checkTheme(${JSON.stringify(css)});true;`);
+      // webRef.current.injectJavaScript(`checkTheme(${JSON.stringify(css)});true;`);
+      injectJavaScript(`checkTheme(${JSON.stringify(css)});true;`);
     }
   }
 
@@ -56,11 +57,19 @@ function ThemeSettingScreen(Props) {
     }
   }, [isDark, settingInfo.colorTheme, isLoadEnd]);
 
-  const loadDefaultMarkdown = useCallback(async () => {
-    const md = await api.getDefaultMarkdown();
-    webRef.current.injectJavaScript(`setMarkdown(${JSON.stringify(md)});true;`);
-    setIsLoadEnd(true);
+  useEffect(() => {
+    (async () => {
+      const md = await api.getDefaultMarkdown();
+      injectJavaScript(`setEditorViewerMarkdown(${JSON.stringify(md)});true;`);
+      setIsLoadEnd(true);
+    })();
   }, []);
+
+  // const loadDefaultMarkdown = useCallback(async () => {
+  //   const md = await api.getDefaultMarkdown();
+  //   webRef.current.injectJavaScript(`setMarkdown(${JSON.stringify(md)});true;`);
+  //   setIsLoadEnd(true);
+  // }, []);
 
   return (
     <View style={styles.root}>
@@ -75,8 +84,9 @@ function ThemeSettingScreen(Props) {
       <ScrollView>
         <View style={styles.mainContainer}>
           <Text style={styles.editorViewerLabel}>{i18n.t('settingLabelPreviewTheme')}</Text>
-          <WebView source={{ uri: `file://${resPath}/build/index.html?type=viewer` }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} />
+          {/* <WebView source={{ uri: `file://${resPath}/build/index.html?type=viewer` }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} /> */}
           {/* <WebView source={{ uri: 'http://localhost:3000?type=viewer' }} style={styles.editorViewer} ref={webRef} onLoadEnd={loadDefaultMarkdown} /> */}
+          <WizSingletonWebView style={styles.editorViewer} />
         </View>
         <View style={styles.lists}>
           <ListItem onPress={() => openScreen(Props.parentComponentId, 'ThemeChooseScreen')}>
