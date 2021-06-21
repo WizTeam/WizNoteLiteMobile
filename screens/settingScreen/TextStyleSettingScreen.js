@@ -15,14 +15,14 @@ import app from '../../wrapper/app';
 const resPath = app.getPath('res');
 
 const fontFamilyOptions = [
-  { title: 'Open Sans', value: 'Open Sans' },
-  { title: 'WenQuanYi Micro Hei', value: 'WenQuanYi Micro Hei' },
-  { title: 'sans-serif', value: 'sans-serif' },
+  { title: 'Ping Fang', value: 'PingFangSC-Regular' },
+  { title: 'Helvetica', value: 'Helvetica' },
+  { title: 'times New', value: 'Times New Roman' },
 ];
 
 function TextStyleSettingScreen(Props) {
   const styles = useDynamicValue(dynamicStyles.styles);
-  const webRef = useRef();
+  // const webRef = useRef();
   const settingInfo = Props[KEYS.USER_SETTING] || {};
 
   const goBackBtn = (
@@ -34,15 +34,15 @@ function TextStyleSettingScreen(Props) {
     </TouchableOpacity>
   );
 
-  const loadDefaultMarkdown = useCallback(async () => {
-    const md = await api.getDefaultMarkdown();
-    webRef.current.injectJavaScript(`setMarkdown(${JSON.stringify(md)});true;`);
-    webRef.current.injectJavaScript(`setEditorTextStyle(${JSON.stringify(settingInfo.editorConfig)});true;`);
-  }, []);
+  // const loadDefaultMarkdown = useCallback(async () => {
+  //   const md = await api.getDefaultMarkdown();
+  //   // webRef.current.injectJavaScript(`setMarkdown(${JSON.stringify(md)});true;`);
+  //   // webRef.current.injectJavaScript(`setEditorTextStyle(${JSON.stringify(settingInfo.editorConfig)});true;`);
+  // }, []);
 
   function handleEditorStyleChange(type, val) {
     dataStore.setUserSettings('editorConfig', Object.assign({}, settingInfo.editorConfig, { [type]: val }));
-    webRef.current.injectJavaScript(`setEditorTextStyle(${JSON.stringify(settingInfo.editorConfig)});true;`);
+    // webRef.current.injectJavaScript(`setEditorTextStyle(${JSON.stringify(settingInfo.editorConfig)});true;`);
   }
 
   return (
