@@ -23,8 +23,6 @@ function ThemeSettingScreen(Props) {
 
   const settingInfo = Props[KEYS.USER_SETTING] || {};
 
-  const theme = '';
-
   const goBackBtn = (
     <TouchableOpacity onPress={() => {
       Navigation.pop(Props.componentId);
@@ -35,11 +33,6 @@ function ThemeSettingScreen(Props) {
   );
 
   async function checkTheme() {
-    if (theme) {
-      const css = await api.getThemeCssString(theme);
-      webRef.current.injectJavaScript(`checkTheme(${JSON.stringify(css)});true;`);
-    }
-
     if (isDark !== undefined) {
       const newTheme = [];
       //

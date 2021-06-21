@@ -1,9 +1,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --editorBgColor: #2a2a2a !important;
+    /* --editorBgColor: #2a2a2a !important; */
   }
   body {
-    background-color: #2a2a2a !important;
+    /* background-color: #333 !important; */
   }
 }
