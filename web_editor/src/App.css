@@ -87,3 +87,6 @@ div[id^='ag-editor-id'] > .ag-paragraph {
   justify-content: center;
   font-size: 30px;
 }
+:root,div.editor-main.mobile {
+  --editor-font-family: PingFangSC-Regular;
+}
