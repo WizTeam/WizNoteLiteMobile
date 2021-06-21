@@ -89,17 +89,18 @@ function ThemeSettingScreen(Props) {
           <WizSingletonWebView style={styles.editorViewer} />
         </View>
         <View style={styles.lists}>
-          <ListItem onPress={() => openScreen(Props.parentComponentId, 'ThemeChooseScreen')}>
+          <ListItem onPress={() => openScreen(Props.parentComponentId, 'ThemeChooseScreen')} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{i18n.t('settingLabelChooseTheme')}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{i18n.t('settingLabelChooseTheme')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.colorTheme}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
           <ListItem
+            containerStyle={styles.listContainer}
             leftElement={(
               <ListItem.Content style={styles.listLabel}>
-                <ListItem.Title>{i18n.t('settingLabelDarkMode')}</ListItem.Title>
+                <ListItem.Title style={styles.listLabelText}>{i18n.t('settingLabelDarkMode')}</ListItem.Title>
               </ListItem.Content>
             )}
             switch={{

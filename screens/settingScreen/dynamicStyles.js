@@ -29,6 +29,9 @@ export const dynamicStyles = createDeviceDynamicStyles(() => ({
   lists: {
     marginTop: 12,
   },
+  listContainer: {
+    backgroundColor: getDynamicColor('listBackground'),
+  },
   listName: {
     lineHeight: 30,
     paddingHorizontal: 15,
@@ -36,6 +39,9 @@ export const dynamicStyles = createDeviceDynamicStyles(() => ({
   },
   listLabel: {
     flex: 1,
+  },
+  listLabelText: {
+    color: getDynamicColor('listColor'),
   },
   listValue: {
     color: getDynamicColor('settingFontColor'),

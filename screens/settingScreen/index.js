@@ -57,16 +57,16 @@ function SettingScreen(Props) {
 
         <View style={styles.lists}>
           <Text style={styles.listName}>{i18n.t('settingSidebarAccount')}</Text>
-          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'AccountSettingScreen')}>
+          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'AccountSettingScreen')} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{userInfo.displayName}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{userInfo.displayName}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{userInfo.email}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem onPress={() => openScreen(Props.parentComponentId, 'ChangePasswordScreen')}>
+          <ListItem onPress={() => openScreen(Props.parentComponentId, 'ChangePasswordScreen')} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{i18n.t('settingLabelModifyPassword')}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{i18n.t('settingLabelModifyPassword')}</ListItem.Title>
             </ListItem.Content>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
@@ -74,9 +74,9 @@ function SettingScreen(Props) {
 
         <View style={styles.lists}>
           <Text style={styles.listName}>{i18n.t('settingSidebarTheme')}</Text>
-          <ListItem onPress={() => openScreen(Props.parentComponentId, 'ThemeSettingScreen')}>
+          <ListItem onPress={() => openScreen(Props.parentComponentId, 'ThemeSettingScreen')} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{i18n.t('settingSidebarTheme')}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{i18n.t('settingSidebarTheme')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.colorTheme}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
@@ -85,30 +85,30 @@ function SettingScreen(Props) {
 
         <View style={styles.lists}>
           <Text style={styles.listName}>{i18n.t('settingSidebarEdit')}</Text>
-          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'fontSize' })}>
+          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'fontSize' })} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{i18n.t('settingLabelFontSize')}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{i18n.t('settingLabelFontSize')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.editorConfig.fontSize}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'lineHeight' })}>
+          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'lineHeight' })} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{i18n.t('settingLabelLineHeight')}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{i18n.t('settingLabelLineHeight')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.editorConfig.lineHeight}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'fontFamily' })}>
+          <ListItem bottomDivider onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'fontFamily' })} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{i18n.t('settingLabelFontFamily')}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{i18n.t('settingLabelFontFamily')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.editorConfig.fontFamily}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'paragraphHeight' })}>
+          <ListItem onPress={() => openScreen(Props.parentComponentId, 'TextStyleSettingScreen', { type: 'paragraphHeight' })} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{i18n.t('settingLabelParagraphHeight')}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{i18n.t('settingLabelParagraphHeight')}</ListItem.Title>
             </ListItem.Content>
             <Text style={styles.listValue}>{settingInfo.editorConfig.paragraphHeight}</Text>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
@@ -117,22 +117,22 @@ function SettingScreen(Props) {
 
         <View style={styles.lists}>
           <Text style={styles.listName}>{i18n.t('settingOtherLabel')}</Text>
-          <ListItem onPress={() => Linking.openURL('https://support.qq.com/product/174045')}>
+          <ListItem onPress={() => Linking.openURL('https://support.qq.com/product/174045')} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{i18n.t('feedback')}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{i18n.t('feedback')}</ListItem.Title>
             </ListItem.Content>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
-          <ListItem onPress={() => Linking.openURL('https://url.wiz.cn/u/LiteManual')}>
+          <ListItem onPress={() => Linking.openURL('https://url.wiz.cn/u/LiteManual')} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
-              <ListItem.Title>{i18n.t('helpBook')}</ListItem.Title>
+              <ListItem.Title style={styles.listLabelText}>{i18n.t('helpBook')}</ListItem.Title>
             </ListItem.Content>
             <Icon name="angle-right" color={getColor('settingFontColor')} size={18} />
           </ListItem>
         </View>
 
         <View style={styles.lists}>
-          <ListItem onPress={handleUserAction}>
+          <ListItem onPress={handleUserAction} containerStyle={styles.listContainer}>
             <ListItem.Content style={styles.listLabel}>
               <ListItem.Title style={{ color: getColor('settingMainColor') }}>{i18n.t('menuLogout')}</ListItem.Title>
             </ListItem.Content>

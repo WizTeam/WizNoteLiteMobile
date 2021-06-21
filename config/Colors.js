@@ -38,6 +38,8 @@ const light = {
   settingTitleColor: '#333',
   settingFontColor: '#666',
   settingMainColor: '#4089d6',
+  listBackground: '#fff',
+  listColor: '#333333',
   //
   phone: {
     rootBackground: 'white',
@@ -111,6 +113,8 @@ const dark = merge({}, light, {
   linkSubtitleColor: '#aaaaaa',
   settingTitleColor: '#fff',
   settingFontColor: '#aaa',
+  listBackground: '#121212',
+  listColor: '#f0f0f0',
 
   phone: {
     rootBackground: '#2a2a2a',

@@ -44,7 +44,7 @@ function ThemeChooseScreen(Props) {
           <ListItem
             leftElement={(
               <ListItem.Content style={styles.listLabel}>
-                <ListItem.Title>{item.title}</ListItem.Title>
+                <ListItem.Title style={styles.listLabelText}>{item.title}</ListItem.Title>
               </ListItem.Content>
             )}
             checkBox={{
@@ -53,6 +53,7 @@ function ThemeChooseScreen(Props) {
             }}
             key={item.value}
             onPress={() => dataStore.setUserSettings('colorTheme', item.value)}
+            containerStyle={styles.listContainer}
           />
         ))}
 

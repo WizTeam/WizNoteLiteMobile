@@ -79,8 +79,9 @@ function TextStyleSettingScreen(Props) {
                 />
             )}
               rightElement={(
-                <Text>{`${settingInfo.editorConfig.fontSize}px`}</Text>
+                <Text style={styles.listLabelText}>{`${settingInfo.editorConfig.fontSize}px`}</Text>
             )}
+              containerStyle={styles.listContainer}
             />
           </View>
         ) : null}
