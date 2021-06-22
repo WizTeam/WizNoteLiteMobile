@@ -24,6 +24,8 @@
 		39E305B57498CDDB2C2B226B /* libPods-WizNoteLiteMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE2B4D33B3C882B076CF2E16 /* libPods-WizNoteLiteMobile.a */; };
 		62227E4A95FAEC8E10914C0B /* libPods-WizNoteLiteMobile-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 347EEE8B21010D11B3F8E6FF /* libPods-WizNoteLiteMobile-tvOS.a */; };
 		737B063024F7970300D21490 /* LaunchScreeniPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 737B062F24F7970300D21490 /* LaunchScreeniPad.storyboard */; };
+		7CB9BDC326820916000C7DC5 /* default_markdown.md in Resources */ = {isa = PBXBuildFile; fileRef = 7CB9BDC226820916000C7DC5 /* default_markdown.md */; };
+		7CB9BDC926820A42000C7DC5 /* editor_theme in Resources */ = {isa = PBXBuildFile; fileRef = 7CB9BDC826820A41000C7DC5 /* editor_theme */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		898C86C543527EA76397A388 /* libPods-WizNoteLiteMobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12798D93BDC55EDE913400A0 /* libPods-WizNoteLiteMobile-tvOSTests.a */; };
 		D889BB8C958BD77FB7AC2C32 /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E64DFF7D47C6EE01AD692327 /* libPods-WizNoteLiteMobile-WizNoteLiteMobileTests.a */; };
@@ -74,6 +76,8 @@
 		347EEE8B21010D11B3F8E6FF /* libPods-WizNoteLiteMobile-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WizNoteLiteMobile-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34C4D3E2D4546A6492E464BD /* Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-tvOSTests/Pods-WizNoteLiteMobile-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		737B062F24F7970300D21490 /* LaunchScreeniPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreeniPad.storyboard; sourceTree = "<group>"; };
+		7CB9BDC226820916000C7DC5 /* default_markdown.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = default_markdown.md; path = ../../assets/resources/default_markdown.md; sourceTree = "<group>"; };
+		7CB9BDC826820A41000C7DC5 /* editor_theme */ = {isa = PBXFileReference; lastKnownFileType = folder; name = editor_theme; path = ../../assets/resources/editor_theme; sourceTree = "<group>"; };
 		80B10362CB6FA4E9328F02CF /* Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests/Pods-WizNoteLiteMobile-WizNoteLiteMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = WizNoteLiteMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B0C26D461F8FEA2A46BA1B5E /* Pods-WizNoteLiteMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WizNoteLiteMobile.release.xcconfig"; path = "Target Support Files/Pods-WizNoteLiteMobile/Pods-WizNoteLiteMobile.release.xcconfig"; sourceTree = "<group>"; };
@@ -174,6 +178,8 @@
 		301F7E6224DB9C21004C4968 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7CB9BDC826820A41000C7DC5 /* editor_theme */,
+				7CB9BDC226820916000C7DC5 /* default_markdown.md */,
 				30AB5C4C24EE1DDE00BEE17A /* build */,
 				301F7E8524DBA1C2004C4968 /* default_note.html */,
 				301F7E8424DBA1C2004C4968 /* en */,
@@ -377,10 +383,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				301F7E8824DBA1C3004C4968 /* default_note.html in Resources */,
+				7CB9BDC326820916000C7DC5 /* default_markdown.md in Resources */,
 				737B063024F7970300D21490 /* LaunchScreeniPad.storyboard in Resources */,
 				301F7E8624DBA1C3004C4968 /* zh-cn in Resources */,
 				301F7E8724DBA1C3004C4968 /* en in Resources */,
 				30AB5C4D24EE1DDE00BEE17A /* build in Resources */,
+				7CB9BDC926820A42000C7DC5 /* editor_theme in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
