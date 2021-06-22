@@ -2,12 +2,12 @@
 #wiz-note-content-root {
   min-height: 100%;
   box-sizing: border-box;
-  background-color: #eae9e5;
+  background-color: #EAE9E5;
   color: #333333;
 }
 
 #wiz-note-content-root div.editor-main {
-  --editor-bg-color: #eae9e5;
+  --editor-bg-color: #EAE9E5;
   --text-line-height: 28px;
   --text-font-size: 16px;
   --text-font-color: #404040;

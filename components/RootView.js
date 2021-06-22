@@ -14,7 +14,7 @@ const RootView: () => React$Node = (props) => {
   //
   const isPad = deviceIsTablet;
   //
-  const { mainBackground } = useThemeStyle(props[KEYS.USER_SETTING]?.colorTheme);
+  const { notesListBackground } = useThemeStyle(props[KEYS.USER_SETTING]?.colorTheme);
   function handleLayout({ nativeEvent }) {
     const width = nativeEvent.layout.width;
     const height = nativeEvent.layout.height;
@@ -32,7 +32,7 @@ const RootView: () => React$Node = (props) => {
   const styles = useDynamicValue(dynamicStyles.styles);
   //
   return (
-    <View style={[styles.root, mainBackground]} onLayout={handleLayout}>
+    <View style={[styles.root, notesListBackground]} onLayout={handleLayout}>
       {props.children}
     </View>
   );

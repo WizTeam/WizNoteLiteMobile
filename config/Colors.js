@@ -67,15 +67,23 @@ const light = {
   theme: {
     default: {
       primary: '#ffffff',
+      noteListBackground: 'white',
+      noteListSelectedBackground: 'white',
     },
     beiges: {
-      primary: '#fff9e2',
+      primary: '#FFF9E2',
+      noteListBackground: '#F8EFD2',
+      noteListSelectedBackground: '#FFF9E2',
     },
     mintGreen: {
-      primary: '#eae9e5',
+      primary: '#EAE9E5',
+      noteListBackground: '#BCCECB',
+      noteListSelectedBackground: '#EAE9E5',
     },
     coffee: {
       primary: '#ffffff',
+      noteListBackground: '#F4F4F4',
+      noteListSelectedBackground: '#FFFFFF',
     },
   },
 };
@@ -143,15 +151,23 @@ const dark = merge({}, light, {
   theme: {
     default: {
       primary: '#333333',
+      noteListBackground: '#2a2a2a',
+      noteListSelectedBackground: '#2a2a2a',
     },
     beiges: {
-      primary: '#6d6b65',
+      primary: '#6D6B65',
+      noteListBackground: '#57544E',
+      noteListSelectedBackground: '#6D6B65',
     },
     mintGreen: {
-      primary: '#5b6b6a',
+      primary: '#5B6B6A',
+      noteListBackground: '#364E4C',
+      noteListSelectedBackground: '#5B6B6A',
     },
     coffee: {
       primary: '#494949',
+      noteListBackground: '#333333',
+      noteListSelectedBackground: '#494949',
     },
   },
 });

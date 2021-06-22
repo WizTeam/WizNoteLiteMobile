@@ -9,6 +9,12 @@ export function useThemeStyle(theme) {
         mainBackground: {
           backgroundColor: color.primary,
         },
+        notesListBackground: {
+          backgroundColor: color.noteListBackground,
+        },
+        notesListSelectedBackground: {
+          backgroundColor: color.noteListSelectedBackground,
+        },
       };
     }
     return {};

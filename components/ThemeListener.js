@@ -22,7 +22,10 @@ function getNavigationOptions(isDarkMode, themeColor = 'default') {
       leftButtonColor: colors.topBarTitle,
       rightButtonColor: colors.topBarTitle,
       background: {
-        color: colors.theme?.[themeColor].primary ?? colors.topBarBackground,
+        color:
+          colors.theme?.[themeColor].noteListBackground
+          ?? colors.theme?.[themeColor].primary
+          ?? colors.topBarBackground,
       },
       largeTitle: {
         color: colors.topBarTitle, // rnn bug, not working

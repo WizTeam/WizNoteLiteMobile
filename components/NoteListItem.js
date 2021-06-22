@@ -63,14 +63,19 @@ function NoteListItem(props) {
     };
   }, []);
 
-  const { mainBackground } = useThemeStyle(props[KEYS.USER_SETTING]?.colorTheme);
+  const {
+    notesListBackground,
+    notesListSelectedBackground,
+  } = useThemeStyle(props[KEYS.USER_SETTING]?.colorTheme);
   //
   return (
     <View>
       <ListItem
         onPress={() => onPressItem(note)}
         key={note.guid}
-        containerStyle={[styles.itemContainer, mainBackground, selected && styles.selected]}
+        containerStyle={
+          [styles.itemContainer, notesListBackground, selected && notesListSelectedBackground]
+        }
       >
         <ListItem.Content style={styles.itemContent}>
           <ListItem.Title numberOfLines={2} ellipsizeMode="tail" style={styles.title}>
