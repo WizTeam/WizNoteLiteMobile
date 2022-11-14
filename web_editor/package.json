@@ -11,7 +11,7 @@
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3",
+    "react-scripts": "5.0.1",
     "wiz-react-markdown-editor": "^0.5.34"
   },
   "scripts": {
